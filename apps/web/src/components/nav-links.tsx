@@ -1,0 +1,52 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cx } from "@/components/ui";
+
+export interface NavItem {
+  href: string;
+  label: string;
+  icon: "grid" | "building" | "users" | "shield" | "settings";
+}
+
+const icons: Record<NavItem["icon"], React.ReactNode> = {
+  grid: <path d="M3 3h6v6H3zM11 3h6v6h-6zM3 11h6v6H3zM11 11h6v6h-6z" />,
+  building: <path d="M4 17V4h8v13M12 8h4v9M2 17h16M7 7h2M7 10h2M7 13h2" />,
+  users: <path d="M7 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM1.5 17c.5-3 2.7-5 5.5-5s5 2 5.5 5M13 3.5a3 3 0 0 1 0 5.5M15 12c2 .6 3.2 2.4 3.5 5" />,
+  shield: <path d="M10 2l7 3v5c0 4-3 7-7 8-4-1-7-4-7-8V5l7-3zM7 10l2 2 4-4" />,
+  settings: <path d="M10 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM10 1.5v2.5M10 16v2.5M1.5 10H4M16 10h2.5M4 4l1.8 1.8M14.2 14.2 16 16M4 16l1.8-1.8M14.2 5.8 16 4" />,
+};
+
+export function NavLinks({ items }: { items: NavItem[] }) {
+  const pathname = usePathname();
+  // O item ativo é o que tem o prefixo mais longo coincidente com o caminho atual.
+  const active = items
+    .filter((i) => pathname === i.href || pathname.startsWith(`${i.href}/`))
+    .sort((a, b) => b.href.length - a.href.length)[0]?.href;
+  return (
+    <ul className="flex flex-col gap-0.5">
+      {items.map((item) => {
+        const isActive = item.href === active;
+        return (
+          <li key={item.href}>
+            <Link
+              href={item.href}
+              aria-current={isActive ? "page" : undefined}
+              className={cx(
+                "relative flex h-10 items-center gap-3 rounded-md px-3 text-sm transition-colors",
+                isActive ? "bg-graphite font-medium text-paper" : "text-muted hover:bg-graphite/60 hover:text-paper",
+              )}
+            >
+              {isActive ? <span className="absolute inset-y-2 left-0 w-0.5 rounded-full bg-brand" aria-hidden /> : null}
+              <svg viewBox="0 0 20 20" className={cx("size-[18px]", isActive ? "text-brand" : "")} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                {icons[item.icon]}
+              </svg>
+              {item.label}
+            </Link>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}

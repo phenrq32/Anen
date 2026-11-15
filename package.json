@@ -1,0 +1,28 @@
+{
+  "name": "anen",
+  "private": true,
+  "type": "module",
+  "description": "ANEN — plataforma de finanças, orçamentos e serviços (Portugal e Brasil).",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "npm run dev -w @anen/web",
+    "build": "npm run build -w @anen/web",
+    "start": "npm run start -w @anen/web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run typecheck && npm run test"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.16",
+    "@types/node": "26.6.6",
+    "typescript": "6.0.3",
+    "vitest": "5.1.0"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@anen/database",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Harness de testes das migrations Supabase (PGlite) e utilitários de base de dados.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@anen/types": "*"
+  }
+}

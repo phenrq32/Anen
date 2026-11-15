@@ -1,0 +1,24 @@
+/* Tokens ANEN para Tailwind CSS v4. Manter em sincronia com src/index.ts. */
+@theme {
+  --color-ink: #090909;
+  --color-surface: #141414;
+  --color-graphite: #202020;
+  --color-graphite-soft: #353535;
+  --color-line: #2a2a2a;
+  --color-paper: #ffffff;
+  --color-muted: #a3a3a3;
+  --color-subtle: #737373;
+  --color-brand: #ff851b;
+  --color-brand-hover: #ff9a42;
+  --color-success: #3dd68c;
+  --color-danger: #ff5c5c;
+  --color-warning: #ffc53d;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  --font-heading: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
