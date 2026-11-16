@@ -128,3 +128,38 @@ export const monthlyPlanSchema = z.object({
   salary: amountText,
   reserve: z.string().trim().max(32).optional().transform((v) => v || "0"),
 });
+
+const recurringLinks = {
+  contactId: optionalUuid,
+  projectId: optionalUuid,
+  costCenterId: optionalUuid,
+  costKind: z
+    .union([z.enum(COST_KINDS), z.literal("")])
+    .optional()
+    .transform((v) => (v ? v : null)),
+  generatePending: z
+    .string()
+    .optional()
+    .transform((v) => v === "1" || v === "on"),
+  dueDays: z
+    .union([z.coerce.number().int({ message: "number_invalid" }).min(0, { message: "number_invalid" }).max(365, { message: "number_invalid" }), z.literal("")])
+    .optional()
+    .transform((v) => (v === "" || v === undefined ? null : v)),
+};
+
+/** Ligações e geração como pendente, comuns à criação e à edição de recorrentes. */
+export const recurringLinksSchema = z.object(recurringLinks);
+
+/** Edição: só o que não altera o calendário (frequência e início ficam fixos). */
+export const recurringEditSchema = z
+  .object({
+    id: z.uuid({ message: "generic" }),
+    amount: amountText,
+    categoryId: optionalUuid,
+    description: z.string().trim().min(1, { message: "description_required" }).max(200, { message: "too_long" }),
+    endOn: optionalDate,
+    ...recurringLinks,
+  });
+
+export const ATTACHMENT_MIME_TYPES = ["application/pdf", "image/jpeg", "image/png", "image/webp", "image/heic"] as const;
+export const ATTACHMENT_MAX_BYTES = 10 * 1024 * 1024;

@@ -21,6 +21,7 @@ import {
   saveTransactionAction,
   toggleArchiveAccountAction,
   toggleRecurringAction,
+  updateRecurringAction,
 } from "./actions";
 
 export interface AccountOption {
@@ -502,26 +503,141 @@ export function DeleteGoalButton({ m, id }: { m: Messages; id: string }) {
   return <InlineAction action={deleteGoalAction} fields={{ id }} label={m.finance.goal.delete} pendingLabel={m.common.saving} confirmMessage={m.finance.goal.delete} variant="danger" />;
 }
 
+export interface RecurringInitial {
+  id: string;
+  kind: TransactionKind;
+  amount: string;
+  currency: string;
+  categoryId: string | null;
+  description: string;
+  endOn: string | null;
+  contactId: string | null;
+  projectId: string | null;
+  costCenterId: string | null;
+  costKind: string | null;
+  generatePending: boolean;
+  dueDays: number | null;
+}
+
+/** Ligações, estado e vencimento dos movimentos que a recorrência vai gerar. */
+function RecurringExtras({
+  m,
+  kind,
+  currency,
+  links,
+  initial,
+  errors,
+}: {
+  m: Messages;
+  kind: TransactionKind;
+  currency: string;
+  links: TransactionLinks;
+  initial?: RecurringInitial | undefined;
+  errors?: Record<string, string> | undefined;
+}) {
+  const t = m.finance.tx;
+  const contacts = links.contacts.filter((c) => c.kind === "both" || c.kind === (kind === "income" ? "client" : "supplier"));
+  const projects = links.projects.filter((p) => p.currency_code === currency && (p.status === "active" || p.status === "planned" || p.id === initial?.projectId));
+  const hasDetails = Boolean(initial && (initial.contactId || initial.projectId || initial.costCenterId || initial.costKind || initial.generatePending || initial.dueDays !== null));
+  return (
+    <details open={hasDetails} className="group rounded-lg border border-line">
+      <summary className="flex h-11 cursor-pointer list-none items-center justify-between px-4 text-sm font-medium text-muted hover:text-paper">
+        {t.moreDetails}
+        <svg viewBox="0 0 12 12" className="size-3 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+          <path d="M2 4l4 4 4-4" />
+        </svg>
+      </summary>
+      <div className="flex flex-col gap-4 border-t border-line p-4">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <SelectField
+            key={`rc-${kind}`}
+            name="contactId"
+            label={t.contact}
+            defaultValue={initial?.contactId ?? ""}
+            options={[{ value: "", label: t.noContact }, ...contacts.map((c) => ({ value: c.id, label: c.name }))]}
+            error={errors?.contactId}
+          />
+          <SelectField
+            key={`rp-${currency}`}
+            name="projectId"
+            label={t.project}
+            defaultValue={initial?.projectId ?? ""}
+            options={[{ value: "", label: t.noProject }, ...projects.map((p) => ({ value: p.id, label: p.name }))]}
+            hint={currency ? format(m.business.projects.currencyNote, { currency }) : undefined}
+            error={errors?.projectId}
+          />
+          {kind === "expense" ? (
+            <SelectField
+              name="costKind"
+              label={t.costKind}
+              defaultValue={initial?.costKind ?? ""}
+              options={[{ value: "", label: t.noCostKind }, ...COST_KIND_KEYS.map((k) => ({ value: k, label: m.quotes.line.kinds[k] }))]}
+              error={errors?.costKind}
+            />
+          ) : null}
+          {links.costCenters.length > 0 ? (
+            <SelectField
+              name="costCenterId"
+              label={t.costCenter}
+              defaultValue={initial?.costCenterId ?? ""}
+              options={[{ value: "", label: t.noCostCenter }, ...links.costCenters.map((c) => ({ value: c.id, label: c.name }))]}
+              error={errors?.costCenterId}
+            />
+          ) : null}
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 sm:items-end">
+          <label className="flex min-h-11 items-center gap-3 text-sm">
+            <input type="checkbox" name="generatePending" value="1" defaultChecked={initial?.generatePending ?? false} className="size-4 accent-[#FF851B]" />
+            {m.finance.recurring.generatePending}
+          </label>
+          <Field
+            name="dueDays"
+            type="number"
+            min={0}
+            max={365}
+            inputMode="numeric"
+            label={m.finance.recurring.dueDays}
+            optionalLabel={m.common.optional}
+            defaultValue={initial?.dueDays ?? ""}
+            error={errors?.dueDays}
+          />
+        </div>
+      </div>
+    </details>
+  );
+}
+
 export function RecurringForm({
   m,
   accounts,
   categories,
   today,
+  links,
 }: {
   m: Messages;
   accounts: AccountOption[];
   categories: CategoryOption[];
   today: string;
+  links: TransactionLinks;
 }) {
   const [kind, setKind] = useState<TransactionKind>("expense");
+  const [accountId, setAccountId] = useState(accounts[0]?.id ?? "");
+  const currency = accounts.find((a) => a.id === accountId)?.currency ?? "";
   return (
     <ActionForm action={saveRecurringAction}>
       {(state) => (
         <>
           <KindToggle m={m} value={kind} onChange={setKind} />
           <div className="grid gap-4 sm:grid-cols-3">
-            <Field name="amount" label={m.finance.tx.amount} inputMode="decimal" required error={state.fieldErrors?.amount} className="tabular" />
-            <SelectField name="accountId" label={m.finance.tx.account} options={accounts.map((a) => ({ value: a.id, label: `${a.name} · ${a.currency}` }))} error={state.fieldErrors?.accountId} />
+            <Field name="amount" label={`${m.finance.tx.amount}${currency ? ` (${currency})` : ""}`} inputMode="decimal" required error={state.fieldErrors?.amount} className="tabular" />
+            <SelectField
+              name="accountId"
+              label={m.finance.tx.account}
+              value={accountId}
+              onChange={(e) => setAccountId(e.target.value)}
+              options={accounts.map((a) => ({ value: a.id, label: `${a.name} · ${a.currency}` }))}
+              error={state.fieldErrors?.accountId}
+            />
             <SelectField
               key={kind}
               name="categoryId"
@@ -541,8 +657,56 @@ export function RecurringForm({
             <Field name="startOn" type="date" label={m.finance.recurring.start} defaultValue={today} required error={state.fieldErrors?.startOn} />
             <Field name="endOn" type="date" label={m.finance.recurring.end} optionalLabel={m.common.optional} error={state.fieldErrors?.endOn} />
           </div>
+          <RecurringExtras m={m} kind={kind} currency={currency} links={links} errors={state.fieldErrors} />
           <SubmitButton pendingLabel={m.common.saving} className="self-start">
             {m.finance.recurring.new}
+          </SubmitButton>
+        </>
+      )}
+    </ActionForm>
+  );
+}
+
+export function RecurringEditForm({
+  m,
+  categories,
+  links,
+  initial,
+}: {
+  m: Messages;
+  categories: CategoryOption[];
+  links: TransactionLinks;
+  initial: RecurringInitial;
+}) {
+  return (
+    <ActionForm action={updateRecurringAction}>
+      {(state) => (
+        <>
+          <input type="hidden" name="id" value={initial.id} />
+          <p className="text-sm text-muted">{m.finance.recurring.editHint}</p>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <Field
+              name="amount"
+              label={`${m.finance.tx.amount} (${initial.currency})`}
+              inputMode="decimal"
+              defaultValue={initial.amount}
+              required
+              error={state.fieldErrors?.amount}
+              className="tabular"
+            />
+            <SelectField
+              name="categoryId"
+              label={m.finance.tx.category}
+              defaultValue={initial.categoryId ?? ""}
+              options={[{ value: "", label: m.finance.tx.noCategory }, ...categories.filter((c) => c.kind === initial.kind).map((c) => ({ value: c.id, label: c.label }))]}
+              error={state.fieldErrors?.categoryId}
+            />
+            <Field name="endOn" type="date" label={m.finance.recurring.end} optionalLabel={m.common.optional} defaultValue={initial.endOn ?? ""} error={state.fieldErrors?.endOn} />
+          </div>
+          <Field name="description" label={m.finance.tx.description} defaultValue={initial.description} required maxLength={200} error={state.fieldErrors?.description} />
+          <RecurringExtras m={m} kind={initial.kind} currency={initial.currency} links={links} initial={initial} errors={state.fieldErrors} />
+          <SubmitButton pendingLabel={m.common.saving} className="self-start">
+            {m.common.save}
           </SubmitButton>
         </>
       )}
@@ -553,13 +717,23 @@ export function RecurringForm({
 export function RecurringActions({ m, id, active }: { m: Messages; id: string; active: boolean }) {
   return (
     <div className="flex items-start gap-1">
+      <a href={`/financas/recorrentes?editar=${id}`} className="inline-flex h-9 items-center rounded-md px-3 text-sm text-muted hover:bg-graphite hover:text-paper">
+        {m.finance.recurring.edit}
+      </a>
       <InlineAction
         action={toggleRecurringAction}
         fields={{ id, active: active ? "0" : "1" }}
         label={active ? m.finance.recurring.pause : m.finance.recurring.resume}
         pendingLabel={m.common.saving}
       />
-      <InlineAction action={deleteRecurringAction} fields={{ id }} label={m.finance.recurring.delete} pendingLabel={m.common.saving} confirmMessage={m.finance.recurring.delete} variant="danger" />
+      <InlineAction
+        action={deleteRecurringAction}
+        fields={{ id }}
+        label={m.finance.recurring.delete}
+        pendingLabel={m.common.saving}
+        confirmMessage={m.finance.recurring.deleteConfirm}
+        variant="danger"
+      />
     </div>
   );
 }

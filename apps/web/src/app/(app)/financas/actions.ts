@@ -9,8 +9,12 @@ import {
   fieldErrors,
   goalSchema,
   parseAmountInput,
+  recurringEditSchema,
+  recurringLinksSchema,
   recurringSchema,
   transactionSchema,
+  ATTACHMENT_MAX_BYTES,
+  ATTACHMENT_MIME_TYPES,
 } from "@anen/validation";
 import type { Messages } from "@anen/i18n";
 import { businessScope, businessScopeFields } from "@/lib/business";
@@ -195,7 +199,105 @@ export async function deleteTransactionAction(_: FormState, formData: FormData):
   const ctx = await writableScope();
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
-  const { error } = await session.supabase.from("transactions").delete().eq("id", formString(formData, "id")).eq(scope.column, scope.value);
+  const id = formString(formData, "id");
+  // Os ficheiros no Storage não são apagados em cascata: remover antes do movimento.
+  const { data: files } = await session.supabase.from("transaction_attachments").select("storage_path").eq("transaction_id", id);
+  if (files?.length) await session.supabase.storage.from(ATTACHMENTS_BUCKET).remove(files.map((f) => f.storage_path));
+  const { error } = await session.supabase.from("transactions").delete().eq("id", id).eq(scope.column, scope.value);
+  if (error) return { status: "error", message: errorMessage(m, error) };
+  refresh();
+  return ok();
+}
+
+// ---------------------------------------------------------------------------
+// Anexos: o servidor valida e regista; o browser envia o ficheiro por URL assinado
+// (direto para o Storage, sem passar pelo limite de tamanho das funções).
+// ---------------------------------------------------------------------------
+const ATTACHMENTS_BUCKET = "attachments";
+const EXTENSIONS: Record<(typeof ATTACHMENT_MIME_TYPES)[number], string> = {
+  "application/pdf": "pdf",
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+  "image/heic": "heic",
+};
+
+export type PrepareAttachmentResult =
+  | { ok: true; id: string; path: string; token: string }
+  | { ok: false; message: string };
+
+export async function prepareAttachmentAction(input: {
+  transactionId: string;
+  fileName: string;
+  mimeType: string;
+  size: number;
+}): Promise<PrepareAttachmentResult> {
+  const ctx = await writableScope();
+  if ("error" in ctx) return { ok: false, message: ctx.error.message ?? "" };
+  const { m, session, scope } = ctx;
+  const mime = ATTACHMENT_MIME_TYPES.find((t) => t === input.mimeType);
+  if (!mime) return { ok: false, message: m.finance.attachments.typeInvalid };
+  if (!Number.isInteger(input.size) || input.size <= 0 || input.size > ATTACHMENT_MAX_BYTES) {
+    return { ok: false, message: m.finance.attachments.tooLarge };
+  }
+  if (!/^[0-9a-f-]{36}$/.test(input.transactionId)) return { ok: false, message: m.errors.forbidden };
+  const { data: tx } = await session.supabase
+    .from("transactions")
+    .select("id")
+    .eq("id", input.transactionId)
+    .eq(scope.column, scope.value)
+    .maybeSingle();
+  if (!tx) return { ok: false, message: m.errors.forbidden };
+
+  // Nome guardado só para mostrar; o caminho usa um identificador aleatório.
+  const fileName = input.fileName.replace(/[\u0000-\u001f\\/]/g, "_").trim().slice(0, 200) || `anexo.${EXTENSIONS[mime]}`;
+  const path = `${scope.value}/${tx.id}/${crypto.randomUUID()}.${EXTENSIONS[mime]}`;
+  const { data: row, error } = await session.supabase
+    .from("transaction_attachments")
+    .insert({ transaction_id: tx.id, storage_path: path, file_name: fileName, mime_type: mime, size_bytes: input.size })
+    .select("id")
+    .single();
+  if (error || !row) return { ok: false, message: errorMessage(m, error) };
+  const signed = await session.supabase.storage.from(ATTACHMENTS_BUCKET).createSignedUploadUrl(path);
+  if (signed.error || !signed.data) {
+    await session.supabase.from("transaction_attachments").delete().eq("id", row.id);
+    return { ok: false, message: m.errors.generic };
+  }
+  return { ok: true, id: row.id, path, token: signed.data.token };
+}
+
+/** Confirma o envio (o ficheiro tem de existir) ou desfaz o registo se o envio falhou. */
+export async function finishAttachmentAction(input: { id: string; uploaded: boolean }): Promise<{ ok: boolean; message?: string }> {
+  const ctx = await writableScope();
+  if ("error" in ctx) return { ok: false, message: ctx.error.message ?? "" };
+  const { m, session } = ctx;
+  const { data: row } = await session.supabase.from("transaction_attachments").select("id, storage_path").eq("id", input.id).maybeSingle();
+  if (!row) return { ok: false, message: m.errors.forbidden };
+  const [folder, file] = [row.storage_path.slice(0, row.storage_path.lastIndexOf("/")), row.storage_path.slice(row.storage_path.lastIndexOf("/") + 1)];
+  const { data: listed } = input.uploaded
+    ? await session.supabase.storage.from(ATTACHMENTS_BUCKET).list(folder, { search: file, limit: 1 })
+    : { data: [] };
+  if (!listed?.some((o) => o.name === file)) {
+    await session.supabase.from("transaction_attachments").delete().eq("id", row.id);
+    return { ok: false, message: m.errors.generic };
+  }
+  refresh();
+  return { ok: true };
+}
+
+export async function deleteAttachmentAction(_: FormState, formData: FormData): Promise<FormState> {
+  const ctx = await writableScope();
+  if ("error" in ctx) return ctx.error;
+  const { m, session } = ctx;
+  const { data: row } = await session.supabase
+    .from("transaction_attachments")
+    .select("id, storage_path")
+    .eq("id", formString(formData, "id"))
+    .maybeSingle();
+  if (!row) return { status: "error", message: m.errors.forbidden };
+  const removed = await session.supabase.storage.from(ATTACHMENTS_BUCKET).remove([row.storage_path]);
+  if (removed.error) return { status: "error", message: m.errors.generic };
+  const { error } = await session.supabase.from("transaction_attachments").delete().eq("id", row.id);
   if (error) return { status: "error", message: errorMessage(m, error) };
   refresh();
   return ok();
@@ -270,6 +372,8 @@ export async function saveRecurringAction(_: FormState, formData: FormData): Pro
   if (!account) return { status: "error", fieldErrors: { accountId: m.errors.account_invalid } };
   const amount = parseAmountInput(v.amount, account.minorUnit);
   if (amount === null || amount <= 0n) return { status: "error", fieldErrors: { amount: m.errors.amount_invalid } };
+  const links = recurringLinksSchema.safeParse(recurringLinkFields(formData));
+  if (!links.success) return { status: "error", fieldErrors: translateFieldErrors(m, fieldErrors(links.error)) };
   const { error } = await session.supabase.from("recurring_transactions").insert({
     ...scopeFields(scope),
     account_id: v.accountId,
@@ -283,10 +387,81 @@ export async function saveRecurringAction(_: FormState, formData: FormData): Pro
     start_on: v.startOn,
     end_on: v.endOn,
     next_run_on: v.startOn,
+    ...recurringLinkColumns(links.data, v.kind),
   });
   if (error) return { status: "error", message: errorMessage(m, error) };
   refresh();
   return ok(m.finance.recurring.saved);
+}
+
+function recurringLinkFields(formData: FormData) {
+  return {
+    contactId: formString(formData, "contactId"),
+    projectId: formString(formData, "projectId"),
+    costCenterId: formString(formData, "costCenterId"),
+    costKind: formString(formData, "costKind"),
+    generatePending: formString(formData, "generatePending"),
+    dueDays: formString(formData, "dueDays"),
+  };
+}
+
+function recurringLinkColumns(
+  v: { contactId: string | null; projectId: string | null; costCenterId: string | null; costKind: string | null; generatePending: boolean; dueDays: number | null },
+  kind: "income" | "expense",
+) {
+  return {
+    contact_id: v.contactId,
+    project_id: v.projectId,
+    cost_center_id: v.costCenterId,
+    cost_kind: kind === "expense" ? (v.costKind as "material" | "labor" | "travel" | "equipment" | "overhead" | "other" | null) : null,
+    generate_pending: v.generatePending,
+    due_days: v.dueDays,
+  };
+}
+
+/** Edição de uma recorrência: valor, descrição, categoria, fim e ligações (o calendário não muda). */
+export async function updateRecurringAction(_: FormState, formData: FormData): Promise<FormState> {
+  const ctx = await writableScope();
+  if ("error" in ctx) return ctx.error;
+  const { m, session, scope } = ctx;
+  const parsed = recurringEditSchema.safeParse({
+    id: formString(formData, "id"),
+    amount: formString(formData, "amount"),
+    categoryId: formString(formData, "categoryId"),
+    description: formString(formData, "description"),
+    endOn: formString(formData, "endOn"),
+    ...recurringLinkFields(formData),
+  });
+  if (!parsed.success) return { status: "error", fieldErrors: translateFieldErrors(m, fieldErrors(parsed.error)) };
+  const v = parsed.data;
+  const { data: current } = await session.supabase
+    .from("recurring_transactions")
+    .select("account_id, kind, start_on")
+    .eq("id", v.id)
+    .eq(scope.column, scope.value)
+    .maybeSingle();
+  if (!current) return { status: "error", message: m.errors.forbidden };
+  if (v.endOn && v.endOn < current.start_on) return { status: "error", fieldErrors: { endOn: m.errors.date_invalid } };
+  const account = await accountCurrency(session, current.account_id);
+  if (!account) return { status: "error", message: m.errors.account_invalid };
+  const amount = parseAmountInput(v.amount, account.minorUnit);
+  if (amount === null || amount <= 0n) return { status: "error", fieldErrors: { amount: m.errors.amount_invalid } };
+  const { data, error } = await session.supabase
+    .from("recurring_transactions")
+    .update({
+      amount_minor: Number(amount),
+      description: v.description,
+      category_id: v.categoryId,
+      end_on: v.endOn,
+      ...recurringLinkColumns(v, current.kind),
+    })
+    .eq("id", v.id)
+    .eq(scope.column, scope.value)
+    .select("id");
+  if (error) return { status: "error", message: errorMessage(m, error) };
+  if (!data?.length) return { status: "error", message: m.errors.forbidden };
+  refresh();
+  return ok(m.finance.recurring.updated);
 }
 
 export async function toggleRecurringAction(_: FormState, formData: FormData): Promise<FormState> {

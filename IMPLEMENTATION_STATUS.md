@@ -84,6 +84,15 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 | Agendador diário (`pg_cron`) e registo `job_runs` | Testado | `scheduler.test.ts`; em produção: `anen-daily-jobs` ativo, execução manual com sucesso |
 | Recorrentes gerados no servidor para todos os âmbitos | Testado | `scheduler.test.ts` (isolamento de falhas, idempotência, autor) |
 
+## Prompt 03 · Fase 2: recorrentes completos e anexos
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Editar recorrentes (sem mudar o calendário) | Testado | `recurring-attachments.test.ts` + E2E |
+| Recorrentes com ligações, pendentes e vencimento | Testado | `recurring-attachments.test.ts` (servidor) + E2E |
+| Anexos (enviar, abrir, remover; tipos e tamanho) | Testado | RLS em `recurring-attachments.test.ts`; E2E em produção (desktop e telemóvel) |
+| Ficheiros órfãos após apagar a conta de um utilizador | Não iniciado | Os registos são apagados em cascata; os ficheiros no Storage precisam de uma tarefa de limpeza |
+
 ## Fases seguintes
 
 | Fase | Estado | O que é preciso para avançar |

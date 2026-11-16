@@ -82,6 +82,7 @@ export function TransactionList({
   minorUnits,
   actions,
   today,
+  attachments,
 }: {
   m: Messages;
   locale: Locale;
@@ -93,6 +94,8 @@ export function TransactionList({
   actions?: (tx: FinanceTransaction) => React.ReactNode;
   /** Data de hoje (YYYY-MM-DD) para assinalar vencidos. */
   today?: string;
+  /** Número de anexos por movimento e ligação para os ver. */
+  attachments?: { counts: Map<string, number>; href: (tx: FinanceTransaction) => string; label: (count: number) => string };
 }) {
   if (transactions.length === 0) return <p className="py-4 text-sm text-muted">{m.finance.tx.empty}</p>;
   return (
@@ -100,8 +103,33 @@ export function TransactionList({
       {transactions.map((tx) => {
         const category = tx.category_id ? categories.get(tx.category_id) : undefined;
         const signed = BigInt(tx.amount_minor) * (tx.kind === "expense" ? -1n : 1n);
+        const attachmentCount = attachments?.counts.get(tx.id) ?? 0;
+        const overdue = Boolean(today && tx.due_on && tx.due_on < today);
+        const tags =
+          attachmentCount > 0 || tx.recurring_id || tx.payment_status !== "paid" ? (
+            <>
+              {tx.payment_status !== "paid" ? (
+                <Badge tone={overdue ? "danger" : "neutral"}>
+                  {overdue ? m.finance.tx.overdueBadge : tx.payment_status === "partial" ? m.finance.tx.partialBadge : m.finance.tx.pendingBadge}
+                </Badge>
+              ) : null}
+              {tx.recurring_id ? <Badge>{m.finance.tx.recurringBadge}</Badge> : null}
+              {attachments && attachmentCount > 0 ? (
+                <Link
+                  href={attachments.href(tx)}
+                  className="inline-flex items-center gap-1 rounded-full border border-line px-2 py-0.5 text-xs text-muted hover:text-paper"
+                  aria-label={attachments.label(attachmentCount)}
+                >
+                  <svg viewBox="0 0 20 20" className="size-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+                    <path d="M13.5 7.5l-5.6 5.6a1.8 1.8 0 0 1-2.5-2.5L11.6 4.4a3 3 0 0 1 4.2 4.2l-6.4 6.4a4.2 4.2 0 0 1-5.9-5.9L9 3.6" />
+                  </svg>
+                  {attachmentCount}
+                </Link>
+              ) : null}
+            </>
+          ) : null;
         return (
-          <li key={tx.id} className="group flex items-center gap-3 border-b border-line py-3 last:border-0">
+          <li key={tx.id} className="group flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-line py-3 last:border-0">
             <span
               className={cx(
                 "grid size-9 shrink-0 place-items-center rounded-full text-sm",
@@ -111,6 +139,7 @@ export function TransactionList({
             >
               {tx.kind === "income" ? "↑" : "↓"}
             </span>
+            {/* As etiquetas ficam por baixo da descrição para a linha caber no telemóvel. */}
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-medium">{tx.description}</p>
               <p className="truncate text-xs text-subtle">
@@ -120,22 +149,13 @@ export function TransactionList({
                 {accounts.get(tx.account_id) ? ` · ${accounts.get(tx.account_id)!.name}` : ""}
                 {tx.counterparty ? ` · ${tx.counterparty}` : ""}
               </p>
+              {tags ? <div className="mt-1.5 flex flex-wrap items-center gap-1.5">{tags}</div> : null}
             </div>
-            {tx.recurring_id ? <Badge>{m.finance.tx.recurringBadge}</Badge> : null}
-            {tx.payment_status !== "paid" ? (
-              <Badge tone={today && tx.due_on && tx.due_on < today ? "danger" : "neutral"}>
-                {today && tx.due_on && tx.due_on < today
-                  ? m.finance.tx.overdueBadge
-                  : tx.payment_status === "partial"
-                    ? m.finance.tx.partialBadge
-                    : m.finance.tx.pendingBadge}
-              </Badge>
-            ) : null}
             <span className={cx("tabular shrink-0 text-right text-sm font-semibold", tx.kind === "income" ? "text-paper" : "text-muted")}>
               {tx.kind === "income" ? "+" : "−"}
               {formatMoney(signed < 0n ? -signed : signed, tx.currency_code, minorUnits.get(tx.currency_code) ?? 2, locale)}
             </span>
-            {actions ? <div className="shrink-0">{actions(tx)}</div> : null}
+            {actions ? <div className="flex w-full shrink-0 justify-end sm:w-auto">{actions(tx)}</div> : null}
           </li>
         );
       })}

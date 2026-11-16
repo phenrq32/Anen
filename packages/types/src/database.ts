@@ -4,6 +4,7 @@
  * `supabase gen types typescript --project-id <ref>` quando o projeto estiver ligado.
  */
 import type {
+  TransactionAttachment,
   FixedExpense,
   InvestmentOption,
   MonthlyPlanRow,
@@ -151,8 +152,35 @@ export type Database = {
           start_on: string;
           end_on: string | null;
           next_run_on: string;
+          contact_id?: string | null;
+          project_id?: string | null;
+          cost_center_id?: string | null;
+          cost_kind?: RecurringTransaction["cost_kind"];
+          generate_pending?: boolean;
+          due_days?: number | null;
         },
-        Partial<Pick<RecurringTransaction, "is_active" | "amount_minor" | "description" | "end_on">>
+        Partial<
+          Pick<
+            RecurringTransaction,
+            | "is_active"
+            | "amount_minor"
+            | "description"
+            | "end_on"
+            | "category_id"
+            | "counterparty"
+            | "contact_id"
+            | "project_id"
+            | "cost_center_id"
+            | "cost_kind"
+            | "generate_pending"
+            | "due_days"
+          >
+        >
+      >;
+      transaction_attachments: Table<
+        TransactionAttachment,
+        Pick<TransactionAttachment, "transaction_id" | "storage_path" | "file_name" | "mime_type" | "size_bytes">,
+        NoWrite
       >;
       budgets: Table<
         Budget,

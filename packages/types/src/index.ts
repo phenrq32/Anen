@@ -214,6 +214,12 @@ export interface RecurringTransaction extends FinanceScoped {
   end_on: string | null;
   next_run_on: string;
   is_active: boolean;
+  contact_id: string | null;
+  project_id: string | null;
+  cost_center_id: string | null;
+  cost_kind: QuoteItemKind | null;
+  generate_pending: boolean;
+  due_days: number | null;
 }
 
 export interface Budget extends FinanceScoped {
@@ -407,4 +413,16 @@ export interface InvestmentOption {
   source_name: string;
   source_url: string;
   reviewed_on: string;
+}
+
+export interface TransactionAttachment {
+  id: string;
+  transaction_id: string;
+  organization_id: string | null;
+  owner_user_id: string | null;
+  storage_path: string;
+  file_name: string;
+  mime_type: string;
+  size_bytes: number;
+  created_at: string;
 }

@@ -157,10 +157,10 @@ describe("recorrentes", () => {
     expect(afterDelete.n).toBe(1); // só maio; fevereiro continua apagado
   });
 
-  it("o leitor não gera movimentos (o RLS esconde-lhe as recorrências a atualizar)", async () => {
+  it("o leitor não gera movimentos (sem permissão de escrita, a função recusa)", async () => {
     const before = (await db.query(`select id from public.transactions where organization_id = $1`, [org])).rows.length;
-    const r = await asUser(db, leo, (tx) => one<{ n: number }>(tx, `select public.materialize_recurring($1, '2026-12-31') as n`, [org]));
-    expect(r.n).toBe(0);
+    await expect(asUser(db, leo, (tx) => tx.query(`select public.materialize_recurring($1, '2026-12-31')`, [org]))).rejects.toThrow(/forbidden/);
+    await expect(asUser(db, null, (tx) => tx.query(`select public.materialize_recurring(null, '2026-12-31')`))).rejects.toThrow();
     expect((await db.query(`select id from public.transactions where organization_id = $1`, [org])).rows.length).toBe(before);
   });
 });

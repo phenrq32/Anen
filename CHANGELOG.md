@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0] — 16/11/2026 · Prompt 03, Fase 2: recorrentes completos e anexos
+- Recorrentes editáveis (valor, descrição, categoria, fim e ligações). A frequência e o início ficam fixos, também na base de dados.
+- Recorrentes com cliente/fornecedor, projeto, centro de custo e tipo de custo, opção "gerar como pendente" e vencimento N dias após cada ocorrência. Os movimentos gerados herdam tudo (no servidor e na aplicação).
+- `materialize_recurring` passa a `SECURITY DEFINER` com verificação explícita de escrita (o calendário deixou de ser editável pelos clientes) e não gera movimentos futuros.
+- Anexos de faturas e recibos: bucket privado `attachments` (PDF/imagem, até 10 MB), registo `transaction_attachments` com âmbito herdado do movimento, políticas de Storage pelo âmbito. O envio vai direto do browser por URL assinado (sem o limite de tamanho das funções) e a abertura usa um URL assinado de 60 s. Apagar o movimento remove os ficheiros.
+- Correções de layout encontradas pelos E2E: no telemóvel, a linha de movimento com etiquetas ultrapassava o ecrã e escondia "Eliminar"; no desktop, os separadores de Finanças alargavam a página (grelha `1fr` → `minmax(0,1fr)`).
+
 ## [0.6.0] — 16/11/2026 · Prompt 03, Fase 1: auditoria e tarefas no servidor
 - `CURRENT_IMPLEMENTATION_AUDIT.md`: páginas, o que funciona, o que é parcial, o que não existe e os problemas técnicos. Não foram encontrados dados fictícios, botões sem ação nem formulários que só simulam.
 - Tarefas no servidor com `pg_cron` (diária, 05:00 UTC): os recorrentes passam a ser gerados para todas as pessoas e organizações sem ninguém abrir a aplicação. Cada recorrência é isolada (uma falha não trava as outras), é idempotente e mantém o autor.

@@ -86,7 +86,7 @@ export function AppShell({
   );
 
   return (
-    <div className="min-h-dvh lg:grid lg:grid-cols-[264px_1fr]">
+    <div className="min-h-dvh lg:grid lg:grid-cols-[264px_minmax(0,1fr)]">
       <aside className="sticky top-0 hidden h-dvh border-r border-line bg-ink lg:block">{sidebar}</aside>
       <details className="group border-b border-line bg-ink lg:hidden">
         <summary className="flex h-14 cursor-pointer list-none items-center justify-between px-4 [&::-webkit-details-marker]:hidden">
@@ -100,7 +100,7 @@ export function AppShell({
         </summary>
         <div className="border-t border-line">{sidebar}</div>
       </details>
-      <main className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 pb-28 pt-8 sm:px-8 sm:pt-10">{children}</main>
+      <main className="mx-auto flex w-full min-w-0 max-w-6xl flex-col gap-8 px-4 pb-28 pt-8 sm:px-8 sm:pt-10">{children}</main>
       {overlay}
     </div>
   );

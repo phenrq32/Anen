@@ -3,11 +3,13 @@ import Link from "next/link";
 import { format, formatMoney } from "@anen/i18n";
 import { formatAmountInput, monthParam } from "@anen/validation";
 import { EmptyFinance, TransactionList } from "@/components/finance-ui";
-import { Section, buttonClass } from "@/components/ui";
+import { Alert, Section, buttonClass } from "@/components/ui";
+import { getPublicEnv } from "@/lib/env";
 import { businessScope, loadLinkOptions } from "@/lib/business";
 import { categoryLabel, financeScope, loadFinanceBasics, materializeDue, monthBounds, sumByCurrency, todayIn } from "@/lib/finance";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession } from "@/lib/session";
+import { AttachmentsPanel } from "../attachments";
 import { DeleteTransactionButton, TransactionForm } from "../finance-forms";
 
 export const metadata: Metadata = { title: "Movimentos" };
@@ -53,8 +55,20 @@ export default async function TransactionsPage({ searchParams }: { searchParams:
   const { data, error } = await query;
   if (error) throw new Error("Falha ao carregar movimentos");
   const transactions = data ?? [];
+  const { data: attachmentRows } = transactions.length
+    ? await session.supabase
+        .from("transaction_attachments")
+        .select("id, transaction_id, file_name, size_bytes, created_at")
+        .in("transaction_id", transactions.map((t) => t.id))
+        .order("created_at")
+    : { data: [] };
+  const attachmentCounts = new Map<string, number>();
+  for (const a of attachmentRows ?? []) attachmentCounts.set(a.transaction_id, (attachmentCounts.get(a.transaction_id) ?? 0) + 1);
 
   const editing = params.editar && UUID.test(params.editar) ? transactions.find((t) => t.id === params.editar) : undefined;
+  const viewing = params.anexos && UUID.test(params.anexos) ? transactions.find((t) => t.id === params.anexos) : undefined;
+  const panelTx = editing ?? viewing;
+  const publicEnv = getPublicEnv();
   const accountsMap = new Map(basics.accounts.map((a) => [a.id, a]));
   const categoriesMap = new Map(basics.categories.map((c) => [c.id, c]));
   const activeAccounts = basics.accounts.filter((a) => !a.archived_at);
@@ -111,6 +125,21 @@ export default async function TransactionsPage({ searchParams }: { searchParams:
               {m.common.cancel}
             </Link>
           ) : null}
+        </Section>
+      ) : null}
+
+      {params.anexo === "indisponivel" ? <Alert tone="error">{m.finance.attachments.unavailable}</Alert> : null}
+      {panelTx && publicEnv ? (
+        <Section title={`${m.finance.attachments.title} · ${panelTx.description}`}>
+          <AttachmentsPanel
+            m={m}
+            transactionId={panelTx.id}
+            canWrite={scope.canWrite}
+            storage={{ url: publicEnv.supabaseUrl, key: publicEnv.supabaseKey }}
+            items={(attachmentRows ?? [])
+              .filter((a) => a.transaction_id === panelTx.id)
+              .map((a) => ({ id: a.id, fileName: a.file_name, sizeLabel: sizeLabel(a.size_bytes, locale) }))}
+          />
         </Section>
       ) : null}
 
@@ -180,6 +209,11 @@ export default async function TransactionsPage({ searchParams }: { searchParams:
             accounts={accountsMap}
             minorUnits={basics.minorUnits}
             today={today}
+            attachments={{
+              counts: attachmentCounts,
+              href: (tx) => `/financas/movimentos?mes=${month}&${scope.canWrite ? "editar" : "anexos"}=${tx.id}`,
+              label: (count) => format(m.finance.attachments.count, { count }),
+            }}
             {...(scope.canWrite
               ? {
                   actions: (tx) => (
@@ -198,4 +232,9 @@ export default async function TransactionsPage({ searchParams }: { searchParams:
       </section>
     </div>
   );
+}
+
+function sizeLabel(bytes: number, locale: string): string {
+  const fmt = new Intl.NumberFormat(locale, { maximumFractionDigits: 1 });
+  return bytes >= 1024 * 1024 ? `${fmt.format(bytes / (1024 * 1024))} MB` : `${fmt.format(Math.max(1, Math.round(bytes / 1024)))} KB`;
 }
