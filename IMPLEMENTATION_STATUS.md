@@ -66,6 +66,15 @@ Plano completo e dependências externas em [EXPANSION_PLAN.md](EXPANSION_PLAN.md
 | Comprovativo anexado (ficheiro) | Não iniciado | Supabase Storage com RLS; fica para a fase de compras |
 | Ligações nos movimentos recorrentes | Não iniciado | Os recorrentes ainda não têm contacto nem projeto |
 
+## Plano do mês (finanças pessoais)
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Salário do mês, reserva, despesas fixas editáveis | Testado (BD) | `monthly-plan.test.ts` (RLS, um plano por mês, apagamento); E2E `plan.spec.ts` escrito |
+| Sobra/défice e repartição reserva / longo prazo | Testado (motor) | `financial-engine/src/monthly-plan.test.ts` |
+| Opções por país com fonte oficial e data de revisão | Implementado | Migration 0800; descrições revistas a 16/11/2026, sem taxas |
+| Importar despesas recorrentes para as fixas | Não iniciado | — |
+
 ## Fases seguintes
 
 | Fase | Estado | O que é preciso para avançar |

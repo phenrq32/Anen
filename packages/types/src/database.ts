@@ -4,6 +4,9 @@
  * `supabase gen types typescript --project-id <ref>` quando o projeto estiver ligado.
  */
 import type {
+  FixedExpense,
+  InvestmentOption,
+  MonthlyPlanRow,
   Contact,
   CostCenter,
   Project,
@@ -178,6 +181,17 @@ export type Database = {
         Scope & ProjectWrite & { currency_code: string; quote_id?: string | null },
         Partial<ProjectWrite>
       >;
+      fixed_expenses: Table<
+        FixedExpense,
+        { owner_user_id: string; name: string; amount_minor: number; currency_code: string; category_id?: string | null; position?: number },
+        Partial<Pick<FixedExpense, "name" | "amount_minor" | "category_id" | "is_active" | "position">>
+      >;
+      monthly_plans: Table<
+        MonthlyPlanRow,
+        { owner_user_id: string; month: string; currency_code: string; salary_minor: number; emergency_reserve_minor?: number },
+        Partial<Pick<MonthlyPlanRow, "salary_minor" | "emergency_reserve_minor" | "currency_code">>
+      >;
+      investment_options: Table<InvestmentOption>;
       savings_goals: Table<
         SavingsGoal,
         Scope & { name: string; target_minor: number; saved_minor: number; currency_code: string; target_date: string | null },

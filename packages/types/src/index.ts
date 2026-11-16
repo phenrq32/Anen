@@ -372,3 +372,39 @@ export interface Project extends FinanceScoped {
   created_at: string;
   updated_at: string;
 }
+
+// ---------------------------------------------------------------------------
+// Plano do mês (finanças pessoais)
+// ---------------------------------------------------------------------------
+export interface FixedExpense {
+  id: string;
+  owner_user_id: string;
+  name: string;
+  amount_minor: number;
+  currency_code: string;
+  category_id: string | null;
+  is_active: boolean;
+  position: number;
+}
+
+export interface MonthlyPlanRow {
+  id: string;
+  owner_user_id: string;
+  month: string;
+  currency_code: string;
+  salary_minor: number;
+  emergency_reserve_minor: number;
+}
+
+export interface InvestmentOption {
+  id: string;
+  country_code: string;
+  key: string;
+  bucket: "reserve" | "long_term";
+  risk: "low" | "medium" | "high";
+  liquidity: "immediate" | "days" | "months" | "years";
+  position: number;
+  source_name: string;
+  source_url: string;
+  reviewed_on: string;
+}

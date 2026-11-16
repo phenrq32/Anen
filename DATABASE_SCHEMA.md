@@ -67,6 +67,14 @@ Fonte de verdade: `supabase/migrations/*.sql`. Todas as tabelas têm RLS ativo.
 | `finance_monthly`, `finance_by_category`, `account_balances` | Passam a somar `settled_minor` (caixa). |
 | `create_project_from_quote(p_quote_id)` | SECURITY INVOKER. Só orçamentos aceites; idempotente; reutiliza ou cria o cliente. |
 
+## Plano do mês (migration 0800)
+
+| Tabela | Notas |
+|---|---|
+| `fixed_expenses` | Despesas fixas pessoais (`owner_user_id`), valor editável, categoria de despesa opcional. RLS: só o próprio. |
+| `monthly_plans` | Um por pessoa e mês: salário líquido e reserva de emergência já guardada. RLS: só o próprio. |
+| `investment_options` | Referência pública por país: `bucket` (reserve, long_term), risco, acesso ao dinheiro, fonte oficial e `reviewed_on`. Escrita só pelo service_role. Sem taxas de rendimento. |
+
 ## Próximas fases
 
 As tabelas de finanças, orçamentos, custos, fiscalidade, marketplace, CRM, assinaturas, IA e administração listadas no prompt mestre serão criadas por migration em cada fase, sempre com `organization_id`, RLS por `has_org_permission` e auditoria.

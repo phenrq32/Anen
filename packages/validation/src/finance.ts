@@ -115,3 +115,16 @@ export const monthParam = z
   .string()
   .regex(/^\d{4}-(0[1-9]|1[0-2])$/)
   .optional();
+
+export const fixedExpenseSchema = z.object({
+  id: optionalUuid,
+  name: z.string().trim().min(1, { message: "name_required" }).max(80, { message: "too_long" }),
+  amount: amountText,
+  categoryId: optionalUuid,
+});
+
+export const monthlyPlanSchema = z.object({
+  month: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, { message: "date_invalid" }),
+  salary: amountText,
+  reserve: z.string().trim().max(32).optional().transform((v) => v || "0"),
+});

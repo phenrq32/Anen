@@ -22,6 +22,7 @@ export default async function FinanceLayout({ children }: { children: React.Reac
           <FinanceTabs
             items={[
               { href: "/financas", label: m.finance.tabs.overview },
+              ...(session.active ? [] : [{ href: "/financas/plano", label: m.finance.tabs.plan }]),
               { href: "/financas/movimentos", label: m.finance.tabs.transactions },
               { href: "/financas/em-aberto", label: m.finance.tabs.open },
               { href: "/financas/contas", label: m.finance.tabs.accounts },

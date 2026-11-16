@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0] — 16/11/2026 · Plano do mês (finanças pessoais)
+- Salário líquido do mês e reserva de emergência já guardada, por mês (pré-preenchidos com o último plano).
+- Despesas fixas com o valor editável no próprio lugar; total e percentagem do salário.
+- Sobra ou défice do mês. Em défice: maiores despesas e passos para equilibrar. Com sobra: repartição entre reserva de emergência e longo prazo (motor `computeMonthlyPlan`, regras explicadas na página), orientação adaptada ao tamanho da sobra e projeção sem rendimentos (1, 5 e 10 anos).
+- Catálogo `investment_options` por país (PT e BR), com risco, acesso ao dinheiro, fonte oficial e data de revisão. Sem taxas de rendimento: a página aponta para a fonte onde se confirmam as condições atuais. Aviso de orientação educativa.
+- Migrations 0700 e 0800 aplicadas em produção; os 12 E2E existentes continuam a passar.
+
 ## [0.4.0] — 16/11/2026 · Prompt 02, Fase A: integração financeira
 - Auditoria e plano de expansão do prompt mestre 02 em `EXPANSION_PLAN.md`.
 - Clientes e fornecedores (`contacts`), centros de custo e projetos, com RLS (`business.read` / `business.write`) e auditoria.
