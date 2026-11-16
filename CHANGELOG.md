@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.6.0] — 16/11/2026 · Prompt 03, Fase 1: auditoria e tarefas no servidor
+- `CURRENT_IMPLEMENTATION_AUDIT.md`: páginas, o que funciona, o que é parcial, o que não existe e os problemas técnicos. Não foram encontrados dados fictícios, botões sem ação nem formulários que só simulam.
+- Tarefas no servidor com `pg_cron` (diária, 05:00 UTC): os recorrentes passam a ser gerados para todas as pessoas e organizações sem ninguém abrir a aplicação. Cada recorrência é isolada (uma falha não trava as outras), é idempotente e mantém o autor.
+- Registo de execuções `job_runs` (estado, quantidade, falhas, detalhe), legível só por administradores da plataforma.
+- Removidos textos de tradução obsoletos.
+
 ## [0.5.0] — 16/11/2026 · Plano do mês (finanças pessoais)
 - Salário líquido do mês e reserva de emergência já guardada, por mês (pré-preenchidos com o último plano).
 - Despesas fixas com o valor editável no próprio lugar; total e percentagem do salário.

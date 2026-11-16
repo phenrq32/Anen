@@ -75,6 +75,15 @@ Plano completo e dependências externas em [EXPANSION_PLAN.md](EXPANSION_PLAN.md
 | Opções por país com fonte oficial e data de revisão | Implementado | Migration 0800; descrições revistas a 16/11/2026, sem taxas |
 | Importar despesas recorrentes para as fixas | Não iniciado | — |
 
+## Prompt 03 · Fase 1: tarefas no servidor
+
+Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_AUDIT.md).
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Agendador diário (`pg_cron`) e registo `job_runs` | Testado | `scheduler.test.ts`; em produção: `anen-daily-jobs` ativo, execução manual com sucesso |
+| Recorrentes gerados no servidor para todos os âmbitos | Testado | `scheduler.test.ts` (isolamento de falhas, idempotência, autor) |
+
 ## Fases seguintes
 
 | Fase | Estado | O que é preciso para avançar |

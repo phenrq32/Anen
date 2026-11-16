@@ -724,7 +724,6 @@ export const ptBR: Messages = {
     profit: "Lucro",
     financeNotActive: "O módulo de finanças ainda não está ativo nesta versão. Os valores aparecem aqui assim que você registrar movimentações.",
     quotesTitle: "Orçamentos recentes",
-    quotesNotActive: "O criador de orçamentos chega em uma próxima versão.",
     requestsTitle: "Pedidos de serviço",
     requestsNotActive: "O marketplace chega em uma próxima versão.",
     organizationTitle: "Organização",

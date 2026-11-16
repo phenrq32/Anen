@@ -723,7 +723,6 @@ export const ptPT = {
     profit: "Lucro",
     financeNotActive: "O módulo de finanças ainda não está ativo nesta versão. Os valores aparecem aqui assim que registar movimentos.",
     quotesTitle: "Orçamentos recentes",
-    quotesNotActive: "O criador de orçamentos chega numa próxima versão.",
     requestsTitle: "Pedidos de serviço",
     requestsNotActive: "O marketplace chega numa próxima versão.",
     organizationTitle: "Organização",
