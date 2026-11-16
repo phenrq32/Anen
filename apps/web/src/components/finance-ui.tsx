@@ -81,6 +81,7 @@ export function TransactionList({
   accounts,
   minorUnits,
   actions,
+  today,
 }: {
   m: Messages;
   locale: Locale;
@@ -90,6 +91,8 @@ export function TransactionList({
   accounts: Map<string, FinancialAccount>;
   minorUnits: Map<string, number>;
   actions?: (tx: FinanceTransaction) => React.ReactNode;
+  /** Data de hoje (YYYY-MM-DD) para assinalar vencidos. */
+  today?: string;
 }) {
   if (transactions.length === 0) return <p className="py-4 text-sm text-muted">{m.finance.tx.empty}</p>;
   return (
@@ -119,6 +122,15 @@ export function TransactionList({
               </p>
             </div>
             {tx.recurring_id ? <Badge>{m.finance.tx.recurringBadge}</Badge> : null}
+            {tx.payment_status !== "paid" ? (
+              <Badge tone={today && tx.due_on && tx.due_on < today ? "danger" : "neutral"}>
+                {today && tx.due_on && tx.due_on < today
+                  ? m.finance.tx.overdueBadge
+                  : tx.payment_status === "partial"
+                    ? m.finance.tx.partialBadge
+                    : m.finance.tx.pendingBadge}
+              </Badge>
+            ) : null}
             <span className={cx("tabular shrink-0 text-right text-sm font-semibold", tx.kind === "income" ? "text-paper" : "text-muted")}>
               {tx.kind === "income" ? "+" : "−"}
               {formatMoney(signed < 0n ? -signed : signed, tx.currency_code, minorUnits.get(tx.currency_code) ?? 2, locale)}

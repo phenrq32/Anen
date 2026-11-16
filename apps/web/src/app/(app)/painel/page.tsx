@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
 import { format } from "@anen/i18n";
+import Link from "next/link";
+import { formatMoney } from "@anen/i18n";
 import { ActivityList } from "@/components/activity-list";
+import { BusinessOverview } from "@/components/business-overview";
 import { MonthlyChart } from "@/components/charts";
 import { EmptyFinance, FinanceKpis, TransactionList } from "@/components/finance-ui";
+import { businessScope } from "@/lib/business";
 import { financeScope } from "@/lib/finance";
+import { quotesScope } from "@/lib/quotes";
+import { statusTone } from "../orcamentos/status";
 import { loadFinanceOverview } from "@/lib/finance-overview";
-import { ButtonLink, PageHeader, Section } from "@/components/ui";
+import { Badge, ButtonLink, PageHeader, Section } from "@/components/ui";
 import { roleName } from "@/lib/errors";
 import { getI18n } from "@/lib/i18n";
 import { INVITATION_COLUMNS, profileNames, recentAudit } from "@/lib/org-data";
@@ -47,6 +53,11 @@ export default async function DashboardPage() {
   const scope = financeScope(session);
   const finance = scope.canRead ? await loadFinanceOverview(supabase, scope, m, locale) : null;
   const activeRoleName = active ? roleName(m, active.role) : null;
+  const biz = businessScope(session);
+  const qScope = quotesScope(session);
+  const { data: recentQuotes } = qScope.canRead
+    ? await supabase.from("quotes").select("id, number, title, status, total_minor, currency_code").eq(qScope.column, qScope.value).order("created_at", { ascending: false }).limit(4)
+    : { data: [] };
 
   return (
     <>
@@ -110,6 +121,7 @@ export default async function DashboardPage() {
                 </ButtonLink>
               </Section>
             </div>
+            <BusinessOverview m={m} locale={locale} supabase={supabase} fin={scope} biz={biz} minorUnits={finance.basics.minorUnits} />
           </>
         )}
       </section>
@@ -134,7 +146,30 @@ export default async function DashboardPage() {
           )}
           <div className="grid gap-6 md:grid-cols-2">
             <Section title={m.dashboard.quotesTitle}>
-              <p className="text-sm text-muted">{m.dashboard.quotesNotActive}</p>
+              {!qScope.canRead ? (
+                <p className="text-sm text-muted">{m.errors.forbidden}</p>
+              ) : (recentQuotes ?? []).length === 0 ? (
+                <div className="flex flex-col items-start gap-3">
+                  <p className="text-sm text-muted">{m.quotes.empty}</p>
+                  {qScope.canWrite ? <ButtonLink href="/orcamentos/novo" variant="secondary">{m.quotes.new}</ButtonLink> : null}
+                </div>
+              ) : (
+                <ul className="-my-2 flex flex-col">
+                  {(recentQuotes ?? []).map((q) => (
+                    <li key={q.id} className="border-b border-line py-2.5 last:border-0">
+                      <Link href={`/orcamentos/${q.id}`} className="flex items-center gap-3 text-sm hover:text-brand">
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate font-medium">{q.title}</span>
+                          <span className="tabular block text-xs text-subtle">
+                            {q.number} · {formatMoney(BigInt(q.total_minor), q.currency_code, finance?.basics.minorUnits.get(q.currency_code) ?? 2, locale)}
+                          </span>
+                        </span>
+                        <Badge tone={statusTone(q.status)}>{m.quotes.statuses[q.status]}</Badge>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </Section>
             <Section title={m.dashboard.requestsTitle}>
               <p className="text-sm text-muted">{m.dashboard.requestsNotActive}</p>

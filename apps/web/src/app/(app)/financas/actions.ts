@@ -5,6 +5,7 @@ import {
   accountSchema,
   budgetSchema,
   categorySchema,
+  costCenterSchema,
   fieldErrors,
   goalSchema,
   parseAmountInput,
@@ -12,6 +13,7 @@ import {
   transactionSchema,
 } from "@anen/validation";
 import type { Messages } from "@anen/i18n";
+import { businessScope, businessScopeFields } from "@/lib/business";
 import { errorMessage, translateFieldErrors } from "@/lib/errors";
 import { financeScope, scopeFields, type FinanceScope } from "@/lib/finance";
 import { formString, type FormState } from "@/lib/form";
@@ -31,6 +33,8 @@ async function writableScope(): Promise<{ m: Messages; session: SessionContext; 
 function refresh() {
   revalidatePath("/financas", "layout");
   revalidatePath("/painel");
+  revalidatePath("/projetos", "layout");
+  revalidatePath("/contactos", "layout");
 }
 
 async function minorUnitFor(session: SessionContext, currency: string): Promise<number | null> {
@@ -115,6 +119,16 @@ export async function saveTransactionAction(_: FormState, formData: FormData): P
     description: formString(formData, "description"),
     counterparty: formString(formData, "counterparty"),
     notes: formString(formData, "notes"),
+    contactId: formString(formData, "contactId"),
+    projectId: formString(formData, "projectId"),
+    costCenterId: formString(formData, "costCenterId"),
+    costKind: formString(formData, "costKind"),
+    dueOn: formString(formData, "dueOn"),
+    tax: formString(formData, "tax"),
+    settlement: formString(formData, "settlement"),
+    settled: formString(formData, "settled"),
+    paymentMethod: formString(formData, "paymentMethod"),
+    documentRef: formString(formData, "documentRef"),
   });
   if (!parsed.success) return { status: "error", fieldErrors: translateFieldErrors(m, fieldErrors(parsed.error)) };
   const v = parsed.data;
@@ -122,6 +136,37 @@ export async function saveTransactionAction(_: FormState, formData: FormData): P
   if (!account) return { status: "error", fieldErrors: { accountId: m.errors.account_invalid } };
   const amount = parseAmountInput(v.amount, account.minorUnit);
   if (amount === null || amount <= 0n) return { status: "error", fieldErrors: { amount: m.errors.amount_invalid } };
+
+  // Detalhes só existem no formulário completo; o registo rápido não os envia e não os altera.
+  const withDetails = formData.has("settlement");
+  let details = {};
+  if (withDetails) {
+    let tax: bigint | null = null;
+    if (v.tax) {
+      tax = parseAmountInput(v.tax, account.minorUnit);
+      if (tax === null || tax < 0n) return { status: "error", fieldErrors: { tax: m.errors.amount_invalid } };
+      if (tax > amount) return { status: "error", fieldErrors: { tax: m.errors.tax_invalid } };
+    }
+    let settled = amount;
+    if (v.settlement === "pending") settled = 0n;
+    if (v.settlement === "partial") {
+      const partial = v.settled ? parseAmountInput(v.settled, account.minorUnit) : null;
+      if (partial === null || partial <= 0n || partial >= amount) return { status: "error", fieldErrors: { settled: m.errors.settled_invalid } };
+      settled = partial;
+    }
+    details = {
+      contact_id: v.contactId,
+      project_id: v.projectId,
+      cost_center_id: v.costCenterId,
+      cost_kind: v.kind === "expense" ? v.costKind : null,
+      due_on: v.dueOn,
+      net_minor: tax === null ? null : Number(amount - tax),
+      tax_minor: tax === null ? null : Number(tax),
+      settled_minor: Number(settled),
+      payment_method: v.paymentMethod,
+      document_ref: v.documentRef,
+    };
+  }
 
   const fields = {
     account_id: v.accountId,
@@ -132,6 +177,7 @@ export async function saveTransactionAction(_: FormState, formData: FormData): P
     description: v.description,
     counterparty: v.counterparty,
     notes: v.notes,
+    ...details,
   };
   const result = v.id
     ? await session.supabase.from("transactions").update(fields).eq("id", v.id).eq(scope.column, scope.value).select("id")
@@ -150,6 +196,51 @@ export async function deleteTransactionAction(_: FormState, formData: FormData):
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
   const { error } = await session.supabase.from("transactions").delete().eq("id", formString(formData, "id")).eq(scope.column, scope.value);
+  if (error) return { status: "error", message: errorMessage(m, error) };
+  refresh();
+  return ok();
+}
+
+/** Marca um movimento pendente ou parcial como totalmente liquidado. */
+export async function markSettledAction(_: FormState, formData: FormData): Promise<FormState> {
+  const ctx = await writableScope();
+  if ("error" in ctx) return ctx.error;
+  const { m, session, scope } = ctx;
+  const id = formString(formData, "id");
+  const { data: tx } = await session.supabase.from("transactions").select("amount_minor").eq("id", id).eq(scope.column, scope.value).maybeSingle();
+  if (!tx) return { status: "error", message: m.errors.forbidden };
+  const { error } = await session.supabase.from("transactions").update({ settled_minor: tx.amount_minor }).eq("id", id).eq(scope.column, scope.value);
+  if (error) return { status: "error", message: errorMessage(m, error) };
+  refresh();
+  return ok();
+}
+
+// ---------------------------------------------------------------------------
+// Centros de custo (permissão business.write)
+// ---------------------------------------------------------------------------
+export async function saveCostCenterAction(_: FormState, formData: FormData): Promise<FormState> {
+  const { m } = await getI18n();
+  const session = await requireOnboardedSession();
+  const scope = businessScope(session);
+  if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
+  const parsed = costCenterSchema.safeParse({ name: formString(formData, "name") });
+  if (!parsed.success) return { status: "error", fieldErrors: translateFieldErrors(m, fieldErrors(parsed.error)) };
+  const { error } = await session.supabase.from("cost_centers").insert({ ...businessScopeFields(scope), name: parsed.data.name });
+  if (error) return { status: "error", message: errorMessage(m, error) };
+  refresh();
+  return ok(m.finance.costCenters.saved);
+}
+
+export async function archiveCostCenterAction(_: FormState, formData: FormData): Promise<FormState> {
+  const { m } = await getI18n();
+  const session = await requireOnboardedSession();
+  const scope = businessScope(session);
+  if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
+  const { error } = await session.supabase
+    .from("cost_centers")
+    .update({ archived_at: new Date().toISOString() })
+    .eq("id", formString(formData, "id"))
+    .eq(scope.column, scope.value);
   if (error) return { status: "error", message: errorMessage(m, error) };
   refresh();
   return ok();

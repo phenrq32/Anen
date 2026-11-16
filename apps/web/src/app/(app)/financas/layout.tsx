@@ -1,5 +1,6 @@
 import { format } from "@anen/i18n";
 import { Alert, PageHeader } from "@/components/ui";
+import { businessScope } from "@/lib/business";
 import { financeScope } from "@/lib/finance";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession } from "@/lib/session";
@@ -22,10 +23,12 @@ export default async function FinanceLayout({ children }: { children: React.Reac
             items={[
               { href: "/financas", label: m.finance.tabs.overview },
               { href: "/financas/movimentos", label: m.finance.tabs.transactions },
+              { href: "/financas/em-aberto", label: m.finance.tabs.open },
               { href: "/financas/contas", label: m.finance.tabs.accounts },
               { href: "/financas/orcamentos", label: m.finance.tabs.budgets },
               { href: "/financas/recorrentes", label: m.finance.tabs.recurring },
               { href: "/financas/categorias", label: m.finance.tabs.categories },
+              ...(businessScope(session).canRead ? [{ href: "/financas/centros-de-custo", label: m.finance.tabs.costCenters }] : []),
             ]}
           />
           {!scope.canWrite ? <Alert tone="info">{m.finance.readOnly}</Alert> : null}

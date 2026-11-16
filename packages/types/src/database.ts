@@ -4,6 +4,9 @@
  * `supabase gen types typescript --project-id <ref>` quando o projeto estiver ligado.
  */
 import type {
+  Contact,
+  CostCenter,
+  Project,
   Quote,
   QuoteItem,
   QuoteTemplate,
@@ -46,7 +49,19 @@ type TxWrite = {
   description: string;
   counterparty: string | null;
   notes: string | null;
+  contact_id?: string | null;
+  project_id?: string | null;
+  cost_center_id?: string | null;
+  cost_kind?: FinanceTransaction["cost_kind"];
+  due_on?: string | null;
+  net_minor?: number | null;
+  tax_minor?: number | null;
+  settled_minor?: number;
+  payment_method?: FinanceTransaction["payment_method"];
+  document_ref?: string | null;
 };
+type ContactWrite = Pick<Contact, "kind" | "name" | "tax_id" | "email" | "phone" | "address" | "payment_terms_days" | "notes">;
+type ProjectWrite = Pick<Project, "name" | "client_contact_id" | "status" | "planned_cost_minor" | "planned_revenue_minor" | "start_on" | "end_on" | "notes">;
 
 type QuoteWrite = Pick<
   Quote,
@@ -156,6 +171,13 @@ export type Database = {
         { id: number; recipe_id: string; cost_per_portion_minor: number; ingredient_cost_per_portion_minor: number; recorded_at: string },
         { recipe_id: string; cost_per_portion_minor: number; ingredient_cost_per_portion_minor: number }
       >;
+      contacts: Table<Contact, Scope & ContactWrite, Partial<ContactWrite & { archived_at: string | null }>>;
+      cost_centers: Table<CostCenter, Scope & { name: string }, Partial<{ name: string; archived_at: string | null }>>;
+      projects: Table<
+        Project,
+        Scope & ProjectWrite & { currency_code: string; quote_id?: string | null },
+        Partial<ProjectWrite>
+      >;
       savings_goals: Table<
         SavingsGoal,
         Scope & { name: string; target_minor: number; saved_minor: number; currency_code: string; target_date: string | null },
@@ -214,6 +236,7 @@ export type Database = {
         Returns: { account_id: string; currency_code: string; balance_minor: number }[];
       };
       materialize_recurring: { Args: { p_org: string | null; p_until?: string }; Returns: number };
+      create_project_from_quote: { Args: { p_quote_id: string }; Returns: string };
       snapshot_quote: { Args: { p_quote_id: string }; Returns: number };
       save_quote_content: { Args: { p_quote_id: string; p_fields: Record<string, string | null>; p_items: Record<string, string | number | null>[] }; Returns: number };
       save_recipe_content: { Args: { p_recipe_id: string; p_fields: Record<string, string | null>; p_ingredients: Record<string, string | number | null>[] }; Returns: undefined };

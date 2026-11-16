@@ -4,6 +4,7 @@ import { format, formatMoney } from "@anen/i18n";
 import { formatAmountInput, monthParam } from "@anen/validation";
 import { EmptyFinance, TransactionList } from "@/components/finance-ui";
 import { Section, buttonClass } from "@/components/ui";
+import { businessScope, loadLinkOptions } from "@/lib/business";
 import { categoryLabel, financeScope, loadFinanceBasics, materializeDue, monthBounds, sumByCurrency, todayIn } from "@/lib/finance";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession } from "@/lib/session";
@@ -20,8 +21,12 @@ export default async function TransactionsPage({ searchParams }: { searchParams:
   const scope = financeScope(session);
   if (!scope.canRead) return null;
   const params = await searchParams;
+  const presetProject = params.projeto && UUID.test(params.projeto) ? params.projeto : undefined;
   await materializeDue(session.supabase, scope);
-  const basics = await loadFinanceBasics(session.supabase, scope);
+  const [basics, links] = await Promise.all([
+    loadFinanceBasics(session.supabase, scope),
+    loadLinkOptions(session.supabase, businessScope(session)),
+  ]);
   if (basics.accounts.length === 0) return <EmptyFinance m={m} canWrite={scope.canWrite} />;
 
   const today = todayIn(scope.timezone);
@@ -73,7 +78,8 @@ export default async function TransactionsPage({ searchParams }: { searchParams:
             m={m}
             accounts={editing ? basics.accounts.map((a) => ({ id: a.id, name: a.name, currency: a.currency_code })) : accountOptions}
             categories={categoryOptions}
-            defaults={{ date: today }}
+            defaults={{ date: today, ...(presetProject ? { projectId: presetProject } : {}) }}
+            links={links}
             {...(editing
               ? {
                   initial: {
@@ -86,6 +92,16 @@ export default async function TransactionsPage({ searchParams }: { searchParams:
                     description: editing.description,
                     counterparty: editing.counterparty,
                     notes: editing.notes,
+                    contactId: editing.contact_id,
+                    projectId: editing.project_id,
+                    costCenterId: editing.cost_center_id,
+                    costKind: editing.cost_kind,
+                    dueOn: editing.due_on,
+                    tax: editing.tax_minor === null ? null : formatAmountInput(BigInt(editing.tax_minor), basics.minorUnits.get(editing.currency_code) ?? 2),
+                    settlement: editing.payment_status,
+                    settled: editing.payment_status === "partial" ? formatAmountInput(BigInt(editing.settled_minor), basics.minorUnits.get(editing.currency_code) ?? 2) : null,
+                    paymentMethod: editing.payment_method,
+                    documentRef: editing.document_ref,
                   },
                 }
               : {})}
@@ -163,6 +179,7 @@ export default async function TransactionsPage({ searchParams }: { searchParams:
             categories={categoriesMap}
             accounts={accountsMap}
             minorUnits={basics.minorUnits}
+            today={today}
             {...(scope.canWrite
               ? {
                   actions: (tx) => (

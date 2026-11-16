@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.4.0] — 16/11/2026 · Prompt 02, Fase A: integração financeira
+- Auditoria e plano de expansão do prompt mestre 02 em `EXPANSION_PLAN.md`.
+- Clientes e fornecedores (`contacts`), centros de custo e projetos, com RLS (`business.read` / `business.write`) e auditoria.
+- Movimentos ligados a contacto, projeto, centro de custo e tipo de custo; vencimento; imposto incluído (com `net + imposto = total` garantido na base de dados); pagamento pendente, parcial ou liquidado (`settled_minor`, estado derivado); método de pagamento e n.º de documento.
+- Saldo, resumo mensal e despesas por categoria passam a contar o valor liquidado (caixa). Os movimentos existentes foram marcados como liquidados.
+- "A receber e a pagar": valores em aberto, vencidos e ação "marcar como liquidado".
+- Projetos: previsto vs. real (custo, receita faturada e recebida, lucro, margem), desvio por tipo de custo face às linhas do orçamento e alerta de ultrapassagem. Cálculos no motor `computeProjectFinancials` (determinístico, testado).
+- Orçamento aceite → "Criar projeto" (RPC `create_project_from_quote`, idempotente, cria ou reutiliza o cliente).
+- Painel: valores a receber e a pagar, projetos em curso e orçamentos recentes (o painel ainda dizia que os orçamentos chegavam numa próxima versão).
+
 ## [0.3.0] — 16/11/2026 · Fase 3: Orçamentos e restauração
 - Motor de orçamentos e de fichas técnicas no `financial-engine` (exato, testado).
 - Orçamentos com 19 modelos por atividade, editor com cálculo ao vivo, versões, estados, bloqueio após aceite e documento imprimível/PDF sem custos internos.

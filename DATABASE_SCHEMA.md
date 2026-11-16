@@ -56,6 +56,17 @@ Fonte de verdade: `supabase/migrations/*.sql`. Todas as tabelas têm RLS ativo.
 
 `is_org_member`, `has_org_permission`, `member_rank`, `shares_organization`, `is_platform_admin`, `can_assign_rank`, `is_valid_tax_id`, `assert_valid_timezone`.
 
+## Prompt 02 · Fase A (migration 0700)
+
+| Tabela / função | Notas |
+|---|---|
+| `contacts` | Clientes e fornecedores (`kind` client, supplier, both). Âmbito pessoal ou de organização. RLS por `business.*`. |
+| `cost_centers` | Centros de custo. |
+| `projects` | Cliente, orçamento de origem (único), estado, moeda, custo e receita previstos. A moeda fica bloqueada quando há movimentos. |
+| `transactions` (+) | `contact_id`, `project_id`, `cost_center_id`, `cost_kind`, `due_on`, `net_minor` + `tax_minor` (soma = total), `settled_minor` (0 ≤ liquidado ≤ total; por omissão = total), `payment_status` gerado (pending, partial, paid), `payment_method`, `document_ref`. Ligações validadas por trigger: mesmo âmbito e, no projeto, mesma moeda. |
+| `finance_monthly`, `finance_by_category`, `account_balances` | Passam a somar `settled_minor` (caixa). |
+| `create_project_from_quote(p_quote_id)` | SECURITY INVOKER. Só orçamentos aceites; idempotente; reutiliza ou cria o cliente. |
+
 ## Próximas fases
 
 As tabelas de finanças, orçamentos, custos, fiscalidade, marketplace, CRM, assinaturas, IA e administração listadas no prompt mestre serão criadas por migration em cada fase, sempre com `organization_id`, RLS por `has_org_permission` e auditoria.

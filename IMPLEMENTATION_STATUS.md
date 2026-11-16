@@ -3,7 +3,7 @@
 Estados: Não iniciado · Em desenvolvimento · Implementado · Testado · Aprovado · Bloqueado.
 "Testado" = coberto por testes automáticos que passam (unitários/RLS e E2E em produção). "Aprovado" exige validação humana, e nada está aprovado ainda.
 
-_Atualizado em 16/11/2026._ Produção: **https://anen-five.vercel.app** (Vercel + Supabase eu-west-1).
+_Atualizado em 16/11/2026 (prompt 02, Fase A)._ Produção: **https://anen-five.vercel.app** (Vercel + Supabase eu-west-1).
 
 ## Fase 1: Fundação
 
@@ -47,6 +47,24 @@ _Atualizado em 16/11/2026._ Produção: **https://anen-five.vercel.app** (Vercel
 | Taxa de imposto | Implementado | **Indicada pelo utilizador.** A validação fiscal automática é da Fase 5. |
 | Assinatura digital do orçamento, envio por email | Não iniciado | Requer fornecedor de email |
 | Assistente de IA para criar orçamentos | Não iniciado | Fase 6 |
+
+## Prompt 02 · Fase A: integração financeira
+
+Plano completo e dependências externas em [EXPANSION_PLAN.md](EXPANSION_PLAN.md).
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Clientes e fornecedores (cadastro, ficha com compras, vendas e em aberto) | Implementado | RLS em `business.test.ts`; E2E escrito (`business.spec.ts`), por correr em produção |
+| Centros de custo | Implementado | RLS em `business.test.ts` |
+| Projetos (criar, editar, estado, eliminar) | Implementado | RLS + E2E escrito |
+| Projeto a partir de orçamento aceite | Testado (BD) | `business.test.ts` (recusa não aceites, idempotente, cria cliente) |
+| Despesas e receitas: contacto, projeto, centro de custo, tipo de custo, vencimento, imposto incluído, método de pagamento, n.º de documento | Testado (BD) | `business.test.ts` (âmbito, moeda do projeto, coerência do imposto) |
+| Pagamentos pendentes e parciais; saldo e relatórios em base de caixa | Testado (BD) | `business.test.ts` |
+| A receber e a pagar, vencidos, marcar como liquidado | Implementado | E2E escrito |
+| Previsto vs. real por projeto e por tipo de custo, alerta de ultrapassagem | Testado (motor) | `project.test.ts` (inclui o exemplo 300 € → 350 €) |
+| Painel com valores em aberto, projetos e orçamentos recentes | Implementado | — |
+| Comprovativo anexado (ficheiro) | Não iniciado | Supabase Storage com RLS; fica para a fase de compras |
+| Ligações nos movimentos recorrentes | Não iniciado | Os recorrentes ainda não têm contacto nem projeto |
 
 ## Fases seguintes
 

@@ -28,6 +28,8 @@ export const PERMISSION_KEYS = [
   "finance.write",
   "quotes.read",
   "quotes.write",
+  "business.read",
+  "business.write",
 ] as const;
 export type PermissionKey = (typeof PERMISSION_KEYS)[number];
 
@@ -178,9 +180,24 @@ export interface FinanceTransaction extends FinanceScoped {
   counterparty: string | null;
   notes: string | null;
   recurring_id: string | null;
+  contact_id: string | null;
+  project_id: string | null;
+  cost_center_id: string | null;
+  cost_kind: QuoteItemKind | null;
+  due_on: string | null;
+  net_minor: number | null;
+  tax_minor: number | null;
+  settled_minor: number;
+  payment_status: PaymentStatus;
+  payment_method: PaymentMethod | null;
+  document_ref: string | null;
   created_by: string | null;
   created_at: string;
 }
+
+export const PAYMENT_METHODS = ["transfer", "card", "cash", "direct_debit", "mbway", "pix", "boleto", "check", "other"] as const;
+export type PaymentMethod = (typeof PAYMENT_METHODS)[number];
+export type PaymentStatus = "pending" | "partial" | "paid";
 
 export interface RecurringTransaction extends FinanceScoped {
   id: string;
@@ -310,4 +327,48 @@ export interface AuditLog {
   entity_id: string | null;
   metadata: Record<string, unknown>;
   created_at: string;
+}
+
+// ---------------------------------------------------------------------------
+// Negócio (prompt 02, Fase A): contactos, centros de custo e projetos
+// ---------------------------------------------------------------------------
+export const CONTACT_KINDS = ["client", "supplier", "both"] as const;
+export type ContactKind = (typeof CONTACT_KINDS)[number];
+export const PROJECT_STATUSES = ["planned", "active", "completed", "cancelled"] as const;
+export type ProjectStatus = (typeof PROJECT_STATUSES)[number];
+
+export interface Contact extends FinanceScoped {
+  id: string;
+  kind: ContactKind;
+  name: string;
+  tax_id: string | null;
+  email: string | null;
+  phone: string | null;
+  address: string | null;
+  payment_terms_days: number | null;
+  notes: string | null;
+  archived_at: string | null;
+  created_at: string;
+}
+
+export interface CostCenter extends FinanceScoped {
+  id: string;
+  name: string;
+  archived_at: string | null;
+}
+
+export interface Project extends FinanceScoped {
+  id: string;
+  name: string;
+  client_contact_id: string | null;
+  quote_id: string | null;
+  status: ProjectStatus;
+  currency_code: string;
+  planned_cost_minor: number;
+  planned_revenue_minor: number;
+  start_on: string | null;
+  end_on: string | null;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
 }

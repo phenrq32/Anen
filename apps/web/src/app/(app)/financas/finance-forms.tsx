@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import type { Messages } from "@anen/i18n";
+import { format, type Messages } from "@anen/i18n";
 import type { TransactionKind } from "@anen/types";
 import { ActionForm, InlineAction, SubmitButton } from "@/components/forms";
 import { Field, SelectField, cx } from "@/components/ui";
 import {
   archiveCategoryAction,
+  archiveCostCenterAction,
   deleteBudgetAction,
   deleteGoalAction,
   deleteRecurringAction,
@@ -14,6 +15,7 @@ import {
   saveAccountAction,
   saveBudgetAction,
   saveCategoryAction,
+  saveCostCenterAction,
   saveGoalAction,
   saveRecurringAction,
   saveTransactionAction,
@@ -75,6 +77,160 @@ export interface TransactionInitial {
   description: string;
   counterparty: string | null;
   notes: string | null;
+  contactId?: string | null;
+  projectId?: string | null;
+  costCenterId?: string | null;
+  costKind?: string | null;
+  dueOn?: string | null;
+  tax?: string | null;
+  settlement?: "paid" | "pending" | "partial";
+  settled?: string | null;
+  paymentMethod?: string | null;
+  documentRef?: string | null;
+}
+
+/** Opções para ligar o movimento a contacto, projeto e centro de custo (vazias sem permissão). */
+export interface TransactionLinks {
+  contacts: { id: string; name: string; kind: "client" | "supplier" | "both" }[];
+  projects: { id: string; name: string; currency_code: string; status: string }[];
+  costCenters: { id: string; name: string }[];
+}
+
+const COST_KIND_KEYS = ["material", "labor", "travel", "equipment", "overhead", "other"] as const;
+const PAYMENT_METHOD_KEYS = ["transfer", "card", "cash", "direct_debit", "mbway", "pix", "boleto", "check", "other"] as const;
+type Settlement = "paid" | "pending" | "partial";
+
+function TransactionDetails({
+  m,
+  kind,
+  currency,
+  links,
+  initial,
+  defaultProjectId,
+  errors,
+}: {
+  m: Messages;
+  kind: TransactionKind;
+  currency: string;
+  links: TransactionLinks;
+  initial?: TransactionInitial | undefined;
+  defaultProjectId?: string | undefined;
+  errors?: Record<string, string> | undefined;
+}) {
+  const [settlement, setSettlement] = useState<Settlement>(initial?.settlement ?? "paid");
+  const hasDetails = Boolean(
+    defaultProjectId ||
+      initial?.contactId ||
+      initial?.projectId ||
+      initial?.costCenterId ||
+      initial?.costKind ||
+      initial?.dueOn ||
+      initial?.tax ||
+      initial?.paymentMethod ||
+      initial?.documentRef ||
+      (initial?.settlement && initial.settlement !== "paid"),
+  );
+  const contacts = links.contacts.filter((c) => c.kind === "both" || c.kind === (kind === "income" ? "client" : "supplier"));
+  const projects = links.projects.filter(
+    (p) => p.currency_code === currency && (p.status === "active" || p.status === "planned" || p.id === initial?.projectId || p.id === defaultProjectId),
+  );
+  const t = m.finance.tx;
+  return (
+    <details open={hasDetails} className="group rounded-lg border border-line">
+      <summary className="flex h-11 cursor-pointer list-none items-center justify-between px-4 text-sm font-medium text-muted hover:text-paper">
+        {t.moreDetails}
+        <svg viewBox="0 0 12 12" className="size-3 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+          <path d="M2 4l4 4 4-4" />
+        </svg>
+      </summary>
+      <div className="flex flex-col gap-4 border-t border-line p-4">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <SelectField
+            key={`contact-${kind}`}
+            name="contactId"
+            label={t.contact}
+            defaultValue={initial?.contactId ?? ""}
+            options={[{ value: "", label: t.noContact }, ...contacts.map((c) => ({ value: c.id, label: c.name }))]}
+            error={errors?.contactId}
+          />
+          <SelectField
+            key={`project-${currency}`}
+            name="projectId"
+            label={t.project}
+            defaultValue={initial?.projectId ?? defaultProjectId ?? ""}
+            options={[{ value: "", label: t.noProject }, ...projects.map((p) => ({ value: p.id, label: p.name }))]}
+            hint={currency ? format(m.business.projects.currencyNote, { currency }) : undefined}
+            error={errors?.projectId}
+          />
+          {kind === "expense" ? (
+            <SelectField
+              name="costKind"
+              label={t.costKind}
+              defaultValue={initial?.costKind ?? ""}
+              options={[{ value: "", label: t.noCostKind }, ...COST_KIND_KEYS.map((k) => ({ value: k, label: m.quotes.line.kinds[k] }))]}
+              hint={t.costKindHint}
+              error={errors?.costKind}
+            />
+          ) : null}
+          {links.costCenters.length > 0 ? (
+            <SelectField
+              name="costCenterId"
+              label={t.costCenter}
+              defaultValue={initial?.costCenterId ?? ""}
+              options={[{ value: "", label: t.noCostCenter }, ...links.costCenters.map((c) => ({ value: c.id, label: c.name }))]}
+              error={errors?.costCenterId}
+            />
+          ) : null}
+        </div>
+        <div className="grid gap-4 sm:grid-cols-3">
+          <SelectField
+            name="settlement"
+            label={t.settlement}
+            value={settlement}
+            onChange={(e) => setSettlement(e.target.value as Settlement)}
+            options={(["paid", "pending", "partial"] as const).map((k) => ({ value: k, label: t.settlements[k] }))}
+            error={errors?.settlement}
+          />
+          {settlement === "partial" ? (
+            <Field
+              name="settled"
+              label={t.settled}
+              inputMode="decimal"
+              autoComplete="off"
+              placeholder="0,00"
+              defaultValue={initial?.settled ?? ""}
+              required
+              error={errors?.settled}
+              className="tabular"
+            />
+          ) : null}
+          <Field name="dueOn" type="date" label={t.dueOn} optionalLabel={m.common.optional} defaultValue={initial?.dueOn ?? ""} error={errors?.dueOn} />
+        </div>
+        <div className="grid gap-4 sm:grid-cols-3">
+          <Field
+            name="tax"
+            label={t.tax}
+            optionalLabel={m.common.optional}
+            inputMode="decimal"
+            autoComplete="off"
+            placeholder="0,00"
+            defaultValue={initial?.tax ?? ""}
+            hint={t.taxHint}
+            error={errors?.tax}
+            className="tabular"
+          />
+          <SelectField
+            name="paymentMethod"
+            label={t.paymentMethod}
+            defaultValue={initial?.paymentMethod ?? ""}
+            options={[{ value: "", label: t.noPaymentMethod }, ...PAYMENT_METHOD_KEYS.map((k) => ({ value: k, label: t.paymentMethods[k] }))]}
+            error={errors?.paymentMethod}
+          />
+          <Field name="documentRef" label={t.documentRef} optionalLabel={m.common.optional} defaultValue={initial?.documentRef ?? ""} maxLength={120} error={errors?.documentRef} />
+        </div>
+      </div>
+    </details>
+  );
 }
 
 export function TransactionFields({
@@ -85,14 +241,16 @@ export function TransactionFields({
   initial,
   errors,
   compact = false,
+  links,
 }: {
   m: Messages;
   accounts: AccountOption[];
   categories: CategoryOption[];
-  defaults: { date: string; accountId?: string };
+  defaults: { date: string; accountId?: string; projectId?: string };
   initial?: TransactionInitial;
   errors?: Record<string, string> | undefined;
   compact?: boolean;
+  links?: TransactionLinks | undefined;
 }) {
   const [kind, setKind] = useState<TransactionKind>(initial?.kind ?? "expense");
   const [accountId, setAccountId] = useState(initial?.accountId ?? defaults.accountId ?? accounts[0]?.id ?? "");
@@ -147,6 +305,9 @@ export function TransactionFields({
       {compact ? null : (
         <Field name="notes" label={m.finance.tx.notes} optionalLabel={m.common.optional} defaultValue={initial?.notes ?? ""} maxLength={1000} error={errors?.notes} />
       )}
+      {links && !compact ? (
+        <TransactionDetails m={m} kind={kind} currency={currency} links={links} initial={initial} defaultProjectId={defaults.projectId} errors={errors} />
+      ) : null}
     </>
   );
 }
@@ -155,8 +316,9 @@ export function TransactionForm(props: {
   m: Messages;
   accounts: AccountOption[];
   categories: CategoryOption[];
-  defaults: { date: string; accountId?: string };
+  defaults: { date: string; accountId?: string; projectId?: string };
   initial?: TransactionInitial;
+  links?: TransactionLinks;
 }) {
   return (
     <ActionForm action={saveTransactionAction}>
@@ -420,4 +582,21 @@ export function CategoryForm({ m }: { m: Messages }) {
 
 export function ArchiveCategoryButton({ m, id }: { m: Messages; id: string }) {
   return <InlineAction action={archiveCategoryAction} fields={{ id }} label={m.finance.category.archive} pendingLabel={m.common.saving} />;
+}
+
+export function CostCenterForm({ m }: { m: Messages }) {
+  return (
+    <ActionForm action={saveCostCenterAction}>
+      {(state) => (
+        <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
+          <Field name="name" label={m.finance.costCenters.name} required maxLength={80} error={state.fieldErrors?.name} />
+          <SubmitButton pendingLabel={m.common.saving}>{m.finance.costCenters.new}</SubmitButton>
+        </div>
+      )}
+    </ActionForm>
+  );
+}
+
+export function ArchiveCostCenterButton({ m, id }: { m: Messages; id: string }) {
+  return <InlineAction action={archiveCostCenterAction} fields={{ id }} label={m.finance.costCenters.archive} pendingLabel={m.common.saving} />;
 }

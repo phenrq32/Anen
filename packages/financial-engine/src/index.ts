@@ -3,3 +3,4 @@ export * from "./money";
 export * from "./formulas";
 export * from "./quote";
 export * from "./recipe";
+export * from "./project";

@@ -23,6 +23,8 @@ export function AppShell({
     { href: "/financas", label: m.nav.finance, icon: "wallet" },
     { href: "/orcamentos", label: m.nav.quotes, icon: "file" },
     { href: "/restauracao", label: m.nav.recipes, icon: "chef" },
+    { href: "/projetos", label: m.nav.projects, icon: "briefcase" },
+    { href: "/contactos", label: m.nav.contacts, icon: "contacts" },
   ];
   if (session.active) {
     items.push(

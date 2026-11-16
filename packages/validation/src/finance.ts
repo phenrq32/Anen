@@ -1,24 +1,24 @@
 import { z } from "zod";
 
 const uuid = z.uuid({ message: "generic" });
-const optionalUuid = z
+export const optionalUuid = z
   .union([z.uuid(), z.literal("")])
   .optional()
   .transform((v) => (v ? v : null));
-const optionalText = (max: number) =>
+export const optionalText = (max: number) =>
   z
     .string()
     .trim()
     .max(max, { message: "too_long" })
     .optional()
     .transform((v) => (v ? v : null));
-const isoDate = z
+export const isoDate = z
   .string()
   .regex(/^\d{4}-\d{2}-\d{2}$/, { message: "date_invalid" })
   .refine((v) => !Number.isNaN(Date.parse(`${v}T00:00:00Z`)) && new Date(`${v}T00:00:00Z`).toISOString().startsWith(v), {
     message: "date_invalid",
   });
-const optionalDate = z
+export const optionalDate = z
   .union([isoDate, z.literal("")])
   .optional()
   .transform((v) => (v ? v : null));
@@ -26,6 +26,9 @@ const optionalDate = z
 export const ACCOUNT_KINDS = ["checking", "savings", "cash", "credit_card", "investment", "other"] as const;
 export const TRANSACTION_KINDS = ["income", "expense"] as const;
 export const FREQUENCIES = ["weekly", "monthly", "yearly"] as const;
+export const COST_KINDS = ["material", "labor", "travel", "equipment", "overhead", "other"] as const;
+export const SETTLEMENTS = ["paid", "pending", "partial"] as const;
+export const PAYMENT_METHODS = ["transfer", "card", "cash", "direct_debit", "mbway", "pix", "boleto", "check", "other"] as const;
 
 /** Valores monetários chegam como texto e são convertidos com parseAmountInput na ação. */
 const amountText = z.string().trim().min(1, { message: "amount_invalid" }).max(32, { message: "amount_invalid" });
@@ -48,6 +51,28 @@ export const transactionSchema = z.object({
   description: z.string().trim().min(1, { message: "description_required" }).max(200, { message: "too_long" }),
   counterparty: optionalText(120),
   notes: optionalText(1000),
+  // Ligações e detalhes (opcionais; o registo rápido não os envia)
+  contactId: optionalUuid,
+  projectId: optionalUuid,
+  costCenterId: optionalUuid,
+  costKind: z
+    .union([z.enum(COST_KINDS), z.literal("")])
+    .optional()
+    .transform((v) => (v ? v : null)),
+  dueOn: optionalDate,
+  /** Imposto incluído no valor (texto; convertido na ação). Vazio = sem separação. */
+  tax: z.string().trim().max(32).optional().transform((v) => (v ? v : null)),
+  /** paid (omissão), pending ou partial (com o valor já liquidado em `settled`). */
+  settlement: z
+    .union([z.enum(SETTLEMENTS), z.literal("")])
+    .optional()
+    .transform((v) => (v ? v : "paid")),
+  settled: z.string().trim().max(32).optional().transform((v) => (v ? v : null)),
+  paymentMethod: z
+    .union([z.enum(PAYMENT_METHODS), z.literal("")])
+    .optional()
+    .transform((v) => (v ? v : null)),
+  documentRef: optionalText(120),
 });
 
 export const recurringSchema = z

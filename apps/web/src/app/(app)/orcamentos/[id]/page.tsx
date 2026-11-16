@@ -5,7 +5,9 @@ import { format, formatAmountInputSafe, formatDate } from "./helpers";
 import type { QuoteStatus } from "@anen/types";
 import { InlineAction } from "@/components/forms";
 import { Alert, Badge, buttonClass } from "@/components/ui";
+import { businessScope } from "@/lib/business";
 import { getI18n } from "@/lib/i18n";
+import { CreateProjectFromQuoteButton } from "../../projetos/project-form";
 import { numericToString, quotesScope } from "@/lib/quotes";
 import { requireOnboardedSession } from "@/lib/session";
 import { deleteQuoteAction, setQuoteStatusAction } from "../actions";
@@ -39,6 +41,11 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
   const { data: currency } = await session.supabase.from("currencies").select("minor_unit").eq("code", quote.currency_code).maybeSingle();
   const minorUnit = currency?.minor_unit ?? 2;
   const editable = scope.canWrite && (quote.status === "draft" || quote.status === "sent");
+  const biz = businessScope(session);
+  const { data: linkedProject } =
+    quote.status === "accepted" && biz.canRead
+      ? await session.supabase.from("projects").select("id").eq("quote_id", quote.id).maybeSingle()
+      : { data: null };
 
   return (
     <>
@@ -54,6 +61,13 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
           </p>
         </div>
         <div className="flex flex-wrap items-start gap-2">
+          {linkedProject ? (
+            <Link href={`/projetos/${linkedProject.id}`} className={buttonClass("primary")}>
+              {m.business.projects.openProject}
+            </Link>
+          ) : quote.status === "accepted" && biz.canWrite ? (
+            <CreateProjectFromQuoteButton m={m} quoteId={quote.id} />
+          ) : null}
           <a href={`/imprimir/orcamento/${quote.id}`} target="_blank" rel="noopener" className={buttonClass("secondary")}>
             {m.quotes.print}
           </a>
