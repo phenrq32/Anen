@@ -17,3 +17,10 @@ supabase/.temp/
 
 .DS_Store
 Thumbs.db
+
+# Vercel
+.vercel/
+
+# Playwright
+test-results/
+playwright-report/

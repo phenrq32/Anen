@@ -1,7 +1,10 @@
 "use client";
 
-import { useActionState, useState, type ReactNode } from "react";
+import { createContext, startTransition, useActionState, useContext, useState, type ReactNode } from "react";
 import { useFormStatus } from "react-dom";
+
+/** Estado de envio partilhado pelo ActionForm (que não usa a reposição automática do React). */
+const PendingContext = createContext<boolean | null>(null);
 import { Alert, Button, cx } from "@/components/ui";
 import { initialFormState, type FormState } from "@/lib/form";
 
@@ -18,7 +21,9 @@ export function SubmitButton({
   variant?: "primary" | "secondary" | "ghost" | "danger";
   className?: string;
 }) {
-  const { pending } = useFormStatus();
+  const status = useFormStatus();
+  const contextPending = useContext(PendingContext);
+  const pending = contextPending ?? status.pending;
   return (
     <Button type="submit" variant={variant} disabled={pending} aria-busy={pending} className={className}>
       {pending ? (
@@ -36,6 +41,10 @@ export function SubmitButton({
 /**
  * Formulário ligado a uma Server Action, com estados de erro/sucesso acessíveis.
  * O conteúdo recebe o estado atual para mostrar erros por campo.
+ *
+ * Envia via startTransition em vez de `action={...}`: o React 19 limpa os campos de um
+ * <form action> após cada envio, o que faria o utilizador perder o que escreveu quando
+ * o servidor devolve um erro de validação.
  */
 export function ActionForm({
   action,
@@ -48,15 +57,26 @@ export function ActionForm({
   className?: string;
   successMessage?: string;
 }) {
-  const [state, formAction] = useActionState(action, initialFormState);
+  const [state, formAction, isPending] = useActionState(action, initialFormState);
   return (
-    <form action={formAction} className={cx("flex flex-col gap-5", className)} noValidate>
-      {state.status === "error" && state.message ? <Alert tone="error">{state.message}</Alert> : null}
-      {state.status === "success" && (state.message ?? successMessage) ? (
-        <Alert tone="success">{state.message ?? successMessage}</Alert>
-      ) : null}
-      {children(state)}
-    </form>
+    <PendingContext.Provider value={isPending}>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          const formData = new FormData(event.currentTarget, (event.nativeEvent as SubmitEvent).submitter);
+          startTransition(() => formAction(formData));
+        }}
+        className={cx("flex flex-col gap-5", className)}
+        noValidate
+        aria-busy={isPending}
+      >
+        {state.status === "error" && state.message ? <Alert tone="error">{state.message}</Alert> : null}
+        {state.status === "success" && (state.message ?? successMessage) ? (
+          <Alert tone="success">{state.message ?? successMessage}</Alert>
+        ) : null}
+        {children(state)}
+      </form>
+    </PendingContext.Provider>
   );
 }
 
