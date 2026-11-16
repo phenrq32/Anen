@@ -29,7 +29,8 @@ function niceScale(max: number, ticks = 4): { top: number; step: number } {
   const raw = max / ticks;
   const magnitude = 10 ** Math.floor(Math.log10(raw));
   const step = ([1, 2, 2.5, 5, 10].find((f) => f * magnitude >= raw) ?? 10) * magnitude;
-  return { top: step * ticks, step };
+  // O eixo termina no primeiro passo acima do máximo (sem espaço vazio desnecessário).
+  return { top: Math.max(step, Math.ceil(max / step) * step), step };
 }
 
 export function MonthlyChart({
@@ -97,7 +98,7 @@ export function MonthlyChart({
             <tbody>
               {data.map((d) => (
                 <tr key={d.month} className="border-b border-line/60 last:border-0">
-                  <td className="py-2 capitalize">{d.fullLabel}</td>
+                  <td className="py-2 first-letter:uppercase">{d.fullLabel}</td>
                   <td className="tabular py-2 text-right">{money(d.income)}</td>
                   <td className="tabular py-2 text-right">{money(d.expense)}</td>
                   <td className="tabular py-2 text-right">{money(BigInt(d.income) - BigInt(d.expense))}</td>
@@ -152,7 +153,7 @@ export function MonthlyChart({
               className="pointer-events-none absolute top-0 z-10 w-52 -translate-x-1/2 rounded-lg border border-line bg-ink/95 p-3 text-sm shadow-lg backdrop-blur"
               style={{ left: `calc(3rem + (100% - 3rem) * ${(active + 0.5) / data.length})` }}
             >
-              <p className="mb-2 font-medium capitalize">{activePoint.fullLabel}</p>
+              <p className="mb-2 font-medium first-letter:uppercase">{activePoint.fullLabel}</p>
               <dl className="flex flex-col gap-1">
                 <div className="flex justify-between gap-3">
                   <dt className="flex items-center gap-2 text-muted"><span className="size-2 rounded-[2px] bg-chart-income" />{labels.income}</dt>

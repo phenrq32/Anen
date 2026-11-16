@@ -21,6 +21,8 @@ export function AppShell({
   const items: NavItem[] = [
     { href: "/painel", label: m.nav.dashboard, icon: "grid" },
     { href: "/financas", label: m.nav.finance, icon: "wallet" },
+    { href: "/orcamentos", label: m.nav.quotes, icon: "file" },
+    { href: "/restauracao", label: m.nav.recipes, icon: "chef" },
   ];
   if (session.active) {
     items.push(

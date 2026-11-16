@@ -4,6 +4,11 @@
  * `supabase gen types typescript --project-id <ref>` quando o projeto estiver ligado.
  */
 import type {
+  Quote,
+  QuoteItem,
+  QuoteTemplate,
+  Recipe,
+  RecipeIngredient,
   Budget,
   FinanceTransaction,
   FinancialAccount,
@@ -42,6 +47,26 @@ type TxWrite = {
   counterparty: string | null;
   notes: string | null;
 };
+
+type QuoteWrite = Pick<
+  Quote,
+  | "title"
+  | "description"
+  | "client_name"
+  | "client_email"
+  | "client_tax_id"
+  | "client_address"
+  | "valid_until"
+  | "margin_percent"
+  | "tax_rate_percent"
+  | "tax_label"
+  | "conditions"
+  | "total_cost_minor"
+  | "price_before_tax_minor"
+  | "tax_minor"
+  | "total_minor"
+>;
+type RecipeWrite = Omit<Recipe, "id" | "organization_id" | "owner_user_id" | "updated_at">;
 
 type Table<Row, Insert = NoWrite, Update = NoWrite> = {
   Row: Plain<Row>;
@@ -116,6 +141,21 @@ export type Database = {
         Scope & { category_id: string; period_start: string; amount_minor: number; currency_code: string },
         Partial<Pick<Budget, "amount_minor">>
       >;
+      quote_templates: Table<QuoteTemplate>;
+      quotes: Table<
+        Quote,
+        Scope & QuoteWrite & { currency_code: string; number: string; template_key?: string | null },
+        Partial<QuoteWrite & { status: Quote["status"]; currency_code: string }>
+      >;
+      quote_items: Table<QuoteItem, Omit<QuoteItem, "id">, Partial<Omit<QuoteItem, "id" | "quote_id">>>;
+      quote_versions: Table<{ id: string; quote_id: string; version: number; created_at: string; created_by: string | null }>;
+      quote_status_history: Table<{ id: number; quote_id: string; from_status: string | null; to_status: string; changed_by: string | null; changed_at: string }>;
+      recipes: Table<Recipe, Scope & RecipeWrite, Partial<RecipeWrite>>;
+      recipe_ingredients: Table<RecipeIngredient, Omit<RecipeIngredient, "id">, NoWrite>;
+      recipe_cost_history: Table<
+        { id: number; recipe_id: string; cost_per_portion_minor: number; ingredient_cost_per_portion_minor: number; recorded_at: string },
+        { recipe_id: string; cost_per_portion_minor: number; ingredient_cost_per_portion_minor: number }
+      >;
       savings_goals: Table<
         SavingsGoal,
         Scope & { name: string; target_minor: number; saved_minor: number; currency_code: string; target_date: string | null },
@@ -174,6 +214,9 @@ export type Database = {
         Returns: { account_id: string; currency_code: string; balance_minor: number }[];
       };
       materialize_recurring: { Args: { p_org: string | null; p_until?: string }; Returns: number };
+      snapshot_quote: { Args: { p_quote_id: string }; Returns: number };
+      save_quote_content: { Args: { p_quote_id: string; p_fields: Record<string, string | null>; p_items: Record<string, string | number | null>[] }; Returns: number };
+      save_recipe_content: { Args: { p_recipe_id: string; p_fields: Record<string, string | null>; p_ingredients: Record<string, string | number | null>[] }; Returns: undefined };
     };
     Enums: {
       account_type: AccountType;

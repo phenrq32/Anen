@@ -26,6 +26,8 @@ export const PERMISSION_KEYS = [
   "audit.read",
   "finance.read",
   "finance.write",
+  "quotes.read",
+  "quotes.write",
 ] as const;
 export type PermissionKey = (typeof PERMISSION_KEYS)[number];
 
@@ -212,6 +214,91 @@ export interface SavingsGoal extends FinanceScoped {
   saved_minor: number;
   currency_code: string;
   target_date: string | null;
+}
+
+// ---------------------------------------------------------------------------
+// Orçamentos e fichas técnicas (Fase 3). Colunas numeric chegam como number.
+// ---------------------------------------------------------------------------
+export type QuoteStatus = "draft" | "sent" | "accepted" | "rejected" | "expired" | "cancelled";
+export type QuoteItemKind = "material" | "labor" | "travel" | "equipment" | "overhead" | "other";
+
+export interface QuoteTemplate {
+  id: string;
+  key: string;
+  activity: string;
+  name: string;
+  default_margin_percent: number;
+  lines: Array<{ kind: QuoteItemKind; description: string; unit?: string }>;
+}
+
+export interface Quote extends FinanceScoped {
+  id: string;
+  number: string;
+  template_key: string | null;
+  title: string;
+  description: string | null;
+  client_name: string | null;
+  client_email: string | null;
+  client_tax_id: string | null;
+  client_address: string | null;
+  currency_code: string;
+  status: QuoteStatus;
+  valid_until: string | null;
+  margin_percent: number;
+  tax_rate_percent: number;
+  tax_label: string | null;
+  conditions: string | null;
+  total_cost_minor: number;
+  price_before_tax_minor: number;
+  tax_minor: number;
+  total_minor: number;
+  version: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface QuoteItem {
+  id: string;
+  quote_id: string;
+  position: number;
+  kind: QuoteItemKind;
+  description: string;
+  quantity: number;
+  unit: string | null;
+  unit_cost_minor: number;
+  total_cost_minor: number;
+}
+
+export interface Recipe extends FinanceScoped {
+  id: string;
+  name: string;
+  category: string | null;
+  currency_code: string;
+  portions: number;
+  target_food_cost_percent: number;
+  minimum_margin_percent: number;
+  tax_rate_percent: number;
+  energy_minor: number;
+  water_minor: number;
+  labor_minor: number;
+  packaging_minor: number;
+  overhead_minor: number;
+  cost_per_portion_minor: number;
+  recommended_price_minor: number;
+  updated_at: string;
+}
+
+export interface RecipeIngredient {
+  id: string;
+  recipe_id: string;
+  position: number;
+  name: string;
+  quantity: number;
+  unit: string;
+  package_quantity: number;
+  package_price_minor: number;
+  waste_percent: number;
+  cost_minor: number;
 }
 
 export interface AuditLog {

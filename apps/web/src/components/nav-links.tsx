@@ -7,12 +7,14 @@ import { cx } from "@/components/ui";
 export interface NavItem {
   href: string;
   label: string;
-  icon: "grid" | "building" | "users" | "shield" | "settings" | "wallet";
+  icon: "grid" | "building" | "users" | "shield" | "settings" | "wallet" | "file" | "chef";
 }
 
 const icons: Record<NavItem["icon"], React.ReactNode> = {
   grid: <path d="M3 3h6v6H3zM11 3h6v6h-6zM3 11h6v6H3zM11 11h6v6h-6z" />,
-  wallet: <path d="M3 6.5A2.5 2.5 0 0 1 5.5 4H15v3M3 6.5V15a2 2 0 0 0 2 2h11a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H5.5A2.5 2.5 0 0 1 3 6.5zM13.5 12h.01" />,
+  file: <path d="M5 2.5h7l3.5 3.5v11.5H5zM12 2.5V6h3.5M8 10h5M8 13h5" />,
+  chef: <path d="M6 11.5V16.5h8v-5M6 11.5a3 3 0 0 1-.5-5.9A4.5 4.5 0 0 1 14.5 5.6a3 3 0 0 1-.5 5.9zM6 14h8" />,
+  wallet:<path d="M3 6.5A2.5 2.5 0 0 1 5.5 4H15v3M3 6.5V15a2 2 0 0 0 2 2h11a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H5.5A2.5 2.5 0 0 1 3 6.5zM13.5 12h.01" />,
   building: <path d="M4 17V4h8v13M12 8h4v9M2 17h16M7 7h2M7 10h2M7 13h2" />,
   users: <path d="M7 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM1.5 17c.5-3 2.7-5 5.5-5s5 2 5.5 5M13 3.5a3 3 0 0 1 0 5.5M15 12c2 .6 3.2 2.4 3.5 5" />,
   shield: <path d="M10 2l7 3v5c0 4-3 7-7 8-4-1-7-4-7-8V5l7-3zM7 10l2 2 4-4" />,

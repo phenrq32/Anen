@@ -1,48 +1,66 @@
 # Estado de implementação
 
 Estados: Não iniciado · Em desenvolvimento · Implementado · Testado · Aprovado · Bloqueado.
-"Testado" significa coberto por testes automáticos que passam. "Aprovado" exige validação humana em staging, e nada está aprovado ainda.
+"Testado" = coberto por testes automáticos que passam (unitários/RLS e E2E em produção). "Aprovado" exige validação humana, e nada está aprovado ainda.
 
-_Atualizado em 15/11/2026._
+_Atualizado em 16/11/2026._ Produção: **https://anen-five.vercel.app** (Vercel + Supabase eu-west-1).
 
-## Fase 1 — Fundação
+## Fase 1: Fundação
 
-| Funcionalidade | Estado | Evidência / notas |
+| Funcionalidade | Estado | Evidência |
 |---|---|---|
-| Auditoria do projeto | Implementado | [PROJECT_AUDIT.md](PROJECT_AUDIT.md) |
-| Arquitetura e monorepo | Implementado | [ARCHITECTURE.md](ARCHITECTURE.md). Typecheck limpo em todos os workspaces. |
-| Motor financeiro (decimal exato, Money, margem/markup, repartição) | Testado | 25 testes em `packages/financial-engine` |
-| Validação (Zod, NIF, CPF, CNPJ alfanumérico, redirect seguro) | Testado | 14 testes em `packages/validation` |
-| i18n pt-PT / pt-BR, formatação de moeda e datas | Testado | 6 testes, incluindo paridade de chaves entre idiomas |
-| Base de dados: referência, perfis, preferências | Testado | Migrations 0100–0200, testes de RLS |
-| Organizações, RBAC, hierarquia, convites | Testado | 26 testes de RLS e acessos cruzados (PGlite) |
-| Auditoria | Testado | Triggers e visibilidade por permissão testadas |
-| Registo, login, recuperação, verificação de email | Implementado | Fluxos completos com o Supabase Auth. **Falta o teste E2E contra um projeto Supabase real** (bloqueado). |
-| Login Google | Implementado | Desativado até configurar o provider (`NEXT_PUBLIC_AUTH_GOOGLE_ENABLED`) |
-| Onboarding (tipo de conta, país, idioma, moeda, fuso) | Implementado | E2E pendente (Supabase) |
-| Alternar contexto pessoal / organização | Implementado | Validação da troca testada na base de dados |
-| Gestão de membros e funções (UI) | Implementado | Regras testadas na BD. E2E pendente. |
-| Design system (tokens, primitivas, estados de carregamento, vazio, erro e sucesso) | Implementado | `packages/ui`, `components/ui.tsx`, `forms.tsx` |
-| Dashboard | Implementado | Mostra dados reais (organização, membros, convites, auditoria). Os blocos financeiros indicam que o módulo ainda não está ativo, sem valores fictícios. |
-| CI | Implementado | `.github/workflows/ci.yml` (typecheck, testes e build) |
-| Projeto Supabase de produção | **Bloqueado** | A conta atingiu o limite de 2 projetos gratuitos |
-| Deploy web | **Bloqueado** | Depende do Supabase e de uma conta de hosting |
-| Envio de convites por email | Não iniciado | O link é gerado e copiado manualmente. Falta um fornecedor de email. |
+| Auditoria, arquitetura e monorepo | Implementado | `PROJECT_AUDIT.md`, `ARCHITECTURE.md` |
+| Registo, login, recuperação, verificação de email | Testado | E2E em produção (desktop e mobile) |
+| Login Google | Implementado | Desativado até configurar o provider |
+| Onboarding (tipo de conta, país, idioma, moeda, fuso) | Testado | E2E |
+| Organizações, RBAC, hierarquia, convites, auditoria | Testado | 26 testes de RLS + E2E de convite e aceitação |
+| Alternar contexto pessoal / organização | Testado | RLS e E2E |
+| Design system e estados de carregamento, vazio, erro e sucesso | Implementado | `packages/ui`, `components/*` |
+| Apagamento de conta (RGPD/LGPD) | Testado | `erasure.test.ts` (bug encontrado e corrigido na migration 0600) |
+
+## Fase 2: Finanças
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Contas (saldo inicial, arquivo, moeda bloqueada com movimentos) | Testado | RLS + E2E |
+| Receitas e despesas, categorias de sistema e personalizadas | Testado | RLS + E2E |
+| Registo rápido global (botão e tecla N) | Testado | E2E |
+| Movimentos recorrentes (idempotentes, fim de mês, sem ressuscitar apagados) | Testado | RLS (PGlite) |
+| Orçamentos mensais por categoria, alerta de excesso | Testado | E2E |
+| Objetivos de poupança (progresso e valor mensal necessário) | Implementado | — |
+| Resumo: KPIs, gráfico de 12 meses, despesas por categoria, margem | Testado | E2E com valores exatos e acessíveis |
+| Exportação CSV (protegida contra injeção de fórmulas) | Testado | E2E |
+| Painel inicial com dados reais | Implementado | — |
+| Multi-moeda sem conversão automática (aviso explícito) | Implementado | — |
+
+## Fase 3: Orçamentos
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Motor de orçamentos (materiais, mão de obra, deslocação, equipamento, indiretos, margem, imposto) | Testado | `quote.test.ts` |
+| 19 modelos por atividade + em branco (linhas sugeridas, sem preços inventados) | Implementado | Migration 0500 |
+| Editor com cálculo ao vivo e recálculo no servidor | Testado | E2E |
+| Numeração sequencial, versões imutáveis e histórico de estados | Testado | RLS + E2E |
+| Bloqueio após aceite, recusado, expirado ou cancelado | Testado | RLS + E2E |
+| Documento para cliente (imprimir/PDF, sem custos internos) | Testado | E2E |
+| Fichas técnicas de restauração (desperdício, food cost, preço mínimo e recomendado, evolução do custo) | Testado | `quote.test.ts` + E2E |
+| Taxa de imposto | Implementado | **Indicada pelo utilizador.** A validação fiscal automática é da Fase 5. |
+| Assinatura digital do orçamento, envio por email | Não iniciado | Requer fornecedor de email |
+| Assistente de IA para criar orçamentos | Não iniciado | Fase 6 |
 
 ## Fases seguintes
 
-| Fase | Estado | Dependências principais |
+| Fase | Estado | O que é preciso para avançar |
 |---|---|---|
-| 2 — Finanças | Não iniciado | Fase 1 |
-| 3 — Orçamentos e PDF | Não iniciado | Fase 2, motor de PDF |
-| 4 — Pesquisa de preços | Não iniciado | Chaves e termos das fontes (INE, Eurostat, IBGE…) |
-| 5 — Fiscalidade PT/BR | Não iniciado | Validação jurídica das regras |
-| 6 — IA | Não iniciado | Fases 2–5, API de modelos |
-| 7 — Marketplace | Não iniciado | Serviço de mapas |
-| 8 — Monetização | Não iniciado | Stripe validado para PT e BR |
-| 9 — Mobile | Não iniciado | Expo/EAS, contas Apple e Google |
-| 10 — Produção | Não iniciado | Todas |
+| 4: Pesquisa de preços | Não iniciado | Registo/chaves nas fontes (INE, Eurostat, IBGE…) e decisão sobre que fornecedores de preços licenciar |
+| 5: Fiscalidade PT/BR | Não iniciado | Validação jurídica/contabilística das regras e taxas (não se inventam taxas) |
+| 6: IA | Não iniciado | Chave de API de modelos de linguagem (Anthropic ou outro) |
+| 7: Marketplace | Não iniciado | Serviço de mapas (chave) e definição de regras de moderação |
+| 8: Monetização Free/Pro/Max | Não iniciado | Conta Stripe (ou alternativa) validada para PT e BR, preços dos planos |
+| 9: Mobile | Não iniciado | Conta Expo/EAS, Apple Developer e Google Play |
+| 10: Produção | Em desenvolvimento | Domínio próprio, SMTP próprio, plano Supabase com backups/PITR, monitorização |
 
-## Total de testes
+## Testes
 
-75 testes automáticos a passar (`npm test`).
+- **132 testes automáticos** (`npm test`): motores financeiro, de orçamentos e de receitas; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
+- **12 testes E2E** (`npx playwright test`) contra produção, em desktop e telemóvel.

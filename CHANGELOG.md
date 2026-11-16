@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.0] — 16/11/2026 · Fase 3: Orçamentos e restauração
+- Motor de orçamentos e de fichas técnicas no `financial-engine` (exato, testado).
+- Orçamentos com 19 modelos por atividade, editor com cálculo ao vivo, versões, estados, bloqueio após aceite e documento imprimível/PDF sem custos internos.
+- Fichas técnicas: desperdício, food cost, preço mínimo e recomendado, evolução do custo por dose, comparação.
+- Correção (migration 0600): apagar uma conta falhava quando havia dados, porque os triggers bloqueavam `created_by → NULL`. Impedia o direito ao apagamento.
+
+## [0.2.0] — 16/11/2026 · Fase 2: Finanças e produção
+- Deploy em produção (Vercel + Supabase) e E2E Playwright contra produção.
+- Finanças pessoais e de organização: contas, movimentos, categorias, recorrentes, orçamentos, objetivos, relatórios, CSV.
+- Gráficos com paleta validada para daltonismo, tooltips acessíveis por teclado e vista em tabela.
+- Registo rápido global (tecla N) e animações discretas (respeitam "reduzir movimento").
+- Correções encontradas pelos E2E: formulários perdiam o que foi escrito após erro (React 19); IDs de campos duplicados; valores dos KPIs invisíveis a leitores de ecrã; mensagem de sucesso desatualizada; números negativos tratados como texto no CSV.
+
 ## [0.1.0] — 15/11/2026 · Fase 1: Fundação
 
 ### Adicionado

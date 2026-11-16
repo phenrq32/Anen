@@ -1,5 +1,11 @@
 # Deploy
 
+## Estado atual (16/11/2026)
+
+- Web: **https://anen-five.vercel.app** (projeto Vercel `anen`, time `anen1`, root `apps/web`). O deploy é feito pela CLI (`vercel deploy --prod`), porque a ligação ao GitHub para deploy automático exige que o dono ligue a conta GitHub na Vercel.
+- Supabase: projeto `qkmaejqbpmsnhpdqizev` (eu-west-1, plano gratuito). As migrations são aplicadas com `scripts/apply-migrations.ps1`, que usa a Management API e regista em `supabase_migrations.schema_migrations`, compatível com o CLI.
+- Emails: o SMTP do Supabase (plano gratuito) tem limite baixo de envios e não permite templates personalizados. Para produção real, configurar SMTP próprio.
+
 ## Ambientes
 
 | Ambiente | Supabase | Web |
