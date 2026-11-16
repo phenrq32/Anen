@@ -42,6 +42,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
   ]);
   const transactions = txRes.data ?? [];
   const f = projectFinancials(project, transactions, itemsRes.data ?? []);
+  const hasBreakdown = (itemsRes.data ?? []).length > 0;
   const minorUnit = reference.currencies.find((c) => c.code === project.currency_code)?.minor_unit ?? 2;
   const fmt = (v: bigint) => formatMoney(v, project.currency_code, minorUnit, locale);
   const pct = (d: Parameters<typeof formatPercent>[0]) => formatPercent(d, locale) ?? "—";
@@ -154,13 +155,18 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
                         <th scope="row" className="px-5 py-2.5 text-left font-normal sm:px-0">
                           {k.kind === "unclassified" ? t.unclassified : m.quotes.line.kinds[k.kind]}
                         </th>
-                        <td className="tabular py-2.5 text-right text-muted">{fmt(k.planned.amountMinor)}</td>
+                        {/* Sem orçamento de origem não há previsto por tipo: mostrar "—" em vez de um desvio enganador. */}
+                        <td className="tabular py-2.5 text-right text-muted">{hasBreakdown && k.kind !== "unclassified" ? fmt(k.planned.amountMinor) : "—"}</td>
                         <td className="tabular py-2.5 text-right">{fmt(k.actual.amountMinor)}</td>
-                        <td className={cx("tabular px-5 py-2.5 text-right font-medium sm:px-0", k.variance.amountMinor > 0n && k.planned.amountMinor > 0n ? "text-danger" : "text-muted")}>
-                          {k.variance.amountMinor > 0n ? "+" : ""}
-                          {fmt(k.variance.amountMinor)}
-                          {k.variancePercent ? <span className="ml-1.5 text-xs font-normal">({pct(k.variancePercent)})</span> : null}
-                        </td>
+                        {hasBreakdown && k.kind !== "unclassified" ? (
+                          <td className={cx("tabular px-5 py-2.5 text-right font-medium sm:px-0", k.variance.amountMinor > 0n && k.planned.amountMinor > 0n ? "text-danger" : "text-muted")}>
+                            {k.variance.amountMinor > 0n ? "+" : ""}
+                            {fmt(k.variance.amountMinor)}
+                            {k.variancePercent ? <span className="ml-1.5 text-xs font-normal">({pct(k.variancePercent)})</span> : null}
+                          </td>
+                        ) : (
+                          <td className="tabular px-5 py-2.5 text-right text-muted sm:px-0">—</td>
+                        )}
                       </tr>
                     ))}
                   </tbody>

@@ -54,13 +54,13 @@ Plano completo e dependências externas em [EXPANSION_PLAN.md](EXPANSION_PLAN.md
 
 | Funcionalidade | Estado | Evidência |
 |---|---|---|
-| Clientes e fornecedores (cadastro, ficha com compras, vendas e em aberto) | Implementado | RLS em `business.test.ts`; E2E escrito (`business.spec.ts`), por correr em produção |
+| Clientes e fornecedores (cadastro, ficha com compras, vendas e em aberto) | Implementado | RLS em `business.test.ts`; E2E `business.spec.ts` em produção (desktop e telemóvel) |
 | Centros de custo | Implementado | RLS em `business.test.ts` |
-| Projetos (criar, editar, estado, eliminar) | Implementado | RLS + E2E escrito |
+| Projetos (criar, editar, estado, eliminar) | Implementado | RLS + E2E em produção |
 | Projeto a partir de orçamento aceite | Testado (BD) | `business.test.ts` (recusa não aceites, idempotente, cria cliente) |
 | Despesas e receitas: contacto, projeto, centro de custo, tipo de custo, vencimento, imposto incluído, método de pagamento, n.º de documento | Testado (BD) | `business.test.ts` (âmbito, moeda do projeto, coerência do imposto) |
 | Pagamentos pendentes e parciais; saldo e relatórios em base de caixa | Testado (BD) | `business.test.ts` |
-| A receber e a pagar, vencidos, marcar como liquidado | Implementado | E2E escrito |
+| A receber e a pagar, vencidos, marcar como liquidado | Testado | E2E em produção |
 | Previsto vs. real por projeto e por tipo de custo, alerta de ultrapassagem | Testado (motor) | `project.test.ts` (inclui o exemplo 300 € → 350 €) |
 | Painel com valores em aberto, projetos e orçamentos recentes | Implementado | — |
 | Comprovativo anexado (ficheiro) | Não iniciado | Supabase Storage com RLS; fica para a fase de compras |
@@ -70,7 +70,7 @@ Plano completo e dependências externas em [EXPANSION_PLAN.md](EXPANSION_PLAN.md
 
 | Funcionalidade | Estado | Evidência |
 |---|---|---|
-| Salário do mês, reserva, despesas fixas editáveis | Testado (BD) | `monthly-plan.test.ts` (RLS, um plano por mês, apagamento); E2E `plan.spec.ts` escrito |
+| Salário do mês, reserva, despesas fixas editáveis | Testado (BD) | `monthly-plan.test.ts` (RLS, um plano por mês, apagamento); E2E `plan.spec.ts` em produção |
 | Sobra/défice e repartição reserva / longo prazo | Testado (motor) | `financial-engine/src/monthly-plan.test.ts` |
 | Opções por país com fonte oficial e data de revisão | Implementado | Migration 0800; descrições revistas a 16/11/2026, sem taxas |
 | Importar despesas recorrentes para as fixas | Não iniciado | — |

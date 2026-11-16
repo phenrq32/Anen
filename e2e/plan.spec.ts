@@ -29,7 +29,7 @@ test("plano do mês: salário, despesas fixas editáveis e orientação para a s
     await main.getByLabel("Despesa", { exact: true }).fill(name);
     await main.getByLabel("Valor mensal", { exact: true }).fill(amount);
     await main.getByRole("button", { name: "Adicionar despesa fixa" }).click();
-    await expect(main.getByText(name, { exact: true })).toBeVisible();
+    await expect(main.getByLabel(`Valor mensal: ${name}`)).toBeVisible();
   }
 
   // Salário de 1500 €, sem reserva → sobra 500 €: 400 € reserva, 100 € longo prazo
@@ -47,6 +47,6 @@ test("plano do mês: salário, despesas fixas editáveis e orientação para a s
   await main.getByLabel("Valor mensal: Renda").fill("1450");
   await main.getByRole("button", { name: "Atualizar" }).first().click();
   await expect(main.getByText("As despesas fixas são maiores do que o salário")).toBeVisible();
-  await expect(main.getByText(/Faltam 300,00 €/)).toBeVisible();
+  await expect(main.getByText("Faltam 300,00 €")).toBeVisible();
   await expect(main.getByText("Onde colocar a sobra")).toHaveCount(0);
 });

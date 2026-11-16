@@ -43,7 +43,7 @@ test("fornecedor, projeto e despesa pendente: desvio orçamental e valores a pag
 
   // Projeto: previsto 300 € de custo e 500 € de receita
   await page.goto("/projetos");
-  await main.getByText("Novo projeto", { exact: true }).click();
+  await main.locator("summary", { hasText: "Novo projeto" }).click();
   await main.getByLabel("Nome", { exact: true }).fill("Remodelação A");
   await main.getByLabel("Custo previsto").fill("300");
   await main.getByLabel("Receita prevista (sem impostos)").fill("500");
@@ -55,7 +55,7 @@ test("fornecedor, projeto e despesa pendente: desvio orçamental e valores a pag
   await main.getByRole("link", { name: "Registar movimento" }).click();
   await page.waitForURL(/\/financas\/movimentos\?projeto=/);
   await main.getByLabel(/^Valor/).fill("350");
-  await main.getByLabel("Descrição").fill("Cimento e tinta");
+  await main.getByLabel("Descrição", { exact: true }).fill("Cimento e tinta");
   await expect(main.getByLabel("Projeto")).toHaveValue(projectUrl.split("/").pop()!);
   await main.getByLabel("Cliente ou fornecedor").selectOption({ label: "Materiais Lisboa" });
   await main.getByLabel("Tipo de custo").selectOption("material");
@@ -77,13 +77,16 @@ test("fornecedor, projeto e despesa pendente: desvio orçamental e valores a pag
   // Segunda despesa sem imposto separado: 70 € → custo real 354,55 €, desvio de 54,55 €
   await main.getByRole("link", { name: "Registar movimento" }).click();
   await main.getByLabel(/^Valor/).fill("70");
-  await main.getByLabel("Descrição").fill("Parafusos");
+  await main.getByLabel("Descrição", { exact: true }).fill("Parafusos");
   await main.getByLabel("Tipo de custo").selectOption("material");
   await main.getByRole("button", { name: "Guardar" }).click();
   await expect(main.getByText("Movimento registado.")).toBeVisible();
   await page.goto(projectUrl);
   await expect(main.getByText("Este projeto ultrapassou o custo previsto em 54,55 € (18,2%).")).toBeVisible();
-  await expect(main.getByRole("cell", { name: /\+54,55 €/ })).toBeVisible();
+  // Projeto sem orçamento de origem: o real por tipo aparece, sem previsto nem desvio por tipo inventados
+  const materialRow = main.getByRole("row").filter({ hasText: "Material" });
+  await expect(materialRow.getByRole("cell").nth(0)).toHaveText("—");
+  await expect(materialRow.getByRole("cell").nth(2)).toHaveText("—");
 
   // Marcar como pago: sai de "A pagar"
   await page.goto("/financas/em-aberto");
