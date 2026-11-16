@@ -10,7 +10,8 @@ export function errorMessage(m: Messages, error: { message?: string; code?: stri
   const raw = (error.message ?? "").trim();
   const known = lookup(m.errors, raw);
   if (known) return known;
-  if (error.code === "42501" || /permission denied/i.test(raw)) return m.errors.forbidden;
+  if (error.code === "42501" || /permission denied|row-level security/i.test(raw)) return m.errors.forbidden;
+  if (error.code === "23505") return m.errors.duplicate;
   if (error.status === 429 || /rate limit/i.test(raw)) return m.errors.rateLimited;
   return m.errors.generic;
 }

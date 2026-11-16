@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { format } from "@anen/i18n";
 import { ActivityList } from "@/components/activity-list";
+import { MonthlyChart } from "@/components/charts";
+import { EmptyFinance, FinanceKpis, TransactionList } from "@/components/finance-ui";
+import { financeScope } from "@/lib/finance";
+import { loadFinanceOverview } from "@/lib/finance-overview";
 import { ButtonLink, PageHeader, Section } from "@/components/ui";
 import { roleName } from "@/lib/errors";
 import { getI18n } from "@/lib/i18n";
@@ -40,7 +44,8 @@ export default async function DashboardPage() {
     }
   }
 
-  const kpis = [m.dashboard.balance, m.dashboard.income, m.dashboard.expenses, m.dashboard.profit];
+  const scope = financeScope(session);
+  const finance = scope.canRead ? await loadFinanceOverview(supabase, scope, m, locale) : null;
   const activeRoleName = active ? roleName(m, active.role) : null;
 
   return (
@@ -50,21 +55,63 @@ export default async function DashboardPage() {
         description={active ? active.organization.name : m.dashboard.contextPersonal}
       />
 
-      <section aria-labelledby="kpis" className="flex flex-col gap-3">
+      <section aria-labelledby="kpis" className="flex flex-col gap-4">
         <h2 id="kpis" className="sr-only">
-          {m.dashboard.title}
+          {m.finance.title}
         </h2>
-        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line xl:grid-cols-4">
-          {kpis.map((label) => (
-            <div key={label} className="flex flex-col gap-3 bg-surface p-5">
-              <span className="text-sm text-muted">{label}</span>
-              <span className="tabular text-2xl font-semibold text-subtle" aria-label="—">
-                —
-              </span>
+        {!finance ? (
+          <p className="text-sm text-muted">{m.finance.noPermission}</p>
+        ) : finance.basics.accounts.length === 0 ? (
+          <EmptyFinance m={m} canWrite={scope.canWrite} />
+        ) : (
+          <>
+            <FinanceKpis
+              m={m}
+              locale={locale}
+              currency={finance.currency}
+              minorUnit={finance.minorUnit}
+              balance={finance.balance}
+              income={finance.income}
+              expense={finance.expense}
+              prevIncome={finance.prevIncome}
+              prevExpense={finance.prevExpense}
+            />
+            <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
+              <div className="rounded-xl border border-line bg-surface p-5 sm:p-6">
+                <MonthlyChart
+                  data={finance.monthly}
+                  currency={finance.currency}
+                  minorUnit={finance.minorUnit}
+                  locale={locale}
+                  labels={{
+                    title: m.finance.chart.monthlyTitle,
+                    subtitle: format(m.finance.chart.monthlySubtitle, { currency: finance.currency }),
+                    income: m.finance.chart.income,
+                    expense: m.finance.chart.expense,
+                    result: m.finance.chart.result,
+                    month: m.finance.chart.month,
+                    showTable: m.finance.chart.showTable,
+                    showChart: m.finance.chart.showChart,
+                  }}
+                />
+              </div>
+              <Section title={m.finance.recentTitle}>
+                <TransactionList
+                  m={m}
+                  locale={locale}
+                  timeZone={scope.timezone}
+                  transactions={finance.recent.slice(0, 5)}
+                  categories={new Map(finance.basics.categories.map((c) => [c.id, c]))}
+                  accounts={new Map(finance.basics.accounts.map((a) => [a.id, a]))}
+                  minorUnits={finance.basics.minorUnits}
+                />
+                <ButtonLink href="/financas" variant="ghost" className="mt-3 -ml-3">
+                  {m.finance.seeAll} →
+                </ButtonLink>
+              </Section>
             </div>
-          ))}
-        </div>
-        <p className="text-[13px] text-subtle">{m.dashboard.financeNotActive}</p>
+          </>
+        )}
       </section>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_360px]">

@@ -1,4 +1,9 @@
-import type { ComponentProps, ReactNode } from "react";
+import { useId, type ComponentProps, type ReactNode } from "react";
+
+/** id único por instância: o mesmo campo pode existir em dois formulários na página (ex.: registo rápido). */
+function useFieldId(name: string): string {
+  return `f-${name}-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
+}
 import Link from "next/link";
 
 export function cx(...classes: Array<string | false | null | undefined>): string {
@@ -73,7 +78,7 @@ type FieldProps = Omit<ComponentProps<"input">, "id"> & {
 };
 
 export function Field({ name, label, hint, error, optionalLabel, className, ...props }: FieldProps) {
-  const id = `f-${name}`;
+  const id = useFieldId(name);
   return (
     <FieldShell id={id} label={label} hint={hint} error={error} optionalLabel={optionalLabel}>
       <input
@@ -98,7 +103,7 @@ type SelectProps = Omit<ComponentProps<"select">, "id"> & {
 };
 
 export function SelectField({ name, label, hint, error, optionalLabel, options, className, ...props }: SelectProps) {
-  const id = `f-${name}`;
+  const id = useFieldId(name);
   return (
     <FieldShell id={id} label={label} hint={hint} error={error} optionalLabel={optionalLabel}>
       <select

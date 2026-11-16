@@ -4,6 +4,12 @@
  * `supabase gen types typescript --project-id <ref>` quando o projeto estiver ligado.
  */
 import type {
+  Budget,
+  FinanceTransaction,
+  FinancialAccount,
+  RecurringTransaction,
+  SavingsGoal,
+  TransactionCategory,
   AccountType,
   AuditLog,
   Country,
@@ -23,6 +29,19 @@ import type {
 /** Interfaces não satisfazem Record<string, unknown>; o tipo mapeado converte-as num type literal. */
 type Plain<T> = { [K in keyof T]: T[K] };
 type NoWrite = { [_ in never]: never };
+
+type Scope = { organization_id: string | null; owner_user_id: string | null };
+type TxWrite = {
+  account_id: string;
+  category_id: string | null;
+  kind: FinanceTransaction["kind"];
+  amount_minor: number;
+  currency_code: string;
+  occurred_on: string;
+  description: string;
+  counterparty: string | null;
+  notes: string | null;
+};
 
 type Table<Row, Insert = NoWrite, Update = NoWrite> = {
   Row: Plain<Row>;
@@ -60,6 +79,48 @@ export type Database = {
       organization_invitations: Table<OrganizationInvitation>;
       audit_logs: Table<AuditLog>;
       feature_flags: Table<{ key: string; description: string; is_enabled: boolean; rules: Record<string, unknown> }>;
+      financial_accounts: Table<
+        FinancialAccount,
+        Scope & { name: string; kind: FinancialAccount["kind"]; currency_code: string; opening_balance_minor?: number },
+        Partial<Pick<FinancialAccount, "name" | "kind" | "currency_code" | "opening_balance_minor" | "archived_at">>
+      >;
+      transaction_categories: Table<
+        TransactionCategory,
+        Scope & { name: string; kind: TransactionCategory["kind"]; color?: string },
+        Partial<Pick<TransactionCategory, "name" | "color" | "archived_at">>
+      >;
+      transactions: Table<
+        FinanceTransaction,
+        Scope & TxWrite,
+        Partial<TxWrite>
+      >;
+      recurring_transactions: Table<
+        RecurringTransaction,
+        Scope & {
+          account_id: string;
+          category_id: string | null;
+          kind: RecurringTransaction["kind"];
+          amount_minor: number;
+          currency_code: string;
+          description: string;
+          frequency: RecurringTransaction["frequency"];
+          interval_count: number;
+          start_on: string;
+          end_on: string | null;
+          next_run_on: string;
+        },
+        Partial<Pick<RecurringTransaction, "is_active" | "amount_minor" | "description" | "end_on">>
+      >;
+      budgets: Table<
+        Budget,
+        Scope & { category_id: string; period_start: string; amount_minor: number; currency_code: string },
+        Partial<Pick<Budget, "amount_minor">>
+      >;
+      savings_goals: Table<
+        SavingsGoal,
+        Scope & { name: string; target_minor: number; saved_minor: number; currency_code: string; target_date: string | null },
+        Partial<Pick<SavingsGoal, "name" | "target_minor" | "saved_minor" | "target_date">>
+      >;
     };
     Views: { [_ in never]: never };
     Functions: {
@@ -100,6 +161,19 @@ export type Database = {
         Returns: string;
       };
       delete_role: { Args: { p_role_id: string }; Returns: undefined };
+      finance_monthly: {
+        Args: { p_org: string | null; p_from: string; p_to: string };
+        Returns: { month: string; currency_code: string; income: number; expense: number }[];
+      };
+      finance_by_category: {
+        Args: { p_org: string | null; p_from: string; p_to: string; p_kind: string };
+        Returns: { category_id: string | null; currency_code: string; total: number; count: number }[];
+      };
+      account_balances: {
+        Args: { p_org: string | null };
+        Returns: { account_id: string; currency_code: string; balance_minor: number }[];
+      };
+      materialize_recurring: { Args: { p_org: string | null; p_until?: string }; Returns: number };
     };
     Enums: {
       account_type: AccountType;

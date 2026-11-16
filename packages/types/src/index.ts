@@ -24,6 +24,8 @@ export const PERMISSION_KEYS = [
   "members.manage",
   "roles.manage",
   "audit.read",
+  "finance.read",
+  "finance.write",
 ] as const;
 export type PermissionKey = (typeof PERMISSION_KEYS)[number];
 
@@ -127,6 +129,89 @@ export interface OrganizationInvitation {
   accepted_at: string | null;
   revoked_at: string | null;
   created_at: string;
+}
+
+// ---------------------------------------------------------------------------
+// Finanças (Fase 2). Valores em unidades mínimas; o PostgREST devolve bigint como number,
+// limitado na base de dados a 2^53-1 para não perder precisão. Converter com BigInt().
+// ---------------------------------------------------------------------------
+export type AccountKind = "checking" | "savings" | "cash" | "credit_card" | "investment" | "other";
+export type TransactionKind = "income" | "expense";
+export type Frequency = "weekly" | "monthly" | "yearly";
+
+interface FinanceScoped {
+  organization_id: string | null;
+  owner_user_id: string | null;
+}
+
+export interface FinancialAccount extends FinanceScoped {
+  id: string;
+  name: string;
+  kind: AccountKind;
+  currency_code: string;
+  opening_balance_minor: number;
+  archived_at: string | null;
+  created_at: string;
+}
+
+export interface TransactionCategory extends FinanceScoped {
+  id: string;
+  key: string | null;
+  kind: TransactionKind;
+  name: string;
+  color: string;
+  is_system: boolean;
+  archived_at: string | null;
+}
+
+export interface FinanceTransaction extends FinanceScoped {
+  id: string;
+  account_id: string;
+  category_id: string | null;
+  kind: TransactionKind;
+  amount_minor: number;
+  currency_code: string;
+  occurred_on: string;
+  description: string;
+  counterparty: string | null;
+  notes: string | null;
+  recurring_id: string | null;
+  created_by: string | null;
+  created_at: string;
+}
+
+export interface RecurringTransaction extends FinanceScoped {
+  id: string;
+  account_id: string;
+  category_id: string | null;
+  kind: TransactionKind;
+  amount_minor: number;
+  currency_code: string;
+  description: string;
+  counterparty: string | null;
+  frequency: Frequency;
+  interval_count: number;
+  start_on: string;
+  end_on: string | null;
+  next_run_on: string;
+  is_active: boolean;
+}
+
+export interface Budget extends FinanceScoped {
+  id: string;
+  category_id: string;
+  period_start: string;
+  amount_minor: number;
+  currency_code: string;
+}
+
+export interface SavingsGoal extends FinanceScoped {
+  id: string;
+  name: string;
+  target_minor: number;
+  saved_minor: number;
+  currency_code: string;
+  target_date: string | null;
 }
 
 export interface AuditLog {

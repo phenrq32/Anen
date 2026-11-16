@@ -7,8 +7,21 @@ import type { SessionContext } from "@/lib/session";
 import { NavLinks, type NavItem } from "@/components/nav-links";
 import { roleName } from "@/lib/errors";
 
-export function AppShell({ m, session, children }: { m: Messages; session: SessionContext; children: React.ReactNode }) {
-  const items: NavItem[] = [{ href: "/painel", label: m.nav.dashboard, icon: "grid" }];
+export function AppShell({
+  m,
+  session,
+  children,
+  overlay,
+}: {
+  m: Messages;
+  session: SessionContext;
+  children: React.ReactNode;
+  overlay?: React.ReactNode;
+}) {
+  const items: NavItem[] = [
+    { href: "/painel", label: m.nav.dashboard, icon: "grid" },
+    { href: "/financas", label: m.nav.finance, icon: "wallet" },
+  ];
   if (session.active) {
     items.push(
       { href: "/organizacao", label: m.nav.organization, icon: "building" },
@@ -83,7 +96,8 @@ export function AppShell({ m, session, children }: { m: Messages; session: Sessi
         </summary>
         <div className="border-t border-line">{sidebar}</div>
       </details>
-      <main className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-8 sm:px-8 sm:py-10">{children}</main>
+      <main className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 pb-28 pt-8 sm:px-8 sm:pt-10">{children}</main>
+      {overlay}
     </div>
   );
 }
