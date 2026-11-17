@@ -31,6 +31,7 @@ export const quoteHeaderSchema = z.object({
   id: z.uuid(),
   title: z.string().trim().min(1, { message: "description_required" }).max(160, { message: "too_long" }),
   description: z.string().trim().max(4000, { message: "too_long" }),
+  clientContactId: z.union([z.uuid({ message: "contact_invalid" }), z.literal("")]),
   clientName: z.string().trim().max(160, { message: "too_long" }),
   clientEmail: z.union([z.literal(""), z.email({ message: "email_invalid" })]),
   clientTaxId: z.string().trim().max(32, { message: "too_long" }),

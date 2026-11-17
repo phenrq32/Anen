@@ -6,7 +6,7 @@ import { formatMoney, type Messages } from "@anen/i18n";
 import type { Locale, QuoteItemKind } from "@anen/types";
 import { parseAmountInput, parsePercentInput, parseQuantityInput, QUOTE_ITEM_KINDS } from "@anen/validation";
 import { ActionForm, SubmitButton } from "@/components/forms";
-import { Field, cx } from "@/components/ui";
+import { Field, SelectField, cx } from "@/components/ui";
 import { saveQuoteAction } from "./actions";
 
 export interface EditorLine {
@@ -22,6 +22,7 @@ export interface EditorQuote {
   id: string;
   title: string;
   description: string;
+  clientContactId: string;
   clientName: string;
   clientEmail: string;
   clientTaxId: string;
@@ -34,6 +35,14 @@ export interface EditorQuote {
   currency: string;
 }
 
+export interface EditorClient {
+  id: string;
+  name: string;
+  email: string;
+  taxId: string;
+  address: string;
+}
+
 let counter = 0;
 const newKey = () => `l${Date.now().toString(36)}${(counter++).toString(36)}`;
 
@@ -44,6 +53,7 @@ export function QuoteEditor({
   initialLines,
   minorUnit,
   readOnly,
+  clients,
 }: {
   m: Messages;
   locale: Locale;
@@ -51,6 +61,8 @@ export function QuoteEditor({
   initialLines: EditorLine[];
   minorUnit: number;
   readOnly: boolean;
+  /** null: sem permissão para ver o cadastro; a ligação existente mantém-se. */
+  clients: EditorClient[] | null;
 }) {
   const [lines, setLines] = useState<EditorLine[]>(initialLines);
   const [margin, setMargin] = useState(quote.margin);
@@ -104,6 +116,32 @@ export function QuoteEditor({
                 />
               </div>
               <h3 className="pt-2 text-sm font-semibold text-muted">{m.quotes.sections.client}</h3>
+              {clients ? (
+                <SelectField
+                  name="clientContactId"
+                  label={m.quotes.fields.clientContact}
+                  hint={m.quotes.fields.clientContactHint}
+                  defaultValue={quote.clientContactId}
+                  error={state.fieldErrors?.clientContactId}
+                  options={[{ value: "", label: m.quotes.fields.noClientContact }, ...clients.map((c) => ({ value: c.id, label: c.name }))]}
+                  onChange={(event) => {
+                    // Preenche os dados do cliente a partir do cadastro (continuam editáveis no orçamento).
+                    const client = clients.find((c) => c.id === event.currentTarget.value);
+                    const form = event.currentTarget.form;
+                    if (!client || !form) return;
+                    const set = (name: string, value: string) => {
+                      const el = form.elements.namedItem(name);
+                      if (el instanceof HTMLInputElement) el.value = value;
+                    };
+                    set("clientName", client.name);
+                    set("clientEmail", client.email);
+                    set("clientTaxId", client.taxId);
+                    set("clientAddress", client.address);
+                  }}
+                />
+              ) : (
+                <input type="hidden" name="clientContactId" value={quote.clientContactId} />
+              )}
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field name="clientName" label={m.quotes.fields.clientName} defaultValue={quote.clientName} maxLength={160} />
                 <Field name="clientEmail" type="email" label={m.quotes.fields.clientEmail} defaultValue={quote.clientEmail} error={state.fieldErrors?.clientEmail} />

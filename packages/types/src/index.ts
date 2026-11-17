@@ -260,6 +260,7 @@ export interface Quote extends FinanceScoped {
   template_key: string | null;
   title: string;
   description: string | null;
+  client_contact_id: string | null;
   client_name: string | null;
   client_email: string | null;
   client_tax_id: string | null;
@@ -355,6 +356,33 @@ export interface Contact extends FinanceScoped {
   notes: string | null;
   archived_at: string | null;
   created_at: string;
+}
+
+export const CONTACT_NOTE_KINDS = ["note", "call", "meeting", "email", "visit"] as const;
+export type ContactNoteKind = (typeof CONTACT_NOTE_KINDS)[number];
+
+export interface ContactNote extends FinanceScoped {
+  id: string;
+  contact_id: string;
+  kind: ContactNoteKind;
+  noted_on: string;
+  body: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SupplierPrice extends FinanceScoped {
+  id: string;
+  contact_id: string;
+  item_name: string;
+  unit: string | null;
+  unit_price_minor: number;
+  currency_code: string;
+  observed_on: string;
+  transaction_id: string | null;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface CostCenter extends FinanceScoped {

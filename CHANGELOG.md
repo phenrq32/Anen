@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.0] — 17/11/2026 · Prompt 03, Fase 3: CRM
+- Observações datadas na ficha do contacto (nota, chamada, reunião, email, visita): `contact_notes`, com RLS por `business.*`, o contacto sempre do mesmo âmbito e sem poder ser trocado.
+- Histórico de preços por fornecedor (`supplier_prices`): artigo, unidade, preço unitário, moeda e data, com ligação opcional à despesa que o comprova (mesmo fornecedor, mesma moeda, validado na base de dados). Só fornecedores. Sem preços de mercado: só o que o utilizador regista.
+- Motor `summarizePriceHistory`: agrupa por artigo (nome normalizado + unidade + moeda), com último preço, anterior, variação em valor e em %, mínimo e máximo. Não mistura moedas nem unidades.
+- Orçamentos ligados ao cadastro (`quotes.client_contact_id`): no editor escolhe-se o cliente e os dados são preenchidos. A ligação fica bloqueada depois de aceite. O projeto criado a partir do orçamento usa o cliente ligado e só procura pelo nome quando não há ligação. Os orçamentos que já tinham um projeto com cliente foram ligados (um facto, não uma suposição pelo nome).
+- Ficha do contacto: pendentes ordenados por vencimento (com vencidos assinalados), orçamentos do cliente, histórico de observações e de preços.
+- Migration 1100 aplicada em produção; 20 E2E a passar em produção (desktop e telemóvel), incluindo `crm.spec.ts`.
+
 ## [0.7.0] — 16/11/2026 · Prompt 03, Fase 2: recorrentes completos e anexos
 - Recorrentes editáveis (valor, descrição, categoria, fim e ligações). A frequência e o início ficam fixos, também na base de dados.
 - Recorrentes com cliente/fornecedor, projeto, centro de custo e tipo de custo, opção "gerar como pendente" e vencimento N dias após cada ocorrência. Os movimentos gerados herdam tudo (no servidor e na aplicação).

@@ -5,3 +5,4 @@ export * from "./quote";
 export * from "./recipe";
 export * from "./project";
 export * from "./monthly-plan";
+export * from "./price-history";

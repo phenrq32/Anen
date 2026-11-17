@@ -61,6 +61,7 @@ export async function createQuoteAction(formData: FormData): Promise<void> {
       margin_percent: template.default_margin_percent,
       tax_rate_percent: 0,
       description: null,
+      client_contact_id: null,
       client_name: null,
       client_email: null,
       client_tax_id: null,
@@ -101,6 +102,7 @@ export async function saveQuoteAction(_: FormState, formData: FormData): Promise
     id: formString(formData, "id"),
     title: formString(formData, "title"),
     description: formString(formData, "description"),
+    clientContactId: formString(formData, "clientContactId"),
     clientName: formString(formData, "clientName"),
     clientEmail: formString(formData, "clientEmail").trim().toLowerCase(),
     clientTaxId: formString(formData, "clientTaxId"),
@@ -140,6 +142,7 @@ export async function saveQuoteAction(_: FormState, formData: FormData): Promise
     p_fields: {
       title: v.title,
       description: nullable(v.description),
+      client_contact_id: nullable(v.clientContactId),
       client_name: nullable(v.clientName),
       client_email: nullable(v.clientEmail),
       client_tax_id: nullable(v.clientTaxId),

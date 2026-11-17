@@ -9,6 +9,8 @@ import type {
   InvestmentOption,
   MonthlyPlanRow,
   Contact,
+  ContactNote,
+  SupplierPrice,
   CostCenter,
   Project,
   Quote,
@@ -71,6 +73,7 @@ type QuoteWrite = Pick<
   Quote,
   | "title"
   | "description"
+  | "client_contact_id"
   | "client_name"
   | "client_email"
   | "client_tax_id"
@@ -203,6 +206,16 @@ export type Database = {
         { recipe_id: string; cost_per_portion_minor: number; ingredient_cost_per_portion_minor: number }
       >;
       contacts: Table<Contact, Scope & ContactWrite, Partial<ContactWrite & { archived_at: string | null }>>;
+      contact_notes: Table<
+        ContactNote,
+        Scope & Pick<ContactNote, "contact_id" | "kind" | "noted_on" | "body">,
+        Partial<Pick<ContactNote, "kind" | "noted_on" | "body">>
+      >;
+      supplier_prices: Table<
+        SupplierPrice,
+        Scope & Pick<SupplierPrice, "contact_id" | "item_name" | "unit" | "unit_price_minor" | "currency_code" | "observed_on" | "transaction_id" | "notes">,
+        Partial<Pick<SupplierPrice, "item_name" | "unit" | "unit_price_minor" | "currency_code" | "observed_on" | "transaction_id" | "notes">>
+      >;
       cost_centers: Table<CostCenter, Scope & { name: string }, Partial<{ name: string; archived_at: string | null }>>;
       projects: Table<
         Project,

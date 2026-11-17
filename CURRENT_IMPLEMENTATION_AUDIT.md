@@ -95,8 +95,8 @@ Estas áreas **não aparecem no menu**, por isso nenhuma surge como pronta.
 |---|---|---|
 | **1** | Auditoria (este documento). Agendador no servidor (`pg_cron`, 05:00 UTC) com registo de execuções (`job_runs`) e geração diária dos recorrentes de todas as pessoas e organizações. Limpeza de textos obsoletos. | **Concluída**: migration 0900 em produção, tarefa agendada e executada com sucesso, `scheduler.test.ts` |
 | 2 | Recorrentes editáveis e com cliente/projeto/pendente; anexos de faturas e recibos (Storage com RLS) | **Concluída**: migration 1000 em produção, `recurring-attachments.test.ts`, E2E `recurring-attachments.spec.ts` |
-| 3 | CRM: observações datadas, orçamentos e pendentes na ficha, histórico de preços por fornecedor | Pendente |
-| 4 | Orçamentos ligados ao cadastro de clientes, descontos, produtos/serviços; descrição do projeto | Pendente |
+| 3 | CRM: observações datadas, orçamentos e pendentes na ficha, histórico de preços por fornecedor | **Concluída**: migration 1100 em produção, `crm.test.ts`, `price-history.test.ts`, E2E `crm.spec.ts`. O orçamento já fica ligado ao cadastro (antecipado da Fase 4) |
+| 4 | ~~Orçamentos ligados ao cadastro de clientes~~ (feito na Fase 3), descontos, produtos/serviços; descrição do projeto | Pendente |
 | 5 | Fichas técnicas ligadas a preços de ingredientes registados | Pendente |
 | 6 | Inteligência de mercado: fontes, recolha agendada, histórico, comparação, alertas | Pendente (fontes externas) |
 | 7 | ANEN AI com ferramentas, histórico de conversas por organização | Bloqueada (chave de API) |

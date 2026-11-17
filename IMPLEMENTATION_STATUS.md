@@ -3,7 +3,7 @@
 Estados: Não iniciado · Em desenvolvimento · Implementado · Testado · Aprovado · Bloqueado.
 "Testado" = coberto por testes automáticos que passam (unitários/RLS e E2E em produção). "Aprovado" exige validação humana, e nada está aprovado ainda.
 
-_Atualizado em 16/11/2026 (prompt 02, Fase A)._ Produção: **https://anen-five.vercel.app** (Vercel + Supabase eu-west-1).
+_Atualizado em 17/11/2026 (prompt 03, Fase 3)._ Produção: **https://anen-five.vercel.app** (Vercel + Supabase eu-west-1).
 
 ## Fase 1: Fundação
 
@@ -93,6 +93,16 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 | Anexos (enviar, abrir, remover; tipos e tamanho) | Testado | RLS em `recurring-attachments.test.ts`; E2E em produção (desktop e telemóvel) |
 | Ficheiros órfãos após apagar a conta de um utilizador | Não iniciado | Os registos são apagados em cascata; os ficheiros no Storage precisam de uma tarefa de limpeza |
 
+## Prompt 03 · Fase 3: CRM
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Observações datadas por contacto (nota, chamada, reunião, email, visita) | Testado | RLS em `crm.test.ts`; E2E `crm.spec.ts` em produção (desktop e telemóvel) |
+| Pendentes do contacto ordenados por vencimento, vencidos assinalados | Implementado | Dados de `transactions` já testados |
+| Orçamentos ligados ao cadastro de clientes e listados na ficha | Testado | `crm.test.ts` (âmbito, só clientes, bloqueio após aceite, projeto usa o cliente ligado) + E2E |
+| Histórico de preços por fornecedor, com variação e ligação à despesa | Testado | `price-history.test.ts` (motor), `crm.test.ts` (RLS e coerência), E2E |
+| Comparação do mesmo artigo entre fornecedores | Não iniciado | Fica para a fase de compras (8) |
+
 ## Fases seguintes
 
 | Fase | Estado | O que é preciso para avançar |
@@ -107,5 +117,5 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 
 ## Testes
 
-- **132 testes automáticos** (`npm test`): motores financeiro, de orçamentos e de receitas; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
-- **12 testes E2E** (`npx playwright test`) contra produção, em desktop e telemóvel.
+- **186 testes automáticos** (`npm test`): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês e do histórico de preços; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
+- **20 testes E2E (10 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção.

@@ -61,6 +61,9 @@ Fonte de verdade: `supabase/migrations/*.sql`. Todas as tabelas têm RLS ativo.
 | Tabela / função | Notas |
 |---|---|
 | `contacts` | Clientes e fornecedores (`kind` client, supplier, both). Âmbito pessoal ou de organização. RLS por `business.*`. |
+| `contact_notes` | Observações datadas de um contacto (`kind` note, call, meeting, email, visit; `noted_on`; `body`). Mesmo âmbito do contacto (trigger); o contacto não muda. RLS por `business.*`. |
+| `supplier_prices` | Preço unitário observado de um artigo num fornecedor (`item_name`, `unit`, `unit_price_minor`, `currency_code`, `observed_on`), opcionalmente ligado à despesa que o comprova (`transaction_id`: mesmo âmbito, fornecedor e moeda). Só contactos `supplier`/`both`. RLS por `business.*`, auditado. |
+| `quotes` (+) | `client_contact_id`: cliente do cadastro (`client`/`both`, mesmo âmbito), bloqueado depois de aceite. Os campos de texto do cliente continuam no orçamento. |
 | `cost_centers` | Centros de custo. |
 | `projects` | Cliente, orçamento de origem (único), estado, moeda, custo e receita previstos. A moeda fica bloqueada quando há movimentos. |
 | `transactions` (+) | `contact_id`, `project_id`, `cost_center_id`, `cost_kind`, `due_on`, `net_minor` + `tax_minor` (soma = total), `settled_minor` (0 ≤ liquidado ≤ total; por omissão = total), `payment_status` gerado (pending, partial, paid), `payment_method`, `document_ref`. Ligações validadas por trigger: mesmo âmbito e, no projeto, mesma moeda. |

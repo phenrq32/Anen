@@ -2,6 +2,7 @@ import { z } from "zod";
 import { isoDate, optionalDate, optionalText, optionalUuid } from "./finance";
 
 export const CONTACT_KINDS = ["client", "supplier", "both"] as const;
+export const CONTACT_NOTE_KINDS = ["note", "call", "meeting", "email", "visit"] as const;
 export const PROJECT_STATUSES = ["planned", "active", "completed", "cancelled"] as const;
 
 export const contactSchema = z.object({
@@ -41,3 +42,24 @@ export const costCenterSchema = z.object({
   name: z.string().trim().min(1, { message: "name_required" }).max(80, { message: "too_long" }),
 });
 
+
+export const contactNoteSchema = z.object({
+  id: optionalUuid,
+  contactId: z.uuid({ message: "contact_invalid" }),
+  kind: z.enum(CONTACT_NOTE_KINDS, { message: "generic" }),
+  notedOn: isoDate,
+  body: z.string().trim().min(1, { message: "note_required" }).max(4000, { message: "too_long" }),
+});
+
+/** O preço (texto) é convertido para unidades mínimas no servidor com parseAmountInput. */
+export const supplierPriceSchema = z.object({
+  id: optionalUuid,
+  contactId: z.uuid({ message: "contact_invalid" }),
+  itemName: z.string().trim().min(1, { message: "name_required" }).max(160, { message: "too_long" }),
+  unit: optionalText(20),
+  unitPrice: z.string().trim().min(1, { message: "amount_invalid" }).max(32, { message: "amount_invalid" }),
+  currencyCode: z.string().regex(/^[A-Z]{3}$/, { message: "currency_invalid" }),
+  observedOn: isoDate,
+  transactionId: optionalUuid,
+  notes: optionalText(500),
+});

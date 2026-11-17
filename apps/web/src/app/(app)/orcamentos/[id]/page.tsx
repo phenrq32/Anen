@@ -46,6 +46,19 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
     quote.status === "accepted" && biz.canRead
       ? await session.supabase.from("projects").select("id").eq("quote_id", quote.id).maybeSingle()
       : { data: null };
+  // Clientes do cadastro (ativos, e o ligado mesmo que arquivado). Sem permissão de leitura: só se mantém a ligação.
+  const { data: clientRows } = biz.canRead
+    ? await session.supabase
+        .from("contacts")
+        .select("id, name, email, tax_id, address, archived_at")
+        .eq(biz.column, biz.value)
+        .in("kind", ["client", "both"])
+        .order("name")
+        .limit(500)
+    : { data: null };
+  const clients = (clientRows ?? [])
+    .filter((c) => !c.archived_at || c.id === quote.client_contact_id)
+    .map((c) => ({ id: c.id, name: c.name, email: c.email ?? "", taxId: c.tax_id ?? "", address: c.address ?? "" }));
 
   return (
     <>
@@ -58,6 +71,14 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
           </h1>
           <p className="tabular text-sm text-subtle">
             {quote.number} · {format(m.quotes.versionItem, { version: quote.version })}
+            {quote.client_contact_id && biz.canRead ? (
+              <>
+                {" · "}
+                <Link href={`/contactos/${quote.client_contact_id}`} className="underline-offset-2 hover:text-paper hover:underline">
+                  {quote.client_name ?? m.quotes.client}
+                </Link>
+              </>
+            ) : null}
           </p>
         </div>
         <div className="flex flex-wrap items-start gap-2">
@@ -96,10 +117,12 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
         locale={locale}
         minorUnit={minorUnit}
         readOnly={!editable}
+        clients={biz.canRead ? clients : null}
         quote={{
           id: quote.id,
           title: quote.title,
           description: quote.description ?? "",
+          clientContactId: quote.client_contact_id ?? "",
           clientName: quote.client_name ?? "",
           clientEmail: quote.client_email ?? "",
           clientTaxId: quote.client_tax_id ?? "",
