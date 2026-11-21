@@ -335,6 +335,67 @@ export interface RecipeIngredient {
   supplier_price_id: string | null;
 }
 
+// ---------------------------------------------------------------------------
+// Inteligência de mercado (fontes oficiais recolhidas pelo agente de mercado)
+// ---------------------------------------------------------------------------
+export type MarketCategory = "general" | "food" | "energy" | "fuel" | "services" | "construction";
+
+export interface MarketSource {
+  id: string;
+  key: string;
+  name: string;
+  publisher: string;
+  country: string;
+  docs_url: string;
+  license: string;
+  is_active: boolean;
+  last_run_at: string | null;
+  last_success_at: string | null;
+  last_error: string | null;
+}
+
+export interface MarketSeries {
+  id: string;
+  source_id: string;
+  code: string;
+  name: string;
+  category: MarketCategory;
+  value_kind: "index" | "price" | "none";
+  value_unit: string | null;
+  currency_code: string | null;
+  position: number;
+  is_active: boolean;
+}
+
+export interface MarketObservation {
+  series_id: string;
+  period: string;
+  /** numeric do Postgres: chega como número (PostgREST); converter com numericToString. */
+  value: number | null;
+  change_month: number | null;
+  change_year: number | null;
+  collected_at: string;
+}
+
+export interface MarketWatch extends FinanceScoped {
+  id: string;
+  series_id: string;
+  threshold_percent: number;
+  created_at: string;
+}
+
+export interface MarketAlert extends FinanceScoped {
+  id: string;
+  watch_id: string;
+  series_id: string;
+  period: string;
+  change_month: number;
+  change_year: number | null;
+  threshold_percent: number;
+  created_at: string;
+  read_at: string | null;
+}
+
 /** Ingrediente ligado cujo preço registado mudou desde que foi usado na ficha. */
 export interface RecipePriceUpdate {
   recipe_id: string;

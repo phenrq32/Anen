@@ -122,11 +122,23 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 | Atualização automática do custo quando chega um preço novo | Não iniciado | Decisão: o custo só muda quando o utilizador confirma (fica no histórico) |
 | Comparar o mesmo artigo entre fornecedores | Não iniciado | Fase de compras (8) |
 
+## Prompt 03 · Fase 6: inteligência de mercado
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Fontes oficiais (Eurostat HICP, IBGE IPCA e SINAPI) com licença e ligação | Testado | `market.test.ts` com respostas reais gravadas; E2E `market.spec.ts` |
+| Agente de mercado diário (pg_cron + http), idempotente, falhas isoladas, registo em `job_runs` | Testado (BD) | `market.test.ts`; em produção depende da extensão `http` (verificar após a migration) |
+| Acompanhamento com limiar e alertas sem repetição; RLS e acessos cruzados | Testado | `market.test.ts` + E2E |
+| Leitura das séries (acumulado de 3 meses, sentido) | Testado | `financial-engine/src/market.test.ts` |
+| Preços de produtos concretos (supermercados, grossistas, combustíveis por posto) | Não iniciado | Requer contrato ou API com licença; a DGEG só tem uma API interna sem licença |
+| Comparar o preço de um fornecedor com a inflação da categoria | Não iniciado | Falta ligar os artigos registados às categorias COICOP/IPCA |
+| Resumo do mercado por IA | Bloqueado | Fase 7 (chave de API) |
+
 ## Fases seguintes
 
 | Fase | Estado | O que é preciso para avançar |
 |---|---|---|
-| 4: Pesquisa de preços | Não iniciado | Registo/chaves nas fontes (INE, Eurostat, IBGE…) e decisão sobre que fornecedores de preços licenciar |
+| 4: Pesquisa de preços | Em desenvolvimento | Índices oficiais feitos (Fase 6 do prompt 03). Falta decidir que fornecedores de preços de produtos licenciar |
 | 5: Fiscalidade PT/BR | Não iniciado | Validação jurídica/contabilística das regras e taxas (não se inventam taxas) |
 | 6: IA | Não iniciado | Chave de API de modelos de linguagem (Anthropic ou outro) |
 | 7: Marketplace | Não iniciado | Serviço de mapas (chave) e definição de regras de moderação |
@@ -136,5 +148,5 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 
 ## Testes
 
-- **215 testes automáticos** (`npm test`): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês e do histórico de preços; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
+- **231 testes automáticos** (`npm test`): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês e do histórico de preços; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
 - **20 testes E2E (10 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção.

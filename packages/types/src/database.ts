@@ -19,6 +19,11 @@ import type {
   Recipe,
   RecipeIngredient,
   RecipePriceUpdate,
+  MarketSource,
+  MarketSeries,
+  MarketObservation,
+  MarketWatch,
+  MarketAlert,
   Budget,
   FinanceTransaction,
   FinancialAccount,
@@ -220,6 +225,22 @@ export type Database = {
         Scope & Pick<SupplierPrice, "contact_id" | "item_name" | "unit" | "unit_price_minor" | "currency_code" | "observed_on" | "transaction_id" | "notes">,
         Partial<Pick<SupplierPrice, "item_name" | "unit" | "unit_price_minor" | "currency_code" | "observed_on" | "transaction_id" | "notes">>
       >;
+      admin_users: Table<{ user_id: string; role: "super_admin" | "support" | "finance" | "content"; created_at: string }>;
+      job_runs: Table<{
+        id: number;
+        job: string;
+        started_at: string;
+        finished_at: string | null;
+        status: "running" | "success" | "partial" | "error";
+        processed: number;
+        failed: number;
+        details: { alerts?: number; errors?: unknown[] };
+      }>;
+      market_sources: Table<MarketSource>;
+      market_series: Table<MarketSeries>;
+      market_observations: Table<MarketObservation>;
+      market_watches: Table<MarketWatch, Scope & { series_id: string; threshold_percent: number }, Partial<Pick<MarketWatch, "threshold_percent">>>;
+      market_alerts: Table<MarketAlert, NoWrite, Partial<Pick<MarketAlert, "read_at">>>;
       cost_centers: Table<CostCenter, Scope & { name: string }, Partial<{ name: string; archived_at: string | null }>>;
       projects: Table<
         Project,
@@ -298,6 +319,7 @@ export type Database = {
       create_project_from_quote: { Args: { p_quote_id: string }; Returns: string };
       snapshot_quote: { Args: { p_quote_id: string }; Returns: number };
       save_quote_content: { Args: { p_quote_id: string; p_fields: Record<string, string | null>; p_items: Record<string, string | number | null>[] }; Returns: number };
+      run_market_agent_now: { Args: Record<string, never>; Returns: { observations: number; failed: number; alerts: number } };
       recipe_price_updates: { Args: { p_recipe_id?: string | null }; Returns: RecipePriceUpdate[] };
       save_recipe_content: { Args: { p_recipe_id: string; p_fields: Record<string, string | null>; p_ingredients: Record<string, string | number | null>[] }; Returns: undefined };
     };

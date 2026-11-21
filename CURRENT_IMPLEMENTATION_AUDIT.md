@@ -98,7 +98,7 @@ Estas áreas **não aparecem no menu**, por isso nenhuma surge como pronta.
 | 3 | CRM: observações datadas, orçamentos e pendentes na ficha, histórico de preços por fornecedor | **Concluída**: migration 1100 em produção, `crm.test.ts`, `price-history.test.ts`, E2E `crm.spec.ts`. O orçamento já fica ligado ao cadastro (antecipado da Fase 4) |
 | 4 | ~~Orçamentos ligados ao cadastro de clientes~~ (feito na Fase 3), descontos, produtos/serviços; descrição do projeto | **Concluída** localmente: migration 1200, `quote-discounts.test.ts`, E2E `quote-discounts.spec.ts` (por publicar) |
 | 5 | Fichas técnicas ligadas a preços de ingredientes registados | **Concluída** localmente: migration 1300, `recipe-prices.test.ts`, E2E `recipe-prices.spec.ts` (por publicar) |
-| 6 | Inteligência de mercado: fontes, recolha agendada, histórico, comparação, alertas | Pendente (fontes externas) |
+| 6 | Inteligência de mercado: fontes, recolha agendada, histórico, comparação, alertas | **Concluída** localmente com fontes oficiais abertas (Eurostat, IBGE): migration 1400, agente de mercado, `market.test.ts`, E2E `market.spec.ts` (por publicar) |
 | 7 | ANEN AI com ferramentas, histórico de conversas por organização | Bloqueada (chave de API) |
 | 8 | Compras, inventário e automações | Pendente |
 | 9 | Relatórios, notificações, otimização | Pendente |

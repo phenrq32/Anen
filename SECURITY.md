@@ -32,3 +32,7 @@
 ## Reportar vulnerabilidades
 
 Enviar para o responsável técnico do projeto. Não abrir issues públicas com detalhes exploráveis.
+
+## Pedidos externos do agente de mercado
+- O agente corre no Postgres (`private.run_market_agent`, SECURITY DEFINER, sem acesso para `authenticated`). Os endereços pedidos são montados a partir do catálogo `market_series`, que só o sistema escreve: nenhum valor vindo de utilizadores entra num URL (sem SSRF).
+- Pedidos com tempo limite de 20 s e User-Agent próprio; as respostas são validadas pela forma (JSON-stat/SIDRA) antes de gravar, e uma resposta inválida conta como falha da série.

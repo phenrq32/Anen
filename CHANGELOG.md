@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.11.0] · 21/11/2026 · Prompt 03, Fase 6: inteligência de mercado e agente de mercado
+- Fontes oficiais e abertas, sem chave, verificadas a 21/11/2026: Eurostat HICP (Portugal, ECOICOP v2, índice 2025 = 100 e taxas mensal e anual), IBGE IPCA (tabela 7060, variações mensal e em 12 meses) e IBGE SINAPI (tabela 2296, custo médio do m² em R$). 36 séries: geral, alimentação (cereais, carne, peixe, laticínios, óleos, fruta, legumes, açúcar, café, farinhas, panificados…), restauração, eletricidade e gás, combustíveis e construção.
+- Os preços de combustíveis por posto da DGEG não são usados: só existem numa API interna do site, sem documentação nem licença.
+- Agente de mercado no Postgres: `private.run_market_agent()` recolhe cada série (extensão `http` da Supabase), guarda as observações tal como publicadas (`market_observations`, idempotente), regista a execução em `job_runs` e o estado de cada fonte. Uma série que falha não trava as outras. Agendado todos os dias às 06:30 UTC (`anen-market-agent`); os administradores da plataforma podem correr a pedido (`run_market_agent_now`). Os endereços vêm do catálogo, nunca do utilizador.
+- Acompanhamento com limiar (`market_watches`, por pessoa ou organização, `business.*`) e alertas criados pelo agente quando a variação mensal publicada atinge o limiar (`market_alerts`, sem repetir; o leitor marca como lido).
+- Motor: `compoundPercent` e `readMarketSeries` (último valor, anterior, acumulado de 3 meses consecutivos, sentido), sem ponto flutuante.
+- Página `/mercado`: estado do agente e das fontes, alertas, Portugal e Brasil por categoria, acompanhar/deixar de acompanhar, fontes com licença e ligação.
+- Migration 1400. Testes: 231 unitários, de motor (`market.test.ts`) e da base de dados com respostas reais gravadas das três fontes (`market.test.ts`, pasta `fixtures`), e o E2E `market.spec.ts`.
+
 ## [0.10.0] · 21/11/2026 · Prompt 03, Fase 5: fichas técnicas ligadas aos preços registados
 - Cada ingrediente pode usar um preço registado de um fornecedor (`recipe_ingredients.supplier_price_id`). A lista mostra o preço mais recente de cada artigo por fornecedor, na moeda da ficha.
 - Conversão de unidades no motor (`unitConversionFactor`: massa, volume e contagem, exata até 3 casas): um preço de 1,00 €/kg num ingrediente em gramas fica com 1000 g na embalagem. Sem conversão conhecida (ex.: "saco 25 kg"), a unidade do fornecedor passa para o ingrediente e o utilizador indica a correspondência.

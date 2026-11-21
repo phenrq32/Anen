@@ -67,6 +67,9 @@ Fonte de verdade: `supabase/migrations/*.sql`. Todas as tabelas têm RLS ativo.
 | `cost_centers` | Centros de custo. |
 | `projects` | Cliente, orçamento de origem (único), estado, moeda, custo e receita previstos, `description` (até 4000 caracteres, copiada do orçamento). A moeda fica bloqueada quando há movimentos. |
 | `quotes` (+, 1200) | `discount_percent` ou `discount_fixed_minor` (nunca os dois), `discount_minor` (valor descontado). Preço antes do desconto = `price_before_tax_minor + discount_minor`. Bloqueados depois de aceite. |
+| `market_sources`, `market_series`, `market_observations` (1400) | Catálogo de fontes oficiais (licença, ligação, estado da última recolha), séries com o pedido de recolha (`fetch_spec`) e observações mensais tal como publicadas (`value`, `change_month`, `change_year`). Legíveis por quem tem sessão; só o agente escreve. |
+| `market_watches`, `market_alerts` (1400) | Acompanhamento por pessoa/organização com limiar em p.p. e alertas criados pelo agente (únicos por acompanhamento e mês). `business.*`; o leitor marca alertas como lidos. |
+| `private.run_market_agent()` | Agente de mercado: recolhe, guarda, regista em `job_runs`, cria alertas. pg_cron `anen-market-agent` às 06:30 UTC. `public.run_market_agent_now()` só para administradores da plataforma. |
 | `recipe_ingredients` (+, 1300) | `supplier_price_id`: preço de fornecedor de onde veio `package_price_minor` (mesmo âmbito e moeda; `on delete set null`). Ligação nova só com `business.read`. |
 | `recipe_price_updates(p_recipe_id?)` | SECURITY INVOKER. Ingredientes ligados com um preço mais recente do mesmo artigo (nome normalizado + unidade + moeda) no mesmo fornecedor, ou com o registo corrigido. |
 | `quote_items` (+, 1200) | `nature`: `product` ou `service` (por omissão `service`). |
