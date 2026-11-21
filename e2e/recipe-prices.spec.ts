@@ -70,7 +70,7 @@ test("ficha técnica com preço de fornecedor: conversão kg → g, aviso de pre
   await page.goto("/restauracao");
   await expect(main.getByText("Preços novos")).toBeVisible();
   await page.goto(recipeUrl);
-  await expect(main.getByText(/Moagem Central tem um preço mais recente: 1,20 €/)).toBeVisible();
+  await expect(main.getByText(/Moagem Central tem um preço mais recente: 1,20\s€/)).toBeVisible();
   await expect(main.getByText("0,50 €").first()).toBeVisible();
   await main.getByRole("button", { name: "Atualizar todos" }).click();
   await expect(main.getByLabel("Preço embalagem").first()).toHaveValue("1,20");

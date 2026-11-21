@@ -60,6 +60,6 @@ test("mercado: séries oficiais de Portugal e do Brasil, fontes e acompanhamento
   await page.waitForURL(/pais=BR/);
   await expect(main.getByRole("cell", { name: /Farinhas, féculas e massas/ })).toBeVisible();
   await expect(main.getByRole("cell", { name: /Custo médio do m² da construção/ })).toBeVisible();
-  await expect(main.getByText(/R\$\s?[\d.]+,\d{2}\/m²/)).toBeVisible();
+  await expect(main.getByText(/(R\$\s?[\d.]+,\d{2}|[\d.\s]+,\d{2}\sR\$)\/m²/)).toBeVisible();
   await expect(main.getByText(/IBGE: Sistema Nacional de Pesquisa de Custos e Índices da Construção Civil/)).toBeVisible();
 });

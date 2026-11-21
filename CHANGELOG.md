@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.11.1] · 21/11/2026 · Publicação das fases 4, 5 e 6
+- Migrations 1200, 1300 e 1400 aplicadas em produção. Extensão `http` instalada; o agente de mercado correu uma vez com sucesso (36 séries, 864 observações) e está agendado (`anen-market-agent`, 06:30 UTC).
+- Correção: a barra lateral no computador não deslizava. Numa organização, com ecrãs de 720 px de altura, "Terminar sessão" ficava fora do ecrã. A navegação passa a deslizar e o rodapé fica sempre visível.
+- E2E: as expressões dos testes aceitam o espaço não separável do `Intl` e o formato pt-PT ("2005,57 R$/m²"). 26 E2E a passar em produção.
+
 ## [0.11.0] · 21/11/2026 · Prompt 03, Fase 6: inteligência de mercado e agente de mercado
 - Fontes oficiais e abertas, sem chave, verificadas a 21/11/2026: Eurostat HICP (Portugal, ECOICOP v2, índice 2025 = 100 e taxas mensal e anual), IBGE IPCA (tabela 7060, variações mensal e em 12 meses) e IBGE SINAPI (tabela 2296, custo médio do m² em R$). 36 séries: geral, alimentação (cereais, carne, peixe, laticínios, óleos, fruta, legumes, açúcar, café, farinhas, panificados…), restauração, eletricidade e gás, combustíveis e construção.
 - Os preços de combustíveis por posto da DGEG não são usados: só existem numa API interna do site, sem documentação nem licença.

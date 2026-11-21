@@ -60,7 +60,8 @@ export function AppShell({
           <span className="px-1 text-xs text-subtle">{roleName(m, session.active.role)}</span>
         ) : null}
       </form>
-      <nav aria-label={m.nav.mainNavigation} className="flex-1">
+      {/* A navegação desliza quando não cabe no ecrã; o utilizador e "Terminar sessão" ficam sempre visíveis. */}
+      <nav aria-label={m.nav.mainNavigation} className="-mx-1 min-h-0 flex-1 overflow-y-auto px-1">
         <NavLinks items={items} />
         <Link
           href="/organizacoes/nova"
@@ -72,7 +73,7 @@ export function AppShell({
           {m.nav.newOrganization}
         </Link>
       </nav>
-      <div className="flex items-center justify-between gap-2 border-t border-line px-1 pt-4">
+      <div className="flex shrink-0 items-center justify-between gap-2 border-t border-line px-1 pt-4">
         <div className="min-w-0">
           <p className="truncate text-sm font-medium">{displayName}</p>
           <p className="truncate text-xs text-subtle">{session.user.email}</p>

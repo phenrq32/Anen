@@ -127,7 +127,7 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 | Funcionalidade | Estado | Evidência |
 |---|---|---|
 | Fontes oficiais (Eurostat HICP, IBGE IPCA e SINAPI) com licença e ligação | Testado | `market.test.ts` com respostas reais gravadas; E2E `market.spec.ts` |
-| Agente de mercado diário (pg_cron + http), idempotente, falhas isoladas, registo em `job_runs` | Testado (BD) | `market.test.ts`; em produção depende da extensão `http` (verificar após a migration) |
+| Agente de mercado diário (pg_cron + http), idempotente, falhas isoladas, registo em `job_runs` | Testado (BD) | `market.test.ts`; em produção: extensão `http` instalada, `anen-market-agent` agendado, primeira execução com sucesso (36 séries, 864 observações) |
 | Acompanhamento com limiar e alertas sem repetição; RLS e acessos cruzados | Testado | `market.test.ts` + E2E |
 | Leitura das séries (acumulado de 3 meses, sentido) | Testado | `financial-engine/src/market.test.ts` |
 | Preços de produtos concretos (supermercados, grossistas, combustíveis por posto) | Não iniciado | Requer contrato ou API com licença; a DGEG só tem uma API interna sem licença |
@@ -149,4 +149,4 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 ## Testes
 
 - **231 testes automáticos** (`npm test`): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês e do histórico de preços; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
-- **20 testes E2E (10 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção.
+- **26 testes E2E (13 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção, todos a passar a 21/11/2026.

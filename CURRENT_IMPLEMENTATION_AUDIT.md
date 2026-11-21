@@ -96,9 +96,9 @@ Estas áreas **não aparecem no menu**, por isso nenhuma surge como pronta.
 | **1** | Auditoria (este documento). Agendador no servidor (`pg_cron`, 05:00 UTC) com registo de execuções (`job_runs`) e geração diária dos recorrentes de todas as pessoas e organizações. Limpeza de textos obsoletos. | **Concluída**: migration 0900 em produção, tarefa agendada e executada com sucesso, `scheduler.test.ts` |
 | 2 | Recorrentes editáveis e com cliente/projeto/pendente; anexos de faturas e recibos (Storage com RLS) | **Concluída**: migration 1000 em produção, `recurring-attachments.test.ts`, E2E `recurring-attachments.spec.ts` |
 | 3 | CRM: observações datadas, orçamentos e pendentes na ficha, histórico de preços por fornecedor | **Concluída**: migration 1100 em produção, `crm.test.ts`, `price-history.test.ts`, E2E `crm.spec.ts`. O orçamento já fica ligado ao cadastro (antecipado da Fase 4) |
-| 4 | ~~Orçamentos ligados ao cadastro de clientes~~ (feito na Fase 3), descontos, produtos/serviços; descrição do projeto | **Concluída** localmente: migration 1200, `quote-discounts.test.ts`, E2E `quote-discounts.spec.ts` (por publicar) |
-| 5 | Fichas técnicas ligadas a preços de ingredientes registados | **Concluída** localmente: migration 1300, `recipe-prices.test.ts`, E2E `recipe-prices.spec.ts` (por publicar) |
-| 6 | Inteligência de mercado: fontes, recolha agendada, histórico, comparação, alertas | **Concluída** localmente com fontes oficiais abertas (Eurostat, IBGE): migration 1400, agente de mercado, `market.test.ts`, E2E `market.spec.ts` (por publicar) |
+| 4 | ~~Orçamentos ligados ao cadastro de clientes~~ (feito na Fase 3), descontos, produtos/serviços; descrição do projeto | **Concluída**: migration 1200 em produção, `quote-discounts.test.ts`, E2E `quote-discounts.spec.ts` |
+| 5 | Fichas técnicas ligadas a preços de ingredientes registados | **Concluída**: migration 1300 em produção, `recipe-prices.test.ts`, E2E `recipe-prices.spec.ts` |
+| 6 | Inteligência de mercado: fontes, recolha agendada, histórico, comparação, alertas | **Concluída** com fontes oficiais abertas (Eurostat, IBGE): migration 1400 em produção, agente de mercado agendado e executado (864 observações, 21/11/2026), `market.test.ts`, E2E `market.spec.ts` |
 | 7 | ANEN AI com ferramentas, histórico de conversas por organização | Bloqueada (chave de API) |
 | 8 | Compras, inventário e automações | Pendente |
 | 9 | Relatórios, notificações, otimização | Pendente |
