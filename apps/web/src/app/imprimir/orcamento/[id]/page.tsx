@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
-import { allocate, moneyFromMinor } from "@anen/financial-engine";
+import { add, allocateLinePrices, moneyFromMinor, zero } from "@anen/financial-engine";
 import { format, formatDate, formatMoney } from "@anen/i18n";
 import { getI18n } from "@/lib/i18n";
 import { numericToString } from "@/lib/quotes";
@@ -11,7 +11,8 @@ export const metadata: Metadata = { title: "Orçamento", robots: { index: false 
 
 /**
  * Documento para o cliente: mostra PREÇOS, nunca custos internos nem margem.
- * O preço sem imposto é repartido pelas linhas na proporção do custo, sem perder cêntimos.
+ * O preço antes do desconto é repartido pelas linhas na proporção do custo, sem perder cêntimos;
+ * o desconto aparece numa linha própria, antes do imposto.
  */
 export default async function PrintQuotePage({ params }: { params: Promise<{ id: string }> }) {
   const { m, locale } = await getI18n();
@@ -30,9 +31,19 @@ export default async function PrintQuotePage({ params }: { params: Promise<{ id:
   const fmt = (v: bigint) => formatMoney(v, quote.currency_code, unit, locale);
   const org = orgRes.data;
   const lines = items ?? [];
-  const costs = lines.map((l) => BigInt(l.total_cost_minor));
-  const price = moneyFromMinor(BigInt(quote.price_before_tax_minor), quote.currency_code);
-  const linePrices = costs.some((c) => c > 0n) ? allocate(price, costs).map((p) => p.amountMinor) : costs.map(() => 0n);
+  const discount = BigInt(quote.discount_minor);
+  const subtotal = moneyFromMinor(BigInt(quote.price_before_tax_minor) + discount, quote.currency_code);
+  const linePrices = allocateLinePrices(
+    subtotal,
+    lines.map((l) => moneyFromMinor(BigInt(l.total_cost_minor), quote.currency_code)),
+  ).map((p) => p.amountMinor);
+  const byNature = { product: zero(quote.currency_code), service: zero(quote.currency_code) };
+  lines.forEach((l, i) => {
+    byNature[l.nature] = add(byNature[l.nature], moneyFromMinor(linePrices[i] ?? 0n, quote.currency_code));
+  });
+  const mixed = byNature.product.amountMinor > 0n && byNature.service.amountMinor > 0n;
+  const discountLabel =
+    quote.discount_percent > 0 ? `${m.quotes.print_.discount} (${numericToString(quote.discount_percent).replace(".", ",")} %)` : m.quotes.print_.discount;
   const tz = org?.timezone ?? session.preferences.timezone;
   const taxRate = numericToString(quote.tax_rate_percent).replace(".", ",");
 
@@ -79,6 +90,7 @@ export default async function PrintQuotePage({ params }: { params: Promise<{ id:
         <thead>
           <tr className="border-b border-[#111] text-left text-xs uppercase tracking-wider text-[#5a5a5a]">
             <th className="py-2 font-semibold">{m.quotes.line.description}</th>
+            <th className="py-2 pr-3 font-semibold">{m.quotes.print_.nature}</th>
             <th className="py-2 text-right font-semibold">{m.quotes.line.quantity}</th>
             <th className="py-2 text-right font-semibold">{m.quotes.print_.unitPrice}</th>
             <th className="py-2 text-right font-semibold">{m.quotes.print_.amount}</th>
@@ -92,6 +104,7 @@ export default async function PrintQuotePage({ params }: { params: Promise<{ id:
             return (
               <tr key={l.id} className="border-b border-[#e4e2de] align-top">
                 <td className="py-2.5 pr-3">{l.description}</td>
+                <td className="py-2.5 pr-3 text-[#5a5a5a]">{m.quotes.line.natures[l.nature]}</td>
                 <td className="tabular py-2.5 text-right whitespace-nowrap">
                   {numericToString(l.quantity).replace(".", ",")} {l.unit ?? ""}
                 </td>
@@ -104,6 +117,30 @@ export default async function PrintQuotePage({ params }: { params: Promise<{ id:
       </table>
 
       <dl className="ml-auto mt-6 flex w-full max-w-xs flex-col gap-1.5 text-sm">
+        {mixed ? (
+          <>
+            <div className="flex justify-between gap-4">
+              <dt className="text-[#5a5a5a]">{m.quotes.print_.products}</dt>
+              <dd className="tabular">{fmt(byNature.product.amountMinor)}</dd>
+            </div>
+            <div className="flex justify-between gap-4">
+              <dt className="text-[#5a5a5a]">{m.quotes.print_.services}</dt>
+              <dd className="tabular">{fmt(byNature.service.amountMinor)}</dd>
+            </div>
+          </>
+        ) : null}
+        {discount > 0n ? (
+          <>
+            <div className="flex justify-between gap-4">
+              <dt className="text-[#5a5a5a]">{m.quotes.print_.subtotal}</dt>
+              <dd className="tabular">{fmt(subtotal.amountMinor)}</dd>
+            </div>
+            <div className="flex justify-between gap-4">
+              <dt className="text-[#5a5a5a]">{discountLabel}</dt>
+              <dd className="tabular">− {fmt(discount)}</dd>
+            </div>
+          </>
+        ) : null}
         <div className="flex justify-between gap-4">
           <dt className="text-[#5a5a5a]">{m.quotes.summary.price}</dt>
           <dd className="tabular">{fmt(BigInt(quote.price_before_tax_minor))}</dd>

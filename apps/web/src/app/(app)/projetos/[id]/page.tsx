@@ -96,6 +96,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
             ) : null}
             <span>{project.currency_code}</span>
           </p>
+          {project.description ? <p className="max-w-2xl whitespace-pre-line text-sm text-muted">{project.description}</p> : null}
         </div>
         <div className="flex flex-wrap items-start gap-2">
           {fin.canWrite ? (
@@ -209,6 +210,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
             initial={{
               id: project.id,
               name: project.name,
+              description: project.description,
               clientContactId: project.client_contact_id,
               status: project.status,
               currencyCode: project.currency_code,

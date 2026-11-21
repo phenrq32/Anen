@@ -8,6 +8,7 @@ import { createProjectFromQuoteAction, deleteProjectAction, saveProjectAction } 
 export interface ProjectInitial {
   id: string;
   name: string;
+  description: string | null;
   clientContactId: string | null;
   status: "planned" | "active" | "completed" | "cancelled";
   currencyCode: string;
@@ -49,6 +50,22 @@ export function ProjectForm({
               options={(["planned", "active", "completed", "cancelled"] as const).map((s) => ({ value: s, label: t.statuses[s] }))}
               error={state.fieldErrors?.status}
             />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="project-description" className="text-sm font-medium">
+              {t.descriptionField} <span className="font-normal text-subtle">({m.common.optional})</span>
+            </label>
+            <textarea
+              id="project-description"
+              name="description"
+              defaultValue={initial?.description ?? ""}
+              maxLength={4000}
+              rows={3}
+              aria-describedby="project-description-hint"
+              className="w-full rounded-md border border-line bg-surface px-3.5 py-2.5 text-[15px] text-paper focus:border-brand focus:outline-none"
+            />
+            <p id="project-description-hint" className="text-xs text-subtle">{t.descriptionHint}</p>
+            {state.fieldErrors?.description ? <p className="text-sm text-danger">{state.fieldErrors.description}</p> : null}
           </div>
           <div className="grid gap-4 sm:grid-cols-[1fr_220px]">
             <SelectField

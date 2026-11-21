@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { computeQuote, computeRecipe, type IngredientInput } from "@anen/financial-engine";
+import { QuoteDiscountTooLargeError, computeQuote, computeRecipe, defaultNature, type IngredientInput, type QuoteBreakdown } from "@anen/financial-engine";
 import { format } from "@anen/i18n";
 import type { QuoteStatus } from "@anen/types";
 import {
@@ -10,6 +10,7 @@ import {
   parseAmountInput,
   parsePercentInput,
   parseQuantityInput,
+  parseQuoteDiscount,
   parseQuoteLines,
   quoteHeaderSchema,
 } from "@anen/validation";
@@ -69,6 +70,9 @@ export async function createQuoteAction(formData: FormData): Promise<void> {
       valid_until: null,
       tax_label: null,
       conditions: null,
+      discount_percent: 0,
+      discount_fixed_minor: 0,
+      discount_minor: 0,
       total_cost_minor: 0,
       price_before_tax_minor: 0,
       tax_minor: 0,
@@ -83,6 +87,7 @@ export async function createQuoteAction(formData: FormData): Promise<void> {
         quote_id: data.id,
         position,
         kind: l.kind,
+        nature: defaultNature(l.kind),
         description: l.description,
         quantity: 1,
         unit: l.unit ?? null,
@@ -111,6 +116,8 @@ export async function saveQuoteAction(_: FormState, formData: FormData): Promise
     margin: formString(formData, "margin"),
     taxRate: formString(formData, "taxRate"),
     taxLabel: formString(formData, "taxLabel"),
+    discountType: formString(formData, "discountType") || "none",
+    discountValue: formString(formData, "discountValue"),
     conditions: formString(formData, "conditions"),
   });
   if (!parsed.success) return { status: "error", fieldErrors: translateFieldErrors(m, fieldErrors(parsed.error)) };
@@ -124,18 +131,29 @@ export async function saveQuoteAction(_: FormState, formData: FormData): Promise
   const taxRate = parsePercentInput(v.taxRate);
   if (margin === null) return { status: "error", fieldErrors: { margin: m.errors.percent_invalid } };
   if (taxRate === null) return { status: "error", fieldErrors: { taxRate: m.errors.percent_invalid } };
+  const discount = parseQuoteDiscount(v.discountType, v.discountValue, unit);
+  if (discount === null) {
+    return { status: "error", fieldErrors: { discountValue: v.discountType === "percent" ? m.errors.percent_invalid : m.errors.amount_invalid } };
+  }
   const lines = parseQuoteLines(safeJson(formString(formData, "lines")), unit);
   if (!lines) return { status: "error", message: m.errors.generic };
   const firstError = Object.entries(lines.errors)[0];
   if (firstError) return { status: "error", message: `${Number(firstError[0]) + 1}: ${m.errors[firstError[1] as "quantity_invalid"]}` };
 
   // Cálculo no servidor com o motor determinístico (o cálculo no navegador é só pré-visualização).
-  const breakdown = computeQuote({
-    currency: quote.currency_code,
-    lines: lines.lines.map((l) => ({ kind: l.kind, quantity: l.quantity, unitCostMinor: l.unitCostMinor })),
-    marginPercent: margin,
-    taxRatePercent: taxRate,
-  });
+  let breakdown: QuoteBreakdown;
+  try {
+    breakdown = computeQuote({
+      currency: quote.currency_code,
+      lines: lines.lines.map((l) => ({ kind: l.kind, nature: l.nature, quantity: l.quantity, unitCostMinor: l.unitCostMinor })),
+      marginPercent: margin,
+      taxRatePercent: taxRate,
+      discount,
+    });
+  } catch (err) {
+    if (err instanceof QuoteDiscountTooLargeError) return { status: "error", fieldErrors: { discountValue: m.errors.discount_too_large } };
+    throw err;
+  }
   const nullable = (s: string) => (s ? s : null);
   const { data: version, error } = await session.supabase.rpc("save_quote_content", {
     p_quote_id: quote.id,
@@ -152,6 +170,9 @@ export async function saveQuoteAction(_: FormState, formData: FormData): Promise
       tax_rate_percent: taxRate,
       tax_label: nullable(v.taxLabel),
       conditions: nullable(v.conditions),
+      discount_percent: discount.type === "percent" ? discount.percent : "0",
+      discount_fixed_minor: discount.type === "amount" ? discount.amountMinor.toString() : "0",
+      discount_minor: breakdown.discount.amountMinor.toString(),
       total_cost_minor: breakdown.totalCost.amountMinor.toString(),
       price_before_tax_minor: breakdown.priceBeforeTax.amountMinor.toString(),
       tax_minor: breakdown.tax.amountMinor.toString(),
@@ -160,6 +181,7 @@ export async function saveQuoteAction(_: FormState, formData: FormData): Promise
     p_items: lines.lines.map((l, i) => ({
       position: i,
       kind: l.kind,
+      nature: l.nature,
       description: l.description,
       quantity: l.quantity,
       unit: l.unit || null,

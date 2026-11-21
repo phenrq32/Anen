@@ -30,6 +30,7 @@ export async function saveProjectAction(_: FormState, formData: FormData): Promi
     plannedRevenue: formString(formData, "plannedRevenue"),
     startOn: formString(formData, "startOn"),
     endOn: formString(formData, "endOn"),
+    description: formString(formData, "description"),
     notes: formString(formData, "notes"),
   });
   if (!parsed.success) return { status: "error", fieldErrors: translateFieldErrors(m, fieldErrors(parsed.error)) };
@@ -43,6 +44,7 @@ export async function saveProjectAction(_: FormState, formData: FormData): Promi
 
   const fields = {
     name: v.name,
+    description: v.description,
     client_contact_id: v.clientContactId,
     status: v.status,
     planned_cost_minor: Number(cost),

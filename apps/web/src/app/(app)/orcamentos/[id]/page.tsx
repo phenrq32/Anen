@@ -131,12 +131,20 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
           margin: numericToString(quote.margin_percent).replace(".", ","),
           taxRate: numericToString(quote.tax_rate_percent).replace(".", ","),
           taxLabel: quote.tax_label ?? "",
+          discountType: quote.discount_fixed_minor > 0 ? "amount" : quote.discount_percent > 0 ? "percent" : "none",
+          discountValue:
+            quote.discount_fixed_minor > 0
+              ? formatAmountInputSafe(quote.discount_fixed_minor, minorUnit)
+              : quote.discount_percent > 0
+                ? numericToString(quote.discount_percent).replace(".", ",")
+                : "",
           conditions: quote.conditions ?? "",
           currency: quote.currency_code,
         }}
         initialLines={(items ?? []).map((i) => ({
           key: i.id,
           kind: i.kind,
+          nature: i.nature,
           description: i.description,
           quantity: numericToString(i.quantity).replace(".", ","),
           unit: i.unit ?? "",

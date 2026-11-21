@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   fieldErrors,
+  parseQuoteDiscount,
   isValidCnpj,
   isValidCpf,
   isValidPortugueseNif,
@@ -85,5 +86,21 @@ describe("safeNextPath", () => {
     [null, "/painel"],
   ])("%s → %s", (input, expected) => {
     expect(safeNextPath(input)).toBe(expected);
+  });
+});
+
+describe("desconto do orçamento", () => {
+  it("aceita percentagem e valor; zero equivale a sem desconto", () => {
+    expect(parseQuoteDiscount("percent", "7,5", 2)).toEqual({ type: "percent", percent: "7.5" });
+    expect(parseQuoteDiscount("amount", "150,00", 2)).toEqual({ type: "amount", amountMinor: 15000n });
+    expect(parseQuoteDiscount("percent", "0", 2)).toEqual({ type: "none" });
+    expect(parseQuoteDiscount("amount", "", 2)).toEqual({ type: "none" });
+    expect(parseQuoteDiscount("none", "999", 2)).toEqual({ type: "none" });
+  });
+
+  it("recusa percentagem acima de 100, negativos e texto", () => {
+    expect(parseQuoteDiscount("percent", "101", 2)).toBeNull();
+    expect(parseQuoteDiscount("amount", "-5", 2)).toBeNull();
+    expect(parseQuoteDiscount("amount", "abc", 2)).toBeNull();
   });
 });

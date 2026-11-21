@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.0] · 21/11/2026 · Prompt 03, Fase 4: descontos, produto/serviço, descrição do projeto
+- Desconto comercial no orçamento, em percentagem ou valor fixo (um dos dois, validado na base de dados). Aplica-se ao preço sem imposto, depois da margem; o imposto incide sobre o valor descontado. O motor recusa um desconto fixo maior do que o preço e assinala quando o desconto deixa o preço abaixo do custo.
+- Cada linha diz se vende um produto ou um serviço (sugerido pelo tipo de custo: material e equipamento são produtos; o utilizador pode mudar). O editor e o documento para o cliente mostram os totais de produtos e de serviços.
+- Documento para o cliente: coluna produto/serviço, subtotal, desconto (com a %) e só depois o imposto. A repartição do preço pelas linhas passou para o motor (`allocateLinePrices`).
+- Projetos com descrição (âmbito do trabalho), separada das notas. O projeto criado a partir de um orçamento copia a descrição, e a receita prevista é o preço já com desconto. Os projetos antigos criados de orçamentos receberam a descrição do orçamento.
+- Editor de orçamentos: a descrição da linha passou para uma linha própria; a grelha anterior ficava sem espaço para a descrição em ecrãs de 1280 px.
+- Migration 1200. Testes: 203 unitários, de motor e de RLS (`quote-discounts.test.ts`), e o E2E `quote-discounts.spec.ts`.
+
 ## [0.8.0] — 17/11/2026 · Prompt 03, Fase 3: CRM
 - Observações datadas na ficha do contacto (nota, chamada, reunião, email, visita): `contact_notes`, com RLS por `business.*`, o contacto sempre do mesmo âmbito e sem poder ser trocado.
 - Histórico de preços por fornecedor (`supplier_prices`): artigo, unidade, preço unitário, moeda e data, com ligação opcional à despesa que o comprova (mesmo fornecedor, mesma moeda, validado na base de dados). Só fornecedores. Sem preços de mercado: só o que o utilizador regista.

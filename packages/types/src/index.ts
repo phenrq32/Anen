@@ -244,6 +244,7 @@ export interface SavingsGoal extends FinanceScoped {
 // ---------------------------------------------------------------------------
 export type QuoteStatus = "draft" | "sent" | "accepted" | "rejected" | "expired" | "cancelled";
 export type QuoteItemKind = "material" | "labor" | "travel" | "equipment" | "overhead" | "other";
+export type QuoteItemNature = "product" | "service";
 
 export interface QuoteTemplate {
   id: string;
@@ -272,6 +273,12 @@ export interface Quote extends FinanceScoped {
   tax_rate_percent: number;
   tax_label: string | null;
   conditions: string | null;
+  /** Desconto em % (0 quando é fixo ou não há). */
+  discount_percent: number;
+  /** Desconto fixo indicado, em unidades mínimas (0 quando é em % ou não há). */
+  discount_fixed_minor: number;
+  /** Valor descontado; o preço antes do desconto é price_before_tax_minor + discount_minor. */
+  discount_minor: number;
   total_cost_minor: number;
   price_before_tax_minor: number;
   tax_minor: number;
@@ -286,6 +293,7 @@ export interface QuoteItem {
   quote_id: string;
   position: number;
   kind: QuoteItemKind;
+  nature: QuoteItemNature;
   description: string;
   quantity: number;
   unit: string | null;
@@ -394,6 +402,7 @@ export interface CostCenter extends FinanceScoped {
 export interface Project extends FinanceScoped {
   id: string;
   name: string;
+  description: string | null;
   client_contact_id: string | null;
   quote_id: string | null;
   status: ProjectStatus;

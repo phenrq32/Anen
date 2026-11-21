@@ -1,5 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { computeQuote, computeRecipe, decimalToString, ingredientCost, toDecimalString } from "./index";
+import {
+  QuoteDiscountTooLargeError,
+  allocateLinePrices,
+  computeQuote,
+  computeRecipe,
+  decimalToString,
+  defaultNature,
+  ingredientCost,
+  money,
+  toDecimalString,
+} from "./index";
 
 const s = toDecimalString;
 
@@ -94,5 +104,66 @@ describe("computeRecipe", () => {
     });
     expect(s(r.minimumPrice)).toBe("56.67");
     expect(s(r.recommendedPrice)).toBe("56.67");
+  });
+});
+
+describe("descontos, produtos e serviços", () => {
+  const lines = [
+    { kind: "labor" as const, quantity: "10", unitCostMinor: 5000n }, // 500,00 de mão de obra
+    { kind: "material" as const, quantity: "1", unitCostMinor: 30000n }, // 300,00 de material
+  ];
+
+  it("desconto em percentagem incide sobre o preço com margem; o imposto sobre o valor descontado", () => {
+    const q = computeQuote({ currency: "EUR", lines, marginPercent: "20", taxRatePercent: "23", discount: { type: "percent", percent: "10" } });
+    expect(s(q.subtotal)).toBe("1000.00");
+    expect(s(q.discount)).toBe("100.00");
+    expect(s(q.priceBeforeTax)).toBe("900.00");
+    expect(s(q.profit)).toBe("100.00");
+    expect(s(q.tax)).toBe("207.00");
+    expect(s(q.total)).toBe("1107.00");
+    expect(decimalToString(q.effectiveMarginPercent!)).toBe("11.11");
+    expect(q.belowCost).toBe(false);
+  });
+
+  it("desconto fixo abaixo do custo é permitido mas assinalado", () => {
+    const q = computeQuote({ currency: "EUR", lines, marginPercent: "20", taxRatePercent: "0", discount: { type: "amount", amountMinor: 25000n } });
+    expect(s(q.priceBeforeTax)).toBe("750.00");
+    expect(s(q.profit)).toBe("-50.00");
+    expect(q.belowCost).toBe(true);
+  });
+
+  it("desconto fixo maior do que o preço é recusado", () => {
+    expect(() =>
+      computeQuote({ currency: "EUR", lines, marginPercent: "20", taxRatePercent: "0", discount: { type: "amount", amountMinor: 100001n } }),
+    ).toThrow(QuoteDiscountTooLargeError);
+  });
+
+  it("desconto de 100 % deixa o preço a zero e a margem indefinida", () => {
+    const q = computeQuote({ currency: "EUR", lines, marginPercent: "20", taxRatePercent: "23", discount: { type: "percent", percent: "100" } });
+    expect(s(q.total)).toBe("0.00");
+    expect(q.effectiveMarginPercent).toBeNull();
+  });
+
+  it("sem desconto o resultado é o de antes", () => {
+    const q = computeQuote({ currency: "EUR", lines, marginPercent: "20", taxRatePercent: "23" });
+    expect(s(q.discount)).toBe("0.00");
+    expect(s(q.priceBeforeTax)).toBe(s(q.subtotal));
+  });
+
+  it("reparte o preço pelas linhas e soma por produto e serviço", () => {
+    const q = computeQuote({ currency: "EUR", lines, marginPercent: "20", taxRatePercent: "0" });
+    expect(q.linePrices.map(s)).toEqual(["625.00", "375.00"]);
+    expect(s(q.subtotalByNature.service)).toBe("625.00");
+    expect(s(q.subtotalByNature.product)).toBe("375.00");
+    const changed = computeQuote({ currency: "EUR", lines: [{ ...lines[0]!, nature: "product" }, lines[1]!], marginPercent: "20", taxRatePercent: "0" });
+    expect(s(changed.subtotalByNature.product)).toBe("1000.00");
+    expect(defaultNature("equipment")).toBe("product");
+    expect(defaultNature("travel")).toBe("service");
+  });
+
+  it("a repartição não perde cêntimos e linhas sem custo ficam a zero", () => {
+    const parts = allocateLinePrices(money("1.00", "EUR"), [money("1", "EUR"), money("1", "EUR"), money("1", "EUR")]);
+    expect(parts.map(s)).toEqual(["0.34", "0.33", "0.33"]);
+    expect(allocateLinePrices(money("5.00", "EUR"), [money("0", "EUR")]).map(s)).toEqual(["0.00"]);
   });
 });

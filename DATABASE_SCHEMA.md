@@ -65,7 +65,9 @@ Fonte de verdade: `supabase/migrations/*.sql`. Todas as tabelas têm RLS ativo.
 | `supplier_prices` | Preço unitário observado de um artigo num fornecedor (`item_name`, `unit`, `unit_price_minor`, `currency_code`, `observed_on`), opcionalmente ligado à despesa que o comprova (`transaction_id`: mesmo âmbito, fornecedor e moeda). Só contactos `supplier`/`both`. RLS por `business.*`, auditado. |
 | `quotes` (+) | `client_contact_id`: cliente do cadastro (`client`/`both`, mesmo âmbito), bloqueado depois de aceite. Os campos de texto do cliente continuam no orçamento. |
 | `cost_centers` | Centros de custo. |
-| `projects` | Cliente, orçamento de origem (único), estado, moeda, custo e receita previstos. A moeda fica bloqueada quando há movimentos. |
+| `projects` | Cliente, orçamento de origem (único), estado, moeda, custo e receita previstos, `description` (até 4000 caracteres, copiada do orçamento). A moeda fica bloqueada quando há movimentos. |
+| `quotes` (+, 1200) | `discount_percent` ou `discount_fixed_minor` (nunca os dois), `discount_minor` (valor descontado). Preço antes do desconto = `price_before_tax_minor + discount_minor`. Bloqueados depois de aceite. |
+| `quote_items` (+, 1200) | `nature`: `product` ou `service` (por omissão `service`). |
 | `transactions` (+) | `contact_id`, `project_id`, `cost_center_id`, `cost_kind`, `due_on`, `net_minor` + `tax_minor` (soma = total), `settled_minor` (0 ≤ liquidado ≤ total; por omissão = total), `payment_status` gerado (pending, partial, paid), `payment_method`, `document_ref`. Ligações validadas por trigger: mesmo âmbito e, no projeto, mesma moeda. |
 | `finance_monthly`, `finance_by_category`, `account_balances` | Passam a somar `settled_minor` (caixa). |
 | `create_project_from_quote(p_quote_id)` | SECURITY INVOKER. Só orçamentos aceites; idempotente; reutiliza ou cria o cliente. |

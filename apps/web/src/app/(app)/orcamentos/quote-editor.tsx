@@ -1,10 +1,18 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { computeQuote, decimalToString, type QuoteBreakdown } from "@anen/financial-engine";
+import { QuoteDiscountTooLargeError, computeQuote, decimalToString, defaultNature, type QuoteBreakdown } from "@anen/financial-engine";
 import { formatMoney, type Messages } from "@anen/i18n";
-import type { Locale, QuoteItemKind } from "@anen/types";
-import { parseAmountInput, parsePercentInput, parseQuantityInput, QUOTE_ITEM_KINDS } from "@anen/validation";
+import type { Locale, QuoteItemKind, QuoteItemNature } from "@anen/types";
+import {
+  parseAmountInput,
+  parsePercentInput,
+  parseQuantityInput,
+  parseQuoteDiscount,
+  QUOTE_DISCOUNT_TYPES,
+  QUOTE_ITEM_KINDS,
+  QUOTE_ITEM_NATURES,
+} from "@anen/validation";
 import { ActionForm, SubmitButton } from "@/components/forms";
 import { Field, SelectField, cx } from "@/components/ui";
 import { saveQuoteAction } from "./actions";
@@ -12,6 +20,7 @@ import { saveQuoteAction } from "./actions";
 export interface EditorLine {
   key: string;
   kind: QuoteItemKind;
+  nature: QuoteItemNature;
   description: string;
   quantity: string;
   unit: string;
@@ -31,6 +40,8 @@ export interface EditorQuote {
   margin: string;
   taxRate: string;
   taxLabel: string;
+  discountType: (typeof QUOTE_DISCOUNT_TYPES)[number];
+  discountValue: string;
   conditions: string;
   currency: string;
 }
@@ -67,6 +78,8 @@ export function QuoteEditor({
   const [lines, setLines] = useState<EditorLine[]>(initialLines);
   const [margin, setMargin] = useState(quote.margin);
   const [taxRate, setTaxRate] = useState(quote.taxRate);
+  const [discountType, setDiscountType] = useState(quote.discountType);
+  const [discountValue, setDiscountValue] = useState(quote.discountValue);
   const fmt = (v: bigint) => formatMoney(v, quote.currency, minorUnit, locale);
 
   const preview = useMemo((): { breakdown: QuoteBreakdown | null; invalid: Set<string> } => {
@@ -75,19 +88,25 @@ export function QuoteEditor({
       const quantity = parseQuantityInput(l.quantity);
       const cost = parseAmountInput(l.unitCost || "0", minorUnit);
       if (quantity === null || cost === null) invalid.add(l.key);
-      return { kind: l.kind, quantity: quantity ?? "0", unitCostMinor: cost ?? 0n };
+      return { kind: l.kind, nature: l.nature, quantity: quantity ?? "0", unitCostMinor: cost ?? 0n };
     });
     const mp = parsePercentInput(margin, { exclusiveMax: true });
     const tp = parsePercentInput(taxRate);
+    const discount = parseQuoteDiscount(discountType, discountValue, minorUnit);
     if (mp === null) invalid.add("margin");
     if (tp === null) invalid.add("taxRate");
+    if (discount === null) invalid.add("discount");
     if (invalid.size) return { breakdown: null, invalid };
     try {
-      return { breakdown: computeQuote({ currency: quote.currency, lines: parsed, marginPercent: mp!, taxRatePercent: tp! }), invalid };
-    } catch {
+      return {
+        breakdown: computeQuote({ currency: quote.currency, lines: parsed, marginPercent: mp!, taxRatePercent: tp!, discount: discount! }),
+        invalid,
+      };
+    } catch (err) {
+      if (err instanceof QuoteDiscountTooLargeError) invalid.add("discountTooLarge");
       return { breakdown: null, invalid };
     }
-  }, [lines, margin, taxRate, minorUnit, quote.currency]);
+  }, [lines, margin, taxRate, discountType, discountValue, minorUnit, quote.currency]);
 
   const update = (key: string, patch: Partial<EditorLine>) => setLines((ls) => ls.map((l) => (l.key === key ? { ...l, ...patch } : l)));
   const b = preview.breakdown;
@@ -153,30 +172,44 @@ export function QuoteEditor({
 
             <section className="flex flex-col gap-4 rounded-xl border border-line bg-surface p-5 sm:p-6">
               <h2 className="text-base font-semibold">{m.quotes.sections.lines}</h2>
-              <div className="hidden grid-cols-[150px_1fr_80px_70px_110px_110px_36px] gap-2 text-xs text-subtle md:grid">
+              <div className="hidden gap-2 text-xs text-subtle md:grid md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_72px_64px_104px_104px_36px]">
                 <span>{m.quotes.line.kind}</span>
-                <span>{m.quotes.line.description}</span>
+                <span>{m.quotes.line.nature}</span>
                 <span>{m.quotes.line.quantity}</span>
                 <span>{m.quotes.line.unit}</span>
                 <span>{m.quotes.line.unitCost}</span>
                 <span className="text-right">{m.quotes.line.total}</span>
                 <span />
               </div>
-              <ul className="flex flex-col gap-3 md:gap-2">
+              <ul className="flex flex-col gap-3">
                 {lines.map((l, i) => {
                   const bad = preview.invalid.has(l.key);
                   const total = b?.lineTotals[i];
                   return (
                     <li
                       key={l.key}
-                      className="grid grid-cols-2 gap-2 rounded-lg border border-line p-3 md:grid-cols-[150px_1fr_80px_70px_110px_110px_36px] md:items-center md:border-0 md:p-0 animate-[rise-in_200ms_ease-out]"
+                      className="grid grid-cols-2 gap-2 rounded-lg border border-line p-3 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_72px_64px_104px_104px_36px] md:items-center md:rounded-none md:border-x-0 md:border-b-0 md:px-0 md:pb-0 md:first:border-t-0 md:first:pt-0 animate-[rise-in_200ms_ease-out]"
                     >
-                      <select aria-label={m.quotes.line.kind} value={l.kind} onChange={(e) => update(l.key, { kind: e.target.value as QuoteItemKind })} className={cellInput}>
+                      <input aria-label={m.quotes.line.description} value={l.description} maxLength={300} onChange={(e) => update(l.key, { description: e.target.value })} className={cx(cellInput, "col-span-2 md:col-span-7")} />
+                      <select
+                        aria-label={m.quotes.line.kind}
+                        value={l.kind}
+                        onChange={(e) => {
+                          const kind = e.target.value as QuoteItemKind;
+                          // A natureza acompanha o tipo enquanto o utilizador não a escolher à mão.
+                          update(l.key, l.nature === defaultNature(l.kind) ? { kind, nature: defaultNature(kind) } : { kind });
+                        }}
+                        className={cellInput}
+                      >
                         {QUOTE_ITEM_KINDS.map((k) => (
                           <option key={k} value={k}>{m.quotes.line.kinds[k]}</option>
                         ))}
                       </select>
-                      <input aria-label={m.quotes.line.description} value={l.description} maxLength={300} onChange={(e) => update(l.key, { description: e.target.value })} className={cx(cellInput, "col-span-2 md:col-span-1 max-md:order-first")} />
+                      <select aria-label={m.quotes.line.nature} value={l.nature} onChange={(e) => update(l.key, { nature: e.target.value as QuoteItemNature })} className={cellInput}>
+                        {QUOTE_ITEM_NATURES.map((n) => (
+                          <option key={n} value={n}>{m.quotes.line.natures[n]}</option>
+                        ))}
+                      </select>
                       <input aria-label={m.quotes.line.quantity} inputMode="decimal" value={l.quantity} aria-invalid={bad && parseQuantityInput(l.quantity) === null} onChange={(e) => update(l.key, { quantity: e.target.value })} className={cx(cellInput, "tabular text-right")} />
                       <input aria-label={m.quotes.line.unit} value={l.unit} maxLength={20} onChange={(e) => update(l.key, { unit: e.target.value })} className={cellInput} />
                       <input aria-label={m.quotes.line.unitCost} inputMode="decimal" value={l.unitCost} placeholder="0,00" aria-invalid={bad && parseAmountInput(l.unitCost || "0", minorUnit) === null} onChange={(e) => update(l.key, { unitCost: e.target.value })} className={cx(cellInput, "tabular text-right")} />
@@ -199,7 +232,7 @@ export function QuoteEditor({
                     <button
                       key={k}
                       type="button"
-                      onClick={() => setLines((ls) => [...ls, { key: newKey(), kind: k, description: m.quotes.line.kinds[k], quantity: "1", unit: k === "labor" ? "h" : k === "travel" ? "km" : "un", unitCost: "" }])}
+                      onClick={() => setLines((ls) => [...ls, { key: newKey(), kind: k, nature: defaultNature(k), description: m.quotes.line.kinds[k], quantity: "1", unit: k === "labor" ? "h" : k === "travel" ? "km" : "un", unitCost: "" }])}
                       className="h-9 rounded-full border border-line px-3 text-sm text-muted transition-colors hover:border-brand hover:text-paper"
                     >
                       + {m.quotes.line.kinds[k]}
@@ -231,6 +264,27 @@ export function QuoteEditor({
                 <Field name="taxRate" label="%" inputMode="decimal" value={taxRate} onChange={(e) => setTaxRate(e.target.value)} error={state.fieldErrors?.taxRate} className="tabular" />
               </div>
               <p className="text-xs text-subtle">{m.quotes.fields.taxHint}</p>
+              <div className="grid grid-cols-[1fr_120px] items-end gap-3 border-t border-line pt-4">
+                <SelectField
+                  name="discountType"
+                  label={m.quotes.fields.discountType}
+                  value={discountType}
+                  onChange={(e) => setDiscountType(e.currentTarget.value as EditorQuote["discountType"])}
+                  options={QUOTE_DISCOUNT_TYPES.map((t) => ({ value: t, label: m.quotes.fields.discountTypes[t] }))}
+                />
+                <Field
+                  name="discountValue"
+                  label={m.quotes.fields.discountValue}
+                  placeholder={discountType === "percent" ? "%" : quote.currency}
+                  inputMode="decimal"
+                  value={discountType === "none" ? "" : discountValue}
+                  disabled={discountType === "none"}
+                  onChange={(e) => setDiscountValue(e.target.value)}
+                  error={state.fieldErrors?.discountValue ?? (preview.invalid.has("discountTooLarge") ? m.errors.discount_too_large : undefined)}
+                  className="tabular"
+                />
+              </div>
+              <p className="text-xs text-subtle">{m.quotes.fields.discountHint}</p>
               {b ? (
                 <dl className="flex flex-col gap-2 border-t border-line pt-4 text-sm" aria-live="polite">
                   <Row label={m.quotes.summary.direct} value={fmt(b.directCost.amountMinor)} />
@@ -241,12 +295,29 @@ export function QuoteEditor({
                     label={`${m.quotes.summary.margin} / ${m.quotes.summary.markup}`}
                     value={`${b.effectiveMarginPercent ? decimalToString(b.effectiveMarginPercent).replace(".", ",") : "—"} % / ${b.effectiveMarkupPercent ? decimalToString(b.effectiveMarkupPercent).replace(".", ",") : "—"} %`}
                   />
+                  {b.subtotalByNature.product.amountMinor > 0n && b.subtotalByNature.service.amountMinor > 0n ? (
+                    <p className="text-xs text-subtle">
+                      {m.quotes.summary.products} {fmt(b.subtotalByNature.product.amountMinor)} · {m.quotes.summary.services}{" "}
+                      {fmt(b.subtotalByNature.service.amountMinor)}
+                    </p>
+                  ) : null}
+                  {b.discount.amountMinor > 0n ? (
+                    <>
+                      <Row label={m.quotes.summary.subtotal} value={fmt(b.subtotal.amountMinor)} />
+                      <Row label={m.quotes.summary.discount} value={`− ${fmt(b.discount.amountMinor)}`} />
+                    </>
+                  ) : null}
                   <Row label={m.quotes.summary.price} value={fmt(b.priceBeforeTax.amountMinor)} />
                   <Row label={m.quotes.summary.tax} value={fmt(b.tax.amountMinor)} />
                   <div className="mt-2 flex items-baseline justify-between gap-3 border-t border-line pt-3">
                     <dt className="font-medium">{m.quotes.summary.total}</dt>
                     <dd className="tabular text-2xl font-bold text-brand">{fmt(b.total.amountMinor)}</dd>
                   </div>
+                  {b.belowCost ? (
+                    <p role="status" className="rounded-md border border-danger/40 bg-danger/10 px-3 py-2 text-xs text-danger">
+                      {m.quotes.summary.belowCost}
+                    </p>
+                  ) : null}
                 </dl>
               ) : (
                 <p className="border-t border-line pt-4 text-sm text-danger">{m.quotes.summary.invalid}</p>

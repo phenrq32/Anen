@@ -34,6 +34,7 @@ export const projectSchema = z
     plannedRevenue: z.string().trim().max(32).optional().transform((v) => v || "0"),
     startOn: optionalDate,
     endOn: optionalDate,
+    description: optionalText(4000),
     notes: optionalText(2000),
   })
   .refine((v) => !v.startOn || !v.endOn || v.endOn >= v.startOn, { message: "date_invalid", path: ["endOn"] });

@@ -67,7 +67,7 @@ type TxWrite = {
   document_ref?: string | null;
 };
 type ContactWrite = Pick<Contact, "kind" | "name" | "tax_id" | "email" | "phone" | "address" | "payment_terms_days" | "notes">;
-type ProjectWrite = Pick<Project, "name" | "client_contact_id" | "status" | "planned_cost_minor" | "planned_revenue_minor" | "start_on" | "end_on" | "notes">;
+type ProjectWrite = Pick<Project, "name" | "description" | "client_contact_id" | "status" | "planned_cost_minor" | "planned_revenue_minor" | "start_on" | "end_on" | "notes">;
 
 type QuoteWrite = Pick<
   Quote,
@@ -83,6 +83,9 @@ type QuoteWrite = Pick<
   | "tax_rate_percent"
   | "tax_label"
   | "conditions"
+  | "discount_percent"
+  | "discount_fixed_minor"
+  | "discount_minor"
   | "total_cost_minor"
   | "price_before_tax_minor"
   | "tax_minor"

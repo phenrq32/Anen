@@ -18,9 +18,12 @@ export function parsePercentInput(input: string, { max = 100, exclusiveMax = fal
 }
 
 export const QUOTE_ITEM_KINDS = ["material", "labor", "travel", "equipment", "overhead", "other"] as const;
+export const QUOTE_ITEM_NATURES = ["product", "service"] as const;
+export const QUOTE_DISCOUNT_TYPES = ["none", "percent", "amount"] as const;
 
 export const quoteLineInputSchema = z.object({
   kind: z.enum(QUOTE_ITEM_KINDS),
+  nature: z.enum(QUOTE_ITEM_NATURES),
   description: z.string().trim().min(1, { message: "description_required" }).max(300, { message: "too_long" }),
   quantity: z.string().max(20),
   unit: z.string().trim().max(20).optional().default(""),
@@ -40,11 +43,14 @@ export const quoteHeaderSchema = z.object({
   margin: z.string().max(10),
   taxRate: z.string().max(10),
   taxLabel: z.string().trim().max(60, { message: "too_long" }),
+  discountType: z.enum(QUOTE_DISCOUNT_TYPES, { message: "generic" }),
+  discountValue: z.string().trim().max(32),
   conditions: z.string().trim().max(4000, { message: "too_long" }),
 });
 
 export interface ParsedQuoteLine {
   kind: (typeof QUOTE_ITEM_KINDS)[number];
+  nature: (typeof QUOTE_ITEM_NATURES)[number];
   description: string;
   quantity: string;
   unit: string;
@@ -64,7 +70,25 @@ export function parseQuoteLines(
     const unitCost = parseAmountInput(l.unitCost || "0", minorUnit);
     if (quantity === null) errors[i] = "quantity_invalid";
     else if (unitCost === null) errors[i] = "amount_invalid";
-    return { kind: l.kind, description: l.description, quantity: quantity ?? "0", unit: l.unit, unitCostMinor: unitCost ?? 0n };
+    return { kind: l.kind, nature: l.nature, description: l.description, quantity: quantity ?? "0", unit: l.unit, unitCostMinor: unitCost ?? 0n };
   });
   return { lines, errors };
+}
+
+export type ParsedQuoteDiscount =
+  | { type: "none" }
+  | { type: "percent"; percent: string }
+  | { type: "amount"; amountMinor: bigint };
+
+/** Desconto escrito pelo utilizador: % (0–100, até 3 casas) ou valor na moeda do orçamento. Null se inválido. */
+export function parseQuoteDiscount(type: (typeof QUOTE_DISCOUNT_TYPES)[number], value: string, minorUnit: number): ParsedQuoteDiscount | null {
+  if (type === "none") return { type: "none" };
+  if (type === "percent") {
+    const percent = parsePercentInput(value);
+    if (percent === null) return null;
+    return Number(percent) === 0 ? { type: "none" } : { type: "percent", percent };
+  }
+  const amount = parseAmountInput(value || "0", minorUnit);
+  if (amount === null || amount < 0n) return null;
+  return amount === 0n ? { type: "none" } : { type: "amount", amountMinor: amount };
 }
