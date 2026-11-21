@@ -85,6 +85,18 @@ Fonte de verdade: `supabase/migrations/*.sql`. Todas as tabelas têm RLS ativo.
 | `monthly_plans` | Um por pessoa e mês: salário líquido e reserva de emergência já guardada. RLS: só o próprio. |
 | `investment_options` | Referência pública por país: `bucket` (reserve, long_term), risco, acesso ao dinheiro, fonte oficial e `reviewed_on`. Escrita só pelo service_role. Sem taxas de rendimento. |
 
+## Compras e inventário (migration 1500)
+
+| Tabela / função | Notas |
+|---|---|
+| `stock_items` | Artigo em stock por pessoa ou organização: `name` (único no âmbito), `sku`, `unit` e `currency_code` (fixos), `min_quantity`, `target_quantity`, `preferred_supplier_id` (fornecedor do mesmo âmbito). `quantity_on_hand` e `average_cost_minor` são calculados pelo servidor (o cliente não os escreve). Com movimentos não se apaga: arquiva-se. RLS `business.*`, auditado. |
+| `stock_movements` | Imutável (só `select` e `insert`). `kind`: `in` (custo obrigatório), `out`, `loss` (sem saldo negativo) e `count` (quantidade contada). O trigger `apply_stock_movement` bloqueia o artigo, calcula o custo médio ponderado com divisão inteira exata a meio para cima e guarda `quantity_change`, `balance_after` e `average_cost_after`. |
+| `purchase_orders` | Encomenda a um fornecedor: `status` draft → ordered → received (só pela receção) / cancelled; `project_id` na mesma moeda; `total_minor` mantido pelo servidor; bloqueada depois de recebida ou cancelada. Só se apagam rascunhos e canceladas. |
+| `purchase_order_items` | Linhas (acesso herdado da encomenda). Com `stock_item_id`: mesmo âmbito e moeda, e a unidade passa a ser a do artigo. `total_minor = round(quantidade × preço)`. |
+| `receive_purchase_order(order, data, conta?, paga?, descrição?)` | SECURITY DEFINER com verificações explícitas (`business.write`; com conta, `finance.write` e conta do mesmo âmbito e moeda). Numa transação: entradas de stock, `supplier_prices` por linha, despesa (paga ou com vencimento pelo prazo do fornecedor, `cost_kind = material` com projeto) e estado `received`. |
+| `stock_reorder_suggestions(p_org)` | SECURITY INVOKER. Artigos abaixo do mínimo; sugere até `target_quantity` (ou o mínimo) menos o saldo e o que já está em encomendas por receber; fornecedor habitual ou o da última compra recebida e o último preço pago. |
+| `create_reorder_drafts(p_org)` | SECURITY INVOKER. Um rascunho por fornecedor e moeda; os artigos sem fornecedor ficam de fora e são contados. |
+
 ## Próximas fases
 
 As tabelas de finanças, orçamentos, custos, fiscalidade, marketplace, CRM, assinaturas, IA e administração listadas no prompt mestre serão criadas por migration em cada fase, sempre com `organization_id`, RLS por `has_org_permission` e auditoria.

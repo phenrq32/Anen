@@ -134,6 +134,19 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 | Comparar o preço de um fornecedor com a inflação da categoria | Não iniciado | Falta ligar os artigos registados às categorias COICOP/IPCA |
 | Resumo do mercado por IA | Bloqueado | Fase 7 (chave de API) |
 
+## Prompt 03 · Fase 8: compras, inventário e reposição
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Artigos em stock com saldo e custo médio ponderado calculados no servidor | Testado | `stock.test.ts` (motor), `inventory.test.ts` (o servidor dá o mesmo resultado que o motor, RLS, acessos cruzados); E2E `purchases-inventory.spec.ts` |
+| Movimentos imutáveis: entrada, saída, perda e contagem, sem saldo negativo | Testado | `inventory.test.ts` + E2E |
+| Encomendas com estados, total do servidor e bloqueio depois de recebidas | Testado | `inventory.test.ts` + E2E |
+| Receção: stock, preços do fornecedor e despesa (paga ou a pagar com vencimento) numa transação | Testado | `inventory.test.ts` (inclui receção sem `finance.write`) + E2E |
+| Reposição: sugestões abaixo do mínimo e rascunhos por fornecedor | Testado | `inventory.test.ts` (desconta o já encomendado, âmbito pessoal) + E2E |
+| Comparação do mesmo artigo entre fornecedores | Testado | `stock.test.ts` + E2E |
+| Lotes, validades e consumo automático pelas fichas técnicas | Não iniciado | — |
+| Reposição agendada e notificações de stock baixo | Não iniciado | Fase 9 (notificações); hoje a reposição corre quando a pessoa carrega no botão |
+
 ## Fases seguintes
 
 | Fase | Estado | O que é preciso para avançar |
@@ -148,5 +161,5 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 
 ## Testes
 
-- **231 testes automáticos** (`npm test`): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês e do histórico de preços; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
-- **26 testes E2E (13 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção, todos a passar a 21/11/2026.
+- **260 testes automáticos** (`npm test`): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços e do stock; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
+- **28 testes E2E (14 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção, todos a passar a 21/11/2026.

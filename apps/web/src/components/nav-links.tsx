@@ -7,7 +7,7 @@ import { cx } from "@/components/ui";
 export interface NavItem {
   href: string;
   label: string;
-  icon: "grid" | "building" | "users" | "shield" | "settings" | "wallet" | "file" | "chef" | "briefcase" | "contacts" | "chart";
+  icon: "grid" | "building" | "users" | "shield" | "settings" | "wallet" | "file" | "chef" | "briefcase" | "contacts" | "chart" | "cart" | "box";
 }
 
 const icons: Record<NavItem["icon"], React.ReactNode> = {
@@ -16,6 +16,8 @@ const icons: Record<NavItem["icon"], React.ReactNode> = {
   grid: <path d="M3 3h6v6H3zM11 3h6v6h-6zM3 11h6v6H3zM11 11h6v6h-6z" />,
   file: <path d="M5 2.5h7l3.5 3.5v11.5H5zM12 2.5V6h3.5M8 10h5M8 13h5" />,
   chart: <path d="M3 16.5h14M5 13l3.5-4 3 2.5L16 6M13 6h3v3" />,
+  cart: <path d="M2 3h2.5l2 9.5h9l1.5-7H5.5M8 16.5h.01M15 16.5h.01" />,
+  box: <path d="M10 2.5l7 3.5v8l-7 3.5-7-3.5V6zM3 6l7 3.5L17 6M10 9.5v8" />,
   chef: <path d="M6 11.5V16.5h8v-5M6 11.5a3 3 0 0 1-.5-5.9A4.5 4.5 0 0 1 14.5 5.6a3 3 0 0 1-.5 5.9zM6 14h8" />,
   wallet:<path d="M3 6.5A2.5 2.5 0 0 1 5.5 4H15v3M3 6.5V15a2 2 0 0 0 2 2h11a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H5.5A2.5 2.5 0 0 1 3 6.5zM13.5 12h.01" />,
   building: <path d="M4 17V4h8v13M12 8h4v9M2 17h16M7 7h2M7 10h2M7 13h2" />,

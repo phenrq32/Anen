@@ -11,6 +11,11 @@ import type {
   Contact,
   ContactNote,
   SupplierPrice,
+  StockItem,
+  StockMovement,
+  PurchaseOrder,
+  PurchaseOrderItem,
+  ReorderSuggestion,
   CostCenter,
   Project,
   Quote,
@@ -74,6 +79,8 @@ type TxWrite = {
 };
 type ContactWrite = Pick<Contact, "kind" | "name" | "tax_id" | "email" | "phone" | "address" | "payment_terms_days" | "notes">;
 type ProjectWrite = Pick<Project, "name" | "description" | "client_contact_id" | "status" | "planned_cost_minor" | "planned_revenue_minor" | "start_on" | "end_on" | "notes">;
+type StockItemWrite = Pick<StockItem, "name" | "sku" | "min_quantity" | "target_quantity" | "preferred_supplier_id" | "notes">;
+type PurchaseOrderWrite = Pick<PurchaseOrder, "supplier_id" | "currency_code" | "project_id" | "ordered_on" | "expected_on" | "notes">;
 
 type QuoteWrite = Pick<
   Quote,
@@ -225,6 +232,27 @@ export type Database = {
         Scope & Pick<SupplierPrice, "contact_id" | "item_name" | "unit" | "unit_price_minor" | "currency_code" | "observed_on" | "transaction_id" | "notes">,
         Partial<Pick<SupplierPrice, "item_name" | "unit" | "unit_price_minor" | "currency_code" | "observed_on" | "transaction_id" | "notes">>
       >;
+      stock_items: Table<
+        StockItem,
+        Scope & Pick<StockItem, "name" | "unit" | "currency_code"> & Partial<StockItemWrite>,
+        Partial<StockItemWrite & { archived_at: string | null }>
+      >;
+      stock_movements: Table<
+        StockMovement,
+        Scope & Pick<StockMovement, "item_id" | "kind" | "quantity" | "occurred_on"> & Partial<Pick<StockMovement, "unit_cost_minor" | "notes">>,
+        NoWrite
+      >;
+      purchase_orders: Table<
+        PurchaseOrder,
+        Scope & { supplier_id: string; currency_code: string } & Partial<PurchaseOrderWrite>,
+        Partial<PurchaseOrderWrite & { status: PurchaseOrder["status"] }>
+      >;
+      purchase_order_items: Table<
+        PurchaseOrderItem,
+        Pick<PurchaseOrderItem, "order_id" | "description" | "quantity" | "unit_price_minor"> &
+          Partial<Pick<PurchaseOrderItem, "position" | "stock_item_id" | "unit">>,
+        Partial<Pick<PurchaseOrderItem, "position" | "stock_item_id" | "description" | "quantity" | "unit" | "unit_price_minor">>
+      >;
       admin_users: Table<{ user_id: string; role: "super_admin" | "support" | "finance" | "content"; created_at: string }>;
       job_runs: Table<{
         id: number;
@@ -320,6 +348,12 @@ export type Database = {
       snapshot_quote: { Args: { p_quote_id: string }; Returns: number };
       save_quote_content: { Args: { p_quote_id: string; p_fields: Record<string, string | null>; p_items: Record<string, string | number | null>[] }; Returns: number };
       run_market_agent_now: { Args: Record<string, never>; Returns: { observations: number; failed: number; alerts: number } };
+      receive_purchase_order: {
+        Args: { p_order_id: string; p_received_on: string; p_account_id?: string | null; p_paid?: boolean; p_description?: string | null };
+        Returns: string | null;
+      };
+      stock_reorder_suggestions: { Args: { p_org?: string | null }; Returns: ReorderSuggestion[] };
+      create_reorder_drafts: { Args: { p_org?: string | null }; Returns: { orders: number; lines: number; skipped: number } };
       recipe_price_updates: { Args: { p_recipe_id?: string | null }; Returns: RecipePriceUpdate[] };
       save_recipe_content: { Args: { p_recipe_id: string; p_fields: Record<string, string | null>; p_ingredients: Record<string, string | number | null>[] }; Returns: undefined };
     };

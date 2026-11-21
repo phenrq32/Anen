@@ -25,6 +25,8 @@ export function AppShell({
     { href: "/restauracao", label: m.nav.recipes, icon: "chef" },
     { href: "/projetos", label: m.nav.projects, icon: "briefcase" },
     { href: "/contactos", label: m.nav.contacts, icon: "contacts" },
+    { href: "/compras", label: m.nav.purchases, icon: "cart" },
+    { href: "/inventario", label: m.nav.inventory, icon: "box" },
     { href: "/mercado", label: m.nav.market, icon: "chart" },
   ];
   if (session.active) {

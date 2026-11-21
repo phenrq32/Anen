@@ -100,5 +100,5 @@ Estas áreas **não aparecem no menu**, por isso nenhuma surge como pronta.
 | 5 | Fichas técnicas ligadas a preços de ingredientes registados | **Concluída**: migration 1300 em produção, `recipe-prices.test.ts`, E2E `recipe-prices.spec.ts` |
 | 6 | Inteligência de mercado: fontes, recolha agendada, histórico, comparação, alertas | **Concluída** com fontes oficiais abertas (Eurostat, IBGE): migration 1400 em produção, agente de mercado agendado e executado (864 observações, 21/11/2026), `market.test.ts`, E2E `market.spec.ts` |
 | 7 | ANEN AI com ferramentas, histórico de conversas por organização | Bloqueada (chave de API) |
-| 8 | Compras, inventário e automações | Pendente |
+| 8 | Compras, inventário e automações | **Concluída**: migration 1500 em produção, `inventory.test.ts`, `stock.test.ts`, E2E `purchases-inventory.spec.ts`. Reposição automática a pedido; o agendamento com notificações fica para a 9 |
 | 9 | Relatórios, notificações, otimização | Pendente |

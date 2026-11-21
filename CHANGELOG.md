@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.12.0] · 21/11/2026 · Prompt 03, Fase 8: compras, inventário e reposição
+- Inventário (`/inventario`): artigos com unidade, moeda, stock mínimo, nível de reposição e fornecedor habitual. O saldo e o custo médio ponderado são calculados no servidor, com o artigo bloqueado durante o cálculo. Os movimentos (entrada, saída, perda e contagem) não se editam nem se apagam: a correção é uma contagem. Não há saldo negativo.
+- Motor `stock.ts`: `applyStockMovement` (o mesmo cálculo do servidor; os testes comparam os dois passo a passo), `stockValue`, `isBelowMinimum` e `compareSupplierPrices`.
+- Compras (`/compras`): encomendas a fornecedores com linhas ligadas (ou não) a artigos de stock, total calculado no servidor, estados rascunho → encomendada → recebida ou cancelada, e projeto opcional.
+- Receção (`receive_purchase_order`): numa só transação, cria as entradas de stock ao preço da linha, os preços no histórico do fornecedor e, com uma conta, a despesa (paga, ou a pagar com vencimento pelo prazo do fornecedor). Sem permissão de finanças, recebe-se sem despesa.
+- Reposição: lista do que está abaixo do mínimo, descontando o que já está encomendado, e rascunhos de encomenda por fornecedor com o último preço pago (zero quando não há compras, assinalado como "Sem preço").
+- Comparação do mesmo artigo (nome, unidade e moeda) entre fornecedores, a partir dos preços registados e das compras recebidas.
+- Correção: os campos `numeric` chegam do PostgREST como números JSON (nos testes com PGlite chegam como texto); o tipo passa a `string | number` e a página converte o valor antes de o passar ao motor.
+- Menu com Compras e Inventário (Estoque em pt-BR).
+- Migration 1500. Testes: 260 unitários, de motor, de validação e de base de dados (`inventory.test.ts`: RLS, acessos cruzados, imutabilidade, receção, reposição e apagamento de conta), e o E2E `purchases-inventory.spec.ts`.
+
 ## [0.11.1] · 21/11/2026 · Publicação das fases 4, 5 e 6
 - Migrations 1200, 1300 e 1400 aplicadas em produção. Extensão `http` instalada; o agente de mercado correu uma vez com sucesso (36 séries, 864 observações) e está agendado (`anen-market-agent`, 06:30 UTC).
 - Correção: a barra lateral no computador não deslizava. Numa organização, com ecrãs de 720 px de altura, "Terminar sessão" ficava fora do ecrã. A navegação passa a deslizar e o rodapé fica sempre visível.

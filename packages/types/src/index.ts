@@ -469,6 +469,91 @@ export interface SupplierPrice extends FinanceScoped {
   updated_at: string;
 }
 
+export const STOCK_MOVEMENT_KINDS = ["in", "out", "loss", "count"] as const;
+export type StockMovementKind = (typeof STOCK_MOVEMENT_KINDS)[number];
+export const PURCHASE_STATUSES = ["draft", "ordered", "received", "cancelled"] as const;
+export type PurchaseStatus = (typeof PURCHASE_STATUSES)[number];
+
+/** Quantidades numeric: o PostgREST devolve-as como número JSON e o Postgres como texto; converter com String() antes do motor. */
+export type NumericValue = string | number;
+
+export interface StockItem extends FinanceScoped {
+  id: string;
+  name: string;
+  sku: string | null;
+  unit: string;
+  currency_code: string;
+  min_quantity: NumericValue;
+  target_quantity: NumericValue | null;
+  preferred_supplier_id: string | null;
+  quantity_on_hand: NumericValue;
+  average_cost_minor: number;
+  notes: string | null;
+  archived_at: string | null;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface StockMovement extends FinanceScoped {
+  id: string;
+  item_id: string;
+  kind: StockMovementKind;
+  quantity: NumericValue;
+  unit_cost_minor: number | null;
+  occurred_on: string;
+  notes: string | null;
+  purchase_order_id: string | null;
+  quantity_change: NumericValue;
+  balance_after: NumericValue;
+  average_cost_after: number;
+  created_by: string | null;
+  created_at: string;
+}
+
+export interface PurchaseOrder extends FinanceScoped {
+  id: string;
+  supplier_id: string | null;
+  status: PurchaseStatus;
+  currency_code: string;
+  project_id: string | null;
+  ordered_on: string | null;
+  expected_on: string | null;
+  received_on: string | null;
+  notes: string | null;
+  total_minor: number;
+  transaction_id: string | null;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PurchaseOrderItem {
+  id: string;
+  order_id: string;
+  position: number;
+  stock_item_id: string | null;
+  description: string;
+  quantity: NumericValue;
+  unit: string | null;
+  unit_price_minor: number;
+  total_minor: number;
+}
+
+export interface ReorderSuggestion {
+  item_id: string;
+  item_name: string;
+  unit: string;
+  currency_code: string;
+  quantity_on_hand: NumericValue;
+  min_quantity: NumericValue;
+  open_quantity: NumericValue;
+  suggested_quantity: NumericValue;
+  supplier_id: string | null;
+  supplier_name: string | null;
+  last_unit_price_minor: number | null;
+}
+
 export interface CostCenter extends FinanceScoped {
   id: string;
   name: string;
