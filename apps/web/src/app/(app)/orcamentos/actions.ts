@@ -259,7 +259,10 @@ interface RawIngredient {
   packageQuantity: string;
   packagePrice: string;
   waste: string;
+  supplierPriceId?: string;
 }
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export async function saveRecipeAction(_: FormState, formData: FormData): Promise<FormState> {
   const { m, session, scope } = await context();
@@ -290,17 +293,29 @@ export async function saveRecipeAction(_: FormState, formData: FormData): Promis
 
   const raw = safeJson(formString(formData, "ingredients"));
   if (!Array.isArray(raw) || raw.length > 150) return { status: "error", message: m.errors.generic };
-  const ingredients: Array<IngredientInput & { name: string; unit: string }> = [];
+  const ingredients: Array<IngredientInput & { name: string; unit: string; supplierPriceId: string | null }> = [];
   for (const [i, item] of (raw as RawIngredient[]).entries()) {
     const quantity = parseQuantityInput(String(item.quantity ?? ""));
     const pack = parseQuantityInput(String(item.packageQuantity ?? ""));
     const price = parseAmountInput(String(item.packagePrice ?? ""), unit);
     const waste = parsePercentInput(String(item.waste ?? "0"), { exclusiveMax: true });
     const label = String(item.name ?? "").trim().slice(0, 120);
+    const supplierPriceId = String(item.supplierPriceId ?? "");
     if (!label || quantity === null || !pack || Number(pack) <= 0 || price === null || waste === null) {
       return { status: "error", message: `${m.recipes.ingredients} ${i + 1}: ${m.errors.quantity_invalid}` };
     }
-    ingredients.push({ name: label, unit: String(item.unit ?? "g").slice(0, 12) || "g", quantity, packageQuantity: pack, packagePriceMinor: price, wastePercent: waste });
+    if (supplierPriceId && !UUID.test(supplierPriceId)) {
+      return { status: "error", message: `${m.recipes.ingredients} ${i + 1}: ${m.errors.supplier_price_invalid}` };
+    }
+    ingredients.push({
+      name: label,
+      unit: String(item.unit ?? "g").slice(0, 12) || "g",
+      quantity,
+      packageQuantity: pack,
+      packagePriceMinor: price,
+      wastePercent: waste,
+      supplierPriceId: supplierPriceId || null,
+    });
   }
 
   const result = computeRecipe({
@@ -339,6 +354,7 @@ export async function saveRecipeAction(_: FormState, formData: FormData): Promis
       package_price_minor: ing.packagePriceMinor.toString(),
       waste_percent: ing.wastePercent,
       cost_minor: result.ingredientCosts[position]!.amountMinor.toString(),
+      supplier_price_id: ing.supplierPriceId,
     })),
   });
   if (error) return { status: "error", message: errorMessage(m, error) };

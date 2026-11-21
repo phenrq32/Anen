@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { formatMoney } from "@anen/i18n";
-import { Alert, PageHeader, buttonClass } from "@/components/ui";
+import { Alert, Badge, PageHeader, buttonClass } from "@/components/ui";
 import { getI18n } from "@/lib/i18n";
 import { quotesScope } from "@/lib/quotes";
 import { requireOnboardedSession } from "@/lib/session";
@@ -16,10 +16,13 @@ export default async function RecipesPage({ searchParams }: { searchParams: Prom
   if (!scope.canRead) return <Alert tone="info">{m.errors.forbidden}</Alert>;
   const params = await searchParams;
   const order = params.ordem === "custo" ? "cost_per_portion_minor" : params.ordem === "preco" ? "recommended_price_minor" : "name";
-  const [{ data: recipes }, { data: currencies }] = await Promise.all([
+  const [{ data: recipes }, { data: currencies }, { data: changes }] = await Promise.all([
     session.supabase.from("recipes").select("*").eq(scope.column, scope.value).order(order, { ascending: order === "name" }),
     session.supabase.from("currencies").select("code, minor_unit"),
+    // Só devolve ingredientes ligados a preços que a pessoa pode ver (RLS de quotes.* e business.*).
+    session.supabase.rpc("recipe_price_updates", {}),
   ]);
+  const changed = new Set((changes ?? []).map((c) => c.recipe_id));
   const units = new Map((currencies ?? []).map((c) => [c.code, c.minor_unit]));
 
   return (
@@ -53,7 +56,9 @@ export default async function RecipesPage({ searchParams }: { searchParams: Prom
                 const unit = units.get(r.currency_code) ?? 2;
                 return (
                   <tr key={r.id} className="border-b border-line/60 last:border-0 hover:bg-graphite/40">
-                    <td className="px-5 py-3"><Link href={`/restauracao/${r.id}`} className="font-medium hover:text-brand">{r.name}</Link></td>
+                    <td className="px-5 py-3"><Link href={`/restauracao/${r.id}`} className="font-medium hover:text-brand">{r.name}</Link>
+                      {changed.has(r.id) ? <span className="ml-2"><Badge tone="brand">{m.recipes.prices.badge}</Badge></span> : null}
+                    </td>
                     <td className="px-5 py-3 text-muted">{r.category ?? "—"}</td>
                     <td className="tabular px-5 py-3 text-right">{formatMoney(BigInt(r.cost_per_portion_minor), r.currency_code, unit, locale)}</td>
                     <td className="tabular px-5 py-3 text-right font-semibold text-brand">{formatMoney(BigInt(r.recommended_price_minor), r.currency_code, unit, locale)}</td>

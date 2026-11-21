@@ -112,6 +112,16 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 | Descrição do projeto, copiada do orçamento; receita prevista já com desconto | Testado | `quote-discounts.test.ts` + E2E |
 | Desconto por linha | Não iniciado | Só há desconto global por orçamento |
 
+## Prompt 03 · Fase 5: fichas técnicas ligadas aos preços registados
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Ingrediente com preço de fornecedor registado, conversão kg/g, l/ml, dúzia/un | Testado | `units.test.ts`, `recipe-prices.test.ts`; E2E `recipe-prices.spec.ts` |
+| Aviso de preço mais recente (ficha e lista), atualizar um ou todos | Testado | `recipe-prices.test.ts` (mesmo artigo e fornecedor, correções, RLS) + E2E |
+| Permissões: ligação nova só com `business.read`; outra organização e outra moeda recusadas | Testado | `recipe-prices.test.ts` |
+| Atualização automática do custo quando chega um preço novo | Não iniciado | Decisão: o custo só muda quando o utilizador confirma (fica no histórico) |
+| Comparar o mesmo artigo entre fornecedores | Não iniciado | Fase de compras (8) |
+
 ## Fases seguintes
 
 | Fase | Estado | O que é preciso para avançar |
@@ -126,5 +136,5 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 
 ## Testes
 
-- **203 testes automáticos** (`npm test`): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês e do histórico de preços; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
+- **215 testes automáticos** (`npm test`): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês e do histórico de preços; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
 - **20 testes E2E (10 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção.

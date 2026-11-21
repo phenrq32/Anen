@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.10.0] · 21/11/2026 · Prompt 03, Fase 5: fichas técnicas ligadas aos preços registados
+- Cada ingrediente pode usar um preço registado de um fornecedor (`recipe_ingredients.supplier_price_id`). A lista mostra o preço mais recente de cada artigo por fornecedor, na moeda da ficha.
+- Conversão de unidades no motor (`unitConversionFactor`: massa, volume e contagem, exata até 3 casas): um preço de 1,00 €/kg num ingrediente em gramas fica com 1000 g na embalagem. Sem conversão conhecida (ex.: "saco 25 kg"), a unidade do fornecedor passa para o ingrediente e o utilizador indica a correspondência.
+- O preço usado fica como fotografia: o custo da ficha não muda sozinho. `recipe_price_updates` (SECURITY INVOKER) lista os ingredientes cujo artigo tem um preço mais recente no mesmo fornecedor, ou cujo registo foi corrigido. A ficha mostra o preço novo e o usado, com "Usar este preço" e "Atualizar todos"; a lista de fichas assinala "Preços novos". Cada gravação fica na evolução do custo.
+- Segurança: o preço ligado tem de ser do mesmo âmbito e da mesma moeda (trigger). Uma ligação nova exige `business.read`; quem só tem `quotes.*` continua a gravar fichas com ligações já feitas, mas não vê os preços nem as atualizações. Apagar o preço do fornecedor desliga o ingrediente e mantém o preço usado.
+- Editor de fichas: o nome e a origem do preço ficam numa linha, as quantidades e os preços noutra (a grelha antiga não cabia ao lado do resumo em ecrãs de 1280 px).
+- Migration 1300. Testes: 215 unitários, de motor (`units.test.ts`) e de RLS (`recipe-prices.test.ts`), e o E2E `recipe-prices.spec.ts`.
+
 ## [0.9.0] · 21/11/2026 · Prompt 03, Fase 4: descontos, produto/serviço, descrição do projeto
 - Desconto comercial no orçamento, em percentagem ou valor fixo (um dos dois, validado na base de dados). Aplica-se ao preço sem imposto, depois da margem; o imposto incide sobre o valor descontado. O motor recusa um desconto fixo maior do que o preço e assinala quando o desconto deixa o preço abaixo do custo.
 - Cada linha diz se vende um produto ou um serviço (sugerido pelo tipo de custo: material e equipamento são produtos; o utilizador pode mudar). O editor e o documento para o cliente mostram os totais de produtos e de serviços.

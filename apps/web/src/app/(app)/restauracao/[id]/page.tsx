@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { priceItemKey } from "@anen/financial-engine";
 import { formatDate, formatMoney } from "@anen/i18n";
 import { formatAmountInput } from "@anen/validation";
 import { InlineAction } from "@/components/forms";
+import { businessScope } from "@/lib/business";
 import { getI18n } from "@/lib/i18n";
 import { numericToString, quotesScope } from "@/lib/quotes";
 import { requireOnboardedSession } from "@/lib/session";
 import { deleteRecipeAction } from "../../orcamentos/actions";
-import { RecipeEditor } from "../recipe-editor";
+import { RecipeEditor, type PriceOption, type PriceUpdate } from "../recipe-editor";
 
 export const metadata: Metadata = { title: "Ficha técnica" };
 
@@ -30,6 +32,47 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
   const { data: currency } = await session.supabase.from("currencies").select("minor_unit").eq("code", recipe.currency_code).maybeSingle();
   const unit = currency?.minor_unit ?? 2;
 
+  // Preços registados de fornecedores na moeda da ficha: o mais recente de cada artigo por fornecedor,
+  // mais os que já estão ligados. Sem business.read, não se mostram (as ligações mantêm-se).
+  const biz = businessScope(session);
+  let priceOptions: PriceOption[] | null = null;
+  const updates: Record<string, PriceUpdate> = {};
+  if (biz.canRead) {
+    const [{ data: prices }, { data: suppliers }, { data: changes }] = await Promise.all([
+      session.supabase
+        .from("supplier_prices")
+        .select("*")
+        .eq(biz.column, biz.value)
+        .eq("currency_code", recipe.currency_code)
+        .order("observed_on", { ascending: false })
+        .order("created_at", { ascending: false })
+        .limit(2000),
+      session.supabase.from("contacts").select("id, name").eq(biz.column, biz.value).in("kind", ["supplier", "both"]),
+      session.supabase.rpc("recipe_price_updates", { p_recipe_id: recipe.id }),
+    ]);
+    const names = new Map((suppliers ?? []).map((c) => [c.id, c.name]));
+    const linkedIds = new Set((ingredients ?? []).map((i) => i.supplier_price_id).filter(Boolean));
+    const seen = new Set<string>();
+    priceOptions = [];
+    for (const p of prices ?? []) {
+      const seriesKey = `${p.contact_id}|${priceItemKey(p.item_name, p.unit, p.currency_code)}`;
+      const latest = !seen.has(seriesKey);
+      seen.add(seriesKey);
+      if (!latest && !linkedIds.has(p.id)) continue;
+      priceOptions.push({ id: p.id, supplier: names.get(p.contact_id) ?? "—", item: p.item_name, unit: p.unit, priceMinor: p.unit_price_minor, observedOn: p.observed_on });
+    }
+    priceOptions.sort((a, b) => a.item.localeCompare(b.item, "pt") || a.supplier.localeCompare(b.supplier, "pt"));
+    for (const c of changes ?? []) {
+      updates[c.ingredient_id] = {
+        linkedPriceId: c.linked_price_id,
+        usedMinor: c.used_price_minor,
+        latest: { id: c.latest_price_id, supplier: c.supplier_name, item: "", unit: c.latest_unit, priceMinor: c.latest_price_minor, observedOn: c.latest_observed_on },
+      };
+      const option = priceOptions.find((o) => o.id === c.latest_price_id);
+      if (option) updates[c.ingredient_id]!.latest = option;
+    }
+  }
+
   return (
     <>
       <header className="flex flex-wrap items-end justify-between gap-3">
@@ -46,6 +89,8 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
         locale={locale}
         minorUnit={unit}
         readOnly={!scope.canWrite}
+        priceOptions={priceOptions}
+        updates={updates}
         recipe={{
           id: recipe.id,
           name: recipe.name,
@@ -69,6 +114,7 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
           packageQuantity: dec(i.package_quantity),
           packagePrice: amount(i.package_price_minor, unit),
           waste: dec(i.waste_percent),
+          supplierPriceId: i.supplier_price_id ?? "",
         }))}
       />
       {(history ?? []).length > 1 ? (

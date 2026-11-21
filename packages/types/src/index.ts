@@ -331,6 +331,21 @@ export interface RecipeIngredient {
   package_price_minor: number;
   waste_percent: number;
   cost_minor: number;
+  /** Preço de fornecedor de onde veio package_price_minor (fotografia do preço na altura). */
+  supplier_price_id: string | null;
+}
+
+/** Ingrediente ligado cujo preço registado mudou desde que foi usado na ficha. */
+export interface RecipePriceUpdate {
+  recipe_id: string;
+  ingredient_id: string;
+  linked_price_id: string;
+  used_price_minor: number;
+  latest_price_id: string;
+  latest_price_minor: number;
+  latest_unit: string | null;
+  latest_observed_on: string;
+  supplier_name: string;
 }
 
 export interface AuditLog {

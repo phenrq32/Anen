@@ -18,6 +18,7 @@ import type {
   QuoteTemplate,
   Recipe,
   RecipeIngredient,
+  RecipePriceUpdate,
   Budget,
   FinanceTransaction,
   FinancialAccount,
@@ -297,6 +298,7 @@ export type Database = {
       create_project_from_quote: { Args: { p_quote_id: string }; Returns: string };
       snapshot_quote: { Args: { p_quote_id: string }; Returns: number };
       save_quote_content: { Args: { p_quote_id: string; p_fields: Record<string, string | null>; p_items: Record<string, string | number | null>[] }; Returns: number };
+      recipe_price_updates: { Args: { p_recipe_id?: string | null }; Returns: RecipePriceUpdate[] };
       save_recipe_content: { Args: { p_recipe_id: string; p_fields: Record<string, string | null>; p_ingredients: Record<string, string | number | null>[] }; Returns: undefined };
     };
     Enums: {
