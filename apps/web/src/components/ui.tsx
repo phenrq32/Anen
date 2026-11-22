@@ -170,13 +170,14 @@ export function Badge({ children, tone = "neutral" }: { children: ReactNode; ton
   return <span className={cx("inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium", tones[tone])}>{children}</span>;
 }
 
+/** Logótipo: letras na cor do texto do tema (branco no escuro, quase preto no claro); laranja igual. */
 export function Logo({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 500 104" role="img" aria-label="ANEN" className={className}>
-      <polyline points="6,90 36,58 58,76" fill="none" stroke="#FFFFFF" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round" />
+    <svg viewBox="0 0 500 104" role="img" aria-label="ANEN" className={cx("text-paper", className)}>
+      <polyline points="6,90 36,58 58,76" fill="none" stroke="currentColor" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round" />
       <line x1="58" y1="76" x2="99" y2="25" stroke="#FF851B" strokeWidth="12" strokeLinecap="round" />
       <polygon points="112,10 106.7,34.5 88.5,18.9" fill="#FF851B" />
-      <g transform="translate(150,0)" fill="#FFFFFF">
+      <g transform="translate(150,0)" fill="currentColor">
         <polygon points="0,100 28,0 46,0 74,100 55,100 37,34 19,100" />
         <rect x="96" y="0" width="18" height="100" />
         <rect x="150" y="0" width="18" height="100" />

@@ -33,7 +33,7 @@ export function ScoreRing({ score, label, sublabel, tone }: { score: number; lab
   const color = { excellent: "var(--color-success)", good: "var(--color-brand)", attention: "var(--color-warning)", critical: "var(--color-danger)" }[tone];
   return (
     <div className="relative grid size-40 shrink-0 place-items-center" role="img" aria-label={`${label}: ${score} ${sublabel}`}>
-      <svg viewBox="0 0 120 120" className="absolute inset-0 -rotate-90">
+      <svg viewBox="0 0 120 120" className="absolute inset-0 -rotate-90 overflow-visible">
         <circle cx="60" cy="60" r={r} fill="none" stroke="var(--color-graphite)" strokeWidth="10" />
         <circle
           cx="60"
