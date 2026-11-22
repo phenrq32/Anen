@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.0] · 22/11/2026 · Interface nova e mais rápida
+- Velocidade: as funções da Vercel passam a correr em Dublin (dub1), junto da base de dados (Supabase eu-west-1); antes corriam em Washington (iad1) e cada consulta atravessava o Atlântico. O layout e o painel fazem as consultas em paralelo. Barra de progresso instantânea ao mudar de página.
+- Navegação: menu agrupado (Dia a dia, Negócio, Análise, Conta) com ícones maiores e alvos de 44 px; no telemóvel, barra inferior fixa (Painel, Finanças, Registar, ANEN AI, Mais) com gaveta de todas as áreas; procura e comandos com Ctrl+K ou "/".
+- Painel: saudação pela hora do dia, nota de saúde financeira animada (motor health.ts: poupança 40, reserva 30, contas em dia 30, com a explicação), atalhos grandes e as 3 recomendações mais importantes do centro de inteligência.
+- Movimento: brilho ambiente suave, cartões que reagem ao toque, entradas em cascata, esqueletos com reflexo, gaveta e procura animadas, botões com retorno ao clique. Tudo desliga com "reduzir movimento" do sistema.
+- Testes: 324 unitários (health.test.ts).
+
 ## [0.16.0] · 22/11/2026 · Centro de inteligência
 - `/inteligencia` (todos os planos): recomendações determinísticas dos últimos 7 ou 30 dias, comparadas com o período anterior do mesmo tamanho. Cada uma diz o que foi identificado, os valores que a sustentam, o impacto, a prioridade, o grau de confiança e uma ligação para agir.
 - Regras (motor `intelligence.ts`): despesas acima das receitas; receitas a cair 20 % ou mais; despesas por categoria a subir 20 % ou mais (máximo 3); valores por receber e pagamentos em atraso; pagamentos nos próximos 7 dias; possíveis duplicados (confiança média); stock abaixo do mínimo; projetos acima do orçamento; preços de fornecedores a subir 5 % ou mais; aviso quando não há movimentos. As recomendações respeitam as permissões da pessoa.

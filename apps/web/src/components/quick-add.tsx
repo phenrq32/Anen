@@ -4,6 +4,7 @@ import { startTransition, useActionState, useEffect, useRef, useState } from "re
 import type { Messages } from "@anen/i18n";
 import { Alert, Button } from "@/components/ui";
 import { initialFormState } from "@/lib/form";
+import { QUICK_ADD_EVENT } from "@/components/mobile-tabbar";
 import { saveTransactionAction } from "@/app/(app)/financas/actions";
 import { TransactionFields, type AccountOption, type CategoryOption } from "@/app/(app)/financas/finance-forms";
 
@@ -38,8 +39,16 @@ export function QuickAdd({
         dialog.current?.showModal();
       }
     };
+    const onOpen = (e: Event) => {
+      e.preventDefault();
+      dialog.current?.showModal();
+    };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener(QUICK_ADD_EVENT, onOpen);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener(QUICK_ADD_EVENT, onOpen);
+    };
   }, []);
 
   // Após sucesso, limpa o formulário para o próximo registo (mantém o diálogo aberto).
@@ -54,7 +63,7 @@ export function QuickAdd({
       <button
         type="button"
         onClick={() => dialog.current?.showModal()}
-        className="fixed bottom-5 right-5 z-30 flex h-14 items-center gap-2 rounded-full bg-brand px-5 text-sm font-semibold text-ink shadow-[0_8px_30px_rgba(255,133,27,0.25)] transition-transform hover:scale-[1.03] hover:bg-brand-hover active:scale-95 lg:bottom-8 lg:right-8"
+        className="fab fixed bottom-5 right-5 z-30 hidden h-14 items-center gap-2 rounded-full bg-brand px-5 text-sm font-semibold text-ink shadow-[0_8px_30px_rgba(255,133,27,0.25)] transition-transform hover:scale-[1.03] hover:bg-brand-hover active:scale-95 lg:bottom-8 lg:right-8 lg:flex"
         title={m.finance.tx.shortcutHint}
       >
         <span className="text-xl leading-none" aria-hidden>+</span>

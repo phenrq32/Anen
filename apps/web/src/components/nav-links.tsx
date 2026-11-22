@@ -33,40 +33,81 @@ const icons: Record<NavItem["icon"], React.ReactNode> = {
   settings: <path d="M10 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM10 1.5v2.5M10 16v2.5M1.5 10H4M16 10h2.5M4 4l1.8 1.8M14.2 14.2 16 16M4 16l1.8-1.8M14.2 5.8 16 4" />,
 };
 
-export function NavLinks({ items }: { items: NavItem[] }) {
-  const pathname = usePathname();
-  // O item ativo é o que tem o prefixo mais longo coincidente com o caminho atual.
-  const active = items
+export interface NavGroup {
+  label: string;
+  items: NavItem[];
+}
+
+export function NavIcon({ name, className }: { name: NavItem["icon"] | "plus" | "search" | "menu"; className?: string }) {
+  const extra: Record<string, React.ReactNode> = {
+    plus: <path d="M10 4v12M4 10h12" />,
+    search: <path d="M9 15.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM14 14l4 4" />,
+    menu: <path d="M3 5.5h14M3 10h14M3 14.5h14" />,
+  };
+  return (
+    <svg viewBox="0 0 20 20" className={cx("size-[18px] shrink-0", className)} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      {extra[name] ?? icons[name as NavItem["icon"]]}
+    </svg>
+  );
+}
+
+/** O item ativo é o que tem o prefixo mais longo coincidente com o caminho atual. */
+export function activeHref(pathname: string, items: NavItem[]): string | undefined {
+  return items
     .filter((i) => pathname === i.href || pathname.startsWith(`${i.href}/`))
     .sort((a, b) => b.href.length - a.href.length)[0]?.href;
+}
+
+function Badge({ badge }: { badge: NavItem["badge"] }) {
+  if (!badge || badge.count <= 0) return null;
   return (
-    <ul className="flex flex-col gap-0.5">
-      {items.map((item) => {
-        const isActive = item.href === active;
-        return (
-          <li key={item.href}>
-            <Link
-              href={item.href}
-              aria-current={isActive ? "page" : undefined}
-              className={cx(
-                "relative flex h-10 items-center gap-3 rounded-md px-3 text-sm transition-colors",
-                isActive ? "bg-graphite font-medium text-paper" : "text-muted hover:bg-graphite/60 hover:text-paper",
-              )}
-            >
-              {isActive ? <span className="absolute inset-y-2 left-0 w-0.5 rounded-full bg-brand" aria-hidden /> : null}
-              <svg viewBox="0 0 20 20" className={cx("size-[18px]", isActive ? "text-brand" : "")} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                {icons[item.icon]}
-              </svg>
-              {item.label}
-              {item.badge && item.badge.count > 0 ? (
-                <span className="ml-auto rounded-full bg-brand px-2 py-0.5 text-xs font-semibold text-ink" aria-label={item.badge.label}>
-                  {item.badge.count > 99 ? "99+" : item.badge.count}
-                </span>
-              ) : null}
-            </Link>
-          </li>
-        );
-      })}
-    </ul>
+    <span className="ml-auto rounded-full bg-brand px-2 py-0.5 text-xs font-semibold text-ink" aria-label={badge.label}>
+      {badge.count > 99 ? "99+" : badge.count}
+    </span>
+  );
+}
+
+/** Navegação agrupada (Dia a dia, Negócio, Análise, Conta). `onNavigate` fecha a gaveta no telemóvel. */
+export function NavGroups({ groups, onNavigate }: { groups: NavGroup[]; onNavigate?: () => void }) {
+  const pathname = usePathname();
+  const active = activeHref(pathname, groups.flatMap((g) => g.items));
+  return (
+    <div className="flex flex-col gap-5">
+      {groups.map((group) => (
+        <div key={group.label} className="flex flex-col gap-1">
+          <span className="px-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-subtle">{group.label}</span>
+          <ul className="flex flex-col gap-0.5">
+            {group.items.map((item) => {
+              const isActive = item.href === active;
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    onClick={onNavigate}
+                    aria-current={isActive ? "page" : undefined}
+                    className={cx(
+                      "nav-item group relative flex h-11 items-center gap-3 rounded-lg px-3 text-[15px] transition-all duration-200",
+                      isActive ? "bg-brand/10 font-medium text-paper" : "text-muted hover:bg-graphite/70 hover:text-paper",
+                    )}
+                  >
+                    {isActive ? <span className="nav-indicator absolute inset-y-2 left-0 w-1 rounded-full bg-brand" aria-hidden /> : null}
+                    <span
+                      className={cx(
+                        "grid size-8 place-items-center rounded-md transition-all duration-200",
+                        isActive ? "bg-brand text-ink" : "bg-graphite/60 text-muted group-hover:scale-110 group-hover:text-brand",
+                      )}
+                    >
+                      <NavIcon name={item.icon} className="size-[17px]" />
+                    </span>
+                    <span className="truncate">{item.label}</span>
+                    <Badge badge={item.badge} />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
+    </div>
   );
 }

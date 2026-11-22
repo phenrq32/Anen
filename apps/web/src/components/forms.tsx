@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, startTransition, useActionState, useContext, useState, type ReactNode } from "react";
+import { createContext, startTransition, useActionState, useContext, useId, useState, type ReactNode } from "react";
 import { useFormStatus } from "react-dom";
 
 /** Estado de envio partilhado pelo ActionForm (que não usa a reposição automática do React). */
@@ -164,13 +164,14 @@ export function AutoSubmitSelect({
   options: ReadonlyArray<{ value: string; label: string }>;
   submitLabel: string;
 }) {
+  const id = `ctx-${name}-${useId().replace(/:/g, "")}`;
   return (
     <div className="flex items-center gap-2">
-      <label htmlFor={`ctx-${name}`} className="sr-only">
+      <label htmlFor={id} className="sr-only">
         {label}
       </label>
       <select
-        id={`ctx-${name}`}
+        id={id}
         name={name}
         defaultValue={defaultValue}
         onChange={(e) => e.currentTarget.form?.requestSubmit()}

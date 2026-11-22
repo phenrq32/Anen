@@ -15,7 +15,7 @@ async function signIn(page: Page, email: string) {
 
 async function signOut(page: Page) {
   const button = page.getByRole("button", { name: "Terminar sessão" });
-  if (!(await button.isVisible())) await page.locator("summary").first().click(); // menu móvel
+  if (!(await button.isVisible())) await page.getByRole("button", { name: "Mais", exact: true }).click(); // gaveta do telemóvel
   await button.click();
   await expect(page).toHaveURL(/\/entrar/);
 }
@@ -75,7 +75,7 @@ test("onboarding, organização, convite e aceitação por outro utilizador", as
   await page.getByLabel(/Número fiscal/).fill("123 456 789");
   await page.getByRole("button", { name: "Criar organização" }).click();
   await expect(page).toHaveURL(/\/painel/);
-  await expect(page.getByRole("heading", { name: "Olá, Ana" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /^(Bom dia|Boa tarde|Boa noite), Ana$/ })).toBeVisible();
   await expect(main.getByText(orgName).first()).toBeVisible();
   await expect(page.getByText("criou a organização").first()).toBeVisible();
 

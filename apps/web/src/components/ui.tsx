@@ -12,13 +12,13 @@ export function cx(...classes: Array<string | false | null | undefined>): string
 
 type Variant = "primary" | "secondary" | "ghost" | "danger";
 const variants: Record<Variant, string> = {
-  primary: "bg-brand text-ink hover:bg-brand-hover font-semibold",
+  primary: "bg-brand text-ink hover:bg-brand-hover font-semibold shadow-[0_6px_20px_-8px_rgba(255,133,27,0.6)] hover:shadow-[0_8px_28px_-8px_rgba(255,133,27,0.8)]",
   secondary: "bg-graphite text-paper border border-line hover:border-graphite-soft hover:bg-[#262626]",
   ghost: "text-muted hover:text-paper hover:bg-graphite",
   danger: "text-danger border border-line hover:border-danger/60 hover:bg-danger/10",
 };
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-md px-4 h-11 text-sm transition-colors duration-150 disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap";
+  "inline-flex items-center justify-center gap-2 rounded-lg px-4 h-11 text-[15px] transition-all duration-150 active:scale-[0.97] disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap";
 
 export function buttonClass(variant: Variant = "primary", extra?: string): string {
   return cx(base, variants[variant], extra);
@@ -131,7 +131,7 @@ export function Alert({ tone = "error", children }: { tone?: "error" | "success"
     info: "border-line bg-graphite text-muted",
   } as const;
   return (
-    <div role={tone === "error" ? "alert" : "status"} className={cx("rounded-md border px-4 py-3 text-sm leading-relaxed", tones[tone])}>
+    <div role={tone === "error" ? "alert" : "status"} className={cx("rounded-xl border px-4 py-3 text-[15px] leading-relaxed", tones[tone])}>
       {children}
     </div>
   );
@@ -141,7 +141,7 @@ export function PageHeader({ title, description, actions }: { title: string; des
   return (
     <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div className="flex flex-col gap-1.5">
-        <h1 className="text-2xl font-bold sm:text-[28px]">{title}</h1>
+        <h1 className="text-[26px] font-extrabold leading-tight tracking-tight sm:text-[32px]">{title}</h1>
         {description ? <p className="max-w-2xl text-[15px] text-muted">{description}</p> : null}
       </div>
       {actions ? <div className="flex gap-2">{actions}</div> : null}
@@ -151,7 +151,7 @@ export function PageHeader({ title, description, actions }: { title: string; des
 
 export function Section({ title, description, children, className }: { title: string; description?: string; children: ReactNode; className?: string }) {
   return (
-    <section className={cx("rounded-xl border border-line bg-surface", className)}>
+    <section className={cx("rounded-2xl border border-line bg-surface/80 backdrop-blur-sm", className)}>
       <div className="border-b border-line px-5 py-4 sm:px-6">
         <h2 className="text-base font-semibold">{title}</h2>
         {description ? <p className="mt-1 text-sm text-muted">{description}</p> : null}

@@ -46,9 +46,9 @@ export function FinanceKpis({
     { label: m.finance.kpi.result, value: result, note: `${m.finance.kpi.margin}: ${margin ?? m.finance.kpi.noRevenue}`, tone: result < 0n ? "negative" : "result" },
   ] as const;
   return (
-    <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line xl:grid-cols-4">
+    <div className="stagger grid grid-cols-2 gap-3 xl:grid-cols-4">
       {tiles.map((t) => (
-        <div key={t.label} className="flex min-w-0 flex-col gap-2 bg-surface p-4 sm:p-5">
+        <div key={t.label} className="lift flex min-w-0 flex-col gap-2 rounded-2xl border border-line bg-surface/80 p-4 backdrop-blur-sm sm:p-5">
           <span className="flex items-center gap-2 text-sm text-muted">
             {t.tone === "income" ? <span className="size-2 rounded-full bg-chart-income" aria-hidden /> : null}
             {t.tone === "expense" ? <span className="size-2 rounded-full bg-chart-expense" aria-hidden /> : null}

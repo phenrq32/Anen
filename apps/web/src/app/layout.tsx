@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+// As funções correm em Dublin, junto da base de dados (Supabase eu-west-1): cada consulta deixa de atravessar o Atlântico.
+export const preferredRegion = "dub1";
+
 export const viewport: Viewport = {
   themeColor: "#090909",
   width: "device-width",
