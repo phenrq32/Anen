@@ -6,8 +6,8 @@ import { AnimatedMoney } from "@/components/charts";
 import { Badge, cx } from "@/components/ui";
 import { categoryLabel } from "@/lib/finance";
 
-function delta(m: Messages, current: bigint, previous: bigint, currency: string, minorUnit: number, locale: Locale): string {
-  return format(m.finance.kpi.previous, { value: formatMoney(previous, currency, minorUnit, locale) }) + (current === previous ? "" : "");
+function delta(template: string, previous: bigint, currency: string, minorUnit: number, locale: Locale): string {
+  return format(template, { value: formatMoney(previous, currency, minorUnit, locale) });
 }
 
 export function FinanceKpis({
@@ -20,7 +20,9 @@ export function FinanceKpis({
   expense,
   prevIncome,
   prevExpense,
+  period = "month",
 }: {
+  period?: "month" | "quarter" | "year";
   m: Messages;
   locale: Locale;
   currency: string;
@@ -39,11 +41,12 @@ export function FinanceKpis({
   } catch {
     margin = null;
   }
+  const k = period === "month" ? m.finance.kpi : m.finance.kpi.periods[period];
   const tiles = [
     { label: m.finance.kpi.balance, value: balance, note: null as string | null, tone: "neutral" },
-    { label: m.finance.kpi.income, value: income, note: delta(m, income, prevIncome, currency, minorUnit, locale), tone: "income" },
-    { label: m.finance.kpi.expenses, value: expense, note: delta(m, expense, prevExpense, currency, minorUnit, locale), tone: "expense" },
-    { label: m.finance.kpi.result, value: result, note: `${m.finance.kpi.margin}: ${margin ?? m.finance.kpi.noRevenue}`, tone: result < 0n ? "negative" : "result" },
+    { label: k.income, value: income, note: delta(k.previous, prevIncome, currency, minorUnit, locale), tone: "income" },
+    { label: k.expenses, value: expense, note: delta(k.previous, prevExpense, currency, minorUnit, locale), tone: "expense" },
+    { label: k.result, value: result, note: `${k.margin}: ${margin ?? m.finance.kpi.noRevenue}`, tone: result < 0n ? "negative" : "result" },
   ] as const;
   return (
     <div className="stagger grid grid-cols-2 gap-3 xl:grid-cols-4">

@@ -370,6 +370,22 @@ export const ptBR: Messages = {
       margin: "Margem do mês",
       previous: "Mês anterior: {value}",
       noRevenue: "Sem receitas",
+      periods: {
+        quarter: {
+          income: "Receitas (3 meses)",
+          expenses: "Despesas (3 meses)",
+          result: "Resultado (3 meses)",
+          margin: "Margem",
+          previous: "3 meses anteriores: {value}",
+        },
+        year: {
+          income: "Receitas (12 meses)",
+          expenses: "Despesas (12 meses)",
+          result: "Resultado (12 meses)",
+          margin: "Margem",
+          previous: "12 meses anteriores: {value}",
+        },
+      },
     },
     chart: {
       monthlyTitle: "Receitas e despesas",
@@ -1463,6 +1479,12 @@ export const ptBR: Messages = {
     },
   },
   dashboard: {
+    period: {
+      label: "Período dos totais",
+      month: "Este mês",
+      quarter: "3 meses",
+      year: "12 meses",
+    },
     morning: "Bom dia, {name}",
     afternoon: "Boa tarde, {name}",
     evening: "Boa noite, {name}",

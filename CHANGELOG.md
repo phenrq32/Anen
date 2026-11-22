@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.19.0] · 22/11/2026 · Período no painel
+- Painel: escolha do período dos totais (Este mês, 3 meses, 12 meses, em `?periodo=`). Receitas, despesas, resultado e margem somam o período e comparam com o período anterior do mesmo tamanho. O gráfico continua a mostrar 12 meses e a nota de saúde financeira continua a ser do mês atual.
+- Uma só consulta de 24 meses (`finance_monthly`) alimenta o gráfico e as comparações; soma em `bigint` (`dashboard-period.ts`).
+- Testes: 334 unitários (`dashboard-period.test.ts`) e o E2E `dashboard-period.spec.ts`.
+
 ## [0.18.0] · 22/11/2026 · Aparência e tour de boas-vindas
 - Definições → Aparência: tema Escuro, Claro ou Automático (segue o aparelho) e texto Normal, Grande ou Muito grande (amplia letras, botões e espaços por igual). Muda na hora e fica guardado no aparelho (cookies anen-theme/anen-text); o servidor já desenha a página com a escolha, sem piscar. Atalho na procura (Ctrl+K).
 - Tema claro só troca as variáveis de cor: o texto sobre o laranja continua preto (cor nova on-brand) e o texto laranja passa a laranja-escuro para ter contraste sobre branco (regra da marca).

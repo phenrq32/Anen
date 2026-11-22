@@ -158,7 +158,7 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 | Notificações por email ou push | Bloqueado | Falta um serviço de email (SMTP, Resend…) e contas de push |
 | Relatórios por período: faturado e liquidado por categoria, contacto, projeto e centro de custo, mês a mês; exportação CSV | Testado | `report.test.ts` (motor), `notifications.test.ts` (RLS de `finance_report`) + E2E |
 | Otimização: índices para relatórios, notificações, encomendas atrasadas e stock; contador com índice parcial | Implementado | Migration 1600 |
-| Filtro de período no painel | Não iniciado | Os relatórios cobrem os períodos; o painel continua a mostrar o mês |
+| Filtro de período no painel (este mês, 3 meses, 12 meses) contra o período anterior; a nota de saúde continua a ser do mês | Implementado | `dashboard-period.test.ts`; E2E `dashboard-period.spec.ts` por correr em produção |
 
 ## ANEN AI e planos
 

@@ -11,6 +11,7 @@ import { financeScope } from "@/lib/finance";
 import { quotesScope } from "@/lib/quotes";
 import { statusTone } from "../orcamentos/status";
 import { loadFinanceOverview } from "@/lib/finance-overview";
+import { DASHBOARD_PERIODS, parseDashboardPeriod } from "@/lib/dashboard-period";
 import { Badge, ButtonLink, Section, cx } from "@/components/ui";
 import { ScoreRing } from "@/components/motion";
 import { NavIcon } from "@/components/nav-links";
@@ -24,8 +25,9 @@ import { can, requireOnboardedSession } from "@/lib/session";
 
 export const metadata: Metadata = { title: "Painel" };
 
-export default async function DashboardPage() {
+export default async function DashboardPage({ searchParams }: { searchParams: Promise<{ periodo?: string | string[] }> }) {
   const { m, locale } = await getI18n();
+  const period = parseDashboardPeriod((await searchParams).periodo);
   const session = await requireOnboardedSession();
   const { active, supabase } = session;
   const firstName = (session.profile.full_name ?? "").split(" ")[0] || session.user.email;
@@ -52,7 +54,7 @@ export default async function DashboardPage() {
           .gt("expires_at", new Date().toISOString())
       : Promise.resolve({ count: null }),
     orgId && canAudit ? recentAudit(supabase, orgId, 8) : Promise.resolve([] as Awaited<ReturnType<typeof recentAudit>>),
-    scope.canRead ? loadFinanceOverview(supabase, scope, m, locale) : Promise.resolve(null),
+    scope.canRead ? loadFinanceOverview(supabase, scope, m, locale, period) : Promise.resolve(null),
     qScope.canRead
       ? supabase.from("quotes").select("id, number, title, status, total_minor, currency_code").eq(qScope.column, qScope.value).order("created_at", { ascending: false }).limit(4)
       : Promise.resolve({ data: [] }),
@@ -77,7 +79,9 @@ export default async function DashboardPage() {
     const overdue = (intel?.recommendations ?? [])
       .filter((r) => r.kind === "overdue_payables" && r.impact?.currency === finance.currency)
       .reduce((n, r) => n + r.count, 0);
-    health = financialHealth({ income: finance.income, expense: finance.expense, balance: finance.balance, averageMonthlyExpense: avg, overdueCount: overdue });
+    // A nota é sempre do mês atual (independente do período escolhido para os totais).
+    const now = finance.monthly[11]!;
+    health = financialHealth({ income: BigInt(now.income), expense: BigInt(now.expense), balance: finance.balance, averageMonthlyExpense: avg, overdueCount: overdue });
   }
   const top = (intel?.recommendations ?? []).filter((r) => r.kind !== "no_movements").slice(0, 3);
   const h = m.dashboard.health;
@@ -206,7 +210,24 @@ export default async function DashboardPage() {
           <EmptyFinance m={m} canWrite={scope.canWrite} />
         ) : (
           <>
+            <nav aria-label={m.dashboard.period.label} className="flex flex-wrap items-center gap-2">
+              {DASHBOARD_PERIODS.map((p) => (
+                <Link
+                  key={p}
+                  href={p === "month" ? "/painel" : `/painel?periodo=${p}`}
+                  scroll={false}
+                  aria-current={p === period ? "page" : undefined}
+                  className={cx(
+                    "inline-flex h-9 items-center rounded-full border px-3.5 text-sm transition-colors",
+                    p === period ? "border-brand/40 bg-brand/10 text-paper" : "border-line text-muted hover:text-paper",
+                  )}
+                >
+                  {m.dashboard.period[p]}
+                </Link>
+              ))}
+            </nav>
             <FinanceKpis
+              period={period}
               m={m}
               locale={locale}
               currency={finance.currency}

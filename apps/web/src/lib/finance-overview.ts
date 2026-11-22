@@ -13,10 +13,12 @@ import {
   type FinanceScope,
 } from "@/lib/finance";
 import type { ServerClient } from "@/lib/supabase/server";
+import { PERIOD_MONTHS, periodTotals, type DashboardPeriod } from "@/lib/dashboard-period";
 
 export interface FinanceOverview {
   basics: FinanceBasics;
   month: string;
+  period: DashboardPeriod;
   today: string;
   currency: string;
   minorUnit: number;
@@ -38,16 +40,19 @@ export async function loadFinanceOverview(
   scope: FinanceScope,
   m: Messages,
   locale: Locale,
+  period: DashboardPeriod = "month",
 ): Promise<FinanceOverview> {
   await materializeDue(supabase, scope);
   const today = todayIn(scope.timezone);
   const month = today.slice(0, 7);
   const firstMonth = shiftMonth(month, -11);
+  // 24 meses numa só consulta: o gráfico mostra 12 e o período de 12 meses compara com os 12 anteriores.
+  const seriesStart = shiftMonth(month, -23);
   const { from: monthFrom, to: monthTo } = monthBounds(month);
 
   const [basics, monthlyRes, catRes, recentRes, budgetsRes, goalsRes] = await Promise.all([
     loadFinanceBasics(supabase, scope),
-    supabase.rpc("finance_monthly", { p_org: scope.orgId, p_from: `${firstMonth}-01`, p_to: monthTo }),
+    supabase.rpc("finance_monthly", { p_org: scope.orgId, p_from: `${seriesStart}-01`, p_to: monthTo }),
     supabase.rpc("finance_by_category", { p_org: scope.orgId, p_from: monthFrom, p_to: monthTo, p_kind: "expense" }),
     supabase.from("transactions").select("*").eq(scope.column, scope.value).order("occurred_on", { ascending: false }).order("created_at", { ascending: false }).limit(8),
     supabase.from("budgets").select("*").eq(scope.column, scope.value).eq("period_start", monthFrom),
@@ -82,8 +87,12 @@ export async function loadFinanceOverview(
       expense: String(row?.expense ?? 0),
     };
   });
-  const current = monthly[11]!;
-  const previous = monthly[10]!;
+  const series = Array.from({ length: 24 }, (_, i) => {
+    const key = shiftMonth(seriesStart, i);
+    const row = monthlyRows.find((r) => r.currency_code === currency && r.month.startsWith(key));
+    return { income: String(row?.income ?? 0), expense: String(row?.expense ?? 0) };
+  });
+  const totals = periodTotals(series, PERIOD_MONTHS[period]);
 
   const categories = new Map(basics.categories.map((c) => [c.id, c]));
   const catRows = (catRes.data ?? []).filter((r) => r.currency_code === currency);
@@ -117,15 +126,13 @@ export async function loadFinanceOverview(
   return {
     basics,
     month,
+    period,
     today,
     currency,
     minorUnit,
     otherCurrencies,
     balance,
-    income: BigInt(current.income),
-    expense: BigInt(current.expense),
-    prevIncome: BigInt(previous.income),
-    prevExpense: BigInt(previous.expense),
+    ...totals,
     monthly,
     byCategory: top,
     recent: recentRes.data ?? [],
