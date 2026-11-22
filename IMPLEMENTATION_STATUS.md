@@ -144,7 +144,7 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 | Receção: stock, preços do fornecedor e despesa (paga ou a pagar com vencimento) numa transação | Testado | `inventory.test.ts` (inclui receção sem `finance.write`) + E2E |
 | Reposição: sugestões abaixo do mínimo e rascunhos por fornecedor | Testado | `inventory.test.ts` (desconta o já encomendado, âmbito pessoal) + E2E |
 | Comparação do mesmo artigo entre fornecedores | Testado | `stock.test.ts` + E2E |
-| Lotes e validades com saída FEFO ou lote escolhido, rastreio por lote, contagem que acerta os lotes | Implementado | `stock-lots.test.ts` (invariante, FEFO, lote escolhido, contagem, RLS); E2E `stock-lots.spec.ts` por correr em produção |
+| Lotes e validades com saída FEFO ou lote escolhido, rastreio por lote, contagem que acerta os lotes | Testado | `stock-lots.test.ts` (invariante, FEFO, lote escolhido, contagem, RLS); E2E `stock-lots.spec.ts` (produção, 22/11/2026) |
 | Consumo pelas fichas técnicas: ingrediente ligado ao stock, produção com desperdício e conversão de unidades, tudo ou nada | Implementado | `stock-lots.test.ts` (paridade das unidades SQL/motor, permissões); E2E idem |
 | Avisos de lotes a vencer e vencidos (com antecedência nas preferências) | Implementado | `stock-lots.test.ts`; E2E idem |
 | Lote e validade na receção de encomendas | Não iniciado | A receção cria lotes sem código nem validade; regista-se na entrada manual |
@@ -161,7 +161,7 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 | Notificações por email ou push | Bloqueado | Falta um serviço de email (SMTP, Resend…) e contas de push |
 | Relatórios por período: faturado e liquidado por categoria, contacto, projeto e centro de custo, mês a mês; exportação CSV | Testado | `report.test.ts` (motor), `notifications.test.ts` (RLS de `finance_report`) + E2E |
 | Otimização: índices para relatórios, notificações, encomendas atrasadas e stock; contador com índice parcial | Implementado | Migration 1600 |
-| Filtro de período no painel (este mês, 3 meses, 12 meses) contra o período anterior; a nota de saúde continua a ser do mês | Implementado | `dashboard-period.test.ts`; E2E `dashboard-period.spec.ts` por correr em produção |
+| Filtro de período no painel (este mês, 3 meses, 12 meses) contra o período anterior; a nota de saúde continua a ser do mês | Testado | `dashboard-period.test.ts`; E2E `dashboard-period.spec.ts` (produção, 22/11/2026) |
 
 ## ANEN AI e planos
 
@@ -206,4 +206,4 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 ## Testes
 
 - **352 testes automáticos** (`npm test`): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços, do stock e dos relatórios; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
-- **34 testes E2E (17 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção, todos a passar a 21/11/2026.
+- **42 testes E2E (21 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção, todos a passar a 22/11/2026.
