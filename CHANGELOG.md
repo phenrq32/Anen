@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.21.0] · 23/11/2026 · Revisão: apagar orçamentos, acessibilidade e áreas do menu
+- Orçamentos: apagam-se em qualquer estado (antes só os rascunhos, e o botão só aparecia dentro do orçamento com o nome "Eliminar movimento"). Na lista há seleção com "Selecionar todos" e "Apagar selecionados"; a confirmação explica que linhas e histórico também vão e que faturas e projetos ligados ficam sem a ligação.
+- Definições → Acessibilidade (por aparelho, cookie anen-a11y aplicado no <html> pelo servidor): reduzir animações, alto contraste (escuro e claro), sublinhar ligações, destaque forte do foco do teclado, mais espaço no texto e letra de leitura fácil (Atkinson Hyperlegible, descarregada só por quem a liga).
+- Definições → Áreas do menu (`user_preferences.hidden_modules`, na conta): esconder orçamentos, faturação, projetos, compras, inventário, fichas técnicas, IA, inteligência, relatórios ou mercado do menu, da barra do telemóvel e da procura. As páginas e os dados ficam. As fichas técnicas vêm escondidas por omissão, exceto para quem já as usa.
+- Migration 2100. Testes: 358 unitários (`a11y.test.ts`, `modules.test.ts`, exclusão de orçamentos em `quotes.test.ts`, `rls.test.ts`) e o E2E `review-settings.spec.ts`; 44 E2E em produção.
+
 ## [0.20.0] · 22/11/2026 · Lotes, validades e produção pelas fichas técnicas
 - Inventário: cada entrada cria um lote (código e validade opcionais). Saídas, perdas e contagens para baixo gastam primeiro o que vence antes (FEFO); os lotes sem validade ficam para o fim. Nas saídas e perdas pode escolher-se o lote. A contagem acima do saldo cria um lote de acerto. Fica registado quanto cada movimento tirou de cada lote. Saldos que já existiam viram um lote "saldo anterior". Faturas, compras e anulações passam pelo mesmo gatilho, por isso também respeitam os lotes.
 - Página do artigo: tabela de lotes com validade, "vencido", "vence hoje" e "vence em N dias"; lotes esgotados à parte. Lista do inventário: lotes a vencer em 7 dias e vencidos com stock.
