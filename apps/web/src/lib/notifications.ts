@@ -52,6 +52,20 @@ export function notificationText(
         title: format(t.titles.stock, { name: str(d, "name") }),
         body: format(t.bodies.stock, { quantity: number("quantity"), minimum: number("minimum"), unit: str(d, "unit") }),
       };
+    case "stock_expiring":
+    case "stock_expired": {
+      const code = str(d, "code");
+      const expired = n.kind === "stock_expired";
+      return {
+        title: format(expired ? t.titles.expired : t.titles.expiring, { name: str(d, "name") }),
+        body: format(expired ? t.bodies.expired : t.bodies.expiring, {
+          lot: code ? format(t.bodies.lot, { code }) : "",
+          quantity: number("quantity"),
+          unit: str(d, "unit"),
+          date: day(str(d, "expires_on")),
+        }),
+      };
+    }
     case "purchase_late":
       return {
         title: format(t.titles.purchaseLate, { supplier: str(d, "supplier") || m.purchases.supplierDeleted }),

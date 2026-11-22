@@ -59,6 +59,10 @@ export const stockMovementSchema = z
     unitCost: z.string().trim().max(32, { message: "amount_invalid" }).optional().transform((v) => v ?? ""),
     occurredOn: isoDate,
     notes: optionalText(500),
+    // Entradas: lote e validade opcionais. Saídas e perdas: lote escolhido (vazio = o que vence primeiro).
+    lotCode: optionalText(60),
+    expiresOn: optionalDate,
+    lotId: optionalUuid,
   })
   .transform((v, ctx) => {
     const parsed = parseQuantityInput(v.quantity);
@@ -70,7 +74,14 @@ export const stockMovementSchema = z
       ctx.addIssue({ code: "custom", message: "amount_invalid", path: ["unitCost"] });
       return z.NEVER;
     }
-    return { ...v, quantity: parsed };
+    return {
+      ...v,
+      quantity: parsed,
+      // Campos que não se aplicam ao tipo escolhido são ignorados (o formulário pode tê-los preenchidos de outro tipo).
+      lotCode: v.kind === "in" ? v.lotCode : null,
+      expiresOn: v.kind === "in" ? v.expiresOn : null,
+      lotId: v.kind === "out" || v.kind === "loss" ? v.lotId : null,
+    };
   });
 
 export const purchaseOrderSchema = z

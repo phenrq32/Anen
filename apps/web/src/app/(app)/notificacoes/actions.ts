@@ -63,7 +63,11 @@ export async function saveNotificationSettingsAction(_: FormState, formData: For
   const disabled: NotificationKind[] = NOTIFICATION_KINDS.filter((k) => !enabled.has(k));
   const days = Number(formString(formData, "dueSoonDays"));
   if (!Number.isInteger(days) || days < 1 || days > 30) return { status: "error", fieldErrors: { dueSoonDays: m.errors.number_invalid } };
-  const fields = { disabled_kinds: disabled, due_soon_days: days };
+  const expiryDays = Number(formString(formData, "expirySoonDays") || "7");
+  if (!Number.isInteger(expiryDays) || expiryDays < 1 || expiryDays > 60) {
+    return { status: "error", fieldErrors: { expirySoonDays: m.errors.number_invalid } };
+  }
+  const fields = { disabled_kinds: disabled, due_soon_days: days, expiry_soon_days: expiryDays };
   const updated = await session.supabase.from("notification_settings").update(fields).eq("user_id", session.user.id).select("user_id");
   if (updated.error) return { status: "error", message: errorMessage(m, updated.error) };
   if (!updated.data?.length) {

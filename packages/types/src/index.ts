@@ -333,6 +333,8 @@ export interface RecipeIngredient {
   cost_minor: number;
   /** Preço de fornecedor de onde veio package_price_minor (fotografia do preço na altura). */
   supplier_price_id: string | null;
+  /** Artigo de stock de onde sai o ingrediente quando se regista uma produção. */
+  stock_item_id: string | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -504,9 +506,49 @@ export interface StockMovement extends FinanceScoped {
   occurred_on: string;
   notes: string | null;
   purchase_order_id: string | null;
+  /** Entradas: código e validade do lote criado. Saídas e perdas: lote escolhido (senão, FEFO). */
+  lot_code: string | null;
+  expires_on: string | null;
+  lot_id: string | null;
+  production_id: string | null;
   quantity_change: NumericValue;
   balance_after: NumericValue;
   average_cost_after: number;
+  created_by: string | null;
+  created_at: string;
+}
+
+export const STOCK_LOT_ORIGINS = ["in", "count", "opening"] as const;
+export type StockLotOrigin = (typeof STOCK_LOT_ORIGINS)[number];
+
+/** Lote: criado pelas entradas (e contagens acima do saldo); consumido por FEFO. Só leitura. */
+export interface StockLot extends FinanceScoped {
+  id: string;
+  item_id: string;
+  code: string | null;
+  expires_on: string | null;
+  received_on: string;
+  quantity_received: NumericValue;
+  quantity_remaining: NumericValue;
+  unit_cost_minor: number;
+  origin: StockLotOrigin;
+  source_movement_id: string | null;
+  created_at: string;
+}
+
+export interface StockLotMovement extends FinanceScoped {
+  movement_id: string;
+  lot_id: string;
+  quantity: NumericValue;
+}
+
+export interface RecipeProduction extends FinanceScoped {
+  id: string;
+  recipe_id: string | null;
+  recipe_name: string;
+  portions: NumericValue;
+  occurred_on: string;
+  notes: string | null;
   created_by: string | null;
   created_at: string;
 }
@@ -554,7 +596,15 @@ export interface ReorderSuggestion {
   last_unit_price_minor: number | null;
 }
 
-export const NOTIFICATION_KINDS = ["payment_overdue", "payment_due_soon", "stock_below_minimum", "purchase_late", "market_alert"] as const;
+export const NOTIFICATION_KINDS = [
+  "payment_overdue",
+  "payment_due_soon",
+  "stock_below_minimum",
+  "stock_expiring",
+  "stock_expired",
+  "purchase_late",
+  "market_alert",
+] as const;
 export type NotificationKind = (typeof NOTIFICATION_KINDS)[number];
 
 export interface AppNotification {
@@ -575,6 +625,7 @@ export interface NotificationSettings {
   user_id: string;
   disabled_kinds: NotificationKind[];
   due_soon_days: number;
+  expiry_soon_days: number;
   updated_at: string;
 }
 

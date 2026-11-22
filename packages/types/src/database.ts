@@ -13,6 +13,9 @@ import type {
   SupplierPrice,
   StockItem,
   StockMovement,
+  StockLot,
+  StockLotMovement,
+  RecipeProduction,
   PurchaseOrder,
   PurchaseOrderItem,
   ReorderSuggestion,
@@ -250,9 +253,12 @@ export type Database = {
       >;
       stock_movements: Table<
         StockMovement,
-        Scope & Pick<StockMovement, "item_id" | "kind" | "quantity" | "occurred_on"> & Partial<Pick<StockMovement, "unit_cost_minor" | "notes">>,
+        Scope & Pick<StockMovement, "item_id" | "kind" | "quantity" | "occurred_on"> & Partial<Pick<StockMovement, "unit_cost_minor" | "notes" | "lot_code" | "expires_on" | "lot_id">>,
         NoWrite
       >;
+      stock_lots: Table<StockLot, NoWrite, NoWrite>;
+      stock_lot_movements: Table<StockLotMovement, NoWrite, NoWrite>;
+      recipe_productions: Table<RecipeProduction, NoWrite, NoWrite>;
       purchase_orders: Table<
         PurchaseOrder,
         Scope & { supplier_id: string; currency_code: string } & Partial<PurchaseOrderWrite>,
@@ -267,8 +273,8 @@ export type Database = {
       notifications: Table<AppNotification, NoWrite, Partial<Pick<AppNotification, "read_at">>>;
       notification_settings: Table<
         NotificationSettings,
-        Pick<NotificationSettings, "user_id"> & Partial<Pick<NotificationSettings, "disabled_kinds" | "due_soon_days">>,
-        Partial<Pick<NotificationSettings, "disabled_kinds" | "due_soon_days">>
+        Pick<NotificationSettings, "user_id"> & Partial<Pick<NotificationSettings, "disabled_kinds" | "due_soon_days" | "expiry_soon_days">>,
+        Partial<Pick<NotificationSettings, "disabled_kinds" | "due_soon_days" | "expiry_soon_days">>
       >;
       plans: Table<Plan>;
       ai_conversations: Table<
@@ -403,6 +409,7 @@ export type Database = {
       stock_reorder_suggestions: { Args: { p_org?: string | null }; Returns: ReorderSuggestion[] };
       create_reorder_drafts: { Args: { p_org?: string | null }; Returns: { orders: number; lines: number; skipped: number } };
       refresh_my_notifications: { Args: Record<string, never>; Returns: number };
+      produce_recipe: { Args: { p_recipe_id: string; p_portions: string; p_occurred_on?: string | null; p_notes?: string | null }; Returns: string };
       finance_report: { Args: { p_org: string | null; p_from: string; p_to: string }; Returns: FinanceReportRow[] };
       ai_status: { Args: { p_org?: string | null }; Returns: AiStatus[] };
       ai_begin_request: { Args: { p_org?: string | null }; Returns: { usage_id: number; daily_limit: number; used_today: number }[] };

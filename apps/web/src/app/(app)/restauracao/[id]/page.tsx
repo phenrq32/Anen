@@ -2,15 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { priceItemKey } from "@anen/financial-engine";
-import { formatDate, formatMoney } from "@anen/i18n";
+import { format, formatDate, formatMoney } from "@anen/i18n";
 import { formatAmountInput } from "@anen/validation";
 import { InlineAction } from "@/components/forms";
 import { businessScope } from "@/lib/business";
+import { todayIn } from "@/lib/finance";
 import { getI18n } from "@/lib/i18n";
 import { numericToString, quotesScope } from "@/lib/quotes";
 import { requireOnboardedSession } from "@/lib/session";
 import { deleteRecipeAction } from "../../orcamentos/actions";
-import { RecipeEditor, type PriceOption, type PriceUpdate } from "../recipe-editor";
+import { RecipeEditor, type PriceOption, type PriceUpdate, type StockOption } from "../recipe-editor";
+import { ProductionForm } from "../production-form";
+import { formatQuantity } from "../../inventario/quantity";
 
 export const metadata: Metadata = { title: "Ficha técnica" };
 
@@ -36,9 +39,11 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
   // mais os que já estão ligados. Sem business.read, não se mostram (as ligações mantêm-se).
   const biz = businessScope(session);
   let priceOptions: PriceOption[] | null = null;
+  let stockOptions: StockOption[] | null = null;
+  let productions: Array<{ id: string; portions: number | string; occurred_on: string; notes: string | null }> = [];
   const updates: Record<string, PriceUpdate> = {};
   if (biz.canRead) {
-    const [{ data: prices }, { data: suppliers }, { data: changes }] = await Promise.all([
+    const [{ data: prices }, { data: suppliers }, { data: changes }, { data: stock }, { data: prods }] = await Promise.all([
       session.supabase
         .from("supplier_prices")
         .select("*")
@@ -49,7 +54,13 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
         .limit(2000),
       session.supabase.from("contacts").select("id, name").eq(biz.column, biz.value).in("kind", ["supplier", "both"]),
       session.supabase.rpc("recipe_price_updates", { p_recipe_id: recipe.id }),
+      // Artigos ativos do mesmo âmbito da ficha (a ficha e o stock partilham o âmbito pessoal/organização).
+      session.supabase.from("stock_items").select("id, name, unit, archived_at").eq(biz.column, biz.value).order("name").limit(1000),
+      session.supabase.from("recipe_productions").select("id, portions, occurred_on, notes").eq("recipe_id", recipe.id).order("created_at", { ascending: false }).limit(10),
     ]);
+    const linkedStock = new Set((ingredients ?? []).map((i) => i.stock_item_id).filter(Boolean));
+    stockOptions = (stock ?? []).filter((x) => !x.archived_at || linkedStock.has(x.id)).map((x) => ({ id: x.id, name: x.name, unit: x.unit }));
+    productions = prods ?? [];
     const names = new Map((suppliers ?? []).map((c) => [c.id, c.name]));
     const linkedIds = new Set((ingredients ?? []).map((i) => i.supplier_price_id).filter(Boolean));
     const seen = new Set<string>();
@@ -91,6 +102,7 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
         readOnly={!scope.canWrite}
         priceOptions={priceOptions}
         updates={updates}
+        stockOptions={stockOptions}
         recipe={{
           id: recipe.id,
           name: recipe.name,
@@ -115,8 +127,44 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
           packagePrice: amount(i.package_price_minor, unit),
           waste: dec(i.waste_percent),
           supplierPriceId: i.supplier_price_id ?? "",
+          stockItemId: i.stock_item_id ?? "",
         }))}
       />
+      {biz.canRead ? (
+        <section className="flex flex-col gap-4 rounded-xl border border-line bg-surface p-5 sm:p-6" aria-labelledby="production-title">
+          <div className="flex flex-col gap-1">
+            <h2 id="production-title" className="text-base font-semibold">{m.recipes.production.title}</h2>
+            <p className="text-sm text-muted">{m.recipes.production.description}</p>
+          </div>
+          {!(ingredients ?? []).some((i) => i.stock_item_id) ? (
+            <p className="text-sm text-muted">{m.recipes.production.noLinks}</p>
+          ) : biz.canWrite ? (
+            <ProductionForm m={m} recipeId={recipe.id} portions={dec(recipe.portions)} today={todayIn(scope.timezone)} />
+          ) : (
+            <p className="text-sm text-muted">{m.recipes.production.noPermission}</p>
+          )}
+          <div className="flex flex-col gap-2">
+            <h3 className="text-sm font-semibold">{m.recipes.production.history}</h3>
+            {productions.length === 0 ? (
+              <p className="text-sm text-muted">{m.recipes.production.empty}</p>
+            ) : (
+              <ul className="flex flex-col gap-1.5 text-sm">
+                {productions.map((p) => (
+                  <li key={p.id} className="flex flex-wrap justify-between gap-x-3">
+                    <span className="tabular">
+                      {format(m.recipes.production.row, {
+                        portions: formatQuantity(p.portions, locale),
+                        date: formatDate(p.occurred_on, locale, "UTC", { day: "2-digit", month: "short", year: "numeric" }),
+                      })}
+                    </span>
+                    {p.notes ? <span className="text-subtle">{p.notes}</span> : null}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </section>
+      ) : null}
       {(history ?? []).length > 1 ? (
         <section className="rounded-xl border border-line bg-surface p-5 sm:p-6">
           <h2 className="mb-3 text-base font-semibold">{m.recipes.history}</h2>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { computeRecipe, decimalToString, unitConversionFactor } from "@anen/financial-engine";
+import { computeRecipe, decimalToString, normalizeUnit, unitConversionFactor } from "@anen/financial-engine";
 import { format, formatDate, formatMoney, type Messages } from "@anen/i18n";
 import type { Locale } from "@anen/types";
 import { formatAmountInput, parseAmountInput, parsePercentInput, parseQuantityInput } from "@anen/validation";
@@ -19,6 +19,20 @@ export interface IngredientRow {
   waste: string;
   /** "" = preço indicado à mão. */
   supplierPriceId: string;
+  /** "" = sem ligação ao stock. */
+  stockItemId: string;
+}
+
+/** Artigo de stock do mesmo âmbito da ficha (a unidade decide a conversão). */
+export interface StockOption {
+  id: string;
+  name: string;
+  unit: string;
+}
+
+/** A unidade do ingrediente converte para a do artigo (mesma unidade ou mesma grandeza). */
+export function unitsCompatible(a: string, b: string): boolean {
+  return normalizeUnit(a) === normalizeUnit(b) || unitConversionFactor(a, b) !== null || unitConversionFactor(b, a) !== null;
 }
 
 /** Preço registado de um fornecedor, na moeda da ficha. */
@@ -67,6 +81,7 @@ export function RecipeEditor({
   readOnly,
   priceOptions,
   updates,
+  stockOptions,
 }: {
   m: Messages;
   locale: Locale;
@@ -77,6 +92,8 @@ export function RecipeEditor({
   /** null: sem permissão para ver preços de fornecedores (as ligações existentes mantêm-se). */
   priceOptions: PriceOption[] | null;
   updates: Record<string, PriceUpdate>;
+  /** null: sem permissão para ver o stock (as ligações existentes mantêm-se). */
+  stockOptions: StockOption[] | null;
 }) {
   const [rows, setRows] = useState(initialIngredients);
   const [updatedAll, setUpdatedAll] = useState(false);
@@ -125,6 +142,8 @@ export function RecipeEditor({
   const day = (iso: string) => formatDate(iso, locale, "UTC");
   const optionsById = new Map((priceOptions ?? []).map((o) => [o.id, o]));
   for (const u of Object.values(updates)) if (!optionsById.has(u.latest.id)) optionsById.set(u.latest.id, u.latest);
+  const ts = m.recipes.stock;
+  const stockById = new Map((stockOptions ?? []).map((o) => [o.id, o]));
   const optionLabel = (o: PriceOption) =>
     format(t.option, { supplier: o.supplier, item: o.item, price: money(o.priceMinor), unit: o.unit ?? "un", date: day(o.observedOn) });
 
@@ -202,7 +221,7 @@ export function RecipeEditor({
                   const showUpdate = u && r.supplierPriceId === u.linkedPriceId && r.packagePrice !== formatAmountInput(BigInt(u.latest.priceMinor), minorUnit);
                   return (
                     <li key={r.key} className="flex flex-col gap-2 rounded-lg border border-line p-3">
-                      <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)]">
+                      <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)_minmax(0,1fr)]">
                         <input aria-label={m.recipes.ingredient.name} placeholder={m.recipes.ingredient.name} value={r.name} maxLength={120} onChange={(e) => update(r.key, { name: e.target.value })} className={cell} />
                         {priceOptions ? (
                           <select
@@ -218,6 +237,26 @@ export function RecipeEditor({
                           </select>
                         ) : (
                           <span className="self-center text-sm text-muted">{r.supplierPriceId ? t.noAccess : t.manual}</span>
+                        )}
+                        {stockOptions ? (
+                          <select
+                            aria-label={ts.source}
+                            value={r.stockItemId}
+                            onChange={(e) => {
+                              const o = stockById.get(e.target.value);
+                              const patch: Partial<IngredientRow> = { stockItemId: e.target.value };
+                              if (o && !r.name.trim()) patch.name = o.name.slice(0, 120);
+                              update(r.key, patch);
+                            }}
+                            className={cell}
+                          >
+                            <option value="">{ts.none}</option>
+                            {(stockOptions ?? []).map((o) => (
+                              <option key={o.id} value={o.id}>{`${o.name} (${o.unit})`}</option>
+                            ))}
+                          </select>
+                        ) : (
+                          <span className="self-center text-sm text-muted">{r.stockItemId ? ts.noAccess : ts.none}</span>
                         )}
                       </div>
                       <div className="grid grid-cols-3 gap-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.6fr)_minmax(0,1fr)_minmax(0,1.1fr)_minmax(0,0.8fr)_96px_36px] lg:items-center">
@@ -248,6 +287,12 @@ export function RecipeEditor({
                             : ""}
                         </p>
                       ) : null}
+                      {(() => {
+                        const stock = r.stockItemId ? stockById.get(r.stockItemId) : undefined;
+                        return stock && !unitsCompatible(r.unit, stock.unit) ? (
+                          <p className="text-xs text-danger">{format(ts.unitMismatch, { unit: r.unit, stockUnit: stock.unit })}</p>
+                        ) : null;
+                      })()}
                       {showUpdate && !readOnly ? (
                         <div className="flex flex-wrap items-center gap-3 text-xs">
                           <span className="text-brand">
@@ -265,7 +310,7 @@ export function RecipeEditor({
               {readOnly ? null : (
                 <button
                   type="button"
-                  onClick={() => setRows((rs) => [...rs, { key: key(), name: "", quantity: "", unit: "g", packageQuantity: "1000", packagePrice: "", waste: "0", supplierPriceId: "" }])}
+                  onClick={() => setRows((rs) => [...rs, { key: key(), name: "", quantity: "", unit: "g", packageQuantity: "1000", packagePrice: "", waste: "0", supplierPriceId: "", stockItemId: "" }])}
                   className="h-9 self-start rounded-full border border-line px-3 text-sm text-muted hover:border-brand hover:text-paper"
                 >
                   + {m.recipes.ingredient.add}

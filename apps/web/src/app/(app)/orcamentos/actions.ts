@@ -260,6 +260,7 @@ interface RawIngredient {
   packagePrice: string;
   waste: string;
   supplierPriceId?: string;
+  stockItemId?: string;
 }
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -293,7 +294,7 @@ export async function saveRecipeAction(_: FormState, formData: FormData): Promis
 
   const raw = safeJson(formString(formData, "ingredients"));
   if (!Array.isArray(raw) || raw.length > 150) return { status: "error", message: m.errors.generic };
-  const ingredients: Array<IngredientInput & { name: string; unit: string; supplierPriceId: string | null }> = [];
+  const ingredients: Array<IngredientInput & { name: string; unit: string; supplierPriceId: string | null; stockItemId: string | null }> = [];
   for (const [i, item] of (raw as RawIngredient[]).entries()) {
     const quantity = parseQuantityInput(String(item.quantity ?? ""));
     const pack = parseQuantityInput(String(item.packageQuantity ?? ""));
@@ -301,11 +302,15 @@ export async function saveRecipeAction(_: FormState, formData: FormData): Promis
     const waste = parsePercentInput(String(item.waste ?? "0"), { exclusiveMax: true });
     const label = String(item.name ?? "").trim().slice(0, 120);
     const supplierPriceId = String(item.supplierPriceId ?? "");
+    const stockItemId = String(item.stockItemId ?? "");
     if (!label || quantity === null || !pack || Number(pack) <= 0 || price === null || waste === null) {
       return { status: "error", message: `${m.recipes.ingredients} ${i + 1}: ${m.errors.quantity_invalid}` };
     }
     if (supplierPriceId && !UUID.test(supplierPriceId)) {
       return { status: "error", message: `${m.recipes.ingredients} ${i + 1}: ${m.errors.supplier_price_invalid}` };
+    }
+    if (stockItemId && !UUID.test(stockItemId)) {
+      return { status: "error", message: `${m.recipes.ingredients} ${i + 1}: ${m.errors.stock_item_invalid}` };
     }
     ingredients.push({
       name: label,
@@ -315,6 +320,7 @@ export async function saveRecipeAction(_: FormState, formData: FormData): Promis
       packagePriceMinor: price,
       wastePercent: waste,
       supplierPriceId: supplierPriceId || null,
+      stockItemId: stockItemId || null,
     });
   }
 
@@ -355,6 +361,7 @@ export async function saveRecipeAction(_: FormState, formData: FormData): Promis
       waste_percent: ing.wastePercent,
       cost_minor: result.ingredientCosts[position]!.amountMinor.toString(),
       supplier_price_id: ing.supplierPriceId,
+      stock_item_id: ing.stockItemId,
     })),
   });
   if (error) return { status: "error", message: errorMessage(m, error) };
@@ -370,4 +377,29 @@ export async function deleteRecipeAction(_: FormState, formData: FormData): Prom
   if (error) return { status: "error", message: errorMessage(m, error) };
   revalidatePath("/restauracao");
   redirect("/restauracao");
+}
+
+/** Regista uma produção da ficha: dá saída dos ingredientes ligados ao stock (tudo ou nada, no servidor). */
+export async function produceRecipeAction(_: FormState, formData: FormData): Promise<FormState> {
+  const { m, session } = await context();
+  const id = formString(formData, "id");
+  if (!UUID.test(id)) return { status: "error", message: m.errors.forbidden };
+  const portions = parseQuantityInput(formString(formData, "portions"));
+  if (!portions || Number(portions) <= 0) return { status: "error", fieldErrors: { portions: m.errors.quantity_invalid } };
+  const occurredOn = formString(formData, "occurredOn");
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(occurredOn) || Number.isNaN(Date.parse(`${occurredOn}T00:00:00Z`))) {
+    return { status: "error", fieldErrors: { occurredOn: m.errors.date_invalid } };
+  }
+  const notes = formString(formData, "notes").trim().slice(0, 500) || null;
+  const { data: production, error } = await session.supabase.rpc("produce_recipe", {
+    p_recipe_id: id,
+    p_portions: portions,
+    p_occurred_on: occurredOn,
+    p_notes: notes,
+  });
+  if (error || !production) return { status: "error", message: errorMessage(m, error) };
+  const { count } = await session.supabase.from("stock_movements").select("id", { count: "exact", head: true }).eq("production_id", production);
+  revalidatePath(`/restauracao/${id}`);
+  revalidatePath("/inventario");
+  return { status: "success", message: format(m.recipes.production.saved, { count: count ?? 0 }) };
 }

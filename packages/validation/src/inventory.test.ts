@@ -21,6 +21,17 @@ describe("validação do inventário e das compras", () => {
     expect(stockMovementSchema.safeParse({ ...base, kind: "out", quantity: "-1" }).success).toBe(false);
   });
 
+  it("movimento: lote e validade só nas entradas; lote escolhido só em saídas e perdas", () => {
+    const base = { itemId: uuid, occurredOn: "2026-11-21", lotCode: " L-12 ", expiresOn: "2026-12-31", lotId: uuid };
+    expect(stockMovementSchema.parse({ ...base, kind: "in", quantity: "2", unitCost: "1" })).toMatchObject({ lotCode: "L-12", expiresOn: "2026-12-31", lotId: null });
+    expect(stockMovementSchema.parse({ ...base, kind: "out", quantity: "2" })).toMatchObject({ lotCode: null, expiresOn: null, lotId: uuid });
+    expect(stockMovementSchema.parse({ ...base, kind: "loss", quantity: "2" }).lotId).toBe(uuid);
+    expect(stockMovementSchema.parse({ ...base, kind: "count", quantity: "2" })).toMatchObject({ lotCode: null, expiresOn: null, lotId: null });
+    expect(stockMovementSchema.parse({ itemId: uuid, occurredOn: "2026-11-21", kind: "out", quantity: "1", lotId: "" }).lotId).toBeNull();
+    expect(stockMovementSchema.safeParse({ ...base, kind: "in", quantity: "2", unitCost: "1", expiresOn: "2026-02-30" }).success).toBe(false);
+    expect(stockMovementSchema.safeParse({ ...base, kind: "in", quantity: "2", unitCost: "1", lotCode: "x".repeat(61) }).success).toBe(false);
+  });
+
   it("linha de encomenda e receção", () => {
     expect(purchaseLineSchema.parse({ orderId: uuid, quantity: "25", unitPrice: "0,95" })).toMatchObject({ quantity: "25", description: null, stockItemId: null });
     expect(purchaseLineSchema.safeParse({ orderId: uuid, quantity: "0", unitPrice: "1" }).success).toBe(false);

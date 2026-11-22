@@ -5,7 +5,7 @@ import { formatMoney } from "@anen/i18n";
 import type { ReorderSuggestion, StockItem } from "@anen/types";
 import { Alert, Badge, PageHeader, Section, cx } from "@/components/ui";
 import { businessScope } from "@/lib/business";
-import { sumByCurrency } from "@/lib/finance";
+import { sumByCurrency, todayIn } from "@/lib/finance";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession } from "@/lib/session";
 import { ReorderButton, StockItemForm } from "./inventory-forms";
@@ -31,12 +31,20 @@ export default async function InventoryPage({ searchParams }: { searchParams: Pr
 
   let itemsQuery = session.supabase.from("stock_items").select("*").eq(scope.column, scope.value).order("name").limit(1000);
   itemsQuery = showArchived ? itemsQuery.not("archived_at", "is", null) : itemsQuery.is("archived_at", null);
-  const [itemsRes, suggestionsRes, suppliersRes, currenciesRes] = await Promise.all([
+  const today = todayIn(scope.timezone);
+  const in7 = new Date(Date.parse(`${today}T00:00:00Z`) + 7 * 86_400_000).toISOString().slice(0, 10);
+  const lotBase = () =>
+    session.supabase.from("stock_lots").select("id", { count: "exact", head: true }).eq(scope.column, scope.value).gt("quantity_remaining", 0);
+  const [itemsRes, suggestionsRes, suppliersRes, currenciesRes, expiringRes, expiredRes] = await Promise.all([
     itemsQuery,
     session.supabase.rpc("stock_reorder_suggestions", { p_org: scope.orgId }),
     session.supabase.from("contacts").select("id, name").eq(scope.column, scope.value).in("kind", ["supplier", "both"]).is("archived_at", null).order("name"),
     session.supabase.from("currencies").select("code, minor_unit, is_enabled").order("code"),
+    lotBase().gte("expires_on", today).lte("expires_on", in7),
+    lotBase().lt("expires_on", today),
   ]);
+  const expiring = expiringRes.count ?? 0;
+  const expired = expiredRes.count ?? 0;
   if (itemsRes.error || suggestionsRes.error) throw new Error("Falha ao carregar o inventário");
   const items: StockItem[] = itemsRes.data ?? [];
   const suggestions: ReorderSuggestion[] = suggestionsRes.data ?? [];
@@ -56,7 +64,7 @@ export default async function InventoryPage({ searchParams }: { searchParams: Pr
       {!scope.canWrite ? <Alert tone="info">{t.readOnly}</Alert> : null}
 
       {!showArchived ? (
-        <div className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-3 lg:grid-cols-5">
           <div className="flex flex-col gap-1.5 bg-surface p-4 sm:p-5">
             <span className="text-sm text-muted">{t.itemsCount}</span>
             <span className="tabular text-xl font-semibold">{items.length}</span>
@@ -74,6 +82,14 @@ export default async function InventoryPage({ searchParams }: { searchParams: Pr
           <div className="flex flex-col gap-1.5 bg-surface p-4 sm:p-5">
             <span className="text-sm text-muted">{t.belowCount}</span>
             <span className={cx("tabular text-xl font-semibold", below > 0 ? "text-danger" : "")}>{below}</span>
+          </div>
+          <div className="flex flex-col gap-1.5 bg-surface p-4 sm:p-5">
+            <span className="text-sm text-muted">{t.lots.expiringCount}</span>
+            <span className={cx("tabular text-xl font-semibold", expiring > 0 ? "text-brand" : "")}>{expiring}</span>
+          </div>
+          <div className="flex flex-col gap-1.5 bg-surface p-4 sm:p-5">
+            <span className="text-sm text-muted">{t.lots.expiredCount}</span>
+            <span className={cx("tabular text-xl font-semibold", expired > 0 ? "text-danger" : "")}>{expired}</span>
           </div>
         </div>
       ) : null}

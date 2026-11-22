@@ -34,6 +34,9 @@ const UNITS: Record<string, { dimension: Dimension; factor: string }> = {
   dúzia: { dimension: "count", factor: "12" },
 };
 
+/** Unidades que o motor conhece (a base de dados tem o mesmo quadro em private.unit_factor). */
+export const KNOWN_UNITS: readonly string[] = Object.keys(UNITS);
+
 export function normalizeUnit(unit: string | null | undefined): string {
   return (unit ?? "").trim().toLocaleLowerCase("pt").replace(/\.$/, "");
 }

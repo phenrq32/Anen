@@ -144,7 +144,10 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 | Receção: stock, preços do fornecedor e despesa (paga ou a pagar com vencimento) numa transação | Testado | `inventory.test.ts` (inclui receção sem `finance.write`) + E2E |
 | Reposição: sugestões abaixo do mínimo e rascunhos por fornecedor | Testado | `inventory.test.ts` (desconta o já encomendado, âmbito pessoal) + E2E |
 | Comparação do mesmo artigo entre fornecedores | Testado | `stock.test.ts` + E2E |
-| Lotes, validades e consumo automático pelas fichas técnicas | Não iniciado | — |
+| Lotes e validades com saída FEFO ou lote escolhido, rastreio por lote, contagem que acerta os lotes | Implementado | `stock-lots.test.ts` (invariante, FEFO, lote escolhido, contagem, RLS); E2E `stock-lots.spec.ts` por correr em produção |
+| Consumo pelas fichas técnicas: ingrediente ligado ao stock, produção com desperdício e conversão de unidades, tudo ou nada | Implementado | `stock-lots.test.ts` (paridade das unidades SQL/motor, permissões); E2E idem |
+| Avisos de lotes a vencer e vencidos (com antecedência nas preferências) | Implementado | `stock-lots.test.ts`; E2E idem |
+| Lote e validade na receção de encomendas | Não iniciado | A receção cria lotes sem código nem validade; regista-se na entrada manual |
 | Reposição agendada e notificações de stock baixo | Não iniciado | Fase 9 (notificações); hoje a reposição corre quando a pessoa carrega no botão |
 
 ## Prompt 03 · Fase 9: notificações, relatórios e otimização
@@ -202,5 +205,5 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 
 ## Testes
 
-- **318 testes automáticos** (`npm test`): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços, do stock e dos relatórios; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
+- **352 testes automáticos** (`npm test`): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços, do stock e dos relatórios; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
 - **34 testes E2E (17 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção, todos a passar a 21/11/2026.

@@ -22,7 +22,17 @@ export function MarkReadButton({ m, id }: { m: Messages; id: string }) {
   return <InlineAction action={markNotificationReadAction} fields={{ id }} label={m.notifications.markRead} pendingLabel={m.common.saving} />;
 }
 
-export function NotificationSettingsForm({ m, disabled, dueSoonDays }: { m: Messages; disabled: NotificationKind[]; dueSoonDays: number }) {
+export function NotificationSettingsForm({
+  m,
+  disabled,
+  dueSoonDays,
+  expirySoonDays,
+}: {
+  m: Messages;
+  disabled: NotificationKind[];
+  dueSoonDays: number;
+  expirySoonDays: number;
+}) {
   const t = m.notifications;
   return (
     <ActionForm action={saveNotificationSettingsAction}>
@@ -46,6 +56,16 @@ export function NotificationSettingsForm({ m, disabled, dueSoonDays }: { m: Mess
             defaultValue={String(dueSoonDays)}
             className="max-w-28"
             error={state.fieldErrors?.dueSoonDays}
+          />
+          <Field
+            name="expirySoonDays"
+            type="number"
+            min={1}
+            max={60}
+            label={t.settings.expirySoonDays}
+            defaultValue={String(expirySoonDays)}
+            className="max-w-28"
+            error={state.fieldErrors?.expirySoonDays}
           />
           <SubmitButton pendingLabel={m.common.saving} variant="secondary" className="self-start">
             {t.settings.save}

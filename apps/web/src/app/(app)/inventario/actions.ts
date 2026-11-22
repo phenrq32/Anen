@@ -101,6 +101,9 @@ export async function recordStockMovementAction(_: FormState, formData: FormData
     unitCost: formString(formData, "unitCost"),
     occurredOn: formString(formData, "occurredOn"),
     notes: formString(formData, "notes"),
+    lotCode: formString(formData, "lotCode"),
+    expiresOn: formString(formData, "expiresOn"),
+    lotId: formString(formData, "lotId"),
   });
   if (!parsed.success) return { status: "error", fieldErrors: translateFieldErrors(m, fieldErrors(parsed.error)) };
   const v = parsed.data;
@@ -126,6 +129,9 @@ export async function recordStockMovementAction(_: FormState, formData: FormData
     unit_cost_minor: unitCost,
     occurred_on: v.occurredOn,
     notes: v.notes,
+    lot_code: v.lotCode,
+    expires_on: v.expiresOn,
+    lot_id: v.lotId,
   });
   if (error) return { status: "error", message: errorMessage(m, error) };
   refresh();

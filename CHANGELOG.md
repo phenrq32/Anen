@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.0] · 22/11/2026 · Lotes, validades e produção pelas fichas técnicas
+- Inventário: cada entrada cria um lote (código e validade opcionais). Saídas, perdas e contagens para baixo gastam primeiro o que vence antes (FEFO); os lotes sem validade ficam para o fim. Nas saídas e perdas pode escolher-se o lote. A contagem acima do saldo cria um lote de acerto. Fica registado quanto cada movimento tirou de cada lote. Saldos que já existiam viram um lote "saldo anterior". Faturas, compras e anulações passam pelo mesmo gatilho, por isso também respeitam os lotes.
+- Página do artigo: tabela de lotes com validade, "vencido", "vence hoje" e "vence em N dias"; lotes esgotados à parte. Lista do inventário: lotes a vencer em 7 dias e vencidos com stock.
+- Fichas técnicas: cada ingrediente pode ligar-se a um artigo do stock (aviso se a unidade não converte). "Registar produção" dá saída dos ingredientes ligados, com o desperdício e a conversão de unidades, tudo ou nada; histórico das produções na ficha e o nome da produção nos movimentos.
+- Notificações: lotes a vencer (antecedência de 1 a 60 dias, por omissão 7) e lotes vencidos com stock.
+- Migration 2000. Testes: 352 unitários (`stock-lots.test.ts`, incluindo a paridade das conversões de unidades entre o motor e a base de dados) e o E2E `stock-lots.spec.ts`.
+
 ## [0.19.0] · 22/11/2026 · Período no painel
 - Painel: escolha do período dos totais (Este mês, 3 meses, 12 meses, em `?periodo=`). Receitas, despesas, resultado e margem somam o período e comparam com o período anterior do mesmo tamanho. O gráfico continua a mostrar 12 meses e a nota de saúde financeira continua a ser do mês atual.
 - Uma só consulta de 24 meses (`finance_monthly`) alimenta o gráfico e as comparações; soma em `bigint` (`dashboard-period.ts`).

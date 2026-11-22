@@ -108,7 +108,25 @@ export function StockItemForm({
   );
 }
 
-export function StockMovementForm({ m, itemId, unit, today }: { m: Messages; itemId: string; unit: string; today: string }) {
+/** Lote com quantidade, para escolher de onde sai uma saída ou perda. */
+export interface LotChoice {
+  id: string;
+  label: string;
+}
+
+export function StockMovementForm({
+  m,
+  itemId,
+  unit,
+  today,
+  lots = [],
+}: {
+  m: Messages;
+  itemId: string;
+  unit: string;
+  today: string;
+  lots?: LotChoice[];
+}) {
   const t = m.inventory.movement;
   const [kind, setKind] = useState<StockMovementKind>("in");
   return (
@@ -138,7 +156,20 @@ export function StockMovementForm({ m, itemId, unit, today }: { m: Messages; ite
             <Field name="occurredOn" type="date" label={t.date} defaultValue={today} required error={state.fieldErrors?.occurredOn} />
           </div>
           {kind === "in" ? (
-            <Field name="unitCost" label={`${t.unitCost} / ${unit}`} hint={t.unitCostHint} inputMode="decimal" required maxLength={32} error={state.fieldErrors?.unitCost} />
+            <div className="grid gap-4 sm:grid-cols-3">
+              <Field name="unitCost" label={`${t.unitCost} / ${unit}`} hint={t.unitCostHint} inputMode="decimal" required maxLength={32} error={state.fieldErrors?.unitCost} />
+              <Field name="lotCode" label={t.lotCode} optionalLabel={m.common.optional} hint={t.lotCodeHint} maxLength={60} error={state.fieldErrors?.lotCode} />
+              <Field name="expiresOn" type="date" label={t.expiresOn} optionalLabel={m.common.optional} hint={t.expiresHint} error={state.fieldErrors?.expiresOn} />
+            </div>
+          ) : null}
+          {(kind === "out" || kind === "loss") && lots.length > 1 ? (
+            <SelectField
+              name="lotId"
+              label={t.lot}
+              defaultValue=""
+              options={[{ value: "", label: t.lotAuto }, ...lots.map((l) => ({ value: l.id, label: l.label }))]}
+              error={state.fieldErrors?.lotId}
+            />
           ) : null}
           <Field name="notes" label={t.notes} optionalLabel={m.common.optional} maxLength={500} error={state.fieldErrors?.notes} />
           <SubmitButton pendingLabel={m.common.saving} className="self-start">

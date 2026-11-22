@@ -86,7 +86,7 @@ export default async function NotificationsPage({ searchParams }: { searchParams
       </section>
 
       <Section title={t.settings.title} description={t.settings.description}>
-        <NotificationSettingsForm m={m} disabled={disabled} dueSoonDays={settingsRes.data?.due_soon_days ?? 3} />
+        <NotificationSettingsForm m={m} disabled={disabled} dueSoonDays={settingsRes.data?.due_soon_days ?? 3} expirySoonDays={settingsRes.data?.expiry_soon_days ?? 7} />
       </Section>
     </>
   );
