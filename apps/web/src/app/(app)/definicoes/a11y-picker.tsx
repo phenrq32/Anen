@@ -31,7 +31,7 @@ export function A11yPicker({ m, initial }: { m: Messages; initial: A11yOption[] 
           const checked = on.has(o);
           return (
             <li key={o}>
-              <label className="flex min-h-16 cursor-pointer items-center gap-4 px-4 py-3 hover:bg-graphite/40">
+              <label className="relative flex min-h-16 cursor-pointer items-center gap-4 px-4 py-3 hover:bg-graphite/40">
                 <span className="flex min-w-0 flex-1 flex-col gap-0.5">
                   <span className="font-medium">{t.options[o].title}</span>
                   <span className="text-sm text-subtle">{t.options[o].hint}</span>

@@ -54,16 +54,19 @@ test("apagar orçamentos, acessibilidade e áreas do menu", async ({ page, conte
   // Acessibilidade: liga na hora e fica no aparelho.
   await page.goto("/definicoes#acessibilidade");
   const html = page.locator("html");
-  await main.getByRole("switch", { name: /Reduzir animações/ }).check({ force: true });
-  await main.getByRole("switch", { name: /Alto contraste/ }).check({ force: true });
-  await main.getByRole("switch", { name: /Letra de leitura fácil/ }).check({ force: true });
+  await main.getByText("Reduzir animações", { exact: true }).click();
+  await expect(main.getByRole("switch", { name: /Reduzir animações/ })).toBeChecked();
+  await main.getByText("Alto contraste", { exact: true }).click();
+  await expect(main.getByRole("switch", { name: /Alto contraste/ })).toBeChecked();
+  await main.getByText("Letra de leitura fácil", { exact: true }).click();
+  await expect(main.getByRole("switch", { name: /Letra de leitura fácil/ })).toBeChecked();
   await expect(html).toHaveAttribute("data-motion", "reduce");
   await expect(html).toHaveAttribute("data-contrast", "high");
   await expect(html).toHaveAttribute("data-font", "readable");
   expect((await context.cookies()).find((c) => c.name === "anen-a11y")?.value).toBe(encodeURIComponent("motion,contrast,font"));
   await page.reload();
   await expect(html).toHaveAttribute("data-contrast", "high");
-  await main.getByRole("switch", { name: /Alto contraste/ }).uncheck({ force: true });
+  await main.getByText("Alto contraste", { exact: true }).click();
   await expect(html).not.toHaveAttribute("data-contrast", "high");
 
   // Áreas do menu: a Ficha técnica começa escondida; esconder o Mercado tira-o do menu.
