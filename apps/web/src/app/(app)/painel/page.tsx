@@ -103,7 +103,7 @@ export default async function DashboardPage() {
         <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-brand/15 blur-3xl" aria-hidden />
         <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div className="flex min-w-0 flex-col gap-2">
-            <span className="text-sm capitalize text-muted">{todayLabel}</span>
+            <span className="block text-sm text-muted first-letter:uppercase">{todayLabel}</span>
             <h1 className="break-words text-[30px] font-extrabold leading-tight tracking-tight sm:text-[40px]">{format(greeting, { name: firstName })}</h1>
             <p className="text-[15px] text-muted">{active ? active.organization.name : m.dashboard.contextPersonal}</p>
           </div>

@@ -138,7 +138,7 @@ export function CommandPalette({ groups, actions, labels }: { groups: NavGroup[]
           aria-expanded="true"
           aria-controls="palette-list"
           aria-activedescendant={flat.length ? `palette-${index}` : undefined}
-          className="h-14 min-w-0 flex-1 bg-transparent text-base text-paper placeholder:text-subtle focus:outline-none"
+          className="h-14 min-w-0 flex-1 bg-transparent text-base text-paper placeholder:text-subtle focus:outline-none focus-visible:outline-none"
         />
         <kbd className="hidden rounded border border-line px-1.5 py-0.5 text-[11px] text-subtle sm:block">Esc</kbd>
       </div>
