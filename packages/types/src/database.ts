@@ -23,6 +23,7 @@ import type {
   AiStatus,
   AiConversation,
   AiMessage,
+  AiDigest,
   InvoicingConnection,
   FiscalDocument,
   FiscalDocumentLine,
@@ -278,6 +279,12 @@ export type Database = {
       ai_messages: Table<
         AiMessage,
         Pick<AiMessage, "conversation_id" | "role" | "content"> & Partial<Pick<AiMessage, "sources" | "tools" | "model">>,
+        NoWrite
+      >;
+      ai_digests: Table<
+        AiDigest,
+        Pick<AiDigest, "user_id" | "organization_id" | "period_kind" | "period_from" | "period_to" | "content"> &
+          Partial<Pick<AiDigest, "sources" | "tools" | "model">>,
         NoWrite
       >;
       ai_consents: Table<{ user_id: string; accepted_at: string }, { user_id: string }, NoWrite>;

@@ -9,7 +9,7 @@ export interface NavItem {
   label: string;
   /** Contador (ex.: notificações por ler) e o seu texto para leitores de ecrã. */
   badge?: { count: number; label: string };
-  icon: "receipt" | "spark" | "bell" | "report" | "grid" | "building" | "users" | "shield" | "settings" | "wallet" | "file" | "chef" | "briefcase" | "contacts" | "chart" | "cart" | "box";
+  icon: "receipt" | "bulb" | "spark" | "bell" | "report" | "grid" | "building" | "users" | "shield" | "settings" | "wallet" | "file" | "chef" | "briefcase" | "contacts" | "chart" | "cart" | "box";
 }
 
 const icons: Record<NavItem["icon"], React.ReactNode> = {
@@ -19,6 +19,7 @@ const icons: Record<NavItem["icon"], React.ReactNode> = {
   file: <path d="M5 2.5h7l3.5 3.5v11.5H5zM12 2.5V6h3.5M8 10h5M8 13h5" />,
   chart: <path d="M3 16.5h14M5 13l3.5-4 3 2.5L16 6M13 6h3v3" />,
   receipt: <path d="M5 2.5h10v15l-2-1.3-1.7 1.3-1.3-1.3-1.3 1.3L7 16.2 5 17.5zM8 6.5h4M8 9.5h4M8 12.5h2.5" />,
+  bulb: <path d="M10 2.5a5 5 0 0 0-3 9v2h6v-2a5 5 0 0 0-3-9zM8 15.5h4M8.5 17.5h3" />,
   spark: <path d="M10 2.5l1.6 4.4 4.4 1.6-4.4 1.6L10 14.5l-1.6-4.4L4 8.5l4.4-1.6zM15.5 13l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z" />,
   bell: <path d="M5 8a5 5 0 0 1 10 0c0 4 1.5 5.5 2 6H3c.5-.5 2-2 2-6zM8.5 16.5a1.5 1.5 0 0 0 3 0" />,
   report: <path d="M4 2.5h12v15H4zM7 13.5v-3M10 13.5v-6M13 13.5V9" />,

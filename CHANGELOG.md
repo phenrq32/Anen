@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.16.0] · 22/11/2026 · Centro de inteligência
+- `/inteligencia` (todos os planos): recomendações determinísticas dos últimos 7 ou 30 dias, comparadas com o período anterior do mesmo tamanho. Cada uma diz o que foi identificado, os valores que a sustentam, o impacto, a prioridade, o grau de confiança e uma ligação para agir.
+- Regras (motor `intelligence.ts`): despesas acima das receitas; receitas a cair 20 % ou mais; despesas por categoria a subir 20 % ou mais (máximo 3); valores por receber e pagamentos em atraso; pagamentos nos próximos 7 dias; possíveis duplicados (confiança média); stock abaixo do mínimo; projetos acima do orçamento; preços de fornecedores a subir 5 % ou mais; aviso quando não há movimentos. As recomendações respeitam as permissões da pessoa.
+- Resumo da ANEN AI (Pro e Max): gerado a pedido com as ferramentas da IA, com fontes, e guardado por pessoa, contexto, período e dia (`ai_digests`), para voltar à página sem gastar outra pergunta. Gasta 1 pergunta do limite diário.
+- Migration 1900. Testes: 318 unitários (`intelligence.test.ts`, `ai-digests.test.ts`) e o E2E `intelligence.spec.ts`.
+
 ## [0.15.0] · 22/11/2026 · Faturação certificada em Portugal (InvoiceXpress)
 - A ANEN não é um programa certificado pela AT: os documentos fiscais são emitidos pelo InvoiceXpress (certificado n.º 192) na conta de cada cliente, que numera, assina, gera ATCUD e QR, comunica à AT e devolve o código AT das guias. A página diz isto claramente.
 - Cada cliente liga a sua conta (nome da conta + chave da API, validados no InvoiceXpress). A chave fica cifrada (AES-256-GCM) com uma chave mestra que só existe no servidor.

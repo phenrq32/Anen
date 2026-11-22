@@ -633,6 +633,22 @@ export interface AiMessage {
   created_at: string;
 }
 
+export type AiDigestKind = "week" | "month";
+
+export interface AiDigest {
+  id: string;
+  user_id: string;
+  organization_id: string | null;
+  period_kind: AiDigestKind;
+  period_from: string;
+  period_to: string;
+  content: string;
+  sources: AiSource[];
+  tools: string[];
+  model: string | null;
+  created_at: string;
+}
+
 export interface InvoicingTax {
   name: string;
   value: string;

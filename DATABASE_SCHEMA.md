@@ -117,6 +117,7 @@ Fonte de verdade: `supabase/migrations/*.sql`. Todas as tabelas têm RLS ativo.
 | `private.current_plan` | Plano em vigor (sem subscrição ativa e dentro do prazo = Free). |
 | `ai_conversations`, `ai_messages` | Privadas de quem pergunta; as de organização só enquanto for membro ativo. `ai_messages.sources` (ligações geradas pelas ferramentas, não pelo modelo) e `tools`. |
 | `ai_consents` | A pessoa aceita o envio da pergunta e dos dados consultados ao fornecedor do modelo. |
+| `ai_digests` | Resumos da ANEN AI do centro de inteligência, privados de quem os gera (como as conversas). Um por pessoa, âmbito, tipo (`week`/`month`) e dia final; não se editam. |
 | `ai_usage` | Uma linha por pergunta, no dia do fuso do âmbito. `ai_begin_request` reserva com trava por âmbito (erros `ai_consent_required`, `ai_plan_required`, `ai_daily_limit`); `ai_finish_request` grava modelo e tokens, e uma falha do fornecedor devolve a vaga. Só administradores leem. |
 | `ai_status(p_org)` | Plano, limite, usadas hoje e consentimento, para a interface. |
 

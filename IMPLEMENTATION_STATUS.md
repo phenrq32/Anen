@@ -170,7 +170,9 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 | Assistente com ferramentas determinísticas: resumo financeiro, comparação de períodos, pendentes, duplicados, projetos, preços de fornecedores, reposição, receita necessária, orçamentos | Testado | `insights.test.ts` (motor), `gemini.test.ts` (adaptador); E2E em produção com o modelo real |
 | Fontes por resposta (ligações para os registos) e ferramentas usadas | Testado | E2E |
 | Recurso automático entre modelos (Gemini 3.5 Flash → 3.8 Flash → 3.5 Flash-Lite) | Testado | `gemini.test.ts` |
-| Centro de inteligência (resumos diários/semanais automáticos, recomendações) | Não iniciado | Próximo passo da IA |
+| Centro de inteligência: recomendações determinísticas (7 ou 30 dias vs. período anterior) com dados, impacto, prioridade e confiança, em todos os planos | Implementado | `intelligence.test.ts` (motor); E2E `intelligence.spec.ts` por correr em produção |
+| Resumo da ANEN AI por período, guardado (`ai_digests`), Pro e Max | Implementado | `ai-digests.test.ts` (RLS); E2E por correr |
+| Resumos enviados automaticamente (email ou push) | Bloqueado | Falta um serviço de email; o resumo é gerado a pedido |
 | Cobrança dos planos | Bloqueado | Conta Stripe (ou alternativa) e preços |
 
 ## Faturação certificada (Portugal, via InvoiceXpress)
@@ -192,7 +194,7 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 |---|---|---|
 | 4: Pesquisa de preços | Em desenvolvimento | Índices oficiais feitos (Fase 6 do prompt 03). Falta decidir que fornecedores de preços de produtos licenciar |
 | 5: Fiscalidade PT/BR | Não iniciado | Validação jurídica/contabilística das regras e taxas (não se inventam taxas) |
-| 6: IA | Em desenvolvimento | ANEN AI no ar (Pro e Max). Falta o centro de inteligência |
+| 6: IA | Em desenvolvimento | ANEN AI e centro de inteligência feitos. Falta o envio automático dos resumos (serviço de email) |
 | 7: Marketplace | Não iniciado | Serviço de mapas (chave) e definição de regras de moderação |
 | 8: Monetização Free/Pro/Max | Não iniciado | Conta Stripe (ou alternativa) validada para PT e BR, preços dos planos |
 | 9: Mobile | Não iniciado | Conta Expo/EAS, Apple Developer e Google Play |
@@ -200,5 +202,5 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 
 ## Testes
 
-- **305 testes automáticos** (`npm test`): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços, do stock e dos relatórios; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
+- **318 testes automáticos** (`npm test`): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços, do stock e dos relatórios; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
 - **34 testes E2E (17 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção, todos a passar a 21/11/2026.

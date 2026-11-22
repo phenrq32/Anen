@@ -11,3 +11,4 @@ export * from "./market";
 export * from "./stock";
 export * from "./report";
 export * from "./insights";
+export * from "./intelligence";

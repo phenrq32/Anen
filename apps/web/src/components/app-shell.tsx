@@ -25,6 +25,7 @@ export function AppShell({
   const items: NavItem[] = [
     { href: "/painel", label: m.nav.dashboard, icon: "grid" },
     { href: "/ia", label: m.nav.ai, icon: "spark" },
+    { href: "/inteligencia", label: m.nav.intelligence, icon: "bulb" },
     { href: "/notificacoes", label: m.nav.notifications, icon: "bell", badge: { count: unread, label: unreadLabel } },
     { href: "/financas", label: m.nav.finance, icon: "wallet" },
     { href: "/relatorios", label: m.nav.reports, icon: "report" },
