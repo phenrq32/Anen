@@ -13,6 +13,7 @@ import {
   roleSchema,
 } from "@anen/validation";
 import { getPublicEnv } from "@/lib/env";
+import { OPTIONAL_MODULES } from "@/lib/modules";
 import { errorMessage, translateFieldErrors } from "@/lib/errors";
 import { formString, type FormState } from "@/lib/form";
 import { getI18n, setLocaleCookie } from "@/lib/i18n";
@@ -123,6 +124,18 @@ export async function updatePreferencesAction(_: FormState, formData: FormData):
   revalidatePath("/", "layout");
   const { m: updated } = await getI18n();
   return ok(updated.settings.saved);
+}
+
+/** Áreas do menu: as que NÃO vêm marcadas ficam escondidas (só o menu e a procura mudam). */
+export async function updateHiddenModulesAction(_: FormState, formData: FormData): Promise<FormState> {
+  const session = await requireSession();
+  const { m } = await getI18n();
+  const visible = new Set(formData.getAll("visible").map(String));
+  const hidden = OPTIONAL_MODULES.filter((k) => !visible.has(k));
+  const { error } = await session.supabase.from("user_preferences").update({ hidden_modules: hidden }).eq("user_id", session.user.id);
+  if (error) return { status: "error", message: errorMessage(m, error) };
+  revalidatePath("/", "layout");
+  return ok(m.settings.modules.saved);
 }
 
 export async function inviteMemberAction(_: FormState, formData: FormData): Promise<FormState> {

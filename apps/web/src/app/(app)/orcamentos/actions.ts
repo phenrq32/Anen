@@ -211,13 +211,17 @@ export async function setQuoteStatusAction(_: FormState, formData: FormData): Pr
   return { status: "success" };
 }
 
+/** Apaga um ou vários orçamentos (campo `id`, repetido), em qualquer estado. A base de dados confirma a permissão. */
 export async function deleteQuoteAction(_: FormState, formData: FormData): Promise<FormState> {
   const { m, session, scope } = await context();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
-  const { error } = await session.supabase.from("quotes").delete().eq("id", formString(formData, "id")).eq("status", "draft");
+  const ids = [...new Set(formData.getAll("id").map(String))].filter((v) => UUID.test(v)).slice(0, 200);
+  if (ids.length === 0) return { status: "error", message: m.errors.generic };
+  const { data, error } = await session.supabase.from("quotes").delete().in("id", ids).eq(scope.column, scope.value).select("id");
   if (error) return { status: "error", message: errorMessage(m, error) };
+  if (!data?.length) return { status: "error", message: m.errors.forbidden };
   revalidatePath("/orcamentos");
-  redirect("/orcamentos");
+  redirect(`/orcamentos?apagados=${data.length}`);
 }
 
 // ---------------------------------------------------------------------------

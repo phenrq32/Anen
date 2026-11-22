@@ -110,8 +110,8 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
                 />
               ))
             : null}
-          {scope.canWrite && quote.status === "draft" ? (
-            <InlineAction action={deleteQuoteAction} fields={{ id: quote.id }} label={m.finance.tx.delete} pendingLabel={m.common.saving} confirmMessage={m.finance.tx.delete} variant="ghost" />
+          {scope.canWrite ? (
+            <InlineAction action={deleteQuoteAction} fields={{ id: quote.id }} label={m.quotes.delete} pendingLabel={m.common.saving} confirmMessage={m.quotes.confirmDelete} variant="danger" />
           ) : null}
         </div>
       </header>

@@ -93,6 +93,23 @@ describe("orçamentos", () => {
     await expect(asUser(db, ana, (tx) => tx.query(`update public.quotes set organization_id = null where id = $1`, [q.id]))).rejects.toThrow(/permission denied/);
   });
 
+  it("exclui orçamentos em qualquer estado (com as linhas e o histórico); leitor e outra organização não", async () => {
+    const ids: string[] = [];
+    for (const target of ["draft", "sent", "accepted", "cancelled"]) {
+      const q = await newQuote(ana, org, `Apagar ${target}`);
+      await asUser(db, ana, (tx) =>
+        tx.query(`insert into public.quote_items (quote_id, position, kind, description, quantity, unit_cost_minor, total_cost_minor) values ($1, 0, 'labor', 'x', 1, 1, 1)`, [q.id]),
+      );
+      if (target !== "draft") await asUser(db, ana, (tx) => tx.query(`update public.quotes set status = 'sent' where id = $1`, [q.id]));
+      if (target === "accepted" || target === "cancelled") await asUser(db, ana, (tx) => tx.query(`update public.quotes set status = $2 where id = $1`, [q.id, target]));
+      ids.push(q.id);
+    }
+    expect(await asUser(db, leo, (tx) => count(tx, `delete from public.quotes where id = any($1::uuid[]) returning id`, [ids]))).toBe(0);
+    expect(await asUser(db, rui, (tx) => count(tx, `delete from public.quotes where id = any($1::uuid[]) returning id`, [ids]))).toBe(0);
+    expect(await asUser(db, ana, (tx) => count(tx, `delete from public.quotes where id = any($1::uuid[]) returning id`, [ids]))).toBe(4);
+    expect(await asUser(db, ana, (tx) => count(tx, `select id from public.quote_items where quote_id = any($1::uuid[])`, [ids]))).toBe(0);
+  });
+
   it("modelos de sistema são legíveis e não editáveis", async () => {
     expect(await asUser(db, rui, (tx) => count(tx, `select key from public.quote_templates`))).toBeGreaterThanOrEqual(19);
     await expect(asUser(db, ana, (tx) => tx.query(`update public.quote_templates set name = 'x'`))).rejects.toThrow(/permission denied/);

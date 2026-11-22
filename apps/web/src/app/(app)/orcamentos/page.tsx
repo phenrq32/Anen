@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { formatDate, formatMoney } from "@anen/i18n";
+import { format, formatDate, formatMoney } from "@anen/i18n";
 import type { QuoteStatus } from "@anen/types";
-import { Alert, Badge, ButtonLink, PageHeader } from "@/components/ui";
+import { Alert, ButtonLink, PageHeader } from "@/components/ui";
+import { QuoteList } from "./quote-list";
 import { statusTone } from "./status";
 import { getI18n } from "@/lib/i18n";
 import { quotesScope } from "@/lib/quotes";
@@ -38,6 +39,9 @@ export default async function QuotesPage({ searchParams }: { searchParams: Promi
         description={m.quotes.subtitle}
         actions={scope.canWrite ? <ButtonLink href="/orcamentos/novo">{m.quotes.new}</ButtonLink> : undefined}
       />
+      {Number(params.apagados) > 0 ? (
+        <Alert tone="success">{format(m.quotes.deleted, { count: Number(params.apagados) })}</Alert>
+      ) : null}
       <nav className="flex flex-wrap gap-2" aria-label={m.quotes.status}>
         <Link href="/orcamentos" className={`h-9 rounded-full border px-3 text-sm leading-9 ${!status ? "border-brand text-paper" : "border-line text-muted hover:text-paper"}`}>
           {m.finance.tx.filters.all}
@@ -54,25 +58,19 @@ export default async function QuotesPage({ searchParams }: { searchParams: Promi
           {scope.canWrite ? <ButtonLink href="/orcamentos/novo">{m.quotes.new}</ButtonLink> : null}
         </div>
       ) : (
-        <div className="overflow-hidden rounded-xl border border-line bg-surface">
-          <ul className="divide-y divide-line">
-            {(quotes ?? []).map((q) => (
-              <li key={q.id}>
-                <Link href={`/orcamentos/${q.id}`} className="flex flex-wrap items-center gap-x-4 gap-y-1 px-5 py-4 transition-colors hover:bg-graphite/50 sm:px-6">
-                  <span className="tabular w-28 text-sm text-subtle">{q.number}</span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate font-medium">{q.title}</span>
-                    <span className="block truncate text-xs text-subtle">
-                      {q.client_name ?? m.quotes.noClient} · {formatDate(q.updated_at, locale, scope.timezone)}
-                    </span>
-                  </span>
-                  <Badge tone={statusTone(q.status)}>{m.quotes.statuses[q.status]}</Badge>
-                  <span className="tabular w-32 text-right font-semibold">{formatMoney(BigInt(q.total_minor), q.currency_code, units.get(q.currency_code) ?? 2, locale)}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <QuoteList
+          m={m}
+          canDelete={scope.canWrite}
+          rows={(quotes ?? []).map((q) => ({
+            id: q.id,
+            number: q.number,
+            title: q.title,
+            subtitle: `${q.client_name ?? m.quotes.noClient} · ${formatDate(q.updated_at, locale, scope.timezone)}`,
+            statusLabel: m.quotes.statuses[q.status],
+            tone: statusTone(q.status),
+            total: formatMoney(BigInt(q.total_minor), q.currency_code, units.get(q.currency_code) ?? 2, locale),
+          }))}
+        />
       )}
     </>
   );

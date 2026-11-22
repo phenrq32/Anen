@@ -11,6 +11,7 @@ import { MobileTabBar, QUICK_ADD_EVENT } from "@/components/mobile-tabbar";
 import { NavProgress } from "@/components/nav-progress";
 import { Tour, type TourStep } from "@/components/tour";
 import { roleName } from "@/lib/errors";
+import { isHiddenHref, parseHiddenModules } from "@/lib/modules";
 
 export function AppShell({
   m,
@@ -37,7 +38,7 @@ export function AppShell({
   const item = (href: string, label: string, icon: NavItem["icon"], badge?: NavItem["badge"]): NavItem => ({ href, label, icon, ...(badge ? { badge } : {}) });
   const notifications = item("/notificacoes", n.notifications, "bell", { count: unread, label: unreadLabel });
 
-  const groups: NavGroup[] = [
+  const allGroups: NavGroup[] = [
     {
       label: n.groups.daily,
       items: [item("/painel", n.dashboard, "grid"), item("/financas", n.finance, "wallet"), notifications, item("/contactos", n.contacts, "contacts")],
@@ -68,12 +69,20 @@ export function AppShell({
     },
   ];
 
+  // Áreas que a pessoa escondeu (Definições → Áreas do menu) saem do menu, da barra e da procura.
+  const hidden = parseHiddenModules(session.preferences.hidden_modules);
+  const groups = allGroups
+    .map((g) => ({ ...g, items: g.items.filter((it) => !isHiddenHref(it.href, hidden)) }))
+    .filter((g) => g.items.length > 0);
+
   const actions: PaletteAction[] = [
     ...(canQuickAdd ? [{ id: "quick-add", label: m.dashboard.quick.register, hint: m.dashboard.quick.registerHint, icon: "plus" as const, event: QUICK_ADD_EVENT }] : []),
-    { id: "new-quote", label: m.dashboard.quick.quote, hint: m.dashboard.quick.quoteHint, icon: "file", href: "/orcamentos/novo" },
-    { id: "ask", label: m.dashboard.quick.ask, hint: m.dashboard.quick.askHint, icon: "spark", href: "/ia" },
+    ...(!hidden.has("orcamentos") ? [{ id: "new-quote", label: m.dashboard.quick.quote, hint: m.dashboard.quick.quoteHint, icon: "file" as const, href: "/orcamentos/novo" }] : []),
+    ...(!hidden.has("ia") ? [{ id: "ask", label: m.dashboard.quick.ask, hint: m.dashboard.quick.askHint, icon: "spark" as const, href: "/ia" }] : []),
     { id: "new-org", label: n.newOrganization, icon: "building", href: "/organizacoes/nova" },
     { id: "appearance", label: n.appearance, icon: "settings", href: "/definicoes#aparencia" },
+    { id: "a11y", label: m.settings.a11y.title, icon: "settings", href: "/definicoes#acessibilidade" },
+    { id: "modules", label: m.settings.modules.title, icon: "settings", href: "/definicoes#areas" },
   ];
 
   const ts = m.tour.steps;
@@ -180,7 +189,11 @@ export function AppShell({
       <main className="mx-auto flex w-full min-w-0 max-w-6xl flex-col gap-8 px-4 pb-32 pt-6 sm:px-8 sm:pt-10 lg:pb-28">{children}</main>
 
       <MobileTabBar
-        tabs={[item("/painel", n.dashboard, "grid"), item("/financas", n.finance, "wallet"), item("/ia", n.ai, "spark")]}
+        tabs={[
+          item("/painel", n.dashboard, "grid"),
+          item("/financas", n.finance, "wallet"),
+          hidden.has("ia") ? notifications : item("/ia", n.ai, "spark"),
+        ]}
         groups={groups}
         canQuickAdd={canQuickAdd}
         labels={{ more: n.more, register: n.register, menuTitle: n.menuTitle, search: n.search, close: m.common.close }}

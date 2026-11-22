@@ -67,6 +67,66 @@ html[data-text="xlarge"] body {
   zoom: 1.25;
 }
 
+/* ---------------------------------------------------------------------------
+   Acessibilidade (Definições → Acessibilidade; cookie anen-a11y, aplicado no <html> pelo servidor).
+   --------------------------------------------------------------------------- */
+/* Reduzir animações: igual a "reduzir movimento" do sistema, mesmo que o aparelho não o tenha ligado. */
+html[data-motion="reduce"] *,
+html[data-motion="reduce"] *::before,
+html[data-motion="reduce"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+/* Alto contraste: texto secundário e bordas bem mais fortes (escuro e claro). */
+html[data-contrast="high"] {
+  --color-muted: #e8e8e8;
+  --color-subtle: #d0d0d0;
+  --color-line: #707070;
+  --color-graphite-soft: #5a5a5a;
+}
+html[data-contrast="high"][data-theme="light"] {
+  --color-muted: #1c1c1c;
+  --color-subtle: #2e2e2e;
+  --color-line: #8a8a8a;
+  --color-graphite-soft: #9a9a9a;
+}
+@media (prefers-color-scheme: light) {
+  html[data-contrast="high"][data-theme="system"] {
+    --color-muted: #1c1c1c;
+    --color-subtle: #2e2e2e;
+    --color-line: #8a8a8a;
+    --color-graphite-soft: #9a9a9a;
+  }
+}
+/* Sublinhar ligações de texto (os botões têm aspeto de botão e ficam como estão). */
+html[data-links="underline"] main a:not([class*="rounded"]),
+html[data-links="underline"] main a.text-brand {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/* Destaque forte do foco do teclado. */
+html[data-focus="strong"] *:focus-visible {
+  outline: 3px solid #ff851b !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 6px rgb(255 133 27 / 0.25) !important;
+}
+/* Mais espaço entre letras, palavras e linhas (ajuda quem tem dislexia ou cansa a ler). */
+html[data-spacing="wide"] body {
+  letter-spacing: 0.03em;
+  word-spacing: 0.1em;
+}
+html[data-spacing="wide"] :is(p, li, dd, td, label, summary) {
+  line-height: 1.75;
+}
+/* Letra de leitura fácil (Atkinson Hyperlegible) em todo o texto, títulos incluídos. */
+html[data-font="readable"] body,
+html[data-font="readable"] .font-heading,
+html[data-font="readable"] :is(h1, h2, h3, h4) {
+  font-family: var(--font-readable), system-ui, sans-serif !important;
+}
+
 html,
 body {
   background: var(--color-ink);

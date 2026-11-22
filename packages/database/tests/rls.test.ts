@@ -110,6 +110,17 @@ describe("registo", () => {
     await expect(asUser(db, carla, (tx) => tx.query(`update public.user_preferences set timezone = 'Marte/Base'`))).rejects.toThrow(/timezone_invalid/);
     await expect(asUser(db, carla, (tx) => tx.query(`update public.user_preferences set currency_code = 'USD'`))).rejects.toThrow(/unsupported_reference/);
   });
+
+  it("áreas do menu escondidas: fichas técnicas escondidas por omissão; só áreas conhecidas; só as próprias", async () => {
+    const mine = () => asUser(db, carla, (tx) => one<{ hidden_modules: string[] }>(tx, `select hidden_modules from public.user_preferences`));
+    expect((await mine()).hidden_modules).toEqual(["restauracao"]);
+    await asUser(db, carla, (tx) => tx.query(`update public.user_preferences set hidden_modules = array['mercado', 'compras']`));
+    expect((await mine()).hidden_modules).toEqual(["mercado", "compras"]);
+    await expect(asUser(db, carla, (tx) => tx.query(`update public.user_preferences set hidden_modules = array['painel']`))).rejects.toThrow(/check/);
+    await asUser(db, carla, (tx) => tx.query(`update public.user_preferences set hidden_modules = '{}' where user_id = $1`, [ana]));
+    const r = await db.query<{ hidden_modules: string[] }>(`select hidden_modules from public.user_preferences where user_id = $1`, [ana]);
+    expect(r.rows[0]!.hidden_modules).toEqual(["restauracao"]);
+  });
 });
 
 describe("organizações", () => {

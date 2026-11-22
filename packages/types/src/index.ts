@@ -87,6 +87,8 @@ export interface UserPreferences {
   currency_code: string;
   timezone: string;
   active_organization_id: string | null;
+  /** Áreas escondidas do menu (só o menu e a procura; as páginas continuam). */
+  hidden_modules: string[];
 }
 
 export interface Organization {

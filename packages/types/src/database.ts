@@ -143,7 +143,7 @@ export type Database = {
       user_preferences: Table<
         UserPreferences,
         never,
-        Partial<Pick<UserPreferences, "country_code" | "language_code" | "currency_code" | "timezone" | "active_organization_id">>
+        Partial<Pick<UserPreferences, "country_code" | "language_code" | "currency_code" | "timezone" | "active_organization_id" | "hidden_modules">>
       >;
       organizations: Table<
         Organization,

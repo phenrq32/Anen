@@ -6,7 +6,9 @@ import { requireOnboardedSession } from "@/lib/session";
 import { cookies } from "next/headers";
 import { parseTextSize, parseTheme, TEXT_COOKIE, THEME_COOKIE } from "@/lib/appearance";
 import { AppearancePicker } from "./appearance-picker";
-import { PreferencesForm, ProfileForm } from "./settings-forms";
+import { A11yPicker } from "./a11y-picker";
+import { A11Y_COOKIE, parseA11y } from "@/lib/a11y";
+import { ModulesForm, PreferencesForm, ProfileForm } from "./settings-forms";
 
 export const metadata: Metadata = { title: "Definições" };
 
@@ -24,6 +26,31 @@ export default async function SettingsPage() {
             m={m}
             theme={parseTheme(cookieStore.get(THEME_COOKIE)?.value)}
             text={parseTextSize(cookieStore.get(TEXT_COOKIE)?.value)}
+          />
+        </Section>
+      </div>
+      <div id="acessibilidade" className="scroll-mt-24">
+        <Section title={m.settings.a11y.title} description={m.settings.a11y.body}>
+          <A11yPicker m={m} initial={[...parseA11y(cookieStore.get(A11Y_COOKIE)?.value)]} />
+        </Section>
+      </div>
+      <div id="areas" className="scroll-mt-24">
+        <Section title={m.settings.modules.title} description={m.settings.modules.body}>
+          <ModulesForm
+            m={m}
+            hidden={p.hidden_modules ?? []}
+            labels={{
+              orcamentos: m.nav.quotes,
+              faturacao: m.nav.invoicing,
+              projetos: m.nav.projects,
+              compras: m.nav.purchases,
+              inventario: m.nav.inventory,
+              restauracao: m.nav.recipes,
+              ia: m.nav.ai,
+              inteligencia: m.nav.intelligence,
+              relatorios: m.nav.reports,
+              mercado: m.nav.market,
+            }}
           />
         </Section>
       </div>
