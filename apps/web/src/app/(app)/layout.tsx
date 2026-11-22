@@ -28,7 +28,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           .is("archived_at", null)
           .order("name")
       : Promise.resolve({ data: [] as { id: string; key: string | null; name: string; kind: "income" | "expense"; is_system: boolean }[] }),
-    session.supabase.from("notifications").select("id", { count: "exact", head: true }).is("read_at", null),
+    session.supabase.from("notifications").select("id", { count: "exact", head: true }).is("read_at", null).is("dismissed_at", null),
   ]);
   const unread = unreadRes.count;
   const overlay = scope.canWrite ? (

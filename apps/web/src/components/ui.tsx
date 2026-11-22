@@ -12,8 +12,8 @@ export function cx(...classes: Array<string | false | null | undefined>): string
 
 type Variant = "primary" | "secondary" | "ghost" | "danger";
 const variants: Record<Variant, string> = {
-  primary: "bg-brand text-on-brand hover:bg-brand-hover font-semibold shadow-[0_6px_20px_-8px_rgba(255,133,27,0.6)] hover:shadow-[0_8px_28px_-8px_rgba(255,133,27,0.8)]",
-  secondary: "bg-graphite text-paper border border-line hover:border-graphite-soft hover:bg-graphite-soft/60",
+  primary: "btn-sheen bg-brand text-on-brand hover:bg-brand-hover font-semibold shadow-[0_6px_20px_-8px_rgba(255,133,27,0.6)] hover:shadow-[0_8px_28px_-8px_rgba(255,133,27,0.8)] hover:-translate-y-px",
+  secondary: "glass-btn text-paper hover:-translate-y-px",
   ghost: "text-muted hover:text-paper hover:bg-graphite",
   danger: "text-danger border border-line hover:border-danger/60 hover:bg-danger/10",
 };
@@ -151,7 +151,7 @@ export function PageHeader({ title, description, actions }: { title: string; des
 
 export function Section({ title, description, children, className }: { title: string; description?: string; children: ReactNode; className?: string }) {
   return (
-    <section className={cx("rounded-2xl border border-line bg-surface/80 backdrop-blur-sm", className)}>
+    <section className={cx("glass spot rounded-2xl border", className)}>
       <div className="border-b border-line px-5 py-4 sm:px-6">
         <h2 className="text-base font-semibold">{title}</h2>
         {description ? <p className="mt-1 text-sm text-muted">{description}</p> : null}

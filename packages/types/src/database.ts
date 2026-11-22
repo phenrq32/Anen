@@ -270,7 +270,7 @@ export type Database = {
           Partial<Pick<PurchaseOrderItem, "position" | "stock_item_id" | "unit">>,
         Partial<Pick<PurchaseOrderItem, "position" | "stock_item_id" | "description" | "quantity" | "unit" | "unit_price_minor">>
       >;
-      notifications: Table<AppNotification, NoWrite, Partial<Pick<AppNotification, "read_at">>>;
+      notifications: Table<AppNotification, NoWrite, Partial<Pick<AppNotification, "read_at" | "dismissed_at">>>;
       notification_settings: Table<
         NotificationSettings,
         Pick<NotificationSettings, "user_id"> & Partial<Pick<NotificationSettings, "disabled_kinds" | "due_soon_days" | "expiry_soon_days">>,
@@ -409,6 +409,8 @@ export type Database = {
       stock_reorder_suggestions: { Args: { p_org?: string | null }; Returns: ReorderSuggestion[] };
       create_reorder_drafts: { Args: { p_org?: string | null }; Returns: { orders: number; lines: number; skipped: number } };
       refresh_my_notifications: { Args: Record<string, never>; Returns: number };
+      delete_my_account: { Args: { p_confirm_email: string }; Returns: undefined };
+      delete_organization: { Args: { p_org: string; p_confirm_name: string }; Returns: undefined };
       produce_recipe: { Args: { p_recipe_id: string; p_portions: string; p_occurred_on?: string | null; p_notes?: string | null }; Returns: string };
       finance_report: { Args: { p_org: string | null; p_from: string; p_to: string }; Returns: FinanceReportRow[] };
       ai_status: { Args: { p_org?: string | null }; Returns: AiStatus[] };

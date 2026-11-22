@@ -5,7 +5,8 @@ import { getI18n } from "@/lib/i18n";
 import { profileNames, recentAudit } from "@/lib/org-data";
 import { loadReferenceData } from "@/lib/reference";
 import { can, requireActiveOrganization } from "@/lib/session";
-import { updateOrganizationAction } from "../actions";
+import { deleteOrganizationAction, leaveOrganizationAction, updateOrganizationAction } from "../actions";
+import { DangerAction } from "@/components/danger-zone";
 import { OrganizationForm } from "../organizacoes/organization-form";
 
 export const metadata: Metadata = { title: "Organização" };
@@ -37,6 +38,31 @@ export default async function OrganizationPage() {
           <ActivityList m={m} locale={locale} timeZone={session.preferences.timezone} logs={audit} names={names} />
         </Section>
       ) : null}
+      <Section title={m.organization.danger.title}>
+        <div className="flex flex-col gap-4">
+          <DangerAction
+            action={leaveOrganizationAction}
+            title={m.organization.danger.leave}
+            body={m.organization.danger.leaveBody}
+            button={m.organization.danger.leaveButton}
+            pending={m.common.saving}
+            confirmMessage={m.organization.danger.leaveConfirm}
+          />
+          {active.role.key === "owner" && !active.role.organization_id ? (
+            <DangerAction
+              action={deleteOrganizationAction}
+              title={m.organization.danger.delete}
+              body={m.organization.danger.deleteBody}
+              button={m.organization.danger.deleteButton}
+              pending={m.common.saving}
+              expected={active.organization.name}
+              fieldName="confirmName"
+              fieldLabel={m.organization.danger.typeName}
+              confirmMessage={m.organization.danger.deleteConfirm}
+            />
+          ) : null}
+        </div>
+      </Section>
     </>
   );
 }

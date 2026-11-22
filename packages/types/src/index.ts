@@ -621,6 +621,8 @@ export interface AppNotification {
   dedupe_key: string;
   created_at: string;
   read_at: string | null;
+  /** Apagada pela pessoa (fica para não ser recriada). */
+  dismissed_at: string | null;
 }
 
 export interface NotificationSettings {

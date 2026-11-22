@@ -238,3 +238,43 @@ export async function acceptInvitationAction(_: FormState, formData: FormData): 
   revalidatePath("/", "layout");
   redirect(session.profile.onboarded_at ? "/painel" : "/boas-vindas");
 }
+
+/** Apagar a própria conta (RGPD/LGPD). Confirma com o email; a base de dados trata das organizações. */
+export async function deleteMyAccountAction(_: FormState, formData: FormData): Promise<FormState> {
+  const session = await requireSession();
+  const { m } = await getI18n();
+  const email = formString(formData, "confirmEmail").trim();
+  if (email.toLowerCase() !== (session.user.email ?? "").toLowerCase()) {
+    return { status: "error", fieldErrors: { confirmEmail: m.errors.confirmation_mismatch } };
+  }
+  const { error } = await session.supabase.rpc("delete_my_account", { p_confirm_email: email });
+  if (error) return { status: "error", message: errorMessage(m, error) };
+  await session.supabase.auth.signOut().catch(() => undefined);
+  redirect("/entrar?conta=apagada");
+}
+
+/** Sair da organização ativa (a última proprietária não pode sair). */
+export async function leaveOrganizationAction(_: FormState): Promise<FormState> {
+  const session = await requireOnboardedSession();
+  const { m } = await getI18n();
+  if (!session.active) return { status: "error", message: m.errors.forbidden };
+  const { error } = await session.supabase.rpc("remove_member", { p_member_id: session.active.memberId });
+  if (error) return { status: "error", message: errorMessage(m, error) };
+  revalidatePath("/", "layout");
+  redirect("/painel?saiu=1");
+}
+
+/** Apagar a organização ativa (só proprietários, confirmando o nome). */
+export async function deleteOrganizationAction(_: FormState, formData: FormData): Promise<FormState> {
+  const session = await requireOnboardedSession();
+  const { m } = await getI18n();
+  if (!session.active) return { status: "error", message: m.errors.forbidden };
+  const name = formString(formData, "confirmName");
+  if (name.trim() !== session.active.organization.name.trim()) {
+    return { status: "error", fieldErrors: { confirmName: m.errors.confirmation_mismatch } };
+  }
+  const { error } = await session.supabase.rpc("delete_organization", { p_org: session.active.organization.id, p_confirm_name: name });
+  if (error) return { status: "error", message: errorMessage(m, error) };
+  revalidatePath("/", "layout");
+  redirect("/painel?organizacao=apagada");
+}

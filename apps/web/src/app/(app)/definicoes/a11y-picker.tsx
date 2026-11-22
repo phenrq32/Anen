@@ -26,7 +26,7 @@ export function A11yPicker({ m, initial }: { m: Messages; initial: A11yOption[] 
 
   return (
     <div className="flex flex-col gap-3">
-      <ul className="flex flex-col divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface/80">
+      <ul className="flex flex-col divide-y divide-line overflow-hidden rounded-2xl border glass spot">
         {A11Y_OPTIONS.map((o) => {
           const checked = on.has(o);
           return (

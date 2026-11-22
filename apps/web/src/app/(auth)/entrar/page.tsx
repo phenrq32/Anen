@@ -10,7 +10,13 @@ export default async function SignInPage({ searchParams }: { searchParams: Promi
   const { m } = await getI18n();
   const params = await searchParams;
   const notice =
-    params.erro === "confirmacao" ? m.auth.confirmFailed : params.erro === "sessao" ? m.errors.unauthorized : undefined;
+    params.erro === "confirmacao"
+      ? m.auth.confirmFailed
+      : params.erro === "sessao"
+        ? m.errors.unauthorized
+        : params.conta === "apagada"
+          ? m.auth.accountDeleted
+          : undefined;
   return (
     <SignInForm
       m={m}

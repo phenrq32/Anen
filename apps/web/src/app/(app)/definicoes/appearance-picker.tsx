@@ -43,7 +43,7 @@ export function AppearancePicker({ m, theme, text }: { m: Messages; theme: Theme
               key={th}
               className={cx(
                 "lift flex cursor-pointer flex-col gap-3 rounded-2xl border p-3 transition-colors",
-                current.theme === th ? "border-brand bg-brand/10" : "border-line bg-surface/80",
+                current.theme === th ? "border-brand bg-brand/10" : "glass spot",
               )}
             >
               <input
@@ -77,7 +77,7 @@ export function AppearancePicker({ m, theme, text }: { m: Messages; theme: Theme
               key={sz}
               className={cx(
                 "lift flex cursor-pointer flex-col gap-2 rounded-2xl border p-4 transition-colors",
-                current.text === sz ? "border-brand bg-brand/10" : "border-line bg-surface/80",
+                current.text === sz ? "border-brand bg-brand/10" : "glass spot",
               )}
             >
               <input

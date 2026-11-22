@@ -56,6 +56,19 @@ export async function markAllNotificationsReadAction(_: FormState): Promise<Form
   return { status: "success" };
 }
 
+/** Apagar = dispensar (fica marcada para a tarefa diária não a recriar). Uma (id) ou todas as já lidas. */
+export async function dismissNotificationsAction(_: FormState, formData: FormData): Promise<FormState> {
+  const { m } = await getI18n();
+  const session = await requireOnboardedSession();
+  const id = formString(formData, "id");
+  let q = session.supabase.from("notifications").update({ dismissed_at: new Date().toISOString() }).is("dismissed_at", null);
+  q = id ? q.eq("id", id) : q.not("read_at", "is", null);
+  const { error } = await q;
+  if (error) return { status: "error", message: errorMessage(m, error) };
+  revalidatePath("/", "layout");
+  return { status: "success" };
+}
+
 export async function saveNotificationSettingsAction(_: FormState, formData: FormData): Promise<FormState> {
   const { m } = await getI18n();
   const session = await requireOnboardedSession();

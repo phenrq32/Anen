@@ -15,17 +15,20 @@ export function SubmitButton({
   pendingLabel,
   variant = "primary",
   className,
+  disabled = false,
 }: {
   children: ReactNode;
   pendingLabel: string;
   variant?: "primary" | "secondary" | "ghost" | "danger";
   className?: string;
+  /** Desativado por quem usa (ex.: falta escrever a confirmação). */
+  disabled?: boolean;
 }) {
   const status = useFormStatus();
   const contextPending = useContext(PendingContext);
   const pending = contextPending ?? status.pending;
   return (
-    <Button type="submit" variant={variant} disabled={pending} aria-busy={pending} className={className}>
+    <Button type="submit" variant={variant} disabled={pending || disabled} aria-busy={pending} className={className}>
       {pending ? (
         <>
           <span className="size-4 animate-spin rounded-full border-2 border-current border-r-transparent" aria-hidden />
@@ -51,11 +54,14 @@ export function ActionForm({
   children,
   className,
   successMessage,
+  confirmMessage,
 }: {
   action: FormAction;
   children: (state: FormState) => ReactNode;
   className?: string;
   successMessage?: string;
+  /** Pergunta "tem a certeza?" antes de enviar. */
+  confirmMessage?: string;
 }) {
   const [state, formAction, isPending] = useActionState(action, initialFormState);
   return (
@@ -63,6 +69,7 @@ export function ActionForm({
       <form
         onSubmit={(event) => {
           event.preventDefault();
+          if (confirmMessage && !window.confirm(confirmMessage)) return;
           const formData = new FormData(event.currentTarget, (event.nativeEvent as SubmitEvent).submitter);
           startTransition(() => formAction(formData));
         }}

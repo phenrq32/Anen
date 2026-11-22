@@ -9,6 +9,7 @@ import { NavGroups, type NavGroup, type NavItem } from "@/components/nav-links";
 import { CommandPalette, SearchButton, type PaletteAction } from "@/components/command-palette";
 import { MobileTabBar, QUICK_ADD_EVENT } from "@/components/mobile-tabbar";
 import { NavProgress } from "@/components/nav-progress";
+import { Spotlight } from "@/components/spotlight";
 import { Tour, type TourStep } from "@/components/tour";
 import { roleName } from "@/lib/errors";
 import { isHiddenHref, parseHiddenModules } from "@/lib/modules";
@@ -152,6 +153,7 @@ export function AppShell({
     <div className="app-bg min-h-dvh lg:grid lg:grid-cols-[280px_minmax(0,1fr)]">
       <Suspense fallback={null}>
         <NavProgress />
+        <Spotlight />
       </Suspense>
 
       <aside className="sticky top-0 hidden h-dvh border-r border-line bg-ink/80 backdrop-blur-xl lg:block">

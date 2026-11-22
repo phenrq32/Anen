@@ -9,6 +9,8 @@ import { AppearancePicker } from "./appearance-picker";
 import { A11yPicker } from "./a11y-picker";
 import { A11Y_COOKIE, parseA11y } from "@/lib/a11y";
 import { ModulesForm, PreferencesForm, ProfileForm } from "./settings-forms";
+import { DangerAction } from "@/components/danger-zone";
+import { deleteMyAccountAction } from "../actions";
 
 export const metadata: Metadata = { title: "Definições" };
 
@@ -64,6 +66,21 @@ export default async function SettingsPage() {
           defaults={{ countryCode: p.country_code ?? "PT", languageCode: p.language_code, currencyCode: p.currency_code, timezone: p.timezone }}
         />
       </Section>
+      <div id="conta" className="scroll-mt-24">
+        <Section title={m.settings.danger.title} description={m.settings.danger.body}>
+          <DangerAction
+            action={deleteMyAccountAction}
+            title={m.settings.danger.deleteAccount}
+            body={m.settings.danger.deleteAccountBody}
+            button={m.settings.danger.deleteAccountButton}
+            pending={m.common.saving}
+            expected={session.user.email ?? ""}
+            fieldName="confirmEmail"
+            fieldLabel={m.settings.danger.typeEmail}
+            confirmMessage={m.settings.danger.deleteAccountConfirm}
+          />
+        </Section>
+      </div>
     </>
   );
 }

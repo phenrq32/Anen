@@ -17,7 +17,7 @@ export function QuickAddTile({ label, hint, fallbackHref }: { label: string; hin
         const opened = !window.dispatchEvent(new CustomEvent(QUICK_ADD_EVENT, { cancelable: true }));
         if (!opened) router.push(fallbackHref);
       }}
-      className="lift group flex min-h-28 flex-col justify-between gap-3 rounded-2xl border border-brand/40 bg-brand/10 p-4 text-left"
+      className="lift spot btn-sheen group flex min-h-28 flex-col justify-between gap-3 rounded-2xl border border-brand/40 bg-brand/10 p-4 text-left"
     >
       <span className="grid size-11 place-items-center rounded-xl bg-brand text-on-brand transition-transform duration-300 group-hover:rotate-90 group-hover:scale-110">
         <NavIcon name="plus" className="size-5" />

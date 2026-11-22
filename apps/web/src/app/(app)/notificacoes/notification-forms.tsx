@@ -4,7 +4,7 @@ import type { Messages } from "@anen/i18n";
 import { NOTIFICATION_KINDS, type NotificationKind } from "@anen/types";
 import { ActionForm, InlineAction, SubmitButton } from "@/components/forms";
 import { Field } from "@/components/ui";
-import { markAllNotificationsReadAction, markNotificationReadAction, saveNotificationSettingsAction } from "./actions";
+import { dismissNotificationsAction, markAllNotificationsReadAction, markNotificationReadAction, saveNotificationSettingsAction } from "./actions";
 
 export function MarkAllReadButton({ m }: { m: Messages }) {
   return (
@@ -20,6 +20,23 @@ export function MarkAllReadButton({ m }: { m: Messages }) {
 
 export function MarkReadButton({ m, id }: { m: Messages; id: string }) {
   return <InlineAction action={markNotificationReadAction} fields={{ id }} label={m.notifications.markRead} pendingLabel={m.common.saving} />;
+}
+
+export function DismissNotificationButton({ m, id }: { m: Messages; id: string }) {
+  return <InlineAction action={dismissNotificationsAction} fields={{ id }} label={m.notifications.dismiss} pendingLabel={m.common.saving} />;
+}
+
+export function DismissReadButton({ m }: { m: Messages }) {
+  return (
+    <InlineAction
+      action={dismissNotificationsAction}
+      fields={{}}
+      label={m.notifications.dismissRead}
+      pendingLabel={m.common.saving}
+      confirmMessage={m.notifications.confirmDismissRead}
+      variant="secondary"
+    />
+  );
 }
 
 export function NotificationSettingsForm({

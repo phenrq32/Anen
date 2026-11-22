@@ -7,7 +7,7 @@ import { getI18n } from "@/lib/i18n";
 import { notificationText } from "@/lib/notifications";
 import { requireOnboardedSession } from "@/lib/session";
 import { openNotificationAction } from "./actions";
-import { MarkAllReadButton, MarkReadButton, NotificationSettingsForm } from "./notification-forms";
+import { DismissNotificationButton, DismissReadButton, MarkAllReadButton, MarkReadButton, NotificationSettingsForm } from "./notification-forms";
 
 export const metadata: Metadata = { title: "Notificações" };
 
@@ -21,11 +21,11 @@ export default async function NotificationsPage({ searchParams }: { searchParams
   // Gera o que estiver em falta para esta pessoa antes de mostrar (a tarefa diária faz o mesmo para todos).
   await session.supabase.rpc("refresh_my_notifications");
 
-  let query = session.supabase.from("notifications").select("*").order("created_at", { ascending: false }).limit(200);
+  let query = session.supabase.from("notifications").select("*").is("dismissed_at", null).order("created_at", { ascending: false }).limit(200);
   if (!showAll) query = query.is("read_at", null);
   const [listRes, unreadRes, settingsRes, currenciesRes] = await Promise.all([
     query,
-    session.supabase.from("notifications").select("id", { count: "exact", head: true }).is("read_at", null),
+    session.supabase.from("notifications").select("id", { count: "exact", head: true }).is("read_at", null).is("dismissed_at", null),
     session.supabase.from("notification_settings").select("*").eq("user_id", session.user.id).maybeSingle(),
     session.supabase.from("currencies").select("code, minor_unit"),
   ]);
@@ -40,7 +40,14 @@ export default async function NotificationsPage({ searchParams }: { searchParams
 
   return (
     <>
-      <PageHeader title={t.title} description={t.description} actions={unread > 0 ? <MarkAllReadButton m={m} /> : undefined} />
+      <PageHeader title={t.title} description={t.description} actions={
+          list.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {unread > 0 ? <MarkAllReadButton m={m} /> : null}
+              {list.some((x) => x.read_at) ? <DismissReadButton m={m} /> : null}
+            </div>
+          ) : undefined
+        } />
       <Alert tone="info">{t.emailNote}</Alert>
 
       <div className="flex flex-wrap items-center gap-2">
@@ -73,6 +80,7 @@ export default async function NotificationsPage({ searchParams }: { searchParams
                   </div>
                   <div className="flex shrink-0 items-center gap-2 self-end sm:self-auto">
                     {!n.read_at ? <MarkReadButton m={m} id={n.id} /> : null}
+                    <DismissNotificationButton m={m} id={n.id} />
                     <form action={openNotificationAction}>
                       <input type="hidden" name="id" value={n.id} />
                       <button type="submit" className={buttonClass("secondary", "h-9 px-3")}>{t.open}</button>

@@ -12,7 +12,7 @@ import { quotesScope } from "@/lib/quotes";
 import { statusTone } from "../orcamentos/status";
 import { loadFinanceOverview } from "@/lib/finance-overview";
 import { DASHBOARD_PERIODS, parseDashboardPeriod } from "@/lib/dashboard-period";
-import { Badge, ButtonLink, Section, cx } from "@/components/ui";
+import { Alert, Badge, ButtonLink, Section, cx } from "@/components/ui";
 import { ScoreRing } from "@/components/motion";
 import { NavIcon } from "@/components/nav-links";
 import { loadIntelligence } from "@/lib/intelligence";
@@ -25,9 +25,15 @@ import { can, requireOnboardedSession } from "@/lib/session";
 
 export const metadata: Metadata = { title: "Painel" };
 
-export default async function DashboardPage({ searchParams }: { searchParams: Promise<{ periodo?: string | string[] }> }) {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ periodo?: string | string[]; saiu?: string; organizacao?: string }>;
+}) {
   const { m, locale } = await getI18n();
-  const period = parseDashboardPeriod((await searchParams).periodo);
+  const sp = await searchParams;
+  const period = parseDashboardPeriod(sp.periodo);
+  const notice = sp.saiu === "1" ? m.organization.danger.left : sp.organizacao === "apagada" ? m.organization.danger.deleted : null;
   const session = await requireOnboardedSession();
   const { active, supabase } = session;
   const firstName = (session.profile.full_name ?? "").split(" ")[0] || session.user.email;
@@ -103,6 +109,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 
   return (
     <>
+      {notice ? <Alert tone="success">{notice}</Alert> : null}
       <section className="shine relative overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-brand/10 via-surface to-surface p-5 sm:p-8">
         <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-brand/15 blur-3xl" aria-hidden />
         <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
@@ -150,7 +157,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         <div className="stagger grid grid-cols-2 gap-3 lg:grid-cols-4">
           {quick.map((q) =>
             q.href ? (
-              <Link key={q.label} href={q.href} className="lift group flex min-h-28 flex-col justify-between gap-3 rounded-2xl border border-line bg-surface/80 p-4">
+              <Link key={q.label} href={q.href} className="lift group flex min-h-28 flex-col justify-between gap-3 rounded-2xl border glass spot p-4">
                 <span className="grid size-11 place-items-center rounded-xl bg-graphite text-brand transition-all duration-300 group-hover:scale-110 group-hover:bg-brand group-hover:text-on-brand">
                   <NavIcon name={q.icon} className="size-5" />
                 </span>
@@ -173,7 +180,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             <Link href="/inteligencia?periodo=month" className="text-sm text-brand hover:underline">{m.dashboard.seeAll} →</Link>
           </div>
           {top.length === 0 ? (
-            <p className="rounded-2xl border border-line bg-surface/80 px-4 py-4 text-[15px] text-muted">{m.dashboard.todayEmpty}</p>
+            <p className="rounded-2xl border glass spot px-4 py-4 text-[15px] text-muted">{m.dashboard.todayEmpty}</p>
           ) : (
             <ul className="stagger grid gap-3 md:grid-cols-3">
               {top.map((r, i) => {
@@ -182,7 +189,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
                   <li key={`${r.kind}-${i}`}>
                     <Link
                       href={r.href}
-                      className={cx("lift flex h-full flex-col gap-2 rounded-2xl border bg-surface/80 p-4", r.severity === "high" ? "border-danger/30" : "border-line")}
+                      className={cx("lift flex h-full flex-col gap-2 rounded-2xl border glass spot p-4", r.severity === "high" ? "border-danger/30" : "border-line")}
                     >
                       <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider">
                         <span className={cx("size-2 rounded-full", r.severity === "high" ? "animate-pulse bg-danger" : r.severity === "medium" ? "bg-brand" : "bg-subtle")} aria-hidden />
@@ -239,7 +246,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
               prevExpense={finance.prevExpense}
             />
             <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
-              <div className="rounded-2xl border border-line bg-surface/80 p-5 sm:p-6">
+              <div className="rounded-2xl border glass spot p-5 sm:p-6">
                 <MonthlyChart
                   data={finance.monthly}
                   currency={finance.currency}

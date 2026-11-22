@@ -209,6 +209,97 @@ main > *:nth-child(n + 4) {
   from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.85; }
   to { transform: translate3d(-3vw, 2vh, 0) scale(1.08); opacity: 1; }
 }
+/* Segunda camada: manchas de cor que flutuam devagar atrás do vidro (dão profundidade ao efeito). */
+.app-bg::after {
+  content: "";
+  position: fixed;
+  inset: 30vh -15vw -20vh -15vw;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(28% 32% at 12% 70%, rgba(255, 133, 27, 0.09), transparent 70%),
+    radial-gradient(24% 30% at 88% 40%, rgba(255, 175, 90, 0.07), transparent 70%),
+    radial-gradient(30% 26% at 55% 95%, rgba(255, 90, 27, 0.06), transparent 70%);
+  animation: drift 26s ease-in-out infinite alternate;
+}
+@keyframes drift {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(4vw, -3vh, 0) rotate(4deg); }
+  100% { transform: translate3d(-3vw, 2vh, 0) rotate(-3deg); }
+}
+
+/* ---------------------------------------------------------------------------
+   Vidro: fundo translúcido desfocado, borda de luz e reflexo por cima.
+   Usa as variáveis do tema, por isso funciona no escuro, no claro e em alto contraste.
+   --------------------------------------------------------------------------- */
+@layer components {
+.glass {
+  background: color-mix(in oklab, var(--color-surface) 62%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  backdrop-filter: blur(18px) saturate(1.5);
+  border-color: color-mix(in oklab, var(--color-paper) 11%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--color-paper) 9%, transparent),
+    0 10px 30px -18px rgb(0 0 0 / 0.55);
+}
+.glass-btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: color-mix(in oklab, var(--color-graphite) 55%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.5);
+  backdrop-filter: blur(14px) saturate(1.5);
+  border: 1px solid color-mix(in oklab, var(--color-paper) 13%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--color-paper) 12%, transparent);
+}
+.glass-btn:hover {
+  background: color-mix(in oklab, var(--color-graphite-soft) 60%, transparent);
+  border-color: color-mix(in oklab, var(--color-brand) 45%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--color-paper) 16%, transparent),
+    0 6px 22px -10px rgb(255 133 27 / 0.45);
+}
+}
+
+/* Reflexo que atravessa o botão ao passar o rato (botões de vidro e principais). */
+.glass-btn::before,
+.btn-sheen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 30%, rgb(255 255 255 / 0.16) 48%, transparent 66%);
+  transform: translateX(-120%);
+  transition: transform 650ms cubic-bezier(.2, .8, .2, 1);
+}
+.btn-sheen { position: relative; overflow: hidden; isolation: isolate; }
+.btn-sheen::before { z-index: 0; background: linear-gradient(115deg, transparent 30%, rgb(255 255 255 / 0.35) 48%, transparent 66%); }
+.glass-btn:hover::before,
+.btn-sheen:hover::before { transform: translateX(120%); }
+
+/* Holofote: um brilho suave que segue o ponteiro dentro de cartões (posição em --mx/--my, ver spotlight.tsx). */
+.spot { position: relative; }
+.spot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms ease;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgb(255 133 27 / 0.11), transparent 65%);
+}
+.spot:hover::after { opacity: 1; }
+html[data-motion="reduce"] .spot::after { display: none; }
+
+/* Entrada dos números e badges: pequeno "pop". */
+@keyframes pop-in { 0% { transform: scale(0.85); opacity: 0; } 60% { transform: scale(1.04); opacity: 1; } 100% { transform: none; } }
+.pop-in { animation: pop-in 420ms cubic-bezier(.3, 1.4, .5, 1) both; }
+
+/* Flutuar devagar (ícones de destaque). */
+@keyframes float-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+.float { animation: float-y 4.5s ease-in-out infinite; }
 
 /* Barra de progresso da navegação */
 .nav-progress {
