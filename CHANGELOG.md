@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.13.0] · 21/11/2026 · Prompt 03, Fase 9: notificações, relatórios e otimização
+- Notificações na aplicação (`/notificacoes`): pagamentos e recebimentos vencidos e a vencer, stock abaixo do mínimo (uma vez por episódio), encomendas atrasadas e alertas do agente de mercado. Cada pessoa recebe as das organizações onde tem a permissão do tipo; ao perder a permissão, deixa de as ver.
+- Geração no servidor, sem repetições: tarefa diária `anen-notifications` (06:45 UTC, registada em `job_runs`, com limpeza das antigas) e atualização ao abrir a página. "Abrir" marca como lida e muda para o contexto da notificação (pessoal ou organização).
+- Preferências por pessoa: que tipos receber e com quantos dias de antecedência avisar os pagamentos. Contador de não lidas no menu.
+- Email e push ainda não: a página diz isso. Ficam disponíveis quando houver um serviço de envio.
+- Relatórios (`/relatorios`): este mês, mês anterior, trimestre, ano, ano anterior ou intervalo personalizado (até 5 anos). Receitas, despesas, resultado e valor por liquidar, faturado e liquidado; por mês, categoria, cliente ou fornecedor, projeto e centro de custo; exportação CSV de cada quadro. Sem permissão de negócio, os nomes não aparecem.
+- Motor `report.ts`: períodos e leitura das linhas, sem ponto flutuante. A proteção contra fórmulas nos CSV passou para `lib/csv.ts`.
+- Otimização: índices para relatórios por contacto e projeto, encomendas atrasadas, stock com mínimo e notificações por ler.
+- Migration 1600. Testes: 273 unitários (`report.test.ts`, `notifications.test.ts`) e o E2E `notifications-reports.spec.ts`.
+
 ## [0.12.0] · 21/11/2026 · Prompt 03, Fase 8: compras, inventário e reposição
 - Inventário (`/inventario`): artigos com unidade, moeda, stock mínimo, nível de reposição e fornecedor habitual. O saldo e o custo médio ponderado são calculados no servidor, com o artigo bloqueado durante o cálculo. Os movimentos (entrada, saída, perda e contagem) não se editam nem se apagam: a correção é uma contagem. Não há saldo negativo.
 - Motor `stock.ts`: `applyStockMovement` (o mesmo cálculo do servidor; os testes comparam os dois passo a passo), `stockValue`, `isBelowMinimum` e `compareSupplierPrices`.

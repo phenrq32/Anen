@@ -147,6 +147,19 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 | Lotes, validades e consumo automático pelas fichas técnicas | Não iniciado | — |
 | Reposição agendada e notificações de stock baixo | Não iniciado | Fase 9 (notificações); hoje a reposição corre quando a pessoa carrega no botão |
 
+## Prompt 03 · Fase 9: notificações, relatórios e otimização
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Notificações na aplicação: pagamentos vencidos e a vencer, stock abaixo do mínimo, encomendas atrasadas e alertas de mercado | Testado | `notifications.test.ts` (destinatários por permissão, sem repetição, episódios de stock, outra organização); E2E `notifications-reports.spec.ts` |
+| Tarefa diária `anen-notifications` e atualização ao abrir a página | Testado | `notifications.test.ts`; em produção: agendada e executada com sucesso a 21/11/2026 |
+| Preferências por pessoa (tipos e antecedência) | Testado | `notifications.test.ts` + E2E |
+| Contador no menu, abrir no contexto certo, marcar como lidas | Testado | E2E |
+| Notificações por email ou push | Bloqueado | Falta um serviço de email (SMTP, Resend…) e contas de push |
+| Relatórios por período: faturado e liquidado por categoria, contacto, projeto e centro de custo, mês a mês; exportação CSV | Testado | `report.test.ts` (motor), `notifications.test.ts` (RLS de `finance_report`) + E2E |
+| Otimização: índices para relatórios, notificações, encomendas atrasadas e stock; contador com índice parcial | Implementado | Migration 1600 |
+| Filtro de período no painel | Não iniciado | Os relatórios cobrem os períodos; o painel continua a mostrar o mês |
+
 ## Fases seguintes
 
 | Fase | Estado | O que é preciso para avançar |
@@ -161,5 +174,5 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 
 ## Testes
 
-- **260 testes automáticos** (`npm test`): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços e do stock; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
-- **28 testes E2E (14 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção, todos a passar a 21/11/2026.
+- **273 testes automáticos** (`npm test`): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços, do stock e dos relatórios; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
+- **30 testes E2E (15 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção, todos a passar a 21/11/2026.

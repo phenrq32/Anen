@@ -554,6 +554,41 @@ export interface ReorderSuggestion {
   last_unit_price_minor: number | null;
 }
 
+export const NOTIFICATION_KINDS = ["payment_overdue", "payment_due_soon", "stock_below_minimum", "purchase_late", "market_alert"] as const;
+export type NotificationKind = (typeof NOTIFICATION_KINDS)[number];
+
+export interface AppNotification {
+  id: string;
+  user_id: string;
+  organization_id: string | null;
+  kind: NotificationKind;
+  entity_id: string | null;
+  /** Parâmetros para o texto (variam por tipo; lidos com verificação de tipo na interface). */
+  data: Record<string, unknown>;
+  link: string | null;
+  dedupe_key: string;
+  created_at: string;
+  read_at: string | null;
+}
+
+export interface NotificationSettings {
+  user_id: string;
+  disabled_kinds: NotificationKind[];
+  due_soon_days: number;
+  updated_at: string;
+}
+
+export interface FinanceReportRow {
+  dimension: "total" | "category" | "contact" | "project" | "cost_center";
+  key: string | null;
+  currency_code: string;
+  income_total: number;
+  income_settled: number;
+  expense_total: number;
+  expense_settled: number;
+  count: number;
+}
+
 export interface CostCenter extends FinanceScoped {
   id: string;
   name: string;

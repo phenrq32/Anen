@@ -33,8 +33,11 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     );
   }
 
+  // Um count com índice parcial (notifications_unread_idx); o RLS já filtra por pessoa e permissão.
+  const { count: unread } = await session.supabase.from("notifications").select("id", { count: "exact", head: true }).is("read_at", null);
+
   return (
-    <AppShell m={m} session={session} overlay={overlay}>
+    <AppShell m={m} session={session} overlay={overlay} unread={unread ?? 0}>
       {children}
     </AppShell>
   );

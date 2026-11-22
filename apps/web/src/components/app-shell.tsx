@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Messages } from "@anen/i18n";
+import { format, type Messages } from "@anen/i18n";
 import { AutoSubmitSelect } from "@/components/forms";
 import { Logo } from "@/components/ui";
 import { switchContextAction } from "@/app/(app)/actions";
@@ -12,15 +12,21 @@ export function AppShell({
   session,
   children,
   overlay,
+  unread = 0,
 }: {
   m: Messages;
   session: SessionContext;
   children: React.ReactNode;
   overlay?: React.ReactNode;
+  /** Notificações por ler (todas as organizações e o pessoal). */
+  unread?: number;
 }) {
+  const unreadLabel = format(m.notifications.unreadCount, { count: unread });
   const items: NavItem[] = [
     { href: "/painel", label: m.nav.dashboard, icon: "grid" },
+    { href: "/notificacoes", label: m.nav.notifications, icon: "bell", badge: { count: unread, label: unreadLabel } },
     { href: "/financas", label: m.nav.finance, icon: "wallet" },
+    { href: "/relatorios", label: m.nav.reports, icon: "report" },
     { href: "/orcamentos", label: m.nav.quotes, icon: "file" },
     { href: "/restauracao", label: m.nav.recipes, icon: "chef" },
     { href: "/projetos", label: m.nav.projects, icon: "briefcase" },
@@ -96,6 +102,7 @@ export function AppShell({
         <summary className="flex h-14 cursor-pointer list-none items-center justify-between px-4 [&::-webkit-details-marker]:hidden">
           <Logo className="h-5 w-auto" />
           <span className="flex items-center gap-2 text-sm text-muted">
+            {unread > 0 ? <span className="size-2 rounded-full bg-brand" role="img" aria-label={unreadLabel} /> : null}
             <span className="max-w-40 truncate">{session.active?.organization.name ?? m.nav.personalContext}</span>
             <svg viewBox="0 0 20 20" className="size-5 transition-transform group-open:rotate-180" aria-label={m.nav.openMenu}>
               <path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="1.6" />

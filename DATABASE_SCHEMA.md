@@ -97,6 +97,17 @@ Fonte de verdade: `supabase/migrations/*.sql`. Todas as tabelas têm RLS ativo.
 | `stock_reorder_suggestions(p_org)` | SECURITY INVOKER. Artigos abaixo do mínimo; sugere até `target_quantity` (ou o mínimo) menos o saldo e o que já está em encomendas por receber; fornecedor habitual ou o da última compra recebida e o último preço pago. |
 | `create_reorder_drafts(p_org)` | SECURITY INVOKER. Um rascunho por fornecedor e moeda; os artigos sem fornecedor ficam de fora e são contados. |
 
+## Notificações e relatórios (migration 1600)
+
+| Tabela / função | Notas |
+|---|---|
+| `notifications` | De uma pessoa (`user_id`), opcionalmente no contexto de uma organização. `kind`: `payment_overdue`, `payment_due_soon`, `stock_below_minimum`, `purchase_late`, `market_alert`; `data` (parâmetros do texto), `link` (caminho interno validado), `dedupe_key` único por pessoa. Só o servidor cria. RLS: a própria pessoa e, nas de organização, só com a permissão do tipo (`finance.read` para pagamentos; `business.read` para os outros). O cliente só altera `read_at`. |
+| `notification_settings` | Por pessoa: `disabled_kinds` e `due_soon_days` (1 a 30, por omissão 3). RLS: só a própria. |
+| `private.generate_notifications(p_today, p_user)` | Gera as que faltam (idempotente). O stock avisa uma vez por episódio (desde a última vez que esteve no mínimo ou acima); os pagamentos, uma vez por vencimento. |
+| `refresh_my_notifications()` | SECURITY DEFINER, só para a própria pessoa; corre ao abrir `/notificacoes`. |
+| `private.run_notification_jobs()` | Tarefa diária `anen-notifications` (06:45 UTC): gera para todos, apaga as lidas há mais de 90 dias e todas com mais de 180, e regista a execução em `job_runs`. |
+| `finance_report(p_org, p_from, p_to)` | SECURITY INVOKER. `grouping sets` por categoria, contacto, projeto, centro de custo e total, com receita e despesa faturadas (`amount_minor`) e liquidadas (`settled_minor`). |
+
 ## Próximas fases
 
 As tabelas de finanças, orçamentos, custos, fiscalidade, marketplace, CRM, assinaturas, IA e administração listadas no prompt mestre serão criadas por migration em cada fase, sempre com `organization_id`, RLS por `has_org_permission` e auditoria.

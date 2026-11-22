@@ -16,6 +16,9 @@ import type {
   PurchaseOrder,
   PurchaseOrderItem,
   ReorderSuggestion,
+  AppNotification,
+  NotificationSettings,
+  FinanceReportRow,
   CostCenter,
   Project,
   Quote,
@@ -253,6 +256,12 @@ export type Database = {
           Partial<Pick<PurchaseOrderItem, "position" | "stock_item_id" | "unit">>,
         Partial<Pick<PurchaseOrderItem, "position" | "stock_item_id" | "description" | "quantity" | "unit" | "unit_price_minor">>
       >;
+      notifications: Table<AppNotification, NoWrite, Partial<Pick<AppNotification, "read_at">>>;
+      notification_settings: Table<
+        NotificationSettings,
+        Pick<NotificationSettings, "user_id"> & Partial<Pick<NotificationSettings, "disabled_kinds" | "due_soon_days">>,
+        Partial<Pick<NotificationSettings, "disabled_kinds" | "due_soon_days">>
+      >;
       admin_users: Table<{ user_id: string; role: "super_admin" | "support" | "finance" | "content"; created_at: string }>;
       job_runs: Table<{
         id: number;
@@ -354,6 +363,8 @@ export type Database = {
       };
       stock_reorder_suggestions: { Args: { p_org?: string | null }; Returns: ReorderSuggestion[] };
       create_reorder_drafts: { Args: { p_org?: string | null }; Returns: { orders: number; lines: number; skipped: number } };
+      refresh_my_notifications: { Args: Record<string, never>; Returns: number };
+      finance_report: { Args: { p_org: string | null; p_from: string; p_to: string }; Returns: FinanceReportRow[] };
       recipe_price_updates: { Args: { p_recipe_id?: string | null }; Returns: RecipePriceUpdate[] };
       save_recipe_content: { Args: { p_recipe_id: string; p_fields: Record<string, string | null>; p_ingredients: Record<string, string | number | null>[] }; Returns: undefined };
     };

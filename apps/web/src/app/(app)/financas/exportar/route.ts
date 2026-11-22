@@ -4,18 +4,9 @@ import { monthParam } from "@anen/validation";
 import { categoryLabel, financeScope, loadFinanceBasics, monthBounds, todayIn } from "@/lib/finance";
 import { getI18n } from "@/lib/i18n";
 import { getSession } from "@/lib/session";
+import { csvCell } from "@/lib/csv";
 
 const UUID = /^[0-9a-f-]{36}$/;
-
-/**
- * Neutraliza fórmulas (=, +, -, @) ao abrir o CSV numa folha de cálculo.
- * Números puros ("-45.90") passam intactos para continuarem a ser números.
- */
-export function csvCell(value: string): string {
-  const numeric = /^-?\d+(\.\d+)?$/.test(value);
-  const safe = !numeric && /^[=+\-@\t\r]/.test(value) ? `'${value}` : value;
-  return `"${safe.replace(/"/g, '""')}"`;
-}
 
 export async function GET(request: NextRequest) {
   const session = await getSession();

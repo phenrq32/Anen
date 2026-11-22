@@ -7,7 +7,9 @@ import { cx } from "@/components/ui";
 export interface NavItem {
   href: string;
   label: string;
-  icon: "grid" | "building" | "users" | "shield" | "settings" | "wallet" | "file" | "chef" | "briefcase" | "contacts" | "chart" | "cart" | "box";
+  /** Contador (ex.: notificações por ler) e o seu texto para leitores de ecrã. */
+  badge?: { count: number; label: string };
+  icon: "bell" | "report" | "grid" | "building" | "users" | "shield" | "settings" | "wallet" | "file" | "chef" | "briefcase" | "contacts" | "chart" | "cart" | "box";
 }
 
 const icons: Record<NavItem["icon"], React.ReactNode> = {
@@ -16,6 +18,8 @@ const icons: Record<NavItem["icon"], React.ReactNode> = {
   grid: <path d="M3 3h6v6H3zM11 3h6v6h-6zM3 11h6v6H3zM11 11h6v6h-6z" />,
   file: <path d="M5 2.5h7l3.5 3.5v11.5H5zM12 2.5V6h3.5M8 10h5M8 13h5" />,
   chart: <path d="M3 16.5h14M5 13l3.5-4 3 2.5L16 6M13 6h3v3" />,
+  bell: <path d="M5 8a5 5 0 0 1 10 0c0 4 1.5 5.5 2 6H3c.5-.5 2-2 2-6zM8.5 16.5a1.5 1.5 0 0 0 3 0" />,
+  report: <path d="M4 2.5h12v15H4zM7 13.5v-3M10 13.5v-6M13 13.5V9" />,
   cart: <path d="M2 3h2.5l2 9.5h9l1.5-7H5.5M8 16.5h.01M15 16.5h.01" />,
   box: <path d="M10 2.5l7 3.5v8l-7 3.5-7-3.5V6zM3 6l7 3.5L17 6M10 9.5v8" />,
   chef: <path d="M6 11.5V16.5h8v-5M6 11.5a3 3 0 0 1-.5-5.9A4.5 4.5 0 0 1 14.5 5.6a3 3 0 0 1-.5 5.9zM6 14h8" />,
@@ -51,6 +55,11 @@ export function NavLinks({ items }: { items: NavItem[] }) {
                 {icons[item.icon]}
               </svg>
               {item.label}
+              {item.badge && item.badge.count > 0 ? (
+                <span className="ml-auto rounded-full bg-brand px-2 py-0.5 text-xs font-semibold text-ink" aria-label={item.badge.label}>
+                  {item.badge.count > 99 ? "99+" : item.badge.count}
+                </span>
+              ) : null}
             </Link>
           </li>
         );
