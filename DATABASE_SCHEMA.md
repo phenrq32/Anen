@@ -108,6 +108,26 @@ Fonte de verdade: `supabase/migrations/*.sql`. Todas as tabelas têm RLS ativo.
 | `private.run_notification_jobs()` | Tarefa diária `anen-notifications` (06:45 UTC): gera para todos, apaga as lidas há mais de 90 dias e todas com mais de 180, e regista a execução em `job_runs`. |
 | `finance_report(p_org, p_from, p_to)` | SECURITY INVOKER. `grouping sets` por categoria, contacto, projeto, centro de custo e total, com receita e despesa faturadas (`amount_minor`) e liquidadas (`settled_minor`). |
 
+## Planos e ANEN AI (migration 1700)
+
+| Tabela / função | Notas |
+|---|---|
+| `plans` | `free`, `pro`, `max` com `ai_daily_limit` (0, 25, 100). Leitura para autenticados; escrita só por `admin_set_ai_limit` (administradores da plataforma). |
+| `subscriptions` | Plano por âmbito (pessoa ou organização), uma ativa por âmbito, `current_period_end` opcional, `source` manual/stripe. Sem cobrança ainda: `admin_set_plan` (administradores). Membros veem a da organização. Auditado. |
+| `private.current_plan` | Plano em vigor (sem subscrição ativa e dentro do prazo = Free). |
+| `ai_conversations`, `ai_messages` | Privadas de quem pergunta; as de organização só enquanto for membro ativo. `ai_messages.sources` (ligações geradas pelas ferramentas, não pelo modelo) e `tools`. |
+| `ai_consents` | A pessoa aceita o envio da pergunta e dos dados consultados ao fornecedor do modelo. |
+| `ai_usage` | Uma linha por pergunta, no dia do fuso do âmbito. `ai_begin_request` reserva com trava por âmbito (erros `ai_consent_required`, `ai_plan_required`, `ai_daily_limit`); `ai_finish_request` grava modelo e tokens, e uma falha do fornecedor devolve a vaga. Só administradores leem. |
+| `ai_status(p_org)` | Plano, limite, usadas hoje e consentimento, para a interface. |
+
+## Faturação certificada via InvoiceXpress (migration 1800)
+
+| Tabela | Notas |
+|---|---|
+| `invoicing_connections` | Uma conta InvoiceXpress por pessoa ou organização: `account_name` (só subdomínio), chave da API **cifrada pela aplicação** (AES-256-GCM, chave mestra `INVOICING_ENCRYPTION_KEY` só no servidor; a BD guarda `api_key_ciphertext` e os 4 últimos caracteres), cache de `taxes`/`sequences` e `load_address` (local de carga das guias). RLS `finance.*`. Auditada. |
+| `fiscal_documents` | Cópia local dos documentos emitidos no InvoiceXpress: fatura, fatura-recibo, fatura simplificada, nota de crédito, guia de transporte e de remessa. `provider_id`, `proprietary_uid` (idempotência), `sequence_number`, `atcud`, `saft_hash`, `at_doc_code` (código AT das guias), cliente (fotografia), ligações a contacto, orçamento, projeto, movimento e documento de origem. Depois de emitido, o conteúdo fica bloqueado; estados draft → final/settled → canceled (com motivo). Só os rascunhos se apagam. |
+| `fiscal_document_lines` | Linhas (nome ≤ 60, quantidade, preço, IVA, desconto, artigo de stock); bloqueadas depois de emitido. |
+
 ## Próximas fases
 
 As tabelas de finanças, orçamentos, custos, fiscalidade, marketplace, CRM, assinaturas, IA e administração listadas no prompt mestre serão criadas por migration em cada fase, sempre com `organization_id`, RLS por `has_org_permission` e auditoria.

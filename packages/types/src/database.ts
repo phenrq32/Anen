@@ -19,6 +19,13 @@ import type {
   AppNotification,
   NotificationSettings,
   FinanceReportRow,
+  Plan,
+  AiStatus,
+  AiConversation,
+  AiMessage,
+  InvoicingConnection,
+  FiscalDocument,
+  FiscalDocumentLine,
   CostCenter,
   Project,
   Quote,
@@ -262,6 +269,31 @@ export type Database = {
         Pick<NotificationSettings, "user_id"> & Partial<Pick<NotificationSettings, "disabled_kinds" | "due_soon_days">>,
         Partial<Pick<NotificationSettings, "disabled_kinds" | "due_soon_days">>
       >;
+      plans: Table<Plan>;
+      ai_conversations: Table<
+        AiConversation,
+        Pick<AiConversation, "user_id" | "organization_id" | "title">,
+        Partial<Pick<AiConversation, "title">>
+      >;
+      ai_messages: Table<
+        AiMessage,
+        Pick<AiMessage, "conversation_id" | "role" | "content"> & Partial<Pick<AiMessage, "sources" | "tools" | "model">>,
+        NoWrite
+      >;
+      ai_consents: Table<{ user_id: string; accepted_at: string }, { user_id: string }, NoWrite>;
+      invoicing_connections: Table<
+        InvoicingConnection,
+        Scope & Pick<InvoicingConnection, "account_name" | "api_key_ciphertext" | "api_key_hint"> &
+          Partial<Pick<InvoicingConnection, "organization_name" | "taxes" | "sequences" | "verified_at">>,
+        Partial<Pick<InvoicingConnection, "account_name" | "api_key_ciphertext" | "api_key_hint" | "organization_name" | "taxes" | "sequences" | "load_address" | "verified_at">>
+      >;
+      fiscal_documents: Table<
+        FiscalDocument,
+        Scope & Omit<Partial<FiscalDocument>, "id" | "created_at" | "updated_at"> &
+          Pick<FiscalDocument, "kind" | "provider_id" | "proprietary_uid" | "client_name" | "issue_date">,
+        Partial<Omit<FiscalDocument, "id" | "organization_id" | "owner_user_id" | "created_at" | "updated_at">>
+      >;
+      fiscal_document_lines: Table<FiscalDocumentLine, Omit<FiscalDocumentLine, "id">, Partial<Omit<FiscalDocumentLine, "id" | "document_id">>>;
       admin_users: Table<{ user_id: string; role: "super_admin" | "support" | "finance" | "content"; created_at: string }>;
       job_runs: Table<{
         id: number;
@@ -365,6 +397,11 @@ export type Database = {
       create_reorder_drafts: { Args: { p_org?: string | null }; Returns: { orders: number; lines: number; skipped: number } };
       refresh_my_notifications: { Args: Record<string, never>; Returns: number };
       finance_report: { Args: { p_org: string | null; p_from: string; p_to: string }; Returns: FinanceReportRow[] };
+      ai_status: { Args: { p_org?: string | null }; Returns: AiStatus[] };
+      ai_begin_request: { Args: { p_org?: string | null }; Returns: { usage_id: number; daily_limit: number; used_today: number }[] };
+      ai_finish_request: { Args: { p_usage_id: number; p_ok: boolean; p_model: string; p_input: number; p_output: number }; Returns: undefined };
+      admin_set_plan: { Args: { p_org: string | null; p_owner: string | null; p_plan: string; p_until?: string | null }; Returns: string };
+      admin_set_ai_limit: { Args: { p_plan: string; p_limit: number }; Returns: undefined };
       recipe_price_updates: { Args: { p_recipe_id?: string | null }; Returns: RecipePriceUpdate[] };
       save_recipe_content: { Args: { p_recipe_id: string; p_fields: Record<string, string | null>; p_ingredients: Record<string, string | number | null>[] }; Returns: undefined };
     };

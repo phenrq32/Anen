@@ -589,6 +589,141 @@ export interface FinanceReportRow {
   count: number;
 }
 
+export const PLAN_KEYS = ["free", "pro", "max"] as const;
+export type PlanKey = (typeof PLAN_KEYS)[number];
+
+export interface Plan {
+  key: PlanKey;
+  name: string;
+  position: number;
+  ai_daily_limit: number;
+  updated_at: string;
+}
+
+export interface AiStatus {
+  plan_key: PlanKey;
+  plan_name: string;
+  daily_limit: number;
+  used_today: number;
+  consented: boolean;
+}
+
+export interface AiConversation {
+  id: string;
+  user_id: string;
+  organization_id: string | null;
+  title: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AiSource {
+  label: string;
+  href: string;
+}
+
+export interface AiMessage {
+  id: string;
+  conversation_id: string;
+  role: "user" | "assistant";
+  content: string;
+  sources: AiSource[];
+  tools: string[];
+  model: string | null;
+  created_at: string;
+}
+
+export interface InvoicingTax {
+  name: string;
+  value: string;
+  default_tax: number;
+}
+
+export interface InvoicingConnection extends FinanceScoped {
+  id: string;
+  provider: "invoicexpress";
+  account_name: string;
+  api_key_ciphertext: string;
+  api_key_hint: string;
+  organization_name: string | null;
+  taxes: InvoicingTax[];
+  sequences: { id: number; serie: string; default_sequence: number | boolean }[];
+  load_address: FiscalAddress | null;
+  verified_at: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export type FiscalDocumentKind = "invoice" | "invoice_receipt" | "simplified_invoice" | "credit_note" | "transport" | "shipping";
+export type FiscalDocumentStatus = "draft" | "final" | "settled" | "canceled";
+
+export interface FiscalAddress {
+  detail: string;
+  city: string;
+  postal_code: string;
+  country: string;
+}
+
+export interface FiscalDocument extends FinanceScoped {
+  id: string;
+  connection_id: string | null;
+  kind: FiscalDocumentKind;
+  status: FiscalDocumentStatus;
+  provider_id: number;
+  proprietary_uid: string;
+  sequence_number: string | null;
+  atcud: string | null;
+  saft_hash: string | null;
+  at_doc_code: string | null;
+  permalink: string | null;
+  contact_id: string | null;
+  client_name: string;
+  client_fiscal_id: string | null;
+  client_email: string | null;
+  client_address: string | null;
+  client_city: string | null;
+  client_postal_code: string | null;
+  client_country: string | null;
+  quote_id: string | null;
+  project_id: string | null;
+  transaction_id: string | null;
+  owner_document_id: string | null;
+  issue_date: string;
+  due_date: string | null;
+  currency_code: string;
+  before_taxes_minor: number | null;
+  taxes_minor: number | null;
+  total_minor: number | null;
+  reference: string | null;
+  observations: string | null;
+  tax_exemption: string | null;
+  loaded_at: string | null;
+  license_plate: string | null;
+  address_from: FiscalAddress | null;
+  address_to: FiscalAddress | null;
+  stock_out: boolean;
+  stock_applied_at: string | null;
+  cancel_reason: string | null;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
+  finalized_at: string | null;
+}
+
+export interface FiscalDocumentLine {
+  id: string;
+  document_id: string;
+  position: number;
+  name: string;
+  description: string | null;
+  quantity: NumericValue;
+  unit_price_minor: number;
+  tax_name: string | null;
+  tax_percent: NumericValue | null;
+  discount_percent: NumericValue;
+  stock_item_id: string | null;
+}
+
 export interface CostCenter extends FinanceScoped {
   id: string;
   name: string;

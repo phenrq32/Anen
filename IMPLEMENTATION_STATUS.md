@@ -160,13 +160,39 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 | Otimização: índices para relatórios, notificações, encomendas atrasadas e stock; contador com índice parcial | Implementado | Migration 1600 |
 | Filtro de período no painel | Não iniciado | Os relatórios cobrem os períodos; o painel continua a mostrar o mês |
 
+## ANEN AI e planos
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Planos Free, Pro e Max com limites em dados; atribuição por administradores | Testado | `plans-ai.test.ts` |
+| ANEN AI só no Pro (25 perguntas/dia) e no Max (100/dia), por conta, com o limite aplicado no servidor | Testado | `plans-ai.test.ts` (trava, falha devolve a vaga, outra organização) + E2E `ai.spec.ts` |
+| Consentimento antes do primeiro uso | Testado | `plans-ai.test.ts` + E2E |
+| Assistente com ferramentas determinísticas: resumo financeiro, comparação de períodos, pendentes, duplicados, projetos, preços de fornecedores, reposição, receita necessária, orçamentos | Testado | `insights.test.ts` (motor), `gemini.test.ts` (adaptador); E2E em produção com o modelo real |
+| Fontes por resposta (ligações para os registos) e ferramentas usadas | Testado | E2E |
+| Recurso automático entre modelos (Gemini 3.5 Flash → 3.8 Flash → 3.5 Flash-Lite) | Testado | `gemini.test.ts` |
+| Centro de inteligência (resumos diários/semanais automáticos, recomendações) | Não iniciado | Próximo passo da IA |
+| Cobrança dos planos | Bloqueado | Conta Stripe (ou alternativa) e preços |
+
+## Faturação certificada (Portugal, via InvoiceXpress)
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Ligar a conta InvoiceXpress de cada cliente (chave validada no InvoiceXpress e guardada cifrada) | Testado | `invoicexpress.test.ts` (cifra), `invoicing.test.ts` (RLS); E2E `invoicing.spec.ts` contra o InvoiceXpress real |
+| Fatura, fatura-recibo, fatura simplificada, guia de transporte e de remessa: rascunho → emitir → anular | Implementado | Cliente da API testado com respostas da documentação oficial (`invoicexpress.test.ts`); falta testar com uma conta InvoiceXpress real |
+| Nota de crédito a partir de uma fatura emitida | Implementado | Idem |
+| Emitir liga às finanças (a receber ou recebido), dá baixa no stock e liga ao projeto; anular desfaz o que ainda não foi pago | Implementado | Idem |
+| Faturar a partir de um orçamento aceite | Implementado | Botão "Faturar" no orçamento |
+| PDF oficial e envio por email pelo InvoiceXpress; código AT das guias | Implementado | Idem |
+| Documento bloqueado depois de emitido (conteúdo, linhas, estados) | Testado | `invoicing.test.ts` |
+| Brasil (NF-e/NFS-e) | Não iniciado | Outro fornecedor certificado |
+
 ## Fases seguintes
 
 | Fase | Estado | O que é preciso para avançar |
 |---|---|---|
 | 4: Pesquisa de preços | Em desenvolvimento | Índices oficiais feitos (Fase 6 do prompt 03). Falta decidir que fornecedores de preços de produtos licenciar |
 | 5: Fiscalidade PT/BR | Não iniciado | Validação jurídica/contabilística das regras e taxas (não se inventam taxas) |
-| 6: IA | Não iniciado | Chave de API de modelos de linguagem (Anthropic ou outro) |
+| 6: IA | Em desenvolvimento | ANEN AI no ar (Pro e Max). Falta o centro de inteligência |
 | 7: Marketplace | Não iniciado | Serviço de mapas (chave) e definição de regras de moderação |
 | 8: Monetização Free/Pro/Max | Não iniciado | Conta Stripe (ou alternativa) validada para PT e BR, preços dos planos |
 | 9: Mobile | Não iniciado | Conta Expo/EAS, Apple Developer e Google Play |
@@ -174,5 +200,5 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 
 ## Testes
 
-- **273 testes automáticos** (`npm test`): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços, do stock e dos relatórios; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
-- **30 testes E2E (15 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção, todos a passar a 21/11/2026.
+- **305 testes automáticos** (`npm test`): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços, do stock e dos relatórios; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
+- **34 testes E2E (17 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção, todos a passar a 21/11/2026.

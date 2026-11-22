@@ -24,10 +24,12 @@ export function AppShell({
   const unreadLabel = format(m.notifications.unreadCount, { count: unread });
   const items: NavItem[] = [
     { href: "/painel", label: m.nav.dashboard, icon: "grid" },
+    { href: "/ia", label: m.nav.ai, icon: "spark" },
     { href: "/notificacoes", label: m.nav.notifications, icon: "bell", badge: { count: unread, label: unreadLabel } },
     { href: "/financas", label: m.nav.finance, icon: "wallet" },
     { href: "/relatorios", label: m.nav.reports, icon: "report" },
     { href: "/orcamentos", label: m.nav.quotes, icon: "file" },
+    { href: "/faturacao", label: m.nav.invoicing, icon: "receipt" },
     { href: "/restauracao", label: m.nav.recipes, icon: "chef" },
     { href: "/projetos", label: m.nav.projects, icon: "briefcase" },
     { href: "/contactos", label: m.nav.contacts, icon: "contacts" },

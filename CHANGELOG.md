@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.15.0] · 22/11/2026 · Faturação certificada em Portugal (InvoiceXpress)
+- A ANEN não é um programa certificado pela AT: os documentos fiscais são emitidos pelo InvoiceXpress (certificado n.º 192) na conta de cada cliente, que numera, assina, gera ATCUD e QR, comunica à AT e devolve o código AT das guias. A página diz isto claramente.
+- Cada cliente liga a sua conta (nome da conta + chave da API, validados no InvoiceXpress). A chave fica cifrada (AES-256-GCM) com uma chave mestra que só existe no servidor.
+- `/faturacao`: fatura, fatura-recibo, fatura simplificada, guia de transporte e guia de remessa. Cria em rascunho no InvoiceXpress, mostra a estimativa de totais e emite com confirmação. Nota de crédito a partir de uma fatura. Anulação com motivo. PDF oficial e envio por email pelo InvoiceXpress. Atualização do código AT das guias.
+- Integração: emitir cria o valor a receber (fatura) ou recebido (fatura-recibo e simplificada) nas finanças, com IVA separado e referência do documento, dá baixa no stock das linhas ligadas a artigos e liga ao projeto; anular remove o valor ainda não recebido e devolve o stock. Botão "Faturar" nos orçamentos aceites. Local de carga por omissão nas guias.
+- IVA a 0 % exige o motivo de isenção (códigos M da AT). NIF português validado.
+- Migration 1800. Testes: 305 unitários (`invoicexpress.test.ts`, `invoicing.test.ts`, validação) e o E2E `invoicing.spec.ts` contra o InvoiceXpress real (chave recusada).
+
+## [0.14.0] · 22/11/2026 · ANEN AI e planos Free, Pro e Max
+- Planos em dados (`plans`): Free sem IA, Pro com 25 perguntas por dia e Max com 100, por conta (pessoal ou organização), no fuso da conta. Limites editáveis pelos administradores da plataforma, sem mudar código. Subscrição por âmbito (`subscriptions`), atribuída por administradores até haver cobrança.
+- ANEN AI (`/ia`), pedida para os planos de preço médio e mais caro: conversas privadas por pessoa e contexto, consentimento antes do primeiro uso, contador de perguntas e sugestões de perguntas.
+- A IA só responde com dados das ferramentas, que correm com as permissões da pessoa (RLS) e calculam com o motor: resumo financeiro, comparação de períodos, valores em aberto, despesas duplicadas, rentabilidade de projetos, preços de fornecedores, reposição de stock, receita necessária para um lucro e orçamentos. As fontes de cada resposta vêm das ferramentas, não do modelo.
+- Limite aplicado no servidor (`ai_begin_request`, com trava): a pergunta é reservada antes de chamar o modelo e devolvida se o fornecedor falhar.
+- Fornecedor: Google Gemini por REST, isolado em `lib/ai/gemini.ts`, com recurso automático entre modelos quando um está sobrecarregado (3.5 Flash → 3.8 Flash → 3.5 Flash-Lite; `GEMINI_MODELS`). A chave fica só nas variáveis de ambiente (`GEMINI_API_KEY`).
+- Motor `insights.ts`: despesas possivelmente duplicadas, variação por categoria e receita necessária para um lucro.
+- Migration 1700. Testes: 289 unitários (`plans-ai.test.ts`, `insights.test.ts`, `gemini.test.ts`) e o E2E `ai.spec.ts`, em produção com o modelo real.
+
 ## [0.13.0] · 21/11/2026 · Prompt 03, Fase 9: notificações, relatórios e otimização
 - Notificações na aplicação (`/notificacoes`): pagamentos e recebimentos vencidos e a vencer, stock abaixo do mínimo (uma vez por episódio), encomendas atrasadas e alertas do agente de mercado. Cada pessoa recebe as das organizações onde tem a permissão do tipo; ao perder a permissão, deixa de as ver.
 - Geração no servidor, sem repetições: tarefa diária `anen-notifications` (06:45 UTC, registada em `job_runs`, com limpeza das antigas) e atualização ao abrir a página. "Abrir" marca como lida e muda para o contexto da notificação (pessoal ou organização).

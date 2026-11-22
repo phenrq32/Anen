@@ -30,3 +30,18 @@ export async function deleteOrganizationsCreatedBy(userId: string): Promise<void
 export async function deleteUser(userId: string): Promise<void> {
   await fetch(`${url()}/auth/v1/admin/users/${userId}`, { method: "DELETE", headers: headers() });
 }
+
+/** Atribui um plano a uma pessoa (âmbito pessoal), como faria um administrador. */
+export async function setPersonalPlan(userId: string, plan: "free" | "pro" | "max"): Promise<void> {
+  await fetch(`${url()}/rest/v1/subscriptions?owner_user_id=eq.${userId}&status=eq.active`, {
+    method: "PATCH",
+    headers: headers(),
+    body: JSON.stringify({ status: "canceled" }),
+  });
+  const res = await fetch(`${url()}/rest/v1/subscriptions`, {
+    method: "POST",
+    headers: headers(),
+    body: JSON.stringify({ owner_user_id: userId, plan_key: plan, source: "manual" }),
+  });
+  if (!res.ok) throw new Error(`Atribuir plano falhou: ${res.status} ${await res.text()}`);
+}

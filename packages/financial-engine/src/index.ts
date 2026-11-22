@@ -10,3 +10,4 @@ export * from "./units";
 export * from "./market";
 export * from "./stock";
 export * from "./report";
+export * from "./insights";

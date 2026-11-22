@@ -6,6 +6,7 @@ import type { QuoteStatus } from "@anen/types";
 import { InlineAction } from "@/components/forms";
 import { Alert, Badge, buttonClass } from "@/components/ui";
 import { businessScope } from "@/lib/business";
+import { financeScope } from "@/lib/finance";
 import { getI18n } from "@/lib/i18n";
 import { CreateProjectFromQuoteButton } from "../../projetos/project-form";
 import { numericToString, quotesScope } from "@/lib/quotes";
@@ -88,6 +89,11 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
             </Link>
           ) : quote.status === "accepted" && biz.canWrite ? (
             <CreateProjectFromQuoteButton m={m} quoteId={quote.id} />
+          ) : null}
+          {quote.status === "accepted" && quote.currency_code === "EUR" && financeScope(session).canWrite ? (
+            <Link href={`/faturacao/novo?orcamento=${quote.id}`} className={buttonClass("secondary")}>
+              {m.invoicing.fromQuoteButton}
+            </Link>
           ) : null}
           <a href={`/imprimir/orcamento/${quote.id}`} target="_blank" rel="noopener" className={buttonClass("secondary")}>
             {m.quotes.print}
