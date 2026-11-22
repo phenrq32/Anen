@@ -3,6 +3,8 @@ import { ConfigMissing } from "@/components/config-missing";
 import { QuickAdd } from "@/components/quick-add";
 import { getPublicEnv } from "@/lib/env";
 import { categoryLabel, financeScope, todayIn } from "@/lib/finance";
+import { cookies } from "next/headers";
+import { TOUR_COOKIE } from "@/lib/appearance";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession } from "@/lib/session";
 
@@ -39,7 +41,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   ) : null;
 
   return (
-    <AppShell m={m} session={session} overlay={overlay} unread={unread ?? 0} canQuickAdd={scope.canWrite && (accounts.data ?? []).length > 0}>
+    <AppShell m={m} session={session} overlay={overlay} unread={unread ?? 0} canQuickAdd={scope.canWrite && (accounts.data ?? []).length > 0} showTour={(await cookies()).get(TOUR_COOKIE)?.value !== "done"}>
       {children}
     </AppShell>
   );

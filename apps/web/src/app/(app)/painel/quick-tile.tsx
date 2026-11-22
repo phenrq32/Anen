@@ -19,7 +19,7 @@ export function QuickAddTile({ label, hint, fallbackHref }: { label: string; hin
       }}
       className="lift group flex min-h-28 flex-col justify-between gap-3 rounded-2xl border border-brand/40 bg-brand/10 p-4 text-left"
     >
-      <span className="grid size-11 place-items-center rounded-xl bg-brand text-ink transition-transform duration-300 group-hover:rotate-90 group-hover:scale-110">
+      <span className="grid size-11 place-items-center rounded-xl bg-brand text-on-brand transition-transform duration-300 group-hover:rotate-90 group-hover:scale-110">
         <NavIcon name="plus" className="size-5" />
       </span>
       <span className="flex flex-col">

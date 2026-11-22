@@ -70,13 +70,14 @@ export function MobileTabBar({
               <button
                 type="button"
                 onClick={() => window.dispatchEvent(new Event(QUICK_ADD_EVENT))}
-                className="fab grid size-14 -translate-y-4 place-items-center rounded-full bg-brand text-ink"
+                data-tour="register"
+                className="fab grid size-14 -translate-y-4 place-items-center rounded-full bg-brand text-on-brand"
                 aria-label={labels.register}
               >
                 <NavIcon name="plus" className="size-6" />
               </button>
             ) : (
-              <Link href="/financas/contas" className="fab grid size-14 -translate-y-4 place-items-center rounded-full bg-brand text-ink" aria-label={labels.register}>
+              <Link href="/financas/contas" className="fab grid size-14 -translate-y-4 place-items-center rounded-full bg-brand text-on-brand" aria-label={labels.register}>
                 <NavIcon name="plus" className="size-6" />
               </Link>
             )}
@@ -85,6 +86,7 @@ export function MobileTabBar({
           <button
             type="button"
             onClick={() => sheet.current?.showModal()}
+            data-tour="more"
             className={cx("flex flex-1 flex-col items-center justify-center gap-1 text-[11px] font-medium", !inTabs && active ? "text-brand" : "text-muted")}
           >
             <span className={cx("grid h-8 w-12 place-items-center rounded-full", !inTabs && active ? "bg-brand/15" : "")}>

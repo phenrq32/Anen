@@ -12,8 +12,8 @@ export function cx(...classes: Array<string | false | null | undefined>): string
 
 type Variant = "primary" | "secondary" | "ghost" | "danger";
 const variants: Record<Variant, string> = {
-  primary: "bg-brand text-ink hover:bg-brand-hover font-semibold shadow-[0_6px_20px_-8px_rgba(255,133,27,0.6)] hover:shadow-[0_8px_28px_-8px_rgba(255,133,27,0.8)]",
-  secondary: "bg-graphite text-paper border border-line hover:border-graphite-soft hover:bg-[#262626]",
+  primary: "bg-brand text-on-brand hover:bg-brand-hover font-semibold shadow-[0_6px_20px_-8px_rgba(255,133,27,0.6)] hover:shadow-[0_8px_28px_-8px_rgba(255,133,27,0.8)]",
+  secondary: "bg-graphite text-paper border border-line hover:border-graphite-soft hover:bg-graphite-soft/60",
   ghost: "text-muted hover:text-paper hover:bg-graphite",
   danger: "text-danger border border-line hover:border-danger/60 hover:bg-danger/10",
 };
@@ -126,8 +126,8 @@ export function SelectField({ name, label, hint, error, optionalLabel, options, 
 
 export function Alert({ tone = "error", children }: { tone?: "error" | "success" | "info"; children: ReactNode }) {
   const tones = {
-    error: "border-danger/40 bg-danger/10 text-[#FFB3B3]",
-    success: "border-success/40 bg-success/10 text-[#A6F0C9]",
+    error: "border-danger/40 bg-danger/10 text-danger-soft",
+    success: "border-success/40 bg-success/10 text-success-soft",
     info: "border-line bg-graphite text-muted",
   } as const;
   return (

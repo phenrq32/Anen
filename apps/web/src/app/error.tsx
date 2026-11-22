@@ -14,7 +14,7 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
       {error.digest ? <p className="font-mono text-xs text-subtle">Ref.: {error.digest}</p> : null}
       <button
         onClick={reset}
-        className="h-11 self-start rounded-md bg-brand px-4 text-sm font-semibold text-ink hover:bg-brand-hover"
+        className="h-11 self-start rounded-md bg-brand px-4 text-sm font-semibold text-on-brand hover:bg-brand-hover"
       >
         Tentar novamente
       </button>

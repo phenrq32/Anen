@@ -177,7 +177,7 @@ export function RecipeEditor({
                       pendingUpdates.forEach(applyUpdate);
                       setUpdatedAll(true);
                     }}
-                    className="h-9 rounded-full bg-brand px-4 text-sm font-semibold text-ink hover:brightness-110"
+                    className="h-9 rounded-full bg-brand px-4 text-sm font-semibold text-on-brand hover:brightness-110"
                   >
                     {t.updateAll}
                   </button>

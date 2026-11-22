@@ -17,6 +17,30 @@ export const colors = {
   success: "#3DD68C",
   danger: "#FF5C5C",
   warning: "#FFC53D",
+  dangerSoft: "#FFB3B3",
+  successSoft: "#A6F0C9",
+} as const;
+
+/**
+ * Tema claro (escolhido pela pessoa em Definições → Aparência). O laranja continua igual nos fundos e botões
+ * (com texto preto); texto laranja passa a laranja-escuro para ter contraste sobre branco.
+ */
+export const lightColors = {
+  black: "#F5F4F1",
+  surface: "#FFFFFF",
+  graphite: "#EFEDE9",
+  graphiteSoft: "#DEDAD4",
+  line: "#E3E0DA",
+  white: "#141414",
+  textMuted: "#4F4F4F",
+  textSubtle: "#6B6B6B",
+  orange: "#FF851B",
+  orangeText: "#B45309",
+  success: "#15803D",
+  danger: "#DC2626",
+  warning: "#B45309",
+  dangerSoft: "#991B1B",
+  successSoft: "#166534",
 } as const;
 
 export const radii = { sm: 8, md: 12, lg: 16, xl: 20 } as const;

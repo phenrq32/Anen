@@ -9,6 +9,7 @@ import { NavGroups, type NavGroup, type NavItem } from "@/components/nav-links";
 import { CommandPalette, SearchButton, type PaletteAction } from "@/components/command-palette";
 import { MobileTabBar, QUICK_ADD_EVENT } from "@/components/mobile-tabbar";
 import { NavProgress } from "@/components/nav-progress";
+import { Tour, type TourStep } from "@/components/tour";
 import { roleName } from "@/lib/errors";
 
 export function AppShell({
@@ -18,6 +19,7 @@ export function AppShell({
   overlay,
   unread = 0,
   canQuickAdd = false,
+  showTour = false,
 }: {
   m: Messages;
   session: SessionContext;
@@ -27,6 +29,8 @@ export function AppShell({
   unread?: number;
   /** Há contas e permissão: o botão "Registar" abre o registo rápido. */
   canQuickAdd?: boolean;
+  /** Tour de boas-vindas ainda não visto neste aparelho (cookie anen-tour). */
+  showTour?: boolean;
 }) {
   const unreadLabel = format(m.notifications.unreadCount, { count: unread });
   const n = m.nav;
@@ -69,6 +73,18 @@ export function AppShell({
     { id: "new-quote", label: m.dashboard.quick.quote, hint: m.dashboard.quick.quoteHint, icon: "file", href: "/orcamentos/novo" },
     { id: "ask", label: m.dashboard.quick.ask, hint: m.dashboard.quick.askHint, icon: "spark", href: "/ia" },
     { id: "new-org", label: n.newOrganization, icon: "building", href: "/organizacoes/nova" },
+    { id: "appearance", label: n.appearance, icon: "settings", href: "/definicoes#aparencia" },
+  ];
+
+  const ts = m.tour.steps;
+  const tourSteps: TourStep[] = [
+    { targets: ["health"], ...ts.health },
+    { targets: ["quick"], ...ts.quick },
+    { targets: ["register"], ...ts.register },
+    { targets: ["search"], ...ts.search },
+    { targets: ["more"], ...ts.more },
+    { targets: ["today"], ...ts.today },
+    { targets: ["settings"], ...ts.settings },
   ];
 
   const contextOptions = [
@@ -99,7 +115,7 @@ export function AppShell({
 
   const userRow = (
     <div className="flex shrink-0 items-center gap-3 border-t border-line px-1 pt-4">
-      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand to-[#ff5a1b] text-sm font-bold text-ink" aria-hidden>
+      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand to-[#ff5a1b] text-sm font-bold text-on-brand" aria-hidden>
         {initials}
       </span>
       <div className="min-w-0 flex-1">
@@ -176,6 +192,23 @@ export function AppShell({
         }
       />
       <CommandPalette groups={groups} actions={actions} labels={paletteLabels} />
+      <Suspense fallback={null}>
+        <Tour
+          steps={tourSteps}
+          autoStart={showTour}
+          labels={{
+            next: m.tour.next,
+            back: m.tour.back,
+            skip: m.tour.skip,
+            done: m.tour.done,
+            stepOf: m.tour.stepOf,
+            welcomeTitle: m.tour.welcomeTitle,
+            welcomeBody: m.tour.welcomeBody,
+            start: m.tour.start,
+            later: m.tour.later,
+          }}
+        />
+      </Suspense>
       {overlay}
     </div>
   );

@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Manrope } from "next/font/google";
+import { cookies } from "next/headers";
+import { parseTextSize, parseTheme, TEXT_COOKIE, THEME_COOKIE } from "@/lib/appearance";
 import { getLocale } from "@/lib/i18n";
 import "./globals.css";
 
@@ -16,15 +18,20 @@ export const metadata: Metadata = {
 export const preferredRegion = "dub1";
 
 export const viewport: Viewport = {
-  themeColor: "#090909",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#090909" },
+    { media: "(prefers-color-scheme: light)", color: "#f5f4f1" },
+  ],
   width: "device-width",
   initialScale: 1,
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const locale = await getLocale();
+  const [locale, cookieStore] = await Promise.all([getLocale(), cookies()]);
+  const theme = parseTheme(cookieStore.get(THEME_COOKIE)?.value);
+  const text = parseTextSize(cookieStore.get(TEXT_COOKIE)?.value);
   return (
-    <html lang={locale} className={`${inter.variable} ${manrope.variable}`}>
+    <html lang={locale} data-theme={theme} data-text={text} className={`${inter.variable} ${manrope.variable}`}>
       <body className="min-h-dvh">{children}</body>
     </html>
   );

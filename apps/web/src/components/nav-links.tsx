@@ -61,7 +61,7 @@ export function activeHref(pathname: string, items: NavItem[]): string | undefin
 function Badge({ badge }: { badge: NavItem["badge"] }) {
   if (!badge || badge.count <= 0) return null;
   return (
-    <span className="ml-auto rounded-full bg-brand px-2 py-0.5 text-xs font-semibold text-ink" aria-label={badge.label}>
+    <span className="ml-auto rounded-full bg-brand px-2 py-0.5 text-xs font-semibold text-on-brand" aria-label={badge.label}>
       {badge.count > 99 ? "99+" : badge.count}
     </span>
   );
@@ -84,6 +84,7 @@ export function NavGroups({ groups, onNavigate }: { groups: NavGroup[]; onNaviga
                   <Link
                     href={item.href}
                     onClick={onNavigate}
+                    data-tour={item.href === "/definicoes" ? "settings" : undefined}
                     aria-current={isActive ? "page" : undefined}
                     className={cx(
                       "nav-item group relative flex h-11 items-center gap-3 rounded-lg px-3 text-[15px] transition-all duration-200",
@@ -94,7 +95,7 @@ export function NavGroups({ groups, onNavigate }: { groups: NavGroup[]; onNaviga
                     <span
                       className={cx(
                         "grid size-8 place-items-center rounded-md transition-all duration-200",
-                        isActive ? "bg-brand text-ink" : "bg-graphite/60 text-muted group-hover:scale-110 group-hover:text-brand",
+                        isActive ? "bg-brand text-on-brand" : "bg-graphite/60 text-muted group-hover:scale-110 group-hover:text-brand",
                       )}
                     >
                       <NavIcon name={item.icon} className="size-[17px]" />

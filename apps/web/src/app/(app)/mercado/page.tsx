@@ -142,7 +142,7 @@ export default async function MarketPage({ searchParams }: { searchParams: Promi
             aria-current={c === country ? "page" : undefined}
             className={cx(
               "h-9 rounded-full border px-4 text-sm leading-9",
-              c === country ? "border-brand bg-brand text-ink font-semibold" : "border-line text-muted hover:border-brand hover:text-paper",
+              c === country ? "border-brand bg-brand text-on-brand font-semibold" : "border-line text-muted hover:border-brand hover:text-paper",
             )}
           >
             {t.countries[c]}

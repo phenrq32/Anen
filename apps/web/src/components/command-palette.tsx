@@ -92,7 +92,7 @@ export function CommandPalette({ groups, actions, labels }: { groups: NavGroup[]
           i === index ? "bg-brand/12 text-paper" : "text-muted",
         )}
       >
-        <span className={cx("grid size-8 place-items-center rounded-md", i === index ? "bg-brand text-ink" : "bg-graphite")}>
+        <span className={cx("grid size-8 place-items-center rounded-md", i === index ? "bg-brand text-on-brand" : "bg-graphite")}>
           <NavIcon name={a.icon} className="size-4" />
         </span>
         <span className="min-w-0 flex-1 truncate">{a.label}</span>
@@ -164,6 +164,7 @@ export function SearchButton({ label, shortcut, className }: { label: string; sh
     <button
       type="button"
       onClick={() => window.dispatchEvent(new Event(OPEN_PALETTE_EVENT))}
+      data-tour="search"
       className={cx(
         "flex h-11 w-full items-center gap-3 rounded-lg border border-line bg-graphite/40 px-3 text-[15px] text-muted transition-all hover:border-brand/40 hover:text-paper",
         className,

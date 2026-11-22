@@ -99,7 +99,7 @@ export default async function DashboardPage() {
 
   return (
     <>
-      <section className="shine relative overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-[#1a1410] via-surface to-surface p-5 sm:p-8">
+      <section className="shine relative overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-brand/10 via-surface to-surface p-5 sm:p-8">
         <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-brand/15 blur-3xl" aria-hidden />
         <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div className="flex min-w-0 flex-col gap-2">
@@ -108,7 +108,7 @@ export default async function DashboardPage() {
             <p className="text-[15px] text-muted">{active ? active.organization.name : m.dashboard.contextPersonal}</p>
           </div>
           {health ? (
-            <div className="flex flex-col items-center gap-4 sm:flex-row">
+            <div className="flex flex-col items-center gap-4 sm:flex-row" data-tour="health">
               <ScoreRing score={health.score} label={h.title} sublabel={h.outOf} tone={health.band} />
               <div className="flex min-w-0 flex-col gap-2 text-sm">
                 <span className="text-xs font-semibold uppercase tracking-[0.12em] text-subtle">{h.title}</span>
@@ -141,13 +141,13 @@ export default async function DashboardPage() {
         </div>
       </section>
 
-      <section aria-label={m.dashboard.quick.title} className="flex flex-col gap-3">
+      <section aria-label={m.dashboard.quick.title} className="flex flex-col gap-3" data-tour="quick">
         <h2 className="text-lg font-bold">{m.dashboard.quick.title}</h2>
         <div className="stagger grid grid-cols-2 gap-3 lg:grid-cols-4">
           {quick.map((q) =>
             q.href ? (
               <Link key={q.label} href={q.href} className="lift group flex min-h-28 flex-col justify-between gap-3 rounded-2xl border border-line bg-surface/80 p-4">
-                <span className="grid size-11 place-items-center rounded-xl bg-graphite text-brand transition-all duration-300 group-hover:scale-110 group-hover:bg-brand group-hover:text-ink">
+                <span className="grid size-11 place-items-center rounded-xl bg-graphite text-brand transition-all duration-300 group-hover:scale-110 group-hover:bg-brand group-hover:text-on-brand">
                   <NavIcon name={q.icon} className="size-5" />
                 </span>
                 <span className="flex flex-col">
@@ -163,7 +163,7 @@ export default async function DashboardPage() {
       </section>
 
       {intel ? (
-        <section aria-label={m.dashboard.today} className="flex flex-col gap-3">
+        <section aria-label={m.dashboard.today} className="flex flex-col gap-3" data-tour="today">
           <div className="flex items-center justify-between gap-3">
             <h2 className="text-lg font-bold">{m.dashboard.today}</h2>
             <Link href="/inteligencia?periodo=month" className="text-sm text-brand hover:underline">{m.dashboard.seeAll} →</Link>

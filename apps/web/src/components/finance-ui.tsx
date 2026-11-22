@@ -225,7 +225,7 @@ export function EmptyFinance({ m, canWrite }: { m: Messages; canWrite: boolean }
   return (
     <div className="flex flex-col items-start gap-4 rounded-xl border border-dashed border-graphite-soft p-6 sm:p-8">
       <svg viewBox="0 0 120 100" className="h-10 w-auto" aria-hidden>
-        <polyline points="6,90 36,58 58,76" fill="none" stroke="#353535" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
+        <polyline points="6,90 36,58 58,76" fill="none" stroke="var(--color-graphite-soft)" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
         <line x1="58" y1="76" x2="99" y2="25" stroke="#FF851B" strokeWidth="10" strokeLinecap="round" />
       </svg>
       <div>
@@ -233,7 +233,7 @@ export function EmptyFinance({ m, canWrite }: { m: Messages; canWrite: boolean }
         <p className="mt-1 max-w-lg text-sm text-muted">{m.finance.onboardingBody}</p>
       </div>
       {canWrite ? (
-        <Link href="/financas/contas" className="inline-flex h-11 items-center rounded-md bg-brand px-4 text-sm font-semibold text-ink hover:bg-brand-hover">
+        <Link href="/financas/contas" className="inline-flex h-11 items-center rounded-md bg-brand px-4 text-sm font-semibold text-on-brand hover:bg-brand-hover">
           {m.finance.account.new}
         </Link>
       ) : null}

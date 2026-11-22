@@ -62,8 +62,9 @@ export function QuickAdd({
     <>
       <button
         type="button"
+        data-tour="register"
         onClick={() => dialog.current?.showModal()}
-        className="fab fixed bottom-5 right-5 z-30 hidden h-14 items-center gap-2 rounded-full bg-brand px-5 text-sm font-semibold text-ink shadow-[0_8px_30px_rgba(255,133,27,0.25)] transition-transform hover:scale-[1.03] hover:bg-brand-hover active:scale-95 lg:bottom-8 lg:right-8 lg:flex"
+        className="fab fixed bottom-5 right-5 z-30 hidden h-14 items-center gap-2 rounded-full bg-brand px-5 text-sm font-semibold text-on-brand shadow-[0_8px_30px_rgba(255,133,27,0.25)] transition-transform hover:scale-[1.03] hover:bg-brand-hover active:scale-95 lg:bottom-8 lg:right-8 lg:flex"
         title={m.finance.tx.shortcutHint}
       >
         <span className="text-xl leading-none" aria-hidden>+</span>

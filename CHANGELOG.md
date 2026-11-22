@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.18.0] · 22/11/2026 · Aparência e tour de boas-vindas
+- Definições → Aparência: tema Escuro, Claro ou Automático (segue o aparelho) e texto Normal, Grande ou Muito grande (amplia letras, botões e espaços por igual). Muda na hora e fica guardado no aparelho (cookies anen-theme/anen-text); o servidor já desenha a página com a escolha, sem piscar. Atalho na procura (Ctrl+K).
+- Tema claro só troca as variáveis de cor: o texto sobre o laranja continua preto (cor nova on-brand) e o texto laranja passa a laranja-escuro para ter contraste sobre branco (regra da marca).
+- Tour de boas-vindas na 1ª visita ao painel: destaca a nota de saúde financeira, os atalhos, o botão Registar, a procura (ou "Mais" no telemóvel), os alertas e onde mudar a aparência. Pular, Voltar, Próximo, setas e Esc; tocar fora não fecha; passos sem o elemento na tela são saltados. Pode ser visto de novo em Definições.
+- Testes: 328 unitários (appearance.test.ts garante que toda cor do tema escuro tem par no claro) e o E2E appearance-tour.spec.ts.
+
 ## [0.17.0] · 22/11/2026 · Interface nova e mais rápida
 - Velocidade: as funções da Vercel passam a correr em Dublin (dub1), junto da base de dados (Supabase eu-west-1); antes corriam em Washington (iad1) e cada consulta atravessava o Atlântico. O layout e o painel fazem as consultas em paralelo. Barra de progresso instantânea ao mudar de página.
 - Navegação: menu agrupado (Dia a dia, Negócio, Análise, Conta) com ícones maiores e alvos de 44 px; no telemóvel, barra inferior fixa (Painel, Finanças, Registar, ANEN AI, Mais) com gaveta de todas as áreas; procura e comandos com Ctrl+K ou "/".
