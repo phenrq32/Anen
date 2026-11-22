@@ -50,28 +50,30 @@ test("painel: filtro de período nos totais", async ({ page }, info) => {
     await dialog.getByRole("button", { name: "Fechar" }).first().click();
   }
 
-  const kpis = async () => (await main.locator(".sr-only").allTextContents()).map((t) => t.replace(/\s/g, " ")).slice(0, 4);
+  // Valor exato (lido pelo leitor de ecrã; o número visível é animado) do cartão com esta etiqueta.
+  const tile = async (label: string) =>
+    ((await main.getByText(label, { exact: true }).locator("xpath=ancestor::div[1]").locator(".sr-only").first().textContent()) ?? "").replace(/\s/g, " ");
 
   await page.goto("/painel");
   const nav = main.getByRole("navigation", { name: "Período dos totais" });
   await expect(nav.getByRole("link", { name: "Este mês" })).toHaveAttribute("aria-current", "page");
   await expect(main.getByText("Despesas do mês")).toBeVisible();
-  expect((await kpis())[2]).toBe("10,00 €");
+  expect(await tile("Despesas do mês")).toBe("10,00 €");
 
   await nav.getByRole("link", { name: "3 meses" }).click();
   await expect(page).toHaveURL(/periodo=quarter/);
   await expect(main.getByText("Despesas (3 meses)")).toBeVisible();
-  await expect.poll(async () => (await kpis())[2]).toBe("40,00 €");
+  await expect.poll(() => tile("Despesas (3 meses)")).toBe("40,00 €");
   await expect(main.getByText(/3 meses anteriores: 0,00\s€/).first()).toBeVisible();
 
   await nav.getByRole("link", { name: "12 meses" }).click();
   await expect(page).toHaveURL(/periodo=year/);
   await expect(main.getByText("Despesas (12 meses)")).toBeVisible();
-  await expect.poll(async () => (await kpis())[2]).toBe("40,00 €");
+  await expect.poll(() => tile("Despesas (12 meses)")).toBe("40,00 €");
 
   await nav.getByRole("link", { name: "Este mês" }).click();
   await expect(page).toHaveURL(/\/painel$/);
-  await expect.poll(async () => (await kpis())[2]).toBe("10,00 €");
+  await expect.poll(() => tile("Despesas do mês")).toBe("10,00 €");
 
   // Sem deslocamento horizontal (telemóvel incluído)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
