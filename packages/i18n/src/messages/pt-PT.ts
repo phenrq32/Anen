@@ -1725,6 +1725,7 @@ export const ptPT = {
     a11y: {
       title: "Acessibilidade",
       body: "Ajustes para ler e usar a ANEN com mais conforto. Cada opção liga ou desliga na hora e fica guardada neste aparelho.",
+      saved: "Acessibilidade guardada neste aparelho.",
       options: {
         motion: { title: "Reduzir animações", hint: "Desliga movimentos, brilhos e transições, mesmo que o aparelho não o peça." },
         contrast: { title: "Alto contraste", hint: "Textos secundários e contornos bem mais fortes." },

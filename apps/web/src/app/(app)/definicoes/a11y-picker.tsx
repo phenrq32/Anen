@@ -51,8 +51,9 @@ export function A11yPicker({ m, initial }: { m: Messages; initial: A11yOption[] 
           );
         })}
       </ul>
-      <p role="status" aria-live="polite" className={cx("text-sm transition-opacity", saved ? "text-success opacity-100" : "opacity-0")}>
-        ✓ {m.settings.appearance.saved}
+      {/* A região existe sempre (anuncia a mudança); o texto só aparece depois de mexer aqui. */}
+      <p role="status" aria-live="polite" className="min-h-5 text-sm text-success">
+        {saved ? `✓ ${m.settings.a11y.saved}` : ""}
       </p>
     </div>
   );
