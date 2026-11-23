@@ -29,6 +29,7 @@ export default async function FinanceLayout({ children }: { children: React.Reac
               { href: "/financas/orcamentos", label: m.finance.tabs.budgets },
               { href: "/financas/recorrentes", label: m.finance.tabs.recurring },
               { href: "/financas/categorias", label: m.finance.tabs.categories },
+              ...(scope.canWrite ? [{ href: "/financas/importar", label: m.finance.tabs.import }] : []),
               ...(businessScope(session).canRead ? [{ href: "/financas/centros-de-custo", label: m.finance.tabs.costCenters }] : []),
             ]}
           />

@@ -7,3 +7,4 @@ export * from "./quote";
 export * from "./business";
 export * from "./inventory";
 export * from "./invoicing";
+export * from "./bank-import";

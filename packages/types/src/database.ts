@@ -168,7 +168,7 @@ export type Database = {
       >;
       transactions: Table<
         FinanceTransaction,
-        Scope & TxWrite,
+        Scope & TxWrite & { import_ref?: string | null },
         Partial<TxWrite>
       >;
       recurring_transactions: Table<
