@@ -674,6 +674,11 @@ export const ptPT = {
         partial: "Parcialmente liquidado",
       },
       settled: "Valor já liquidado",
+      statusOptions: {
+        expense: { paid: "Já pago", pending: "Por pagar", partial: "Pago em parte" },
+        income: { paid: "Já recebido", pending: "Por receber", partial: "Recebido em parte" },
+      },
+      pendingHint: "Fica em “A receber e a pagar” até o marcar como liquidado.",
       paymentMethod: "Método de pagamento",
       noPaymentMethod: "Não indicado",
       paymentMethods: {

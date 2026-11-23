@@ -79,4 +79,26 @@ test("a receber e a pagar: registar, editar, liquidar e eliminar na própria pá
   await main.getByRole("region", { name: "A pagar" }).getByRole("button", { name: "Eliminar" }).click();
   await expect(main.getByText("Renda de dezembro")).toHaveCount(0);
   await expect(main.getByText("Não há valores em aberto.")).toHaveCount(2);
+
+  // Também no registo rápido (tecla N): "Por pagar" com vencimento vai para "A pagar"
+  await page.goto("/financas");
+  await page.keyboard.press("n");
+  const dialog = page.getByRole("dialog");
+  await expect(dialog.getByRole("heading", { name: "Registo rápido" })).toBeVisible();
+  await expect(dialog.getByLabel("Vencimento")).toHaveCount(0);
+  await dialog.getByLabel(/^Valor/).fill("89,90");
+  await dialog.getByLabel("Descrição").fill("Internet de dezembro");
+  await dialog.getByLabel("Estado do pagamento").selectOption({ label: "Por pagar" });
+  await dialog.getByLabel(/^Vencimento/).fill("2026-12-20");
+  await dialog.getByRole("button", { name: "Guardar" }).click();
+  await expect(dialog.getByText("Movimento registado.", { exact: false })).toBeVisible();
+  await page.goto("/financas/em-aberto");
+  const quick = main.getByRole("region", { name: "A pagar" });
+  await expect(quick.getByText("Internet de dezembro")).toBeVisible();
+  await expect(quick.getByText("89,90 €").first()).toBeVisible();
+
+  // Numa receita, as opções falam em receber
+  await page.goto("/financas/movimentos");
+  await main.getByText("Receita", { exact: true }).first().click();
+  await expect(main.getByLabel("Estado do pagamento").locator("option")).toHaveText(["Já recebido", "Por receber", "Recebido em parte"]);
 });

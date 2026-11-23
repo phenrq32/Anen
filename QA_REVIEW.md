@@ -29,7 +29,7 @@ Gravidade: crítico · alto · médio · baixo. Estado: **corrigido** (com teste
 | QA-03 | Contexto ativo (`user_preferences.active_organization_id`) | Com duas abas em contextos diferentes, um formulário grava no contexto ativo no momento de gravar, não no que estava no ecrã | Alto | Pendente (Fase 3/4) |
 | QA-04 | Menu (`components/app-shell.tsx`) | O espaço pessoal mostra os módulos de empresa (Compras, Inventário, Faturação, Fichas técnicas) | Médio | Pendente (Fase 4) |
 | QA-05 | `financas/importar/actions.ts:110` | As categorias são lidas sem filtro de contexto. A base de dados recusa categorias de outro espaço (`category_invalid`), mas a importação falharia inteira em vez de ignorar a categoria | Baixo | Pendente |
-| QA-06 | Registo rápido (tecla N) | Não permite marcar um valor como pendente; só "pago" | Baixo | Pendente: agora resolve-se em "A receber e a pagar". Decisão sua: acrescentar ou não |
+| QA-06 | Lançar receita ou despesa (registo rápido e Movimentos) | "Por pagar/Por receber" só existia escondido em "Mais detalhes" e não existia no registo rápido. Reportado pelo utilizador: "não consegui adicionar valores no a receber e a pagar" | Alto | **Corrigido** |
 | QA-07 | `switchContextAction` | Se a gravação da preferência falhar, não mostra erro e vai para o painel no contexto antigo | Baixo | Corrigido na Fase 2 (sem teste automático do caminho de erro) |
 | QA-08 | E2E | Correm contra produção e criam contas reais temporárias; falta staging | Médio | Decisão sua (precisa de um projeto Supabase de staging) |
 | QA-09 | Repositório | Não há linter (ESLint ou equivalente); só `tsc` | Baixo | Pendente |
@@ -72,3 +72,15 @@ Gravidade: crítico · alto · médio · baixo. Estado: **corrigido** (com teste
 - E2E na app local ligada a produção (sem a migration 2700, que a app só usa quando falta o espaço pessoal): `accounts`, `finance`, `business`, `open-items` e `notifications-reports`, 14 a passar em desktop e telemóvel.
 - Identidade visual: `git diff` vazio na zona protegida.
 - Nenhum problema novo.
+
+## QA-06 · Estado do pagamento visível ao lançar (corrigido a 23/11/2026)
+
+- **Pedido do utilizador:** poder escolher "a receber / a pagar" no momento de lançar uma receita ou despesa.
+- **Correção:**
+  - "Estado do pagamento" sai de "Mais detalhes" e fica sempre visível, logo a seguir ao valor, em Movimentos, em "A receber e a pagar" e no registo rápido (tecla N).
+  - As opções dependem do tipo: despesa "Já pago / Por pagar / Pago em parte"; receita "Já recebido / Por receber / Recebido em parte". O registo rápido tem só as duas primeiras.
+  - O vencimento aparece quando o valor ainda não foi pago, com uma nota a dizer que fica em "A receber e a pagar".
+  - Na ação, o estado do pagamento é tratado à parte dos restantes detalhes: o registo rápido grava o estado sem apagar contacto, projeto nem imposto, e num movimento pago o vencimento antigo mantém-se.
+- **Testes:** `e2e/open-items.spec.ts` alargado (registo rápido "Por pagar" com vencimento aparece em "A pagar"; opções de receita). `business`, `finance`, `notifications-reports` e `recurring-attachments` continuam a passar (10 E2E, desktop e telemóvel).
+- **Nota:** `intelligence.spec.ts` falha localmente só no passo do resumo da IA, porque a app local não tem a chave do Gemini e mostra "IA não configurada". Os passos de lançamento desse teste passam.
+- **Ainda não está em produção:** o site publicado continua na versão anterior até ao deploy.

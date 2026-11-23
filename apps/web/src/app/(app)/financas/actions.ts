@@ -143,16 +143,9 @@ export async function saveTransactionAction(_: FormState, formData: FormData): P
   const amount = parseAmountInput(v.amount, account.minorUnit);
   if (amount === null || amount <= 0n) return { status: "error", fieldErrors: { amount: m.errors.amount_invalid } };
 
-  // Detalhes só existem no formulário completo; o registo rápido não os envia e não os altera.
-  const withDetails = formData.has("settlement");
-  let details = {};
-  if (withDetails) {
-    let tax: bigint | null = null;
-    if (v.tax) {
-      tax = parseAmountInput(v.tax, account.minorUnit);
-      if (tax === null || tax < 0n) return { status: "error", fieldErrors: { tax: m.errors.amount_invalid } };
-      if (tax > amount) return { status: "error", fieldErrors: { tax: m.errors.tax_invalid } };
-    }
+  // Estado do pagamento: vem de todos os formulários de lançamento, incluindo o registo rápido.
+  let settlementFields = {};
+  if (formData.has("settlement")) {
     let settled = amount;
     if (v.settlement === "pending") settled = 0n;
     if (v.settlement === "partial") {
@@ -160,15 +153,29 @@ export async function saveTransactionAction(_: FormState, formData: FormData): P
       if (partial === null || partial <= 0n || partial >= amount) return { status: "error", fieldErrors: { settled: m.errors.settled_invalid } };
       settled = partial;
     }
+    settlementFields = {
+      settled_minor: Number(settled),
+      // O vencimento só aparece quando falta pagar; num movimento pago mantém-se o que já tinha.
+      ...(formData.has("dueOn") ? { due_on: v.dueOn } : {}),
+    };
+  }
+
+  // Detalhes só existem no formulário completo; o registo rápido não os envia e não os altera.
+  let details = {};
+  if (formData.has("details")) {
+    let tax: bigint | null = null;
+    if (v.tax) {
+      tax = parseAmountInput(v.tax, account.minorUnit);
+      if (tax === null || tax < 0n) return { status: "error", fieldErrors: { tax: m.errors.amount_invalid } };
+      if (tax > amount) return { status: "error", fieldErrors: { tax: m.errors.tax_invalid } };
+    }
     details = {
       contact_id: v.contactId,
       project_id: v.projectId,
       cost_center_id: v.costCenterId,
       cost_kind: v.kind === "expense" ? v.costKind : null,
-      due_on: v.dueOn,
       net_minor: tax === null ? null : Number(amount - tax),
       tax_minor: tax === null ? null : Number(tax),
-      settled_minor: Number(settled),
       payment_method: v.paymentMethod,
       document_ref: v.documentRef,
     };
@@ -196,6 +203,7 @@ export async function saveTransactionAction(_: FormState, formData: FormData): P
     description: v.description,
     counterparty: v.counterparty,
     notes: v.notes,
+    ...settlementFields,
     ...details,
   };
   const result = v.id

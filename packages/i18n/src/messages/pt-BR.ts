@@ -675,6 +675,11 @@ export const ptBR: Messages = {
         partial: "Parcialmente liquidado",
       },
       settled: "Valor já liquidado",
+      statusOptions: {
+        expense: { paid: "Já pago", pending: "Por pagar", partial: "Pago em parte" },
+        income: { paid: "Já recebido", pending: "Por receber", partial: "Recebido em parte" },
+      },
+      pendingHint: "Fica em “A receber e a pagar” até você marcá-lo como liquidado.",
       paymentMethod: "Forma de pagamento",
       noPaymentMethod: "Não informado",
       paymentMethods: {

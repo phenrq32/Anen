@@ -121,7 +121,6 @@ function TransactionDetails({
   links,
   initial,
   defaultProjectId,
-  defaultSettlement,
   errors,
 }: {
   m: Messages;
@@ -130,22 +129,17 @@ function TransactionDetails({
   links: TransactionLinks;
   initial?: TransactionInitial | undefined;
   defaultProjectId?: string | undefined;
-  defaultSettlement?: Settlement | undefined;
   errors?: Record<string, string> | undefined;
 }) {
-  const [settlement, setSettlement] = useState<Settlement>(initial?.settlement ?? defaultSettlement ?? "paid");
   const hasDetails = Boolean(
     defaultProjectId ||
-      (defaultSettlement && defaultSettlement !== "paid") ||
       initial?.contactId ||
       initial?.projectId ||
       initial?.costCenterId ||
       initial?.costKind ||
-      initial?.dueOn ||
       initial?.tax ||
       initial?.paymentMethod ||
-      initial?.documentRef ||
-      (initial?.settlement && initial.settlement !== "paid"),
+      initial?.documentRef,
   );
   const contacts = links.contacts.filter((c) => c.kind === "both" || c.kind === (kind === "income" ? "client" : "supplier"));
   const projects = links.projects.filter(
@@ -161,6 +155,8 @@ function TransactionDetails({
         </svg>
       </summary>
       <div className="flex flex-col gap-4 border-t border-line p-4">
+        {/* Marca que os detalhes vieram no formulário (o registo rápido não os envia e não os altera). */}
+        <input type="hidden" name="details" value="1" />
         <div className="grid gap-4 sm:grid-cols-2">
           <SelectField
             key={`contact-${kind}`}
@@ -200,30 +196,6 @@ function TransactionDetails({
           ) : null}
         </div>
         <div className="grid gap-4 sm:grid-cols-3">
-          <SelectField
-            name="settlement"
-            label={t.settlement}
-            value={settlement}
-            onChange={(e) => setSettlement(e.target.value as Settlement)}
-            options={(["paid", "pending", "partial"] as const).map((k) => ({ value: k, label: t.settlements[k] }))}
-            error={errors?.settlement}
-          />
-          {settlement === "partial" ? (
-            <Field
-              name="settled"
-              label={t.settled}
-              inputMode="decimal"
-              autoComplete="off"
-              placeholder="0,00"
-              defaultValue={initial?.settled ?? ""}
-              required
-              error={errors?.settled}
-              className="tabular"
-            />
-          ) : null}
-          <Field name="dueOn" type="date" label={t.dueOn} optionalLabel={m.common.optional} defaultValue={initial?.dueOn ?? ""} error={errors?.dueOn} />
-        </div>
-        <div className="grid gap-4 sm:grid-cols-3">
           <Field
             name="tax"
             label={t.tax}
@@ -247,6 +219,61 @@ function TransactionDetails({
         </div>
       </div>
     </details>
+  );
+}
+
+/**
+ * Estado do pagamento, sempre visível ao lançar (também no registo rápido): já pago, por pagar ou em parte.
+ * Por pagar ou em parte fica em "A receber e a pagar", com vencimento opcional.
+ */
+function SettlementFields({
+  m,
+  kind,
+  initial,
+  defaultSettlement,
+  errors,
+  compact,
+}: {
+  m: Messages;
+  kind: TransactionKind;
+  initial?: TransactionInitial | undefined;
+  defaultSettlement?: Settlement | undefined;
+  errors?: Record<string, string> | undefined;
+  compact: boolean;
+}) {
+  const t = m.finance.tx;
+  const [settlement, setSettlement] = useState<Settlement>(initial?.settlement ?? defaultSettlement ?? "paid");
+  const labels = t.statusOptions[kind];
+  return (
+    <div className="flex flex-col gap-2">
+      <div className={cx("grid gap-4", compact ? "grid-cols-2" : "sm:grid-cols-3")}>
+        <SelectField
+          name="settlement"
+          label={t.settlement}
+          value={settlement}
+          onChange={(e) => setSettlement(e.target.value as Settlement)}
+          options={(compact ? (["paid", "pending"] as const) : (["paid", "pending", "partial"] as const)).map((k) => ({ value: k, label: labels[k] }))}
+          error={errors?.settlement}
+        />
+        {settlement === "partial" ? (
+          <Field
+            name="settled"
+            label={t.settled}
+            inputMode="decimal"
+            autoComplete="off"
+            placeholder="0,00"
+            defaultValue={initial?.settled ?? ""}
+            required
+            error={errors?.settled}
+            className="tabular"
+          />
+        ) : null}
+        {settlement !== "paid" ? (
+          <Field name="dueOn" type="date" label={t.dueOn} optionalLabel={m.common.optional} defaultValue={initial?.dueOn ?? ""} error={errors?.dueOn} />
+        ) : null}
+      </div>
+      {settlement !== "paid" ? <p className="pop-in text-xs text-muted">{t.pendingHint}</p> : null}
+    </div>
   );
 }
 
@@ -365,6 +392,14 @@ export function TransactionFields({
           className={compact ? "col-span-2" : undefined}
         />
       </div>
+      <SettlementFields
+        m={m}
+        kind={kind}
+        initial={initial}
+        defaultSettlement={defaults.settlement}
+        errors={errors}
+        compact={compact}
+      />
       <Field
         name="description"
         label={m.finance.tx.description}
@@ -406,7 +441,7 @@ export function TransactionFields({
         <Field name="notes" label={m.finance.tx.notes} optionalLabel={m.common.optional} defaultValue={initial?.notes ?? ""} maxLength={1000} error={errors?.notes} />
       )}
       {links && !compact ? (
-        <TransactionDetails m={m} kind={kind} currency={currency} links={links} initial={initial} defaultProjectId={defaults.projectId} defaultSettlement={defaults.settlement} errors={errors} />
+        <TransactionDetails m={m} kind={kind} currency={currency} links={links} initial={initial} defaultProjectId={defaults.projectId} errors={errors} />
       ) : null}
     </>
   );

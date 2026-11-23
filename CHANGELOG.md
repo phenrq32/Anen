@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.24.1] · 23/11/2026 · Estado do pagamento visível ao lançar
+- "Estado do pagamento" sempre visível ao lançar, também no registo rápido. Despesa: Já pago / Por pagar / Pago em parte. Receita: Já recebido / Por receber / Recebido em parte. O vencimento aparece quando falta pagar. Antes, a opção estava escondida em "Mais detalhes" e não existia no registo rápido (QA-06).
+- A ação trata o estado do pagamento à parte dos detalhes: o registo rápido não apaga contacto, projeto nem imposto, e um movimento pago mantém o vencimento.
+- Testes: 429 unitários; E2E `open-items` alargado (registo rápido por pagar).
+
 ## [0.24.0] · 23/11/2026 · Dual Workspace, Fase 2: workspaces, conta única e membros
 - Migration 2700 (só acrescenta, não altera dados): vistas só de leitura `workspaces` (o pessoal e as organizações de que a pessoa é membro ativo) e `workspace_members`; `can_access_workspace`; `ensure_personal_workspace` (idempotente).
 - `lib/workspace.ts`: workspace ativo, âmbito por módulo, lista, chave de cache e resolução que recusa organizações de que a pessoa não é membro. `financeScope`, `businessScope` e `quotesScope` passam a derivar daqui.
