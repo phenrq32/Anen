@@ -22,6 +22,22 @@ export default async function SettingsPage() {
   return (
     <>
       <PageHeader title={m.settings.title} />
+      <nav aria-label={m.settings.jumpTo} className="glass sticky top-16 z-20 -mx-1 flex gap-2 overflow-x-auto rounded-2xl border p-1.5 lg:top-4">
+        {(
+          [
+            ["aparencia", m.settings.appearance.title],
+            ["acessibilidade", m.settings.a11y.title],
+            ["areas", m.settings.modules.title],
+            ["perfil", m.settings.profileTitle],
+            ["preferencias", m.settings.preferencesTitle],
+            ["conta", m.settings.danger.title],
+          ] as const
+        ).map(([id, label]) => (
+          <a key={id} href={`#${id}`} className="shrink-0 rounded-xl px-3.5 py-2 text-sm text-muted transition-colors hover:bg-graphite hover:text-paper">
+            {label}
+          </a>
+        ))}
+      </nav>
       <div id="aparencia" className="scroll-mt-24">
         <Section title={m.settings.appearance.title} description={m.settings.appearance.body}>
           <AppearancePicker
@@ -56,9 +72,12 @@ export default async function SettingsPage() {
           />
         </Section>
       </div>
+      <div id="perfil" className="scroll-mt-24">
       <Section title={m.settings.profileTitle}>
         <ProfileForm m={m} fullName={session.profile.full_name ?? ""} email={session.user.email} />
       </Section>
+      </div>
+      <div id="preferencias" className="scroll-mt-24">
       <Section title={m.settings.preferencesTitle} description={m.settings.preferencesBody}>
         <PreferencesForm
           m={m}
@@ -66,6 +85,7 @@ export default async function SettingsPage() {
           defaults={{ countryCode: p.country_code ?? "PT", languageCode: p.language_code, currencyCode: p.currency_code, timezone: p.timezone }}
         />
       </Section>
+      </div>
       <div id="conta" className="scroll-mt-24">
         <Section title={m.settings.danger.title} description={m.settings.danger.body}>
           <DangerAction

@@ -14,11 +14,13 @@ export function QuickAdd({
   accounts,
   categories,
   today,
+  memory,
 }: {
   m: Messages;
   accounts: AccountOption[];
   categories: CategoryOption[];
   today: string;
+  memory?: Record<string, string>;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [round, setRound] = useState(0);
@@ -97,7 +99,7 @@ export function QuickAdd({
               {state.message} <span className="font-medium">«{lastDescription}»</span>
             </Alert>
           ) : null}
-          <TransactionFields m={m} accounts={accounts} categories={categories} defaults={{ date: today }} errors={state.fieldErrors} compact />
+          <TransactionFields m={m} accounts={accounts} categories={categories} defaults={{ date: today }} errors={state.fieldErrors} compact memory={memory} />
           <div className="flex items-center justify-between gap-3">
             <span className="text-xs text-subtle">{m.finance.tx.shortcutHint}</span>
             <div className="flex gap-2">

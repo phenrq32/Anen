@@ -323,12 +323,24 @@ export function QuoteEditor({
                 <p className="border-t border-line pt-4 text-sm text-danger">{m.quotes.summary.invalid}</p>
               )}
               {readOnly ? null : (
-                <SubmitButton pendingLabel={m.common.saving} className="w-full">
+                <SubmitButton pendingLabel={m.common.saving} className="w-full max-xl:hidden">
                   {m.quotes.save}
                 </SubmitButton>
               )}
             </section>
           </aside>
+          {/* Telemóvel e ecrãs médios: total e "Guardar" sempre à mão, por cima da barra inferior. */}
+          {readOnly ? null : (
+            <div className="glass fixed inset-x-3 bottom-[calc(76px+env(safe-area-inset-bottom))] z-30 flex items-center justify-between gap-3 rounded-2xl border px-4 py-2.5 lg:bottom-6 lg:left-[300px] lg:right-8 xl:hidden">
+              <span className="flex min-w-0 flex-col">
+                <span className="text-xs text-subtle">{m.quotes.summary.total}</span>
+                <span className="tabular truncate text-lg font-bold text-brand">{b ? fmt(b.total.amountMinor) : "—"}</span>
+              </span>
+              <SubmitButton pendingLabel={m.common.saving} className="h-11 shrink-0 px-5">
+                {m.quotes.save}
+              </SubmitButton>
+            </div>
+          )}
         </fieldset>
       )}
     </ActionForm>

@@ -1,5 +1,6 @@
 "use client";
 
+import { suggestCategory } from "@/lib/category-memory";
 import { useState } from "react";
 import { format, type Messages } from "@anen/i18n";
 import type { TransactionKind } from "@anen/types";
@@ -243,6 +244,7 @@ export function TransactionFields({
   errors,
   compact = false,
   links,
+  memory,
 }: {
   m: Messages;
   accounts: AccountOption[];
@@ -252,15 +254,40 @@ export function TransactionFields({
   errors?: Record<string, string> | undefined;
   compact?: boolean;
   links?: TransactionLinks | undefined;
+  /** Categoria usada da última vez para cada descrição (lib/category-memory). */
+  memory?: Record<string, string> | undefined;
 }) {
   const [kind, setKind] = useState<TransactionKind>(initial?.kind ?? "expense");
+  const [categoryId, setCategoryId] = useState(initial?.categoryId ?? "");
+  const [suggested, setSuggested] = useState(false);
+  // A pessoa escolheu a categoria à mão: a memória deixa de mexer nela.
+  const [manualCategory, setManualCategory] = useState(Boolean(initial?.categoryId));
+  const [description, setDescription] = useState(initial?.description ?? "");
+  const suggestFor = (k: TransactionKind, description: string) => {
+    if (!memory || manualCategory) return;
+    const id = suggestCategory(memory, k, description);
+    if (id && categories.some((c) => c.id === id && c.kind === k)) {
+      setCategoryId(id);
+      setSuggested(true);
+    } else if (suggested) {
+      setCategoryId("");
+      setSuggested(false);
+    }
+  };
   const [accountId, setAccountId] = useState(initial?.accountId ?? defaults.accountId ?? accounts[0]?.id ?? "");
   const currency = accounts.find((a) => a.id === accountId)?.currency ?? "";
   const filtered = categories.filter((c) => c.kind === kind);
   return (
     <>
       {initial ? <input type="hidden" name="id" value={initial.id} /> : null}
-      <KindToggle m={m} value={kind} onChange={setKind} />
+      <KindToggle
+        m={m}
+        value={kind}
+        onChange={(k) => {
+          setKind(k);
+          suggestFor(k, description);
+        }}
+      />
       <div className={cx("grid gap-4", compact ? "grid-cols-2" : "sm:grid-cols-3")}>
         <Field
           name="amount"
@@ -284,16 +311,34 @@ export function TransactionFields({
           className={compact ? "col-span-2" : undefined}
         />
       </div>
-      <Field name="description" label={m.finance.tx.description} defaultValue={initial?.description} required maxLength={200} error={errors?.description} />
+      <Field
+        name="description"
+        label={m.finance.tx.description}
+        defaultValue={initial?.description}
+        required
+        maxLength={200}
+        error={errors?.description}
+        onChange={(e) => {
+          setDescription(e.target.value);
+          suggestFor(kind, e.target.value);
+        }}
+      />
       <div className="grid gap-4 sm:grid-cols-2">
-        <SelectField
-          key={kind}
-          name="categoryId"
-          label={m.finance.tx.category}
-          defaultValue={initial?.kind === kind ? (initial.categoryId ?? "") : ""}
-          options={[{ value: "", label: m.finance.tx.noCategory }, ...filtered.map((c) => ({ value: c.id, label: c.label }))]}
-          error={errors?.categoryId}
-        />
+        <div className="flex flex-col gap-1">
+          <SelectField
+            name="categoryId"
+            label={m.finance.tx.category}
+            value={filtered.some((c) => c.id === categoryId) ? categoryId : ""}
+            onChange={(e) => {
+              setCategoryId(e.target.value);
+              setManualCategory(true);
+              setSuggested(false);
+            }}
+            options={[{ value: "", label: m.finance.tx.noCategory }, ...filtered.map((c) => ({ value: c.id, label: c.label }))]}
+            error={errors?.categoryId}
+          />
+          {suggested ? <p className="pop-in text-xs text-brand">{m.finance.tx.categoryRemembered}</p> : null}
+        </div>
         <Field
           name="counterparty"
           label={m.finance.tx.counterparty}

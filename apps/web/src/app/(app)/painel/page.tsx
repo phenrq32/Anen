@@ -302,7 +302,6 @@ export default async function DashboardPage({
               </div>
             </Section>
           )}
-          <div className="grid gap-6 md:grid-cols-2">
             <Section title={m.dashboard.quotesTitle}>
               {!qScope.canRead ? (
                 <p className="text-sm text-muted">{m.errors.forbidden}</p>
@@ -329,10 +328,7 @@ export default async function DashboardPage({
                 </ul>
               )}
             </Section>
-            <Section title={m.dashboard.requestsTitle}>
-              <p className="text-sm text-muted">{m.dashboard.requestsNotActive}</p>
-            </Section>
-          </div>
+
         </div>
 
         <aside className="flex flex-col gap-6">
