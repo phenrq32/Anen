@@ -37,7 +37,10 @@ test("menu por workspace e abas sincronizadas", async ({ page, context }, info) 
   await page.getByText("Finanças pessoais", { exact: true }).click();
   await page.getByRole("button", { name: "Concluir" }).click();
   await page.waitForURL(/\/painel/);
-  for (const label of ["Painel", "Finanças", "Notificações"]) await expect(nav.getByRole("link", { name: label, exact: true })).toBeVisible();
+  // Menu pessoal (Fase 5): Hoje, movimentos, orçamento, contas, assinaturas, dívidas, calendário e análises
+  for (const label of ["Hoje", "Movimentos", "Orçamento e objetivos", "Contas", "Assinaturas", "Dívidas", "Calendário", "Notificações", "Análises", "ANEN AI"]) {
+    await expect(nav.getByRole("link", { name: label, exact: true })).toBeVisible();
+  }
   for (const label of ["Compras", "Inventário", "Faturação", "Projetos", "Orçamentos"]) await expect(nav.getByRole("link", { name: label, exact: true })).toHaveCount(0);
   await expect(nav.getByText(/Orçamentos, faturação, projetos, compras e inventário ficam nas organizações/)).toBeVisible();
 

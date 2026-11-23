@@ -23,6 +23,7 @@ import { roleName } from "@/lib/errors";
 import { getI18n } from "@/lib/i18n";
 import { INVITATION_COLUMNS, profileNames, recentAudit } from "@/lib/org-data";
 import { can, requireOnboardedSession } from "@/lib/session";
+import { PersonalToday } from "@/components/personal-today";
 
 export const metadata: Metadata = { title: "Painel" };
 
@@ -284,6 +285,18 @@ export default async function DashboardPage({
                 </ButtonLink>
               </Section>
             </div>
+            {active ? null : (
+              <PersonalToday
+                m={m}
+                locale={locale}
+                supabase={supabase}
+                scope={scope}
+                today={finance.today}
+                minorUnits={finance.basics.minorUnits}
+                budgets={finance.budgets}
+                goals={finance.goals}
+              />
+            )}
             <BusinessOverview m={m} locale={locale} supabase={supabase} fin={scope} biz={biz} minorUnits={finance.basics.minorUnits} />
           </>
         )}

@@ -45,7 +45,44 @@ export function AppShell({
   const item = (href: string, label: string, icon: NavItem["icon"], badge?: NavItem["badge"]): NavItem => ({ href, label, icon, ...(badge ? { badge } : {}) });
   const notifications = item("/notificacoes", n.notifications, "bell", { count: unread, label: unreadLabel });
 
-  const allGroups: NavGroup[] = [
+  // Espaço pessoal (Fase 5, §5): menu da vida financeira individual. As empresas mantêm o menu operacional.
+  const personalGroups: NavGroup[] = [
+    {
+      label: n.groups.daily,
+      items: [
+        item("/painel", n.today, "grid"),
+        item("/financas/movimentos", n.movements, "wallet"),
+        item("/financas/orcamentos", n.budgetGoals, "chart"),
+        item("/financas/contas", n.accountsNav, "building"),
+        item("/financas/assinaturas", n.subscriptionsNav, "receipt"),
+        item("/financas/dividas", n.debtsNav, "file"),
+        item("/financas/calendario", n.calendarNav, "report"),
+        notifications,
+      ],
+    },
+    {
+      label: n.groups.insights,
+      items: [item("/financas", n.financeSummary, "chart"), item("/relatorios", n.analysis, "report"), item("/inteligencia", n.intelligence, "bulb"), item("/ia", n.ai, "spark")],
+    },
+    {
+      label: n.groups.business,
+      items: [
+        item("/orcamentos", n.quotes, "file"),
+        item("/faturacao", n.invoicing, "receipt"),
+        item("/projetos", n.projects, "briefcase"),
+        item("/compras", n.purchases, "cart"),
+        item("/inventario", n.inventory, "box"),
+        item("/restauracao", n.recipes, "chef"),
+        item("/mercado", n.market, "chart"),
+      ],
+    },
+    {
+      label: n.groups.account,
+      items: [item("/contactos", n.contacts, "contacts"), item("/planos", n.plans, "spark"), item("/definicoes", n.settings, "settings")],
+    },
+  ];
+
+  const businessGroups: NavGroup[] = [
     {
       label: n.groups.daily,
       items: [item("/painel", n.dashboard, "grid"), item("/financas", n.finance, "wallet"), notifications, item("/contactos", n.contacts, "contacts")],
@@ -76,6 +113,8 @@ export function AppShell({
       ],
     },
   ];
+
+  const allGroups = session.active ? businessGroups : personalGroups;
 
   // Áreas que a pessoa escondeu (Definições → Áreas do menu) saem do menu, da barra e da procura.
   // Escondidas pela pessoa (Definições → Áreas do menu) e pelo workspace ativo (pessoal ou permissões).
@@ -220,7 +259,7 @@ export function AppShell({
 
       <MobileTabBar
         tabs={[
-          item("/painel", n.dashboard, "grid"),
+          item("/painel", session.active ? n.dashboard : n.today, "grid"),
           ...(isHiddenHref("/financas", hidden) ? [] : [item("/financas", n.finance, "wallet")]),
           hidden.has("ia") ? notifications : item("/ia", n.ai, "spark"),
         ]}

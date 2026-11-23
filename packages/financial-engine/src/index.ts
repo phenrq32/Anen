@@ -14,3 +14,4 @@ export * from "./insights";
 export * from "./intelligence";
 export * from "./health";
 export * from "./installments";
+export * from "./commitments";

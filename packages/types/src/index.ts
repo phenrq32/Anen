@@ -282,6 +282,8 @@ export interface RecurringTransaction extends FinanceScoped {
   start_on: string;
   end_on: string | null;
   next_run_on: string;
+  /** Ocorrências já geradas; a próxima é start_on + passo × occurrence_count. */
+  occurrence_count: number;
   is_active: boolean;
   contact_id: string | null;
   project_id: string | null;

@@ -76,7 +76,8 @@ test("apagar orçamentos, acessibilidade e áreas do menu", async ({ page, conte
   if (nav) {
     await expect(nav.getByRole("link", { name: "Fichas técnicas" })).toHaveCount(0);
     await expect(nav.getByRole("link", { name: "Mercado" })).toHaveCount(0);
-    await expect(nav.getByRole("link", { name: "Relatórios" })).toBeVisible();
+    // No pessoal, Relatórios aparece no menu como "Análises" (Fase 5)
+    await expect(nav.getByRole("link", { name: "Análises", exact: true })).toBeVisible();
   }
   await expect(main.getByRole("checkbox", { name: /Fichas técnicas/ })).not.toBeChecked();
   await main.getByRole("checkbox", { name: /^Relatórios/ }).uncheck();
@@ -84,7 +85,7 @@ test("apagar orçamentos, acessibilidade e áreas do menu", async ({ page, conte
   await expect(main.getByText("Áreas do menu guardadas.")).toBeVisible();
   await page.reload();
   if (nav) {
-    await expect(nav.getByRole("link", { name: "Relatórios" })).toHaveCount(0);
+    await expect(nav.getByRole("link", { name: "Análises", exact: true })).toHaveCount(0);
     await expect(nav.getByRole("link", { name: "Mercado" })).toHaveCount(0);
   }
   // A página continua a abrir pelo endereço.
