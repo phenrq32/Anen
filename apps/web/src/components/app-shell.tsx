@@ -65,6 +65,7 @@ export function AppShell({
         ...(session.active
           ? [item("/organizacao", n.organization, "building"), item("/organizacao/membros", n.members, "users"), item("/organizacao/funcoes", n.roles, "shield")]
           : []),
+        item("/planos", n.plans, "spark"),
         item("/definicoes", n.settings, "settings"),
       ],
     },

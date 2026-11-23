@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ButtonLink } from "@/components/ui";
 import { format, formatDate } from "@anen/i18n";
 import type { AiConversation, AiMessage, AiStatus } from "@anen/types";
 import { Alert, Badge, PageHeader, Section, buttonClass, cx } from "@/components/ui";
@@ -62,6 +63,7 @@ export default async function AiPage({ searchParams }: { searchParams: Promise<R
         <section className="flex flex-col gap-3 rounded-xl border border-line bg-surface p-6">
           <h2 className="text-lg font-semibold">{t.locked.title}</h2>
           <p className="max-w-2xl text-[15px] text-muted">{format(t.locked.body, { plan: status.plan_name })}</p>
+          <ButtonLink href="/planos" className="self-start">{m.billing.seePlans}</ButtonLink>
           <p className="text-sm font-medium text-brand">{format(t.locked.limits, { pro: limitOf("pro"), max: limitOf("max") })}</p>
           <p className="text-sm text-subtle">{t.locked.contact}</p>
         </section>

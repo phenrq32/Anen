@@ -3,7 +3,7 @@ import { createServerClient } from "@supabase/ssr";
 import { getPublicEnv } from "@/lib/env";
 
 // /api/push/dispatch: rotina do servidor, protegida pelo próprio segredo (não tem sessão de utilizador).
-const PUBLIC_PREFIXES = ["/entrar", "/criar-conta", "/recuperar-acesso", "/auth", "/convite", "/api/push/dispatch"];
+const PUBLIC_PREFIXES = ["/entrar", "/criar-conta", "/recuperar-acesso", "/auth", "/convite", "/api/push/dispatch", "/api/billing/infinitepay"];
 const AUTH_ONLY_PAGES = ["/entrar", "/criar-conta", "/recuperar-acesso"];
 
 function isPublic(pathname: string): boolean {

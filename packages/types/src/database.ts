@@ -270,6 +270,49 @@ export type Database = {
           Partial<Pick<PurchaseOrderItem, "position" | "stock_item_id" | "unit">>,
         Partial<Pick<PurchaseOrderItem, "position" | "stock_item_id" | "description" | "quantity" | "unit" | "unit_price_minor">>
       >;
+      subscriptions: Table<
+        {
+          id: string;
+          organization_id: string | null;
+          owner_user_id: string | null;
+          plan_key: string;
+          status: "active" | "canceled";
+          source: "manual" | "stripe" | "infinitepay" | "bank_transfer";
+          current_period_end: string | null;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        },
+        NoWrite,
+        NoWrite
+      >;
+      plan_prices: Table<
+        { id: string; plan_key: "pro" | "max"; currency_code: string; months: number; price_minor: number; valid_from: string; created_at: string },
+        NoWrite,
+        NoWrite
+      >;
+      billing_orders: Table<
+        {
+          id: string;
+          order_nsu: string;
+          organization_id: string | null;
+          owner_user_id: string | null;
+          plan_key: string;
+          months: number;
+          currency_code: string;
+          amount_minor: number;
+          provider: "infinitepay" | "bank_transfer";
+          status: "pending" | "paid" | "canceled";
+          provider_ref: string | null;
+          paid_minor: number | null;
+          paid_at: string | null;
+          subscription_id: string | null;
+          created_by: string | null;
+          created_at: string;
+        },
+        NoWrite,
+        NoWrite
+      >;
       push_subscriptions: Table<
         {
           id: string;
@@ -424,6 +467,10 @@ export type Database = {
       stock_reorder_suggestions: { Args: { p_org?: string | null }; Returns: ReorderSuggestion[] };
       create_reorder_drafts: { Args: { p_org?: string | null }; Returns: { orders: number; lines: number; skipped: number } };
       refresh_my_notifications: { Args: Record<string, never>; Returns: number };
+      create_billing_order: {
+        Args: { p_org: string | null; p_plan: string; p_months: number; p_currency: string; p_provider: string };
+        Returns: { id: string; order_nsu: string; amount_minor: number; currency_code: string }[];
+      };
       delete_my_account: { Args: { p_confirm_email: string }; Returns: undefined };
       delete_organization: { Args: { p_org: string; p_confirm_name: string }; Returns: undefined };
       produce_recipe: { Args: { p_recipe_id: string; p_portions: string; p_occurred_on?: string | null; p_notes?: string | null }; Returns: string };
