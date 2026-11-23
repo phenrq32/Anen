@@ -253,6 +253,18 @@ export async function acceptInvitationAction(_: FormState, formData: FormData): 
   redirect(session.profile.onboarded_at ? "/painel" : "/boas-vindas");
 }
 
+/** Aceitar um convite pendente a partir do seletor de contexto (sem o link; email confirmado igual ao convidado). */
+export async function acceptMyInvitationAction(_: FormState, formData: FormData): Promise<FormState> {
+  const { m } = await getI18n();
+  const session = await requireOnboardedSession();
+  const id = formString(formData, "id");
+  if (!/^[0-9a-f-]{36}$/.test(id)) return { status: "error", message: m.errors.invitation_invalid };
+  const { error } = await session.supabase.rpc("accept_my_invitation", { p_invitation_id: id });
+  if (error) return { status: "error", message: errorMessage(m, error) };
+  revalidatePath("/", "layout");
+  redirect("/painel");
+}
+
 /** Apagar a própria conta (RGPD/LGPD). Confirma com o email; a base de dados trata das organizações. */
 export async function deleteMyAccountAction(_: FormState, formData: FormData): Promise<FormState> {
   const session = await requireSession();

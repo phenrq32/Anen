@@ -51,8 +51,9 @@ test("um formulário de uma aba antiga não grava noutro workspace", async ({ pa
   const other = await context.newPage();
   await other.goto("/painel");
   await other.getByLabel("Mudar de contexto").first().selectOption({ label: "Pessoal" });
-  await other.waitForURL(/\/painel/);
-  await expect(other.getByRole("main").getByText("Abas Lda")).toHaveCount(0);
+  // A aba B já estava no painel: esperar pelo texto que só o servidor desenha depois de mudar de contexto
+  // (com latência real, gravar antes disto gravaria legitimamente na empresa, que ainda era a ativa).
+  await expect(other.getByRole("main").getByText("Contexto pessoal", { exact: true }).first()).toBeVisible();
 
   // Aba A grava: é recusado, avisa e nada fica gravado em nenhum workspace
   await main.getByRole("button", { name: "Guardar" }).click();

@@ -8,7 +8,8 @@ import { cookies } from "next/headers";
 import { TOUR_COOKIE } from "@/lib/appearance";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession } from "@/lib/session";
-import { WorkspaceKeyProvider } from "@/components/workspace-context";
+import { WorkspaceKeyProvider, WorkspaceSync } from "@/components/workspace-context";
+import { BUSINESS_MODULES, contextHiddenModules } from "@/lib/modules";
 import { workspaceKey } from "@/lib/workspace";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
@@ -44,6 +45,32 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       : Promise.resolve({ data: [] as { description: string; kind: "income" | "expense"; category_id: string | null }[] }),
   ]);
   const unread = unreadRes.count;
+
+  // Menu por workspace (Fase 4): no pessoal saem os módulos de empresa que a pessoa não usa com dados pessoais;
+  // numa organização, as áreas sem permissão de leitura.
+  const usageTables: Record<(typeof BUSINESS_MODULES)[number], "quotes" | "fiscal_documents" | "projects" | "purchase_orders" | "stock_items" | "recipes" | "market_watches"> = {
+    orcamentos: "quotes",
+    faturacao: "fiscal_documents",
+    projetos: "projects",
+    compras: "purchase_orders",
+    inventario: "stock_items",
+    restauracao: "recipes",
+    mercado: "market_watches",
+  };
+  const [usage, invitationsRes] = await Promise.all([
+    session.active
+      ? Promise.resolve(new Set<string>())
+      : Promise.all(
+          BUSINESS_MODULES.map(async (k) => {
+            const { count } = await session.supabase.from(usageTables[k]).select("id", { count: "exact", head: true }).eq("owner_user_id", session.user.id);
+            return (count ?? 0) > 0 ? k : null;
+          }),
+        ).then((ks) => new Set<string>(ks.flatMap((k) => (k ? [k] : [])))),
+    session.supabase.rpc("my_invitations"),
+  ]);
+  const contextHidden = session.active
+    ? contextHiddenModules({ type: "BUSINESS", permissions: session.active.permissions })
+    : contextHiddenModules({ type: "PERSONAL", personalUsage: usage });
   const overlay = scope.canWrite ? (
     <QuickAdd
       m={m}
@@ -58,7 +85,19 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   // gravar se outra aba entretanto mudou o workspace ativo (QA-03).
   return (
     <WorkspaceKeyProvider value={workspaceKey(scope.workspace)}>
-      <AppShell m={m} session={session} overlay={overlay} unread={unread ?? 0} canQuickAdd={scope.canWrite && (accounts.data ?? []).length > 0} showTour={(await cookies()).get(TOUR_COOKIE)?.value !== "done"}>
+      <WorkspaceSync />
+      {/* key: ao mudar de workspace, o estado dos componentes do navegador recomeça (sem restos do anterior). */}
+      <AppShell
+        key={workspaceKey(scope.workspace)}
+        m={m}
+        session={session}
+        overlay={overlay}
+        unread={unread ?? 0}
+        canQuickAdd={scope.canWrite && (accounts.data ?? []).length > 0}
+        showTour={(await cookies()).get(TOUR_COOKIE)?.value !== "done"}
+        contextHidden={[...contextHidden]}
+        invitations={(invitationsRes.data ?? []).map((i) => ({ id: i.id, organization: i.organization_name, roleKey: i.role_key, roleName: i.role_name }))}
+      >
         {children}
       </AppShell>
     </WorkspaceKeyProvider>

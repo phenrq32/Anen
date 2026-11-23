@@ -414,6 +414,11 @@ export type Database = {
     };
     Functions: {
       ensure_personal_workspace: { Args: Record<string, never>; Returns: string };
+      my_invitations: {
+        Args: Record<string, never>;
+        Returns: { id: string; organization_id: string; organization_name: string; role_key: string; role_name: string; expires_at: string; created_at: string }[];
+      };
+      accept_my_invitation: { Args: { p_invitation_id: string }; Returns: string };
       can_access_workspace: { Args: { p_type: string; p_id: string; p_permission?: string | null }; Returns: boolean };
       create_organization: {
         Args: {

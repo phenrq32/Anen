@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { format, type Messages } from "@anen/i18n";
-import { AutoSubmitSelect } from "@/components/forms";
+import { format, lookup, type Messages } from "@anen/i18n";
+import { AutoSubmitSelect, InlineAction } from "@/components/forms";
 import { Logo } from "@/components/ui";
-import { switchContextAction } from "@/app/(app)/actions";
+import { acceptMyInvitationAction, switchContextAction } from "@/app/(app)/actions";
 import type { SessionContext } from "@/lib/session";
 import { NavGroups, type NavGroup, type NavItem } from "@/components/nav-links";
 import { CommandPalette, SearchButton, type PaletteAction } from "@/components/command-palette";
@@ -22,6 +22,8 @@ export function AppShell({
   unread = 0,
   canQuickAdd = false,
   showTour = false,
+  contextHidden = [],
+  invitations = [],
 }: {
   m: Messages;
   session: SessionContext;
@@ -33,6 +35,10 @@ export function AppShell({
   canQuickAdd?: boolean;
   /** Tour de boas-vindas ainda não visto neste aparelho (cookie anen-tour). */
   showTour?: boolean;
+  /** Áreas que saem do menu por causa do workspace ativo (lib/modules.ts#contextHiddenModules). */
+  contextHidden?: string[];
+  /** Convites pendentes para o email da conta (aceitam-se aqui, sem o link). */
+  invitations?: { id: string; organization: string; roleKey: string; roleName: string }[];
 }) {
   const unreadLabel = format(m.notifications.unreadCount, { count: unread });
   const n = m.nav;
@@ -72,7 +78,8 @@ export function AppShell({
   ];
 
   // Áreas que a pessoa escondeu (Definições → Áreas do menu) saem do menu, da barra e da procura.
-  const hidden = parseHiddenModules(session.preferences.hidden_modules);
+  // Escondidas pela pessoa (Definições → Áreas do menu) e pelo workspace ativo (pessoal ou permissões).
+  const hidden = new Set<string>([...parseHiddenModules(session.preferences.hidden_modules), ...contextHidden]);
   const groups = allGroups
     .map((g) => ({ ...g, items: g.items.filter((it) => !isHiddenHref(it.href, hidden)) }))
     .filter((g) => g.items.length > 0);
@@ -124,6 +131,24 @@ export function AppShell({
     </form>
   );
 
+  const invitationsBlock =
+    invitations.length > 0 ? (
+      <section aria-label={n.invitationsTitle} className="flex flex-col gap-2 rounded-xl border border-brand/40 bg-brand/5 p-3">
+        <span className="px-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-subtle">{n.invitationsTitle}</span>
+        <ul className="flex flex-col gap-2">
+          {invitations.map((inv) => (
+            <li key={inv.id} className="flex items-center justify-between gap-2">
+              <div className="min-w-0">
+                <p className="truncate text-sm font-medium">{inv.organization}</p>
+                <p className="truncate text-xs text-subtle">{format(n.invitationRole, { role: lookup(m.roles.names, inv.roleKey) ?? inv.roleName })}</p>
+              </div>
+              <InlineAction action={acceptMyInvitationAction} fields={{ id: inv.id }} label={n.invitationAccept} pendingLabel={m.common.saving} variant="secondary" />
+            </li>
+          ))}
+        </ul>
+      </section>
+    ) : null;
+
   const userRow = (
     <div className="flex shrink-0 items-center gap-3 border-t border-line px-1 pt-4">
       <span className="grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand to-[#ff5a1b] text-sm font-bold text-on-brand" aria-hidden>
@@ -164,6 +189,7 @@ export function AppShell({
           </Link>
           <SearchButton label={n.search} shortcut={n.searchShortcut} />
           {contextSwitcher}
+          {invitationsBlock}
           {/* A navegação desliza quando não cabe no ecrã; o utilizador e "Terminar sessão" ficam sempre visíveis. */}
           <nav aria-label={n.mainNavigation} className="-mx-1 min-h-0 flex-1 overflow-y-auto px-1 pb-2">
             <NavGroups groups={groups} />
@@ -176,6 +202,7 @@ export function AppShell({
               </span>
               {n.newOrganization}
             </Link>
+            {session.active ? null : <p className="mt-2 px-3 text-xs text-subtle">{n.businessHint}</p>}
           </nav>
           {userRow}
         </div>
@@ -194,7 +221,7 @@ export function AppShell({
       <MobileTabBar
         tabs={[
           item("/painel", n.dashboard, "grid"),
-          item("/financas", n.finance, "wallet"),
+          ...(isHiddenHref("/financas", hidden) ? [] : [item("/financas", n.finance, "wallet")]),
           hidden.has("ia") ? notifications : item("/ia", n.ai, "spark"),
         ]}
         groups={groups}
@@ -203,6 +230,7 @@ export function AppShell({
         header={
           <div className="flex flex-col gap-4 rounded-2xl border border-line bg-ink/60 p-4">
             {contextSwitcher}
+            {invitationsBlock}
             {userRow}
           </div>
         }

@@ -27,6 +27,7 @@ const ACCOUNT_LEVEL = new Set([
   "updatePreferencesAction",
   "updateHiddenModulesAction",
   "acceptInvitationAction",
+  "acceptMyInvitationAction",
   "deleteMyAccountAction",
   "openNotificationAction",
   "markNotificationReadAction",
