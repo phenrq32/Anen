@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.22.0] · 23/11/2026 · App instalável, notificações push, importador e mais
+- App instalável (PWA, grátis, sem lojas): manifesto com atalhos, ícones (incluindo adaptável e iPhone), service worker que nunca guarda páginas nem dados no aparelho (só ficheiros públicos), página "sem ligação", botão "Instalar" (Android/computador) e passos para o iPhone, no painel e em Definições → App no telemóvel.
+- Notificações push: inscrição por aparelho (`push_subscriptions`), envio diário às 07:15 UTC pela rotina `/api/push/dispatch` (Vercel Cron) com um segredo próprio que só dá acesso a `push_claim_batch`/`push_report` (sem chave de serviço no servidor), notificação de teste. Migration 2400.
+- Importar extrato (CSV/OFX) com pré-visualização, categorias lembradas e sem duplicados (`import_ref`, migration 2300). Memória de categorias também no registo rápido.
+- Apagar a conta, sair e apagar organização, apagar notificações (migration 2200). Vidro, holofote e reflexos na interface. Tema rosa claro. Barra fixa do orçamento no telemóvel, atalhos nas Definições.
+- Testes: 381 unitários; E2E novos `bank-import`, `danger-zone`, `pwa`.
+
 ## [0.21.0] · 23/11/2026 · Revisão: apagar orçamentos, acessibilidade e áreas do menu
 - Orçamentos: apagam-se em qualquer estado (antes só os rascunhos, e o botão só aparecia dentro do orçamento com o nome "Eliminar movimento"). Na lista há seleção com "Selecionar todos" e "Apagar selecionados"; a confirmação explica que linhas e histórico também vão e que faturas e projetos ligados ficam sem a ligação.
 - Definições → Acessibilidade (por aparelho, cookie anen-a11y aplicado no <html> pelo servidor): reduzir animações, alto contraste (escuro e claro), sublinhar ligações, destaque forte do foco do teclado, mais espaço no texto e letra de leitura fácil (Atkinson Hyperlegible, descarregada só por quem a liga).
