@@ -62,7 +62,7 @@ test("desconto, produtos e serviços no documento, e projeto com a descrição d
   await main.getByLabel("Valor", { exact: true }).fill("10");
   await expect(main.getByText("− 147,02 €")).toBeVisible();
   await expect(main.getByText("1323,22 €")).toBeVisible();
-  await expect(main.getByText("1627,56 €")).toBeVisible();
+  await expect(main.getByText("1627,56 €").first()).toBeVisible();
   await expect(main.getByText(/fica abaixo do custo/)).toHaveCount(0);
 
   await main.getByRole("button", { name: "Guardar orçamento" }).click();
@@ -72,7 +72,7 @@ test("desconto, produtos e serviços no documento, e projeto com a descrição d
   await page.reload();
   await expect(main.getByLabel("Desconto", { exact: true })).toHaveValue("percent");
   await expect(main.getByLabel("Valor", { exact: true })).toHaveValue("10");
-  await expect(main.getByText("1627,56 €")).toBeVisible();
+  await expect(main.getByText("1627,56 €").first()).toBeVisible();
 
   const noOverflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1);
   expect(noOverflow).toBe(true);

@@ -332,7 +332,8 @@ export function QuoteEditor({
           {/* Telemóvel e ecrãs médios: total e "Guardar" sempre à mão, por cima da barra inferior. */}
           {readOnly ? null : (
             <div className="glass fixed inset-x-3 bottom-[calc(76px+env(safe-area-inset-bottom))] z-30 flex items-center justify-between gap-3 rounded-2xl border px-4 py-2.5 lg:bottom-6 lg:left-[300px] lg:right-8 xl:hidden">
-              <span className="flex min-w-0 flex-col">
+              {/* Repete o total do resumo: escondido dos leitores de ecrã para não ser lido duas vezes. */}
+              <span className="flex min-w-0 flex-col" aria-hidden>
                 <span className="text-xs text-subtle">{m.quotes.summary.total}</span>
                 <span className="tabular truncate text-lg font-bold text-brand">{b ? fmt(b.total.amountMinor) : "—"}</span>
               </span>

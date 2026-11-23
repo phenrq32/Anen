@@ -45,7 +45,7 @@ test("orçamento de pintura: custos, margem, IVA, versões, estados e PDF sem cu
 
   // Pré-visualização ao vivo
   await expect(main.getByText("1102,68 €").first()).toBeVisible();
-  await expect(main.getByText("1808,40 €")).toBeVisible();
+  await expect(main.getByText("1808,40 €").first()).toBeVisible();
 
   // Valor inválido bloqueia o total
   await qty.nth(0).fill("abc");
