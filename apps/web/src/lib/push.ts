@@ -3,7 +3,7 @@ import webpush from "web-push";
 
 /**
  * Envio de notificações push (Web Push com VAPID). As chaves ficam só nas variáveis do servidor:
- * VAPID_PRIVATE_KEY, NEXT_PUBLIC_VAPID_PUBLIC_KEY e VAPID_SUBJECT (contacto, ex.: mailto:…).
+ * VAPID_PRIVATE_KEY, NEXT_PUBLIC_VAPID_PUBLIC_KEY e VAPID_SUBJECT (contacto: endereço do site ou mailto:).
  */
 export interface PushTarget {
   endpoint: string;
@@ -25,7 +25,7 @@ let configured = false;
 function configure() {
   if (configured) return;
   webpush.setVapidDetails(
-    process.env.VAPID_SUBJECT || "mailto:suporte@anen.app",
+    process.env.VAPID_SUBJECT || "https://anen-five.vercel.app",
     process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
     process.env.VAPID_PRIVATE_KEY!,
   );
