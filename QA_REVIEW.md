@@ -27,7 +27,7 @@ Gravidade: crítico · alto · médio · baixo. Estado: **corrigido** (com teste
 | QA-01 | `/financas/em-aberto` | Não se conseguia introduzir valores em "A Receber" e "A Pagar" | Crítico | **Corrigido** |
 | QA-02 | `financas/actions.ts#deleteTransactionAction` | Os anexos eram apagados do Storage antes de se confirmar que o movimento era do contexto ativo, o que podia levar à perda de ficheiros | Alto | **Corrigido** |
 | QA-03 | Contexto ativo (`user_preferences.active_organization_id`) | Com duas abas em contextos diferentes, um formulário grava no contexto ativo no momento de gravar, não no que estava no ecrã | Alto | **Corrigido** (Fase 3) |
-| QA-04 | Menu (`components/app-shell.tsx`) | O espaço pessoal mostra os módulos de empresa (Compras, Inventário, Faturação, Fichas técnicas) | Médio | Pendente (Fase 4) |
+| QA-04 | Menu (`components/app-shell.tsx`) | O espaço pessoal mostra os módulos de empresa (Compras, Inventário, Faturação, Fichas técnicas) | Médio | **Corrigido** (Fase 4) |
 | QA-05 | `financas/importar/actions.ts:110` | As categorias são lidas sem filtro de contexto. A base de dados recusa categorias de outro espaço (`category_invalid`), mas a importação falharia inteira em vez de ignorar a categoria | Baixo | Corrigido (Fase 3; E2E `bank-import` a passar) |
 | QA-06 | Lançar receita ou despesa (registo rápido e Movimentos) | "Por pagar/Por receber" só existia escondido em "Mais detalhes" e não existia no registo rápido. Reportado pelo utilizador: "não consegui adicionar valores no a receber e a pagar" | Alto | **Corrigido** |
 | QA-07 | `switchContextAction` | Se a gravação da preferência falhar, não mostra erro e vai para o painel no contexto antigo | Baixo | Corrigido na Fase 2 (sem teste automático do caminho de erro) |
@@ -35,6 +35,8 @@ Gravidade: crítico · alto · médio · baixo. Estado: **corrigido** (com teste
 | QA-09 | Repositório | Não há linter (ESLint ou equivalente); só `tsc` | Baixo | Pendente |
 | QA-10 | "Marcar como liquidado" | Só liquida o total; um pagamento parcial regista-se editando o movimento | Baixo | Pendente (Fase 5/6, com as parcelas) |
 | QA-13 | `e2e/income-period.spec.ts` | O teste confirmava a conta com `getByText("Conta")`, que também apanha o separador "Contas", e seguia antes de a gravação terminar (o pedido era cancelado). Falha intermitente do teste, não da app | Médio | Corrigido (nome exato) |
+| QA-14 | Planos (Brasil): "Assinar Pro" | Em produção, o pedido à API da InfinitePay para criar o link de pagamento devolve erro e aparece "Não foi possível abrir o pagamento agora". A ANEN cria o pedido, mas a InfinitePay recusa (credenciais/handle ou serviço). O código desta ação só mudou na guarda | Alto | Pendente: confirmar o handle e a conta InfinitePay (precisa de si) |
+| QA-15 | ANEN AI: pergunta | Uma vez, em produção (telemóvel), uma falha do fornecedor de IA terminou no ecrã genérico "Ocorreu um erro" em vez de uma mensagem clara; repetido, passou. Provável tempo máximo da função excedido | Médio | Pendente: precisa dos registos do Vercel para confirmar a causa |
 | QA-12 | Bucket `attachments` (produção) | Até 2 PDFs de teste órfãos, deixados pela primeira versão do QA-02 durante os E2E (ver detalhe do QA-02) | Baixo | Decisão sua: limpar com uma tarefa de ficheiros órfãos (já prevista em `IMPLEMENTATION_STATUS.md`) |
 | QA-11 | `deleteAttachmentAction` | O anexo era procurado sem filtro do contexto ativo (o RLS protegia, mas podia apagar o anexo de outro contexto da mesma pessoa) | Médio | **Corrigido** |
 
@@ -113,3 +115,19 @@ Gravidade: crítico · alto · médio · baixo. Estado: **corrigido** (com teste
   Estes 6 cenários correm-se contra produção depois do deploy desta fase.
 - Durante a execução, o primeiro lote falhou porque retirei a configuração local do Playwright a meio (erro meu, não da app); foi repetido.
 - Identidade visual: `git diff` vazio na zona protegida.
+
+## Fase 3 em produção (23/11/2026)
+
+Migration 2800 aplicada (35 tabelas com `workspace_immutable`, 4 auditorias novas) e deploy feito. Contra https://anen-five.vercel.app:
+- passaram ANEN AI, receitas de um período com o plano por transferência, faturação, PWA e definições da app, finanças e "A receber e a pagar";
+- o E2E das duas abas falhou à primeira por uma corrida **do teste**: a aba B já estava no painel, a espera passava logo, e com latência real a aba A gravava antes de a mudança chegar ao servidor. Nesse momento gravar na empresa era o comportamento correto. Corrigido para esperar pelo "Contexto pessoal" desenhado pelo servidor; contra produção passa (a gravação é recusada);
+- IA e resumo da inteligência falharam uma vez ("O serviço de IA não respondeu"; num caso, ecrã de erro, ver QA-15) e passaram ao repetir (4 de 4);
+- checkout da InfinitePay: QA-14.
+
+## Fase 4 · Seletor de contexto e navegação adaptativa (23/11/2026)
+
+- **QA-04 corrigido:** no pessoal saem do menu Orçamentos, Faturação, Projetos, Compras, Inventário, Fichas técnicas e Mercado, exceto os que a pessoa já usa com dados pessoais. Numa organização, cada área precisa da permissão de leitura. Vale para a barra lateral, o menu do telemóvel e a procura; as páginas continuam acessíveis pelo endereço.
+- **Conflito resolvido:** no pessoal, mostrar "Fichas técnicas" nas Áreas do menu deixava de ter efeito sem explicação. A secção explica agora a regra. O E2E `review-settings` foi adaptado (esconde Relatórios e confirma que Mercado e Fichas técnicas ficam fora do menu pessoal).
+- **Convites no seletor:** `my_invitations` e `accept_my_invitation` (migration 2900), com as mesmas regras do link (email confirmado igual ao convidado, não expirado, não revogado). Um id alheio devolve o mesmo erro que um inexistente.
+- **Abas sincronizadas:** quando outra aba muda de contexto (BroadcastChannel) ou quando a aba volta a ficar visível e `/api/workspace` diz que o workspace mudou (outra janela ou aparelho), a página é redesenhada. O estado dos componentes recomeça ao mudar de workspace.
+- **Testes:** 462 unitários; `my-invitations.test.ts` (7); `modules.test.ts`; E2E `workspace-nav.spec.ts` (menu e abas a passar). O E2E do convite só pode correr depois de a migration 2900 estar na base de dados. Bateria completa local: 49 a passar; as 12 falhas por falta de chaves do ambiente local, mais `review-settings` (corrigido) e o convite (migration por aplicar).

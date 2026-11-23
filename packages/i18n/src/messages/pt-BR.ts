@@ -1926,6 +1926,7 @@ export const ptBR: Messages = {
       title: "Áreas do menu",
       body: "Mostre só o que você usa. Esconder uma área tira ela do menu e da busca; os dados continuam salvos e você pode mostrar de novo quando quiser.",
       note: "Painel, Finanças, Notificações, Clientes e fornecedores e Configurações aparecem sempre.",
+      personalNote: "No espaço pessoal, Orçamentos, Faturamento, Projetos, Compras, Estoque, Fichas técnicas e Mercado só aparecem no menu se você já tiver dados pessoais nessas áreas; nas organizações aparecem conforme estas escolhas e as permissões.",
       save: "Salvar áreas",
       saved: "Áreas do menu salvas.",
       hints: {

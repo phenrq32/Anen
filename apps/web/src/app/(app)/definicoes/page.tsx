@@ -68,6 +68,7 @@ export default async function SettingsPage() {
       </div>
       <div id="areas" className="scroll-mt-24">
         <Section title={m.settings.modules.title} description={m.settings.modules.body}>
+          {session.active ? null : <p className="mb-4 text-sm text-muted">{m.settings.modules.personalNote}</p>}
           <ModulesForm
             m={m}
             hidden={p.hidden_modules ?? []}

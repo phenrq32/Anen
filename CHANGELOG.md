@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.26.0] · 23/11/2026 · Dual Workspace, Fase 4: seletor de contexto e navegação adaptativa
+- Menu por workspace (QA-04): no pessoal saem os módulos de empresa sem dados pessoais; numa organização, as áreas sem permissão de leitura. As Áreas do menu explicam a regra no pessoal.
+- Convites pendentes no seletor, aceites sem o link (migration 2900: `my_invitations`, `accept_my_invitation`).
+- Abas sincronizadas: BroadcastChannel e `/api/workspace` ao voltar à aba; o estado do cliente recomeça ao mudar de workspace.
+- Fase 3 publicada (migration 2800 e deploy). Corrigida uma corrida nos E2E de duas abas. Registados QA-14 (checkout InfinitePay em produção) e QA-15 (erro genérico numa falha da IA).
+- Testes: 462 unitários; E2E `workspace-nav.spec.ts`; `review-settings.spec.ts` adaptado.
+
 ## [0.25.0] · 23/11/2026 · Dual Workspace, Fase 3: separação dos dados e segurança no servidor
 - Uma gravação só acontece no workspace que estava no ecrã (QA-03). Os formulários enviam `__workspace` (automático em `ActionForm` e `InlineAction`), 78 ações começam por `guardWorkspace` com falha fechada, e o painel avisa quando nada foi gravado.
 - Migration 2800: gatilho `workspace_immutable` em todas as tabelas com âmbito (uma regra única em vez de uma por tabela) e auditoria de recorrências, anexos, orçamentos mensais e objetivos.

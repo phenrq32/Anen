@@ -1925,6 +1925,7 @@ export const ptPT = {
       title: "Áreas do menu",
       body: "Mostre só o que usa. Esconder uma área tira-a do menu e da procura; os dados ficam guardados e pode voltar a mostrá-la quando quiser.",
       note: "Painel, Finanças, Notificações, Clientes e fornecedores e Definições aparecem sempre.",
+      personalNote: "No espaço pessoal, Orçamentos, Faturação, Projetos, Compras, Inventário, Fichas técnicas e Mercado só aparecem no menu se já tiver dados pessoais nessas áreas; nas organizações aparecem conforme estas escolhas e as permissões.",
       save: "Guardar áreas",
       saved: "Áreas do menu guardadas.",
       hints: {

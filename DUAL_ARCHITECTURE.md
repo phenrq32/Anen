@@ -27,6 +27,8 @@ Uma conta ANEN, uma identidade visual e uma infraestrutura, com dois tipos de es
 | D4 | Sem tabela `workspace_settings` | As definições já estão em colunas validadas (`user_preferences`, `organizations`, `notification_settings`) |
 | D5 | O contexto continua a ser uma preferência no servidor; os formulários levam a chave do workspace | Resolve o QA-03 (duas abas) sem mudar os endereços; o contexto no endereço fica para a Fase 4 |
 | D6 | Guarda `workspace_immutable` única em todas as tabelas | Uma regra em vez de uma por tabela; o teste de isolamento exige-a também nas tabelas futuras |
+| D7 | Contexto não vai para o endereço (`/app/pessoal/...`) | Mudaria os 49 endereços e todos os links e E2E. O risco que resolveria (dados ou gravações do contexto errado) já está coberto pela guarda de gravação, pela sincronização entre abas e pelo estado reposto ao mudar de workspace |
+| D8 | Módulos de empresa no pessoal só com dados pessoais | Não esconder trabalho existente de quem já usava orçamentos ou projetos no pessoal |
 
 ## Estado das fases
 
@@ -34,5 +36,6 @@ Uma conta ANEN, uma identidade visual e uma infraestrutura, com dois tipos de es
 |---|---|
 | 1. Auditoria e revisão | Concluída |
 | 2. Workspaces, conta única e membros | Concluída; migration 2700 aplicada em produção a 23/11/2026 |
-| 3. Separação dos dados e segurança no servidor | Concluída; migration 2800 por aplicar em produção |
-| 4–10 | Por iniciar |
+| 3. Separação dos dados e segurança no servidor | Concluída; em produção a 23/11/2026 |
+| 4. Seletor de contexto e navegação adaptativa | Concluída; migration 2900 e deploy por aprovar |
+| 5–10 | Por iniciar |

@@ -154,6 +154,13 @@ Detalhe em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md).
 | `private.prevent_workspace_change()` + gatilho `workspace_immutable` | BEFORE UPDATE em todas as tabelas com `organization_id`/`owner_user_id` (exceto `audit_logs`): recusa mudar o workspace de um registo (`workspace_immutable`), para qualquer papel. Uniformiza a proteção que antes estava espalhada por gatilhos de cada tabela |
 | Auditoria nova | `recurring_transactions`, `transaction_attachments`, `budgets` e `savings_goals` passam a escrever em `audit_logs` |
 
+## Convites no seletor (migration 2900, Dual Workspace Fase 4)
+
+| Função | Notas |
+|---|---|
+| `my_invitations()` | SECURITY DEFINER. Convites pendentes, não expirados nem revogados, para o email confirmado de quem pede, de organizações onde ainda não é membro. Sem `token_hash` |
+| `accept_my_invitation(p_invitation_id)` | As regras de `accept_invitation(token)`, pelo id. Um convite de outra pessoa devolve `invitation_invalid` (não revela que existe) |
+
 ## Próximas fases
 
 As tabelas de finanças, orçamentos, custos, fiscalidade, marketplace, CRM, assinaturas, IA e administração listadas no prompt mestre serão criadas por migration em cada fase, sempre com `organization_id`, RLS por `has_org_permission` e auditoria.

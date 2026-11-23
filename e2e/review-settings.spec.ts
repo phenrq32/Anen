@@ -69,20 +69,22 @@ test("apagar orçamentos, acessibilidade e áreas do menu", async ({ page, conte
   await main.getByText("Alto contraste", { exact: true }).click();
   await expect(html).not.toHaveAttribute("data-contrast", "high");
 
-  // Áreas do menu: a Ficha técnica começa escondida; esconder o Mercado tira-o do menu.
+  // Áreas do menu. No espaço pessoal (Fase 4), Fichas técnicas e Mercado ficam fora do menu (não há dados pessoais
+  // nessas áreas) e a página explica porquê; esconder Relatórios tira-o do menu.
   const nav = isMobile ? null : page.locator("aside");
+  await expect(main.getByText(/No espaço pessoal, Orçamentos, Faturação, Projetos, Compras, Inventário, Fichas técnicas e Mercado só aparecem/)).toBeVisible();
   if (nav) {
     await expect(nav.getByRole("link", { name: "Fichas técnicas" })).toHaveCount(0);
-    await expect(nav.getByRole("link", { name: "Mercado" })).toBeVisible();
+    await expect(nav.getByRole("link", { name: "Mercado" })).toHaveCount(0);
+    await expect(nav.getByRole("link", { name: "Relatórios" })).toBeVisible();
   }
   await expect(main.getByRole("checkbox", { name: /Fichas técnicas/ })).not.toBeChecked();
-  await main.getByRole("checkbox", { name: /Fichas técnicas/ }).check();
-  await main.getByRole("checkbox", { name: /^Mercado/ }).uncheck();
+  await main.getByRole("checkbox", { name: /^Relatórios/ }).uncheck();
   await main.getByRole("button", { name: "Guardar áreas" }).click();
   await expect(main.getByText("Áreas do menu guardadas.")).toBeVisible();
   await page.reload();
   if (nav) {
-    await expect(nav.getByRole("link", { name: "Fichas técnicas" })).toBeVisible();
+    await expect(nav.getByRole("link", { name: "Relatórios" })).toHaveCount(0);
     await expect(nav.getByRole("link", { name: "Mercado" })).toHaveCount(0);
   }
   // A página continua a abrir pelo endereço.

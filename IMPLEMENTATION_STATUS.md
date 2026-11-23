@@ -3,7 +3,7 @@
 Estados: Não iniciado · Em desenvolvimento · Implementado · Testado · Aprovado · Bloqueado.
 "Testado" = coberto por testes automáticos que passam (unitários/RLS e E2E em produção). "Aprovado" exige validação humana, e nada está aprovado ainda.
 
-_Atualizado em 23/11/2026 (Dual Workspace, Fase 3)._ Produção: **https://anen-five.vercel.app** (Vercel + Supabase eu-west-1).
+_Atualizado em 23/11/2026 (Dual Workspace, Fase 4)._ Produção: **https://anen-five.vercel.app** (Vercel + Supabase eu-west-1).
 
 ## Fase 1: Fundação
 
@@ -201,7 +201,7 @@ Auditoria em [DUAL_ARCHITECTURE_AUDIT.md](DUAL_ARCHITECTURE_AUDIT.md), problemas
 | Auditoria da arquitetura, zona visual protegida e plano | Implementado | `DUAL_ARCHITECTURE_AUDIT.md` |
 | QA-01: introduzir valores em "A Receber" e "A Pagar" | Testado | `open-items.test.ts`; E2E `open-items.spec.ts` |
 | QA-02 e QA-11: eliminar movimento ou anexo só no contexto ativo; ficheiros removidos do Storage | Testado | E2E `recurring-attachments.spec.ts` (verifica o ficheiro no Storage) |
-| QA-04, QA-08 a QA-10, QA-12 | Não iniciado | Ver `QA_REVIEW.md` |
+| QA-08 a QA-10, QA-12, QA-14, QA-15 | Não iniciado | Ver `QA_REVIEW.md` |
 
 ## Dual Workspace · Fase 2: workspaces, conta única e membros
 
@@ -221,9 +221,18 @@ Modelo em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md) (opção A: camada 
 |---|---|---|
 | Gravações só no workspace que estava no ecrã (QA-03): campo `__workspace` em todos os formulários, `guardWorkspace` em 78 ações, falha fechada | Testado | `workspace.test.ts`, `workspace-guard-coverage.test.ts`; E2E `workspace-guard.spec.ts` (duas abas) |
 | Invariantes de isolamento em todas as tabelas com âmbito | Testado (BD) | `isolation.test.ts` (14) |
-| Gatilho `workspace_immutable` em todas as tabelas; auditoria de recorrências, anexos, orçamentos mensais e objetivos | Testado (BD) | `isolation.test.ts`. **Migration 2800 por aplicar em produção** |
+| Gatilho `workspace_immutable` em todas as tabelas; auditoria de recorrências, anexos, orçamentos mensais e objetivos | Testado (BD) | `isolation.test.ts`. Migration 2800 aplicada em produção a 23/11/2026 |
 | QA-05: importação só com categorias do workspace ativo | Testado | E2E `bank-import.spec.ts` |
 | E2E completos com o código da fase | 49 a passar, 1 ignorado, 12 dependentes de chaves que a app local não tem | `QA_REVIEW.md` |
+
+## Dual Workspace · Fase 4: seletor de contexto e navegação adaptativa
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Menu por workspace (QA-04): pessoal sem módulos de empresa sem uso; organização por permissão de leitura | Testado | `modules.test.ts`; E2E `workspace-nav.spec.ts`, `review-settings.spec.ts` |
+| Convites pendentes no seletor, aceites sem o link | Testado (BD) | `my-invitations.test.ts` (7). E2E escrito; **migration 2900 por aplicar em produção** |
+| Abas sincronizadas (BroadcastChannel e `/api/workspace` ao voltar à aba); estado do cliente recomeça ao mudar | Testado | E2E `workspace-nav.spec.ts` |
+| Contexto no endereço (`/app/pessoal/...`) | Não iniciado | Decisão: não mudar os 49 endereços; a guarda de gravação (Fase 3) e a sincronização cobrem o risco. Ver `DUAL_ARCHITECTURE.md` D7 |
 
 ## Fases seguintes
 
@@ -239,5 +248,5 @@ Modelo em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md) (opção A: camada 
 
 ## Testes
 
-- **452 testes automáticos** (`npm test`, 23/11/2026): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços, do stock e dos relatórios; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
+- **462 testes automáticos** (`npm test`, 23/11/2026): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços, do stock e dos relatórios; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
 - **42 testes E2E (21 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção, todos a passar a 22/11/2026.
