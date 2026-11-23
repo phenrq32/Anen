@@ -2,9 +2,10 @@
 
 import { suggestCategory } from "@/lib/category-memory";
 import { useState } from "react";
-import { periodRange, type MovementPeriod } from "@anen/validation";
-import { format, type Messages } from "@anen/i18n";
-import type { TransactionKind } from "@anen/types";
+import { parseAmountInput, periodRange, type MovementPeriod } from "@anen/validation";
+import { installmentSchedule } from "@anen/financial-engine";
+import { format, formatDate, formatMoney, lookup, type Messages } from "@anen/i18n";
+import type { Locale, TransactionKind } from "@anen/types";
 import { ActionForm, InlineAction, SubmitButton } from "@/components/forms";
 import { Field, SelectField, cx } from "@/components/ui";
 import {
@@ -21,6 +22,9 @@ import {
   saveGoalAction,
   saveRecurringAction,
   saveTransactionAction,
+  createInstallmentPlanAction,
+  cancelInstallmentsAction,
+  updateInstallmentsFromAction,
   toggleArchiveAccountAction,
   toggleRecurringAction,
   updateRecurringAction,
@@ -907,4 +911,183 @@ export function CostCenterForm({ m }: { m: Messages }) {
 
 export function ArchiveCostCenterButton({ m, id }: { m: Messages; id: string }) {
   return <InlineAction action={archiveCostCenterAction} fields={{ id }} label={m.finance.costCenters.archive} pendingLabel={m.common.saving} />;
+}
+
+/**
+ * Novo plano de parcelas mensais (Fase 5, §5.6). A pré-visualização usa o mesmo cálculo do motor
+ * (installmentSchedule); a base de dados volta a calcular e a validar ao gravar.
+ */
+export function InstallmentPlanForm({
+  m,
+  locale,
+  accounts,
+  categories,
+  contacts,
+  minorUnits,
+  today,
+}: {
+  m: Messages;
+  locale: Locale;
+  accounts: AccountOption[];
+  categories: CategoryOption[];
+  contacts: TransactionLinks["contacts"];
+  minorUnits: Record<string, number>;
+  today: string;
+}) {
+  const t = m.finance.installments;
+  const [kind, setKind] = useState<TransactionKind>("expense");
+  const [accountId, setAccountId] = useState(accounts[0]?.id ?? "");
+  const [amountMode, setAmountMode] = useState<"total" | "per">("total");
+  const [amount, setAmount] = useState("");
+  const [endMode, setEndMode] = useState<"count" | "date">("count");
+  const [count, setCount] = useState("12");
+  const [endOn, setEndOn] = useState("");
+  const [dueDay, setDueDay] = useState(String(Number(today.slice(8, 10))));
+  const [startOn, setStartOn] = useState(today);
+  const currency = accounts.find((a) => a.id === accountId)?.currency ?? "";
+  const unit = minorUnits[currency] ?? 2;
+  const parsedAmount = amount ? parseAmountInput(amount, unit) : null;
+  const preview =
+    parsedAmount !== null && parsedAmount > 0n && /^\d{1,2}$/.test(dueDay) && (endMode === "count" ? /^\d{1,3}$/.test(count) : Boolean(endOn))
+      ? installmentSchedule({
+          startOn,
+          dueDay: Number(dueDay),
+          amount: amountMode === "total" ? { totalMinor: parsedAmount } : { perInstallmentMinor: parsedAmount },
+          end: endMode === "count" ? { count: Number(count) } : { endOn },
+        })
+      : null;
+  const money = (v: bigint) => formatMoney(v, currency, unit, locale);
+  const date = (d: string) => formatDate(d, locale, "UTC", { day: "2-digit", month: "short", year: "numeric" });
+  const filteredCategories = categories.filter((c) => c.kind === kind);
+  const filteredContacts = contacts.filter((c) => c.kind === "both" || c.kind === (kind === "income" ? "client" : "supplier"));
+  const first = preview?.ok ? preview.installments[0] : undefined;
+  const last = preview?.ok ? preview.installments.at(-1) : undefined;
+  return (
+    <ActionForm action={createInstallmentPlanAction}>
+      {(state) => (
+        <>
+          <KindToggle m={m} value={kind} onChange={setKind} />
+          <Field name="description" label={m.finance.tx.description} required maxLength={200} error={state.fieldErrors?.description} />
+          <div className="grid gap-4 sm:grid-cols-3">
+            <SelectField
+              name="amountMode"
+              label={t.amountMode}
+              value={amountMode}
+              onChange={(e) => setAmountMode(e.target.value === "per" ? "per" : "total")}
+              options={(["total", "per"] as const).map((k) => ({ value: k, label: t.amountModes[k] }))}
+            />
+            <Field
+              name="amount"
+              label={`${t.amount}${currency ? ` (${currency})` : ""}`}
+              inputMode="decimal"
+              autoComplete="off"
+              placeholder="0,00"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              required
+              error={state.fieldErrors?.amount}
+              className="tabular"
+            />
+            <SelectField
+              name="accountId"
+              label={m.finance.tx.account}
+              value={accountId}
+              onChange={(e) => setAccountId(e.target.value)}
+              options={accounts.map((a) => ({ value: a.id, label: `${a.name} · ${a.currency}` }))}
+              error={state.fieldErrors?.accountId}
+            />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <SelectField
+              name="endMode"
+              label={t.endMode}
+              value={endMode}
+              onChange={(e) => setEndMode(e.target.value === "date" ? "date" : "count")}
+              options={(["count", "date"] as const).map((k) => ({ value: k, label: t.endModes[k] }))}
+            />
+            {endMode === "count" ? (
+              <Field name="count" type="number" min={1} max={360} label={t.count} value={count} onChange={(e) => setCount(e.target.value)} required error={state.fieldErrors?.count} />
+            ) : (
+              <Field name="endOn" type="date" label={t.endOn} value={endOn} onChange={(e) => setEndOn(e.target.value)} required error={state.fieldErrors?.endOn} />
+            )}
+            <Field name="startOn" type="date" label={t.startOn} value={startOn} onChange={(e) => setStartOn(e.target.value)} required error={state.fieldErrors?.startOn} />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <Field
+              name="dueDay"
+              type="number"
+              min={1}
+              max={31}
+              label={t.dueDay}
+              value={dueDay}
+              onChange={(e) => setDueDay(e.target.value)}
+              hint={t.dueDayHint}
+              required
+              error={state.fieldErrors?.dueDay}
+            />
+            <SelectField
+              key={`cat-${kind}`}
+              name="categoryId"
+              label={m.finance.tx.category}
+              defaultValue=""
+              options={[{ value: "", label: m.finance.tx.noCategory }, ...filteredCategories.map((c) => ({ value: c.id, label: c.label }))]}
+            />
+            {filteredContacts.length > 0 ? (
+              <SelectField
+                key={`contact-${kind}`}
+                name="contactId"
+                label={m.finance.tx.contact}
+                defaultValue=""
+                options={[{ value: "", label: m.finance.tx.noContact }, ...filteredContacts.map((c) => ({ value: c.id, label: c.name }))]}
+              />
+            ) : null}
+          </div>
+          {preview?.ok && first && last ? (
+            <div className="pop-in flex flex-col gap-1 rounded-lg border border-line px-4 py-3 text-sm" aria-live="polite">
+              <p className="tabular">
+                {format(t.preview, { count: preview.installments.length, first: date(first.dueOn), last: date(last.dueOn), total: money(preview.totalMinor) })}
+              </p>
+              {amountMode === "total" && preview.installments.length > 1 && last.amountMinor !== first.amountMinor ? (
+                <p className="tabular text-xs text-muted">{format(t.previewLast, { amount: money(last.amountMinor) })}</p>
+              ) : null}
+            </div>
+          ) : preview && !preview.ok ? (
+            <p className="text-sm text-danger" role="alert">
+              {lookup(m.errors, preview.error) ?? m.errors.generic}
+            </p>
+          ) : null}
+          <SubmitButton pendingLabel={m.common.saving} className="self-start">
+            {t.create}
+          </SubmitButton>
+        </>
+      )}
+    </ActionForm>
+  );
+}
+
+export function CancelInstallmentsButton({ m, planId }: { m: Messages; planId: string }) {
+  const t = m.finance.installments;
+  return <InlineAction action={cancelInstallmentsAction} fields={{ planId }} label={t.cancel} pendingLabel={m.common.saving} confirmMessage={t.cancelConfirm} variant="danger" />;
+}
+
+export function UpdateInstallmentsForm({ m, planId, from, max }: { m: Messages; planId: string; from: number; max: number }) {
+  const t = m.finance.installments;
+  return (
+    <ActionForm action={updateInstallmentsFromAction} className="gap-3">
+      {(state) => (
+        <>
+          <input type="hidden" name="planId" value={planId} />
+          <p className="text-xs text-muted">{t.updateHint}</p>
+          <div className="grid gap-3 sm:grid-cols-3">
+            <Field name="from" type="number" min={1} max={max} defaultValue={String(from)} label={t.updateFrom} required error={state.fieldErrors?.from} />
+            <Field name="amount" label={t.updateAmount} optionalLabel={m.common.optional} inputMode="decimal" placeholder="0,00" error={state.fieldErrors?.amount} className="tabular" />
+            <Field name="dueDay" type="number" min={1} max={31} label={t.updateDueDay} optionalLabel={m.common.optional} error={state.fieldErrors?.dueDay} />
+          </div>
+          <SubmitButton pendingLabel={m.common.saving} variant="secondary" className="self-start">
+            {t.update}
+          </SubmitButton>
+        </>
+      )}
+    </ActionForm>
+  );
 }

@@ -87,6 +87,7 @@ export function TransactionList({
   actions,
   today,
   attachments,
+  installmentCounts,
 }: {
   m: Messages;
   locale: Locale;
@@ -100,6 +101,8 @@ export function TransactionList({
   today?: string;
   /** Número de anexos por movimento e ligação para os ver. */
   attachments?: { counts: Map<string, number>; href: (tx: FinanceTransaction) => string; label: (count: number) => string };
+  /** Número total de parcelas de cada plano (installment_plans), para "Parcela 3 de 12". */
+  installmentCounts?: Map<string, number>;
 }) {
   if (transactions.length === 0) return <p className="py-4 text-sm text-muted">{m.finance.tx.empty}</p>;
   return (
@@ -109,9 +112,11 @@ export function TransactionList({
         const signed = BigInt(tx.amount_minor) * (tx.kind === "expense" ? -1n : 1n);
         const attachmentCount = attachments?.counts.get(tx.id) ?? 0;
         const overdue = Boolean(today && tx.due_on && tx.due_on < today);
+        const parcelTotal = tx.installment_plan_id ? installmentCounts?.get(tx.installment_plan_id) : undefined;
         const tags =
-          attachmentCount > 0 || tx.recurring_id || tx.payment_status !== "paid" ? (
+          attachmentCount > 0 || tx.recurring_id || tx.payment_status !== "paid" || parcelTotal ? (
             <>
+              {parcelTotal && tx.installment_number ? <Badge>{format(m.finance.installments.parcel, { n: tx.installment_number, total: parcelTotal })}</Badge> : null}
               {tx.payment_status !== "paid" ? (
                 <Badge tone={overdue ? "danger" : "neutral"}>
                   {overdue ? m.finance.tx.overdueBadge : tx.payment_status === "partial" ? m.finance.tx.partialBadge : m.finance.tx.pendingBadge}

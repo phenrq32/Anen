@@ -6,7 +6,7 @@ import { EmptyFinance, TransactionList } from "@/components/finance-ui";
 import { Alert, Section, buttonClass } from "@/components/ui";
 import { getPublicEnv } from "@/lib/env";
 import { businessScope, loadLinkOptions } from "@/lib/business";
-import { categoryLabel, financeScope, loadFinanceBasics, materializeDue, monthBounds, sumByCurrency, todayIn } from "@/lib/finance";
+import { categoryLabel, financeScope, loadFinanceBasics, loadInstallmentCounts, materializeDue, monthBounds, sumByCurrency, todayIn } from "@/lib/finance";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession } from "@/lib/session";
 import { AttachmentsPanel } from "../attachments";
@@ -62,6 +62,7 @@ export default async function TransactionsPage({ searchParams }: { searchParams:
         .in("transaction_id", transactions.map((t) => t.id))
         .order("created_at")
     : { data: [] };
+  const installmentCounts = await loadInstallmentCounts(session.supabase, scope, transactions);
   const attachmentCounts = new Map<string, number>();
   for (const a of attachmentRows ?? []) attachmentCounts.set(a.transaction_id, (attachmentCounts.get(a.transaction_id) ?? 0) + 1);
 
@@ -210,6 +211,7 @@ export default async function TransactionsPage({ searchParams }: { searchParams:
             accounts={accountsMap}
             minorUnits={basics.minorUnits}
             today={today}
+            installmentCounts={installmentCounts}
             attachments={{
               counts: attachmentCounts,
               href: (tx) => `/financas/movimentos?mes=${month}&${scope.canWrite ? "editar" : "anexos"}=${tx.id}`,

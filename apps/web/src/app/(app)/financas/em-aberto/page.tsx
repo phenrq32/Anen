@@ -4,7 +4,7 @@ import type { FinanceTransaction } from "@anen/types";
 import { InlineAction } from "@/components/forms";
 import { Badge, ButtonLink, Section, cx } from "@/components/ui";
 import { businessScope, loadLinkOptions } from "@/lib/business";
-import { categoryLabel, financeScope, loadFinanceBasics, sumByCurrency, todayIn } from "@/lib/finance";
+import { categoryLabel, financeScope, loadFinanceBasics, loadInstallmentCounts, sumByCurrency, todayIn } from "@/lib/finance";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession } from "@/lib/session";
 import { markSettledAction } from "../actions";
@@ -38,6 +38,7 @@ export default async function OpenItemsPage({ searchParams }: { searchParams: Pr
   ]);
   if (open.error) throw new Error("Falha ao carregar valores em aberto");
   const items = open.data ?? [];
+  const installmentCounts = await loadInstallmentCounts(session.supabase, scope, items);
   const contactNames = new Map((contacts.data ?? []).map((c) => [c.id, c.name]));
   const fmt = (v: bigint, c: string) => formatMoney(v, c, basics.minorUnits.get(c) ?? 2, locale);
   const outstanding = (t: FinanceTransaction) => BigInt(t.amount_minor) - BigInt(t.settled_minor);
@@ -110,6 +111,11 @@ export default async function OpenItemsPage({ searchParams }: { searchParams: Pr
                       <li key={t.id} className="flex flex-wrap items-center gap-3 border-b border-line py-3 last:border-0">
                         <div className="min-w-0 flex-1">
                           <p className="truncate text-sm font-medium">{t.description}</p>
+                          {t.installment_plan_id && t.installment_number && installmentCounts.get(t.installment_plan_id) ? (
+                            <p className="text-xs text-muted">
+                              {format(m.finance.installments.parcel, { n: t.installment_number, total: installmentCounts.get(t.installment_plan_id) ?? 0 })}
+                            </p>
+                          ) : null}
                           <p className="truncate text-xs text-subtle">
                             {who ? `${who} · ` : ""}
                             {t.due_on

@@ -20,15 +20,30 @@ export default async function BudgetsPage({ searchParams }: { searchParams: Prom
   const month = params.mes && monthParam.safeParse(params.mes).success ? params.mes : today.slice(0, 7);
   const { from, to } = monthBounds(month);
 
-  const [basics, budgetsRes, spentRes, goalsRes, currencies] = await Promise.all([
+  const [basics, budgetsRes, spentRes, goalsRes, currencies, committedRes] = await Promise.all([
     loadFinanceBasics(session.supabase, scope),
     session.supabase.from("budgets").select("*").eq(scope.column, scope.value).eq("period_start", from),
     session.supabase.rpc("finance_by_category", { p_org: scope.orgId, p_from: from, p_to: to, p_kind: "expense" }),
     session.supabase.from("savings_goals").select("*").eq(scope.column, scope.value).order("created_at"),
     session.supabase.from("currencies").select("code").eq("is_enabled", true).order("code"),
+    // Despesas do mês ainda por pagar (parcelas, recorrências pendentes…): mostram-se à parte, sem somar ao gasto.
+    session.supabase
+      .from("transactions")
+      .select("category_id, currency_code, amount_minor, settled_minor")
+      .eq(scope.column, scope.value)
+      .eq("kind", "expense")
+      .in("payment_status", ["pending", "partial"])
+      .gte("occurred_on", from)
+      .lte("occurred_on", to)
+      .limit(5000),
   ]);
   const categories = new Map(basics.categories.map((c) => [c.id, c]));
   const spent = new Map((spentRes.data ?? []).map((r) => [`${r.category_id}:${r.currency_code}`, BigInt(r.total)]));
+  const committed = new Map<string, bigint>();
+  for (const r of committedRes.data ?? []) {
+    const key = `${r.category_id}:${r.currency_code}`;
+    committed.set(key, (committed.get(key) ?? 0n) + BigInt(r.amount_minor) - BigInt(r.settled_minor));
+  }
   const currencyCodes = (currencies.data ?? []).map((c) => c.code);
   const monthLabel = formatDate(`${month}-01`, locale, "UTC", { month: "long", year: "numeric" });
   const categoryOptions = basics.categories.map((c) => ({ id: c.id, label: categoryLabel(m, c), kind: c.kind }));
@@ -50,6 +65,7 @@ export default async function BudgetsPage({ searchParams }: { searchParams: Prom
             {(budgetsRes.data ?? []).map((b) => {
               const limit = BigInt(b.amount_minor);
               const used = spent.get(`${b.category_id}:${b.currency_code}`) ?? 0n;
+              const planned = committed.get(`${b.category_id}:${b.currency_code}`) ?? 0n;
               const unit = basics.minorUnits.get(b.currency_code) ?? 2;
               const fmt = (v: bigint) => formatMoney(v, b.currency_code, unit, locale);
               const over = used > limit;
@@ -67,6 +83,12 @@ export default async function BudgetsPage({ searchParams }: { searchParams: Prom
                   <span className={over ? "text-xs text-danger" : "text-xs text-subtle"}>
                     {over ? `⚠ ${format(m.finance.budget.over, { value: fmt(used - limit) })}` : format(m.finance.budget.remaining, { value: fmt(limit - used) })}
                   </span>
+                  {planned > 0n ? (
+                    <span className={used + planned > limit ? "tabular text-xs text-danger" : "tabular text-xs text-subtle"}>
+                      {format(m.finance.budget.committed, { value: fmt(planned) })}
+                      {used + planned > limit ? ` · ${format(m.finance.budget.committedOver, { value: fmt(used + planned - limit) })}` : ""}
+                    </span>
+                  ) : null}
                 </li>
               );
             })}

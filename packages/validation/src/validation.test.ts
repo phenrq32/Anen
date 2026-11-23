@@ -1,3 +1,4 @@
+import { installmentPlanSchema, installmentUpdateSchema } from "./finance";
 import { describe, expect, it } from "vitest";
 import {
   fieldErrors,
@@ -102,5 +103,26 @@ describe("desconto do orçamento", () => {
     expect(parseQuoteDiscount("percent", "101", 2)).toBeNull();
     expect(parseQuoteDiscount("amount", "-5", 2)).toBeNull();
     expect(parseQuoteDiscount("amount", "abc", 2)).toBeNull();
+  });
+});
+
+describe("parcelas (Fase 5)", () => {
+  const base = { kind: "expense", description: "Telemóvel", accountId: "00000000-0000-4000-8000-000000000001", amountMode: "total", amount: "1.200,00", dueDay: "10", startOn: "2026-11-23" };
+  it("aceita fim por número de parcelas ou por data", () => {
+    expect(installmentPlanSchema.safeParse({ ...base, endMode: "count", count: "12" }).success).toBe(true);
+    expect(installmentPlanSchema.safeParse({ ...base, endMode: "date", endOn: "2027-06-15" }).success).toBe(true);
+  });
+  it("recusa número de parcelas fora de 1 a 360, dia fora de 1 a 31 e data de fim antes do início", () => {
+    for (const count of ["0", "361", "", "x"]) expect(installmentPlanSchema.safeParse({ ...base, endMode: "count", count }).success).toBe(false);
+    for (const dueDay of ["0", "32", "x"]) expect(installmentPlanSchema.safeParse({ ...base, endMode: "count", count: "3", dueDay }).success).toBe(false);
+    expect(installmentPlanSchema.safeParse({ ...base, endMode: "date", endOn: "2026-01-01" }).success).toBe(false);
+    expect(installmentPlanSchema.safeParse({ ...base, endMode: "date" }).success).toBe(false);
+  });
+  it("alterar as seguintes exige um valor ou um dia", () => {
+    const id = "00000000-0000-4000-8000-000000000002";
+    expect(installmentUpdateSchema.safeParse({ planId: id, from: "3", amount: "50" }).success).toBe(true);
+    expect(installmentUpdateSchema.safeParse({ planId: id, from: "3", dueDay: "28" }).success).toBe(true);
+    expect(installmentUpdateSchema.safeParse({ planId: id, from: "3" }).success).toBe(false);
+    expect(installmentUpdateSchema.safeParse({ planId: id, from: "3", dueDay: "40" }).success).toBe(false);
   });
 });

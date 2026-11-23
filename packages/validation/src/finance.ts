@@ -169,3 +169,51 @@ export const recurringEditSchema = z
 
 export const ATTACHMENT_MIME_TYPES = ["application/pdf", "image/jpeg", "image/png", "image/webp", "image/heic"] as const;
 export const ATTACHMENT_MAX_BYTES = 10 * 1024 * 1024;
+
+/** Parcelas mensais com fim (Fase 5, §5.6). O valor é texto; a ação converte-o com parseAmountInput. */
+const dueDayText = z
+  .string()
+  .trim()
+  .regex(/^\d{1,2}$/, { message: "installment_day_invalid" })
+  .transform(Number)
+  .refine((n) => n >= 1 && n <= 31, { message: "installment_day_invalid" });
+
+export const installmentPlanSchema = z
+  .object({
+    kind: z.enum(TRANSACTION_KINDS, { message: "generic" }),
+    description: z.string().trim().min(1, { message: "description_required" }).max(200, { message: "too_long" }),
+    accountId: uuid,
+    categoryId: optionalUuid,
+    contactId: optionalUuid,
+    amountMode: z.enum(["total", "per"], { message: "generic" }),
+    amount: amountText,
+    endMode: z.enum(["count", "date"], { message: "generic" }),
+    count: z.string().trim().optional(),
+    endOn: optionalDate,
+    dueDay: dueDayText,
+    startOn: isoDate,
+  })
+  .superRefine((v, ctx) => {
+    if (v.endMode === "count") {
+      const n = Number(v.count);
+      if (!/^\d{1,3}$/.test(v.count ?? "") || n < 1 || n > 360) ctx.addIssue({ code: "custom", path: ["count"], message: "installment_count_invalid" });
+    } else if (!v.endOn) {
+      ctx.addIssue({ code: "custom", path: ["endOn"], message: "date_invalid" });
+    } else if (v.endOn < v.startOn) {
+      ctx.addIssue({ code: "custom", path: ["endOn"], message: "installment_count_invalid" });
+    }
+  });
+
+export const installmentUpdateSchema = z
+  .object({
+    planId: uuid,
+    from: z.string().trim().regex(/^\d{1,3}$/, { message: "installment_invalid" }).transform(Number),
+    amount: z.string().trim().max(32).optional().transform((v) => (v ? v : null)),
+    dueDay: z
+      .string()
+      .trim()
+      .optional()
+      .transform((v) => (v ? Number(v) : null))
+      .refine((n) => n === null || (Number.isInteger(n) && n >= 1 && n <= 31), { message: "installment_day_invalid" }),
+  })
+  .refine((v) => v.amount !== null || v.dueDay !== null, { message: "installment_invalid", path: ["amount"] });

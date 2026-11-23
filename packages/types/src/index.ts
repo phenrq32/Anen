@@ -126,6 +126,30 @@ export interface WorkspaceMember {
   created_at: string;
 }
 
+/** Plano de parcelas mensais com fim (migration 3000). Só leitura: escreve-se pelas funções. */
+export interface InstallmentPlan {
+  id: string;
+  organization_id: string | null;
+  owner_user_id: string | null;
+  kind: "income" | "expense";
+  description: string;
+  account_id: string;
+  category_id: string | null;
+  contact_id: string | null;
+  currency_code: string;
+  total_minor: number;
+  installment_count: number;
+  due_day: number;
+  start_on: string;
+  first_due_on: string;
+  last_due_on: string;
+  cancelled_at: string | null;
+  cancelled_from: number | null;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Organization {
   id: string;
   kind: OrganizationKind;
@@ -235,6 +259,9 @@ export interface FinanceTransaction extends FinanceScoped {
   /** Valor de um período (dia, semana ou mês) em vez de um movimento único. */
   period_start: string | null;
   period_end: string | null;
+  /** Parcela de um plano (installment_plans): id do plano e número da parcela (1 a n). */
+  installment_plan_id: string | null;
+  installment_number: number | null;
 }
 
 export const PAYMENT_METHODS = ["transfer", "card", "cash", "direct_debit", "mbway", "pix", "boleto", "check", "other"] as const;

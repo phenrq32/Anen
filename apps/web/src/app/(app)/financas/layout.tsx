@@ -25,6 +25,7 @@ export default async function FinanceLayout({ children }: { children: React.Reac
               ...(session.active ? [] : [{ href: "/financas/plano", label: m.finance.tabs.plan }]),
               { href: "/financas/movimentos", label: m.finance.tabs.transactions },
               { href: "/financas/em-aberto", label: m.finance.tabs.open },
+              { href: "/financas/parcelas", label: m.finance.tabs.installments },
               { href: "/financas/contas", label: m.finance.tabs.accounts },
               { href: "/financas/orcamentos", label: m.finance.tabs.budgets },
               { href: "/financas/recorrentes", label: m.finance.tabs.recurring },

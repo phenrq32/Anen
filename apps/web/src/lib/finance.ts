@@ -85,3 +85,16 @@ export function sumByCurrency(items: Iterable<{ currency: string; amount: bigint
   for (const { currency, amount } of items) out.set(currency, (out.get(currency) ?? 0n) + amount);
   return out;
 }
+
+/** Número total de parcelas de cada plano presente nestes movimentos (para "Parcela 3 de 12"). */
+export async function loadInstallmentCounts(
+  supabase: ServerClient,
+  scope: FinanceScope,
+  transactions: readonly { installment_plan_id: string | null }[],
+): Promise<Map<string, number>> {
+  const ids = [...new Set(transactions.flatMap((t) => (t.installment_plan_id ? [t.installment_plan_id] : [])))];
+  if (ids.length === 0) return new Map();
+  const { data, error } = await supabase.from("installment_plans").select("id, installment_count").in("id", ids).eq(scope.column, scope.value);
+  if (error) throw new Error("Falha ao carregar parcelas");
+  return new Map((data ?? []).map((p) => [p.id, p.installment_count]));
+}

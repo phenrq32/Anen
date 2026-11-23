@@ -4,6 +4,7 @@
  * `supabase gen types typescript --project-id <ref>` quando o projeto estiver ligado.
  */
 import type {
+  InstallmentPlan,
   Workspace,
   WorkspaceMember,
   TransactionAttachment,
@@ -170,6 +171,7 @@ export type Database = {
         Scope & { name: string; kind: TransactionCategory["kind"]; color?: string },
         Partial<Pick<TransactionCategory, "name" | "color" | "archived_at">>
       >;
+      installment_plans: Table<InstallmentPlan>;
       transactions: Table<
         FinanceTransaction,
         Scope & TxWrite & { import_ref?: string | null },
@@ -414,6 +416,25 @@ export type Database = {
     };
     Functions: {
       ensure_personal_workspace: { Args: Record<string, never>; Returns: string };
+      create_installment_plan: {
+        Args: {
+          p_org: string | null;
+          p_kind: "income" | "expense";
+          p_description: string;
+          p_account_id: string;
+          p_due_day: number;
+          p_start_on: string;
+          p_total_minor?: number | null;
+          p_per_minor?: number | null;
+          p_count?: number | null;
+          p_end_on?: string | null;
+          p_category_id?: string | null;
+          p_contact_id?: string | null;
+        };
+        Returns: string;
+      };
+      cancel_installments: { Args: { p_plan_id: string; p_from?: number | null }; Returns: number };
+      update_installments_from: { Args: { p_plan_id: string; p_from: number; p_amount_minor?: number | null; p_due_day?: number | null }; Returns: number };
       my_invitations: {
         Args: Record<string, never>;
         Returns: { id: string; organization_id: string; organization_name: string; role_key: string; role_name: string; expires_at: string; created_at: string }[];

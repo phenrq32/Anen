@@ -13,6 +13,8 @@ import {
   recurringLinksSchema,
   recurringSchema,
   transactionSchema,
+  installmentPlanSchema,
+  installmentUpdateSchema,
   periodDates,
   ATTACHMENT_MAX_BYTES,
   ATTACHMENT_MIME_TYPES,
@@ -670,4 +672,104 @@ export async function archiveCategoryAction(_: FormState, formData: FormData): P
   if (error) return { status: "error", message: errorMessage(m, error) };
   refresh();
   return ok();
+}
+
+// ---------------------------------------------------------------------------
+// Parcelas mensais com fim (Fase 5, §5.6): o cálculo é feito na base de dados
+// (create_installment_plan), igual ao motor installmentSchedule.
+// ---------------------------------------------------------------------------
+export async function createInstallmentPlanAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
+  const ctx = await writableScope();
+  if ("error" in ctx) return ctx.error;
+  const { m, session, scope } = ctx;
+  const parsed = installmentPlanSchema.safeParse({
+    kind: formString(formData, "kind"),
+    description: formString(formData, "description"),
+    accountId: formString(formData, "accountId"),
+    categoryId: formString(formData, "categoryId"),
+    contactId: formString(formData, "contactId"),
+    amountMode: formString(formData, "amountMode"),
+    amount: formString(formData, "amount"),
+    endMode: formString(formData, "endMode"),
+    count: formString(formData, "count"),
+    endOn: formString(formData, "endOn"),
+    dueDay: formString(formData, "dueDay"),
+    startOn: formString(formData, "startOn"),
+  });
+  if (!parsed.success) return { status: "error", fieldErrors: translateFieldErrors(m, fieldErrors(parsed.error)) };
+  const v = parsed.data;
+  const account = await accountCurrency(session, v.accountId);
+  if (!account) return { status: "error", fieldErrors: { accountId: m.errors.account_invalid } };
+  const amount = parseAmountInput(v.amount, account.minorUnit);
+  if (amount === null || amount <= 0n) return { status: "error", fieldErrors: { amount: m.errors.amount_invalid } };
+  const { error } = await session.supabase.rpc("create_installment_plan", {
+    p_org: scope.orgId,
+    p_kind: v.kind,
+    p_description: v.description,
+    p_account_id: v.accountId,
+    p_due_day: v.dueDay,
+    p_start_on: v.startOn,
+    p_total_minor: v.amountMode === "total" ? Number(amount) : null,
+    p_per_minor: v.amountMode === "per" ? Number(amount) : null,
+    p_count: v.endMode === "count" ? Number(v.count) : null,
+    p_end_on: v.endMode === "date" ? v.endOn : null,
+    p_category_id: v.categoryId,
+    p_contact_id: v.contactId,
+  });
+  if (error) return { status: "error", message: errorMessage(m, error) };
+  refresh();
+  return ok(m.finance.installments.saved);
+}
+
+export async function cancelInstallmentsAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
+  const ctx = await writableScope();
+  if ("error" in ctx) return ctx.error;
+  const { m, session, scope } = ctx;
+  const planId = formString(formData, "planId");
+  // O plano tem de ser do workspace ativo (a função volta a verificar a permissão).
+  const { data: plan } = await session.supabase.from("installment_plans").select("id").eq("id", planId).eq(scope.column, scope.value).maybeSingle();
+  if (!plan) return { status: "error", message: m.errors.forbidden };
+  const { error } = await session.supabase.rpc("cancel_installments", { p_plan_id: plan.id });
+  if (error) return { status: "error", message: errorMessage(m, error) };
+  refresh();
+  return ok(m.finance.installments.cancelled);
+}
+
+export async function updateInstallmentsFromAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
+  const ctx = await writableScope();
+  if ("error" in ctx) return ctx.error;
+  const { m, session, scope } = ctx;
+  const parsed = installmentUpdateSchema.safeParse({
+    planId: formString(formData, "planId"),
+    from: formString(formData, "from"),
+    amount: formString(formData, "amount"),
+    dueDay: formString(formData, "dueDay"),
+  });
+  if (!parsed.success) return { status: "error", fieldErrors: translateFieldErrors(m, fieldErrors(parsed.error)) };
+  const v = parsed.data;
+  const { data: plan } = await session.supabase
+    .from("installment_plans")
+    .select("id, currency_code")
+    .eq("id", v.planId)
+    .eq(scope.column, scope.value)
+    .maybeSingle();
+  if (!plan) return { status: "error", message: m.errors.forbidden };
+  let amount: bigint | null = null;
+  if (v.amount) {
+    const unit = await minorUnitFor(session, plan.currency_code);
+    amount = unit === null ? null : parseAmountInput(v.amount, unit);
+    if (amount === null || amount <= 0n) return { status: "error", fieldErrors: { amount: m.errors.amount_invalid } };
+  }
+  const { error } = await session.supabase.rpc("update_installments_from", {
+    p_plan_id: plan.id,
+    p_from: v.from,
+    p_amount_minor: amount === null ? null : Number(amount),
+    p_due_day: v.dueDay,
+  });
+  if (error) return { status: "error", message: errorMessage(m, error) };
+  refresh();
+  return ok(m.finance.installments.updated);
 }
