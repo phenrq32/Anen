@@ -61,7 +61,7 @@ Plano completo e dependências externas em [EXPANSION_PLAN.md](EXPANSION_PLAN.md
 | Despesas e receitas: contacto, projeto, centro de custo, tipo de custo, vencimento, imposto incluído, método de pagamento, n.º de documento | Testado (BD) | `business.test.ts` (âmbito, moeda do projeto, coerência do imposto) |
 | Pagamentos pendentes e parciais; saldo e relatórios em base de caixa | Testado (BD) | `business.test.ts` |
 | A receber e a pagar, vencidos, marcar como liquidado | Testado | E2E em produção |
-| Registar, editar e eliminar valores na própria página "A receber e a pagar" (pessoal e organização) | Testado | `open-items.test.ts` (16, incluindo acessos cruzados); E2E `open-items.spec.ts` (desktop e telemóvel, 23/11/2026) |
+| Registar, editar e eliminar valores na própria página "A receber e a pagar" (pessoal e organização); "Por pagar/Por receber" ao lançar, também no registo rápido | Testado (em produção) | `open-items.test.ts` (16, incluindo acessos cruzados); E2E `open-items.spec.ts` contra produção (desktop e telemóvel, 23/11/2026) |
 | Previsto vs. real por projeto e por tipo de custo, alerta de ultrapassagem | Testado (motor) | `project.test.ts` (inclui o exemplo 300 € → 350 €) |
 | Painel com valores em aberto, projetos e orçamentos recentes | Implementado | — |
 | Comprovativo anexado (ficheiro) | Não iniciado | Supabase Storage com RLS; fica para a fase de compras |
@@ -209,7 +209,7 @@ Modelo em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md) (opção A: camada 
 
 | Funcionalidade | Estado | Evidência |
 |---|---|---|
-| Vistas `workspaces` e `workspace_members` (só leitura, RLS das tabelas de origem) | Testado (BD) | `workspaces.test.ts` (14, com acessos cruzados, suspensão e anónimos). **Por aplicar em produção** |
+| Vistas `workspaces` e `workspace_members` (só leitura, RLS das tabelas de origem) | Testado (BD) | `workspaces.test.ts` (14, com acessos cruzados, suspensão e anónimos). Aplicada em produção a 23/11/2026 |
 | `can_access_workspace` (pessoal só o próprio; empresa por membro ativo ou permissão) | Testado (BD) | `workspaces.test.ts` |
 | Espaço pessoal garantido e idempotente (`ensure_personal_workspace`, também na sessão) | Testado (BD) | `workspaces.test.ts` (idempotência, conta antiga) |
 | `lib/workspace.ts`: workspace ativo, âmbito por módulo, lista, chave e resolução; `financeScope`, `businessScope` e `quotesScope` derivados | Testado | `workspace.test.ts` (6); E2E `accounts`, `finance`, `business`, `open-items`, `notifications-reports` (14, desktop e telemóvel) |

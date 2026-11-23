@@ -30,5 +30,5 @@ Uma conta ANEN, uma identidade visual e uma infraestrutura, com dois tipos de es
 | Fase | Estado |
 |---|---|
 | 1. Auditoria e revisão | Concluída |
-| 2. Workspaces, conta única e membros | Concluída (por aplicar em produção: migration 2700) |
+| 2. Workspaces, conta única e membros | Concluída; migration 2700 aplicada em produção a 23/11/2026 |
 | 3–10 | Por iniciar |

@@ -83,4 +83,4 @@ Gravidade: crítico · alto · médio · baixo. Estado: **corrigido** (com teste
   - Na ação, o estado do pagamento é tratado à parte dos restantes detalhes: o registo rápido grava o estado sem apagar contacto, projeto nem imposto, e num movimento pago o vencimento antigo mantém-se.
 - **Testes:** `e2e/open-items.spec.ts` alargado (registo rápido "Por pagar" com vencimento aparece em "A pagar"; opções de receita). `business`, `finance`, `notifications-reports` e `recurring-attachments` continuam a passar (10 E2E, desktop e telemóvel).
 - **Nota:** `intelligence.spec.ts` falha localmente só no passo do resumo da IA, porque a app local não tem a chave do Gemini e mostra "IA não configurada". Os passos de lançamento desse teste passam.
-- **Ainda não está em produção:** o site publicado continua na versão anterior até ao deploy.
+- **Em produção a 23/11/2026** (deploy `anen-bo9xzvcp8`, depois da migration 2700). `open-items` e `finance` passam contra https://anen-five.vercel.app em desktop e telemóvel.
