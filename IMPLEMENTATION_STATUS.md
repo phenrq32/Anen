@@ -3,7 +3,7 @@
 Estados: Não iniciado · Em desenvolvimento · Implementado · Testado · Aprovado · Bloqueado.
 "Testado" = coberto por testes automáticos que passam (unitários/RLS e E2E em produção). "Aprovado" exige validação humana, e nada está aprovado ainda.
 
-_Atualizado em 17/11/2026 (prompt 03, Fase 3)._ Produção: **https://anen-five.vercel.app** (Vercel + Supabase eu-west-1).
+_Atualizado em 23/11/2026 (Dual Workspace, Fase 1)._ Produção: **https://anen-five.vercel.app** (Vercel + Supabase eu-west-1).
 
 ## Fase 1: Fundação
 
@@ -61,6 +61,7 @@ Plano completo e dependências externas em [EXPANSION_PLAN.md](EXPANSION_PLAN.md
 | Despesas e receitas: contacto, projeto, centro de custo, tipo de custo, vencimento, imposto incluído, método de pagamento, n.º de documento | Testado (BD) | `business.test.ts` (âmbito, moeda do projeto, coerência do imposto) |
 | Pagamentos pendentes e parciais; saldo e relatórios em base de caixa | Testado (BD) | `business.test.ts` |
 | A receber e a pagar, vencidos, marcar como liquidado | Testado | E2E em produção |
+| Registar, editar e eliminar valores na própria página "A receber e a pagar" (pessoal e organização) | Testado (BD) | `open-items.test.ts` (16, incluindo acessos cruzados); E2E `open-items.spec.ts` escrito, por correr |
 | Previsto vs. real por projeto e por tipo de custo, alerta de ultrapassagem | Testado (motor) | `project.test.ts` (inclui o exemplo 300 € → 350 €) |
 | Painel com valores em aberto, projetos e orçamentos recentes | Implementado | — |
 | Comprovativo anexado (ficheiro) | Não iniciado | Supabase Storage com RLS; fica para a fase de compras |
@@ -191,6 +192,18 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 | Documento bloqueado depois de emitido (conteúdo, linhas, estados) | Testado | `invoicing.test.ts` |
 | Brasil (NF-e/NFS-e) | Não iniciado | Outro fornecedor certificado |
 
+## Dual Workspace · Fase 1: auditoria e revisão
+
+Auditoria em [DUAL_ARCHITECTURE_AUDIT.md](DUAL_ARCHITECTURE_AUDIT.md), problemas em [QA_REVIEW.md](QA_REVIEW.md).
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Auditoria da arquitetura, zona visual protegida e plano | Implementado | `DUAL_ARCHITECTURE_AUDIT.md` |
+| QA-01: introduzir valores em "A Receber" e "A Pagar" | Testado (BD) | `open-items.test.ts`; E2E por correr |
+| QA-02 e QA-11: eliminar movimento ou anexo só no contexto ativo, sem apagar ficheiros antes | Implementado | Sem teste automático (o Storage não é emulado); E2E na Fase 3 |
+| QA-03 a QA-10 | Não iniciado | Ver `QA_REVIEW.md` |
+| Modelo de workspaces (Fase 2) | Bloqueado | Decisão pendente: opção A ou B em `DUAL_ARCHITECTURE_AUDIT.md` §6 |
+
 ## Fases seguintes
 
 | Fase | Estado | O que é preciso para avançar |
@@ -205,5 +218,5 @@ Auditoria completa em [CURRENT_IMPLEMENTATION_AUDIT.md](CURRENT_IMPLEMENTATION_A
 
 ## Testes
 
-- **352 testes automáticos** (`npm test`): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços, do stock e dos relatórios; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
+- **409 testes automáticos** (`npm test`, 23/11/2026): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços, do stock e dos relatórios; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
 - **42 testes E2E (21 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção, todos a passar a 22/11/2026.

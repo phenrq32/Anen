@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.23.0] · 23/11/2026 · Dual Workspace, Fase 1: auditoria, revisão e "A receber e a pagar"
+- "A receber e a pagar": formulário próprio na página (já como pendente; Receita é a receber, Despesa é a pagar; `?tipo=income`), e "Editar" e "Eliminar" em cada linha. Sem nenhuma conta, a página leva a criar uma. Antes só se criava um valor em aberto em Movimentos → Mais detalhes, e só se editava no mês selecionado.
+- Eliminar um movimento só remove os anexos do Storage depois de o movimento do contexto ativo ter sido eliminado. Remover um anexo também passou a filtrar pelo contexto ativo.
+- Novos `DUAL_ARCHITECTURE_AUDIT.md` (auditoria, zona visual protegida, decisão para a Fase 2) e `QA_REVIEW.md` (11 problemas, com gravidade e estado).
+- Testes: 409 unitários (`open-items.test.ts`, 16 testes com acessos cruzados); E2E `open-items.spec.ts` escrito, por correr.
+
 ## [0.22.0] · 23/11/2026 · App instalável, notificações push, importador e mais
 - App instalável (PWA, grátis, sem lojas): manifesto com atalhos, ícones (incluindo adaptável e iPhone), service worker que nunca guarda páginas nem dados no aparelho (só ficheiros públicos), página "sem ligação", botão "Instalar" (Android/computador) e passos para o iPhone, no painel e em Definições → App no telemóvel.
 - Notificações push: inscrição por aparelho (`push_subscriptions`), envio diário às 07:15 UTC pela rotina `/api/push/dispatch` (Vercel Cron) com um segredo próprio que só dá acesso a `push_claim_batch`/`push_report` (sem chave de serviço no servidor), notificação de teste. Migration 2400.

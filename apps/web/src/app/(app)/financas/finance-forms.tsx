@@ -103,7 +103,16 @@ export interface TransactionLinks {
 
 const COST_KIND_KEYS = ["material", "labor", "travel", "equipment", "overhead", "other"] as const;
 const PAYMENT_METHOD_KEYS = ["transfer", "card", "cash", "direct_debit", "mbway", "pix", "boleto", "check", "other"] as const;
-type Settlement = "paid" | "pending" | "partial";
+export type Settlement = "paid" | "pending" | "partial";
+
+/** Valores iniciais de um movimento novo (a página "A receber e a pagar" abre já como pendente). */
+export interface TransactionDefaults {
+  date: string;
+  accountId?: string;
+  projectId?: string;
+  kind?: TransactionKind;
+  settlement?: Settlement;
+}
 
 function TransactionDetails({
   m,
@@ -112,6 +121,7 @@ function TransactionDetails({
   links,
   initial,
   defaultProjectId,
+  defaultSettlement,
   errors,
 }: {
   m: Messages;
@@ -120,11 +130,13 @@ function TransactionDetails({
   links: TransactionLinks;
   initial?: TransactionInitial | undefined;
   defaultProjectId?: string | undefined;
+  defaultSettlement?: Settlement | undefined;
   errors?: Record<string, string> | undefined;
 }) {
-  const [settlement, setSettlement] = useState<Settlement>(initial?.settlement ?? "paid");
+  const [settlement, setSettlement] = useState<Settlement>(initial?.settlement ?? defaultSettlement ?? "paid");
   const hasDetails = Boolean(
     defaultProjectId ||
+      (defaultSettlement && defaultSettlement !== "paid") ||
       initial?.contactId ||
       initial?.projectId ||
       initial?.costCenterId ||
@@ -252,7 +264,7 @@ export function TransactionFields({
   m: Messages;
   accounts: AccountOption[];
   categories: CategoryOption[];
-  defaults: { date: string; accountId?: string; projectId?: string };
+  defaults: TransactionDefaults;
   initial?: TransactionInitial;
   errors?: Record<string, string> | undefined;
   compact?: boolean;
@@ -260,7 +272,7 @@ export function TransactionFields({
   /** Categoria usada da última vez para cada descrição (lib/category-memory). */
   memory?: Record<string, string> | undefined;
 }) {
-  const [kind, setKind] = useState<TransactionKind>(initial?.kind ?? "expense");
+  const [kind, setKind] = useState<TransactionKind>(initial?.kind ?? defaults.kind ?? "expense");
   const [categoryId, setCategoryId] = useState(initial?.categoryId ?? "");
   const [suggested, setSuggested] = useState(false);
   // A pessoa escolheu a categoria à mão: a memória deixa de mexer nela.
@@ -394,7 +406,7 @@ export function TransactionFields({
         <Field name="notes" label={m.finance.tx.notes} optionalLabel={m.common.optional} defaultValue={initial?.notes ?? ""} maxLength={1000} error={errors?.notes} />
       )}
       {links && !compact ? (
-        <TransactionDetails m={m} kind={kind} currency={currency} links={links} initial={initial} defaultProjectId={defaults.projectId} errors={errors} />
+        <TransactionDetails m={m} kind={kind} currency={currency} links={links} initial={initial} defaultProjectId={defaults.projectId} defaultSettlement={defaults.settlement} errors={errors} />
       ) : null}
     </>
   );
@@ -404,7 +416,7 @@ export function TransactionForm(props: {
   m: Messages;
   accounts: AccountOption[];
   categories: CategoryOption[];
-  defaults: { date: string; accountId?: string; projectId?: string };
+  defaults: TransactionDefaults;
   initial?: TransactionInitial;
   links?: TransactionLinks;
 }) {

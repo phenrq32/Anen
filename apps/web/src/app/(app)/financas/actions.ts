@@ -215,11 +215,17 @@ export async function deleteTransactionAction(_: FormState, formData: FormData):
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
   const id = formString(formData, "id");
-  // Os ficheiros no Storage não são apagados em cascata: remover antes do movimento.
-  const { data: files } = await session.supabase.from("transaction_attachments").select("storage_path").eq("transaction_id", id);
-  if (files?.length) await session.supabase.storage.from(ATTACHMENTS_BUCKET).remove(files.map((f) => f.storage_path));
-  const { error } = await session.supabase.from("transactions").delete().eq("id", id).eq(scope.column, scope.value);
+  // Os ficheiros no Storage não são apagados em cascata. Só se removem depois de o movimento
+  // do contexto ativo ter sido mesmo eliminado: noutro contexto (ou sem permissão) nada se perde.
+  const { data: files } = await session.supabase
+    .from("transaction_attachments")
+    .select("storage_path")
+    .eq("transaction_id", id)
+    .eq(scope.column, scope.value);
+  const { data: deleted, error } = await session.supabase.from("transactions").delete().eq("id", id).eq(scope.column, scope.value).select("id");
   if (error) return { status: "error", message: errorMessage(m, error) };
+  if (!deleted?.length) return { status: "error", message: m.errors.forbidden };
+  if (files?.length) await session.supabase.storage.from(ATTACHMENTS_BUCKET).remove(files.map((f) => f.storage_path));
   refresh();
   return ok();
 }
@@ -303,11 +309,12 @@ export async function finishAttachmentAction(input: { id: string; uploaded: bool
 export async function deleteAttachmentAction(_: FormState, formData: FormData): Promise<FormState> {
   const ctx = await writableScope();
   if ("error" in ctx) return ctx.error;
-  const { m, session } = ctx;
+  const { m, session, scope } = ctx;
   const { data: row } = await session.supabase
     .from("transaction_attachments")
     .select("id, storage_path")
     .eq("id", formString(formData, "id"))
+    .eq(scope.column, scope.value)
     .maybeSingle();
   if (!row) return { status: "error", message: m.errors.forbidden };
   const removed = await session.supabase.storage.from(ATTACHMENTS_BUCKET).remove([row.storage_path]);

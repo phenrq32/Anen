@@ -618,6 +618,11 @@ export const ptBR: Messages = {
       markPaid: "Marcar como liquidado",
       markPaidConfirm: "Registrar o valor em falta como liquidado?",
       empty: "Não há valores em aberto.",
+      new: "Registrar valor a receber ou a pagar",
+      newHint: "Escolha Receita para um valor a receber ou Despesa para um valor a pagar. Fica pendente até você marcá-lo como liquidado.",
+      needAccount: "Para registrar valores a receber ou a pagar, crie primeiro uma conta.",
+      createAccount: "Criar conta",
+      edit: "Editar",
     },
     costCenters: {
       title: "Centros de custo",

@@ -2,25 +2,30 @@ import type { Metadata } from "next";
 import { format, formatDate, formatMoney } from "@anen/i18n";
 import type { FinanceTransaction } from "@anen/types";
 import { InlineAction } from "@/components/forms";
-import { Badge, Section, cx } from "@/components/ui";
-import { financeScope, loadFinanceBasics, sumByCurrency, todayIn } from "@/lib/finance";
+import { Badge, ButtonLink, Section, cx } from "@/components/ui";
+import { businessScope, loadLinkOptions } from "@/lib/business";
+import { categoryLabel, financeScope, loadFinanceBasics, sumByCurrency, todayIn } from "@/lib/finance";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession } from "@/lib/session";
 import { markSettledAction } from "../actions";
+import { DeleteTransactionButton, TransactionForm } from "../finance-forms";
 
 export const metadata: Metadata = { title: "A receber e a pagar" };
 
 const LIMIT = 500;
 
-export default async function OpenItemsPage() {
+export default async function OpenItemsPage({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const { m, locale } = await getI18n();
   const session = await requireOnboardedSession();
   const scope = financeScope(session);
   if (!scope.canRead) return null;
   const today = todayIn(scope.timezone);
+  const params = await searchParams;
+  const presetKind = params.tipo === "income" || params.tipo === "expense" ? params.tipo : "expense";
 
-  const [basics, open, contacts] = await Promise.all([
+  const [basics, links, open, contacts] = await Promise.all([
     loadFinanceBasics(session.supabase, scope),
+    scope.canWrite ? loadLinkOptions(session.supabase, businessScope(session)) : Promise.resolve(undefined),
     session.supabase
       .from("transactions")
       .select("*")
@@ -42,9 +47,31 @@ export default async function OpenItemsPage() {
     { key: "expense" as const, title: m.finance.open.payables, rows: items.filter((t) => t.kind === "expense") },
   ];
 
+  const activeAccounts = basics.accounts.filter((a) => !a.archived_at);
+
   return (
     <div className="flex flex-col gap-6">
       <p className="text-sm text-muted">{m.finance.open.hint}</p>
+      {scope.canWrite ? (
+        activeAccounts.length > 0 ? (
+          <Section title={m.finance.open.new} description={m.finance.open.newHint}>
+            <TransactionForm
+              m={m}
+              accounts={activeAccounts.map((a) => ({ id: a.id, name: a.name, currency: a.currency_code }))}
+              categories={basics.categories.map((c) => ({ id: c.id, label: categoryLabel(m, c), kind: c.kind }))}
+              defaults={{ date: today, kind: presetKind, settlement: "pending" }}
+              {...(links ? { links } : {})}
+            />
+          </Section>
+        ) : (
+          <div className="flex flex-wrap items-center gap-3 rounded-xl border border-dashed border-line p-5">
+            <p className="flex-1 text-sm text-muted">{m.finance.open.needAccount}</p>
+            <ButtonLink href="/financas/contas" variant="secondary">
+              {m.finance.open.createAccount}
+            </ButtonLink>
+          </div>
+        )
+      ) : null}
       <div className="grid gap-6 lg:grid-cols-2">
         {groups.map((g) => {
           const totals = sumByCurrency(g.rows.map((t) => ({ currency: t.currency_code, amount: outstanding(t) })));
@@ -101,14 +128,24 @@ export default async function OpenItemsPage() {
                           ) : null}
                         </div>
                         {scope.canWrite ? (
-                          <InlineAction
-                            action={markSettledAction}
-                            fields={{ id: t.id }}
-                            label={m.finance.open.markPaid}
-                            pendingLabel={m.common.saving}
-                            confirmMessage={m.finance.open.markPaidConfirm}
-                            variant="secondary"
-                          />
+                          <div className="flex w-full flex-wrap items-center justify-end gap-2 sm:w-auto">
+                            <InlineAction
+                              action={markSettledAction}
+                              fields={{ id: t.id }}
+                              label={m.finance.open.markPaid}
+                              pendingLabel={m.common.saving}
+                              confirmMessage={m.finance.open.markPaidConfirm}
+                              variant="secondary"
+                            />
+                            <ButtonLink
+                              href={`/financas/movimentos?mes=${t.occurred_on.slice(0, 7)}&editar=${t.id}`}
+                              variant="ghost"
+                              aria-label={`${m.finance.open.edit}: ${t.description}`}
+                            >
+                              {m.finance.open.edit}
+                            </ButtonLink>
+                            <DeleteTransactionButton m={m} id={t.id} />
+                          </div>
                         ) : null}
                       </li>
                     );
