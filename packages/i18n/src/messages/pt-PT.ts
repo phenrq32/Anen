@@ -1795,10 +1795,11 @@ export const ptPT = {
       title: "Aparência",
       body: "Escolha como a ANEN fica mais confortável para si. Vale neste aparelho e muda na hora.",
       theme: "Tema",
-      themes: { dark: "Escuro", light: "Claro", system: "Automático" },
+      themes: { dark: "Escuro", light: "Claro", pink: "Rosa claro", system: "Automático" },
       themeHints: {
         dark: "Fundo preto, cansa menos a vista à noite.",
         light: "Fundo claro, melhor com muita luz ou ao sol.",
+        pink: "Fundo rosado suave, leve e luminoso.",
         system: "Segue o tema do seu telemóvel ou computador.",
       },
       text: "Tamanho do texto",

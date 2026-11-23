@@ -1796,10 +1796,11 @@ export const ptBR: Messages = {
       title: "Aparência",
       body: "Escolha como a ANEN fica mais confortável para você. Vale neste aparelho e muda na hora.",
       theme: "Tema",
-      themes: { dark: "Escuro", light: "Claro", system: "Automático" },
+      themes: { dark: "Escuro", light: "Claro", pink: "Rosa claro", system: "Automático" },
       themeHints: {
         dark: "Fundo preto, cansa menos a vista à noite.",
         light: "Fundo claro, melhor com muita luz ou no sol.",
+        pink: "Fundo rosado suave, leve e luminoso.",
         system: "Segue o tema do seu celular ou computador.",
       },
       text: "Tamanho do texto",

@@ -10,6 +10,7 @@ describe("aparência", () => {
   it("valores desconhecidos no cookie voltam ao padrão (escuro, texto normal)", () => {
     expect(parseTheme("light")).toBe("light");
     expect(parseTheme("system")).toBe("system");
+    expect(parseTheme("pink")).toBe("pink");
     expect(parseTheme("roxo")).toBe("dark");
     expect(parseTheme(undefined)).toBe("dark");
     expect(parseTextSize("xlarge")).toBe("xlarge");
@@ -33,8 +34,10 @@ describe("aparência", () => {
     };
     const light = block('html[data-theme="light"] {');
     const system = block('html[data-theme="system"] {');
+    const pink = block('html[data-theme="pink"] {');
     for (const t of tokens) {
       expect(light, `${t} no tema claro`).toContain(`${t}:`);
+      expect(pink, `${t} no tema rosa claro`).toContain(`${t}:`);
       expect(system, `${t} no tema automático`).toContain(`${t}:`);
     }
   });

@@ -29,6 +29,7 @@ export function AppearancePicker({ m, theme, text }: { m: Messages; theme: Theme
   const swatch: Record<Theme, string> = {
     dark: "bg-[linear-gradient(135deg,#090909_0%,#202020_100%)]",
     light: "bg-[linear-gradient(135deg,#f5f4f1_0%,#ffffff_100%)]",
+    pink: "bg-[linear-gradient(135deg,#fdf1f5_0%,#ffffff_60%,#fbe3ec_100%)]",
     system: "bg-[linear-gradient(135deg,#090909_0%,#090909_50%,#f5f4f1_50%,#f5f4f1_100%)]",
   };
   const sample: Record<TextSize, string> = { normal: "text-[15px]", large: "text-[17px]", xlarge: "text-[19px]" };
@@ -37,7 +38,7 @@ export function AppearancePicker({ m, theme, text }: { m: Messages; theme: Theme
     <div className="flex flex-col gap-6">
       <fieldset className="flex flex-col gap-3">
         <legend className="mb-1 text-[15px] font-semibold">{t.theme}</legend>
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           {THEMES.map((th) => (
             <label
               key={th}
@@ -56,7 +57,7 @@ export function AppearancePicker({ m, theme, text }: { m: Messages; theme: Theme
               />
               <span className={cx("relative h-20 overflow-hidden rounded-xl border border-line", swatch[th])} aria-hidden>
                 <span className="absolute left-3 top-3 h-2 w-14 rounded-full bg-brand" />
-                <span className={cx("absolute left-3 top-7 h-2 w-20 rounded-full", th === "light" ? "bg-[#dedad4]" : "bg-[#353535]")} />
+                <span className={cx("absolute left-3 top-7 h-2 w-20 rounded-full", th === "light" ? "bg-[#dedad4]" : th === "pink" ? "bg-[#f4c9da]" : "bg-[#353535]")} />
                 <span className="absolute bottom-3 right-3 h-6 w-12 rounded-md bg-brand" />
               </span>
               <span className="flex items-center justify-between gap-2">

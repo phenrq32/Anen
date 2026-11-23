@@ -3,7 +3,7 @@
  * Fica em cookies (por aparelho) para o servidor já desenhar a página certa, sem "piscar".
  * Sem "server-only": o cliente usa os mesmos valores para aplicar a mudança na hora.
  */
-export const THEMES = ["dark", "light", "system"] as const;
+export const THEMES = ["dark", "light", "pink", "system"] as const;
 export type Theme = (typeof THEMES)[number];
 export const TEXT_SIZES = ["normal", "large", "xlarge"] as const;
 export type TextSize = (typeof TEXT_SIZES)[number];
