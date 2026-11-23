@@ -3,7 +3,7 @@
 Estados: Não iniciado · Em desenvolvimento · Implementado · Testado · Aprovado · Bloqueado.
 "Testado" = coberto por testes automáticos que passam (unitários/RLS e E2E em produção). "Aprovado" exige validação humana, e nada está aprovado ainda.
 
-_Atualizado em 23/11/2026 (Dual Workspace, Fase 2)._ Produção: **https://anen-five.vercel.app** (Vercel + Supabase eu-west-1).
+_Atualizado em 23/11/2026 (Dual Workspace, Fase 3)._ Produção: **https://anen-five.vercel.app** (Vercel + Supabase eu-west-1).
 
 ## Fase 1: Fundação
 
@@ -201,7 +201,7 @@ Auditoria em [DUAL_ARCHITECTURE_AUDIT.md](DUAL_ARCHITECTURE_AUDIT.md), problemas
 | Auditoria da arquitetura, zona visual protegida e plano | Implementado | `DUAL_ARCHITECTURE_AUDIT.md` |
 | QA-01: introduzir valores em "A Receber" e "A Pagar" | Testado | `open-items.test.ts`; E2E `open-items.spec.ts` |
 | QA-02 e QA-11: eliminar movimento ou anexo só no contexto ativo; ficheiros removidos do Storage | Testado | E2E `recurring-attachments.spec.ts` (verifica o ficheiro no Storage) |
-| QA-03 a QA-06, QA-08 a QA-10, QA-12 | Não iniciado | Ver `QA_REVIEW.md` |
+| QA-04, QA-08 a QA-10, QA-12 | Não iniciado | Ver `QA_REVIEW.md` |
 
 ## Dual Workspace · Fase 2: workspaces, conta única e membros
 
@@ -214,6 +214,16 @@ Modelo em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md) (opção A: camada 
 | Espaço pessoal garantido e idempotente (`ensure_personal_workspace`, também na sessão) | Testado (BD) | `workspaces.test.ts` (idempotência, conta antiga) |
 | `lib/workspace.ts`: workspace ativo, âmbito por módulo, lista, chave e resolução; `financeScope`, `businessScope` e `quotesScope` derivados | Testado | `workspace.test.ts` (6); E2E `accounts`, `finance`, `business`, `open-items`, `notifications-reports` (14, desktop e telemóvel) |
 | QA-07: erro ao mudar de contexto passa a ser mostrado | Implementado | O caminho de erro não tem teste automático; a mudança normal está coberta pelo E2E `accounts` |
+
+## Dual Workspace · Fase 3: separação dos dados e segurança no servidor
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Gravações só no workspace que estava no ecrã (QA-03): campo `__workspace` em todos os formulários, `guardWorkspace` em 78 ações, falha fechada | Testado | `workspace.test.ts`, `workspace-guard-coverage.test.ts`; E2E `workspace-guard.spec.ts` (duas abas) |
+| Invariantes de isolamento em todas as tabelas com âmbito | Testado (BD) | `isolation.test.ts` (14) |
+| Gatilho `workspace_immutable` em todas as tabelas; auditoria de recorrências, anexos, orçamentos mensais e objetivos | Testado (BD) | `isolation.test.ts`. **Migration 2800 por aplicar em produção** |
+| QA-05: importação só com categorias do workspace ativo | Testado | E2E `bank-import.spec.ts` |
+| E2E completos com o código da fase | 49 a passar, 1 ignorado, 12 dependentes de chaves que a app local não tem | `QA_REVIEW.md` |
 
 ## Fases seguintes
 
@@ -229,5 +239,5 @@ Modelo em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md) (opção A: camada 
 
 ## Testes
 
-- **429 testes automáticos** (`npm test`, 23/11/2026): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços, do stock e dos relatórios; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
+- **452 testes automáticos** (`npm test`, 23/11/2026): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços, do stock e dos relatórios; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
 - **42 testes E2E (21 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção, todos a passar a 22/11/2026.

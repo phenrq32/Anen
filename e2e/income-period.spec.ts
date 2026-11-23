@@ -27,7 +27,8 @@ test("registar o total recebido numa semana e pedir o plano por transferência",
   await main.getByLabel("Nome", { exact: true }).fill("Conta");
   await main.getByLabel("Saldo inicial").fill("0");
   await main.getByRole("button", { name: "Guardar" }).click();
-  await expect(main.getByText("Conta").first()).toBeVisible();
+  // Nome exato: "Conta" sozinho também apanhava o separador "Contas" e o teste seguia antes de a conta ser gravada.
+  await expect(main.getByText("Conta", { exact: true }).first()).toBeVisible();
 
   await page.goto("/financas?registar=1");
   const dialog = page.getByRole("dialog");

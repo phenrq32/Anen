@@ -26,14 +26,15 @@ Gravidade: crítico · alto · médio · baixo. Estado: **corrigido** (com teste
 |---|---|---|---|---|
 | QA-01 | `/financas/em-aberto` | Não se conseguia introduzir valores em "A Receber" e "A Pagar" | Crítico | **Corrigido** |
 | QA-02 | `financas/actions.ts#deleteTransactionAction` | Os anexos eram apagados do Storage antes de se confirmar que o movimento era do contexto ativo, o que podia levar à perda de ficheiros | Alto | **Corrigido** |
-| QA-03 | Contexto ativo (`user_preferences.active_organization_id`) | Com duas abas em contextos diferentes, um formulário grava no contexto ativo no momento de gravar, não no que estava no ecrã | Alto | Pendente (Fase 3/4) |
+| QA-03 | Contexto ativo (`user_preferences.active_organization_id`) | Com duas abas em contextos diferentes, um formulário grava no contexto ativo no momento de gravar, não no que estava no ecrã | Alto | **Corrigido** (Fase 3) |
 | QA-04 | Menu (`components/app-shell.tsx`) | O espaço pessoal mostra os módulos de empresa (Compras, Inventário, Faturação, Fichas técnicas) | Médio | Pendente (Fase 4) |
-| QA-05 | `financas/importar/actions.ts:110` | As categorias são lidas sem filtro de contexto. A base de dados recusa categorias de outro espaço (`category_invalid`), mas a importação falharia inteira em vez de ignorar a categoria | Baixo | Pendente |
+| QA-05 | `financas/importar/actions.ts:110` | As categorias são lidas sem filtro de contexto. A base de dados recusa categorias de outro espaço (`category_invalid`), mas a importação falharia inteira em vez de ignorar a categoria | Baixo | Corrigido (Fase 3; E2E `bank-import` a passar) |
 | QA-06 | Lançar receita ou despesa (registo rápido e Movimentos) | "Por pagar/Por receber" só existia escondido em "Mais detalhes" e não existia no registo rápido. Reportado pelo utilizador: "não consegui adicionar valores no a receber e a pagar" | Alto | **Corrigido** |
 | QA-07 | `switchContextAction` | Se a gravação da preferência falhar, não mostra erro e vai para o painel no contexto antigo | Baixo | Corrigido na Fase 2 (sem teste automático do caminho de erro) |
 | QA-08 | E2E | Correm contra produção e criam contas reais temporárias; falta staging | Médio | Decisão sua (precisa de um projeto Supabase de staging) |
 | QA-09 | Repositório | Não há linter (ESLint ou equivalente); só `tsc` | Baixo | Pendente |
 | QA-10 | "Marcar como liquidado" | Só liquida o total; um pagamento parcial regista-se editando o movimento | Baixo | Pendente (Fase 5/6, com as parcelas) |
+| QA-13 | `e2e/income-period.spec.ts` | O teste confirmava a conta com `getByText("Conta")`, que também apanha o separador "Contas", e seguia antes de a gravação terminar (o pedido era cancelado). Falha intermitente do teste, não da app | Médio | Corrigido (nome exato) |
 | QA-12 | Bucket `attachments` (produção) | Até 2 PDFs de teste órfãos, deixados pela primeira versão do QA-02 durante os E2E (ver detalhe do QA-02) | Baixo | Decisão sua: limpar com uma tarefa de ficheiros órfãos (já prevista em `IMPLEMENTATION_STATUS.md`) |
 | QA-11 | `deleteAttachmentAction` | O anexo era procurado sem filtro do contexto ativo (o RLS protegia, mas podia apagar o anexo de outro contexto da mesma pessoa) | Médio | **Corrigido** |
 
@@ -84,3 +85,31 @@ Gravidade: crítico · alto · médio · baixo. Estado: **corrigido** (com teste
 - **Testes:** `e2e/open-items.spec.ts` alargado (registo rápido "Por pagar" com vencimento aparece em "A pagar"; opções de receita). `business`, `finance`, `notifications-reports` e `recurring-attachments` continuam a passar (10 E2E, desktop e telemóvel).
 - **Nota:** `intelligence.spec.ts` falha localmente só no passo do resumo da IA, porque a app local não tem a chave do Gemini e mostra "IA não configurada". Os passos de lançamento desse teste passam.
 - **Em produção a 23/11/2026** (deploy `anen-bo9xzvcp8`, depois da migration 2700). `open-items` e `finance` passam contra https://anen-five.vercel.app em desktop e telemóvel.
+
+## Fase 3 · Separação dos dados e segurança no servidor (23/11/2026)
+
+### QA-03 corrigido: uma gravação só acontece no workspace que estava no ecrã
+
+- Cada formulário envia a chave do workspace com que a página foi desenhada (`__workspace`). `ActionForm` e `InlineAction` fazem-no sozinhos; os 7 formulários próprios usam `<WorkspaceField />`; as 4 ações chamadas com objetos (anexos e importação) recebem `workspace`.
+- 78 ações começam por `guardWorkspace(...)`. Sem a chave, ou com uma diferente da ativa, nada é gravado (falha fechada): o painel abre com "Nada foi gravado: o espaço ativo mudou noutra aba ou janela. Está agora em …".
+- As ações da conta e da plataforma ficam de fora, numa lista explícita: mudar de contexto, perfil, preferências, notificações, push, consentimento da IA, agente de mercado e confirmação de transferências.
+- Testes: `checkWorkspaceKey` (unitário); `workspace-guard-coverage.test.ts` falha se uma ação nova não tiver guarda ou um formulário não enviar o campo (confirmado retirando uma guarda e um campo); E2E `workspace-guard.spec.ts` com duas abas: recusa, aviso e nenhum movimento gravado.
+
+### Verificação de isolamento em todas as tabelas
+
+`isolation.test.ts` percorre as 33 tabelas com âmbito e exige: RLS ativo, anónimos sem privilégios, um único dono por registo, nenhuma política aberta, políticas sempre ligadas a quem pede e o gatilho `workspace_immutable`.
+
+- **Achado, depois verificado:** sete tabelas (orçamentos mensais, contas, documentos fiscais, despesas fixas, planos mensais, fichas técnicas, objetivos) dão `UPDATE` também nas colunas de âmbito. **Não havia falha**: os gatilhos de cada tabela já recusavam mudar o âmbito (`forbidden`). Mas a proteção estava espalhada e dependia de cada tabela nova se lembrar dela.
+- **Migration 2800:** um gatilho único, `workspace_immutable`, em todas as tabelas com âmbito (para qualquer papel, mesmo sem RLS), e auditoria de recorrências, anexos, orçamentos mensais e objetivos. Testado para contas, orçamentos mensais, objetivos, contactos e categorias (esta última sem gatilho antigo, onde a guarda nova atua sozinha).
+
+### Testes no fim da Fase 3
+
+- `npm test`: 452 a passar. `npm run typecheck` e `npm run build`: sem erros.
+- E2E completos (26 ficheiros, desktop e telemóvel) na app local ligada a produção: **49 a passar, 1 ignorado** (duas abas em telemóvel: o seletor de contexto do telemóvel está noutro menu e o comportamento do servidor é o mesmo), **12 a falhar por falta de chaves no ambiente local**, não por erros:
+  - IA e resumo do centro de inteligência: sem `GEMINI_API_KEY`;
+  - checkout dos planos e plano por transferência: sem `BILLING_IBAN`/`INFINITEPAY_HANDLE`;
+  - faturação: sem `INVOICING_ENCRYPTION_KEY`;
+  - definições da app: o service worker só se regista em `https:`, e a app local é `http:`.
+  Estes 6 cenários correm-se contra produção depois do deploy desta fase.
+- Durante a execução, o primeiro lote falhou porque retirei a configuração local do Playwright a meio (erro meu, não da app); foi repetido.
+- Identidade visual: `git diff` vazio na zona protegida.

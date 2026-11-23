@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.25.0] · 23/11/2026 · Dual Workspace, Fase 3: separação dos dados e segurança no servidor
+- Uma gravação só acontece no workspace que estava no ecrã (QA-03). Os formulários enviam `__workspace` (automático em `ActionForm` e `InlineAction`), 78 ações começam por `guardWorkspace` com falha fechada, e o painel avisa quando nada foi gravado.
+- Migration 2800: gatilho `workspace_immutable` em todas as tabelas com âmbito (uma regra única em vez de uma por tabela) e auditoria de recorrências, anexos, orçamentos mensais e objetivos.
+- A importação de extratos usa só as categorias do workspace ativo (QA-05). Concluir um anexo filtra pelo workspace ativo.
+- Testes: 452 unitários (`isolation.test.ts`, `workspace-guard-coverage.test.ts`, `checkWorkspaceKey`); E2E `workspace-guard.spec.ts` (duas abas); corrigida uma corrida em `income-period.spec.ts`. Documentação: `TESTING_DUAL_WORKSPACES.md`.
+
 ## [0.24.1] · 23/11/2026 · Estado do pagamento visível ao lançar
 - "Estado do pagamento" sempre visível ao lançar, também no registo rápido. Despesa: Já pago / Por pagar / Pago em parte. Receita: Já recebido / Por receber / Recebido em parte. O vencimento aparece quando falta pagar. Antes, a opção estava escondida em "Mais detalhes" e não existia no registo rápido (QA-06).
 - A ação trata o estado do pagamento à parte dos detalhes: o registo rápido não apaga contacto, projeto nem imposto, e um movimento pago mantém o vencimento.
