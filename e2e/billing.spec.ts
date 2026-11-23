@@ -38,7 +38,8 @@ test("planos: preços do Brasil e de Portugal, mensal e anual, e checkout da Inf
   await expect(main.getByText(/R\$\s?299,00|299,00\sR\$/)).toBeVisible();
   await page.goto("/planos?moeda=EUR&periodo=mensal");
   await expect(main.getByText(/7,99\s€/)).toBeVisible();
-  await expect(main.getByText("Pagamento em Portugal (transferência por IBAN) disponível em breve.").first()).toBeVisible();
+  // Com o IBAN configurado, Portugal também tem o botão de assinar (por transferência).
+  await expect(main.getByRole("button", { name: "Assinar Max" })).toBeVisible();
 
   // Brasil: "Assinar Pro" abre o checkout da InfinitePay (não pagamos).
   await page.goto("/planos?moeda=BRL&periodo=mensal");
