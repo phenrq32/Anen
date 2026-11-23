@@ -47,6 +47,8 @@ export function QuickAdd({
     };
     window.addEventListener("keydown", onKey);
     window.addEventListener(QUICK_ADD_EVENT, onOpen);
+    // Atalho do ícone da app instalada ("Registar movimento" → /financas?registar=1).
+    if (new URLSearchParams(window.location.search).get("registar") === "1") dialog.current?.showModal();
     return () => {
       window.removeEventListener("keydown", onKey);
       window.removeEventListener(QUICK_ADD_EVENT, onOpen);

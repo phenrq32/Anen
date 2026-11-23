@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090909">
+<title>Sem ligação · ANEN</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; min-height: 100dvh; display: grid; place-items: center; background: #090909; color: #fff;
+         font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; padding: 24px; box-sizing: border-box; }
+  main { max-width: 360px; text-align: center; display: flex; flex-direction: column; gap: 16px; align-items: center; }
+  img { width: 72px; height: 72px; border-radius: 18px; }
+  h1 { font-size: 22px; margin: 0; }
+  p { color: #b5b5b5; margin: 0; }
+  button { margin-top: 8px; height: 48px; padding: 0 24px; border: 0; border-radius: 12px; background: #ff851b; color: #090909;
+           font-weight: 700; font-size: 16px; cursor: pointer; }
+</style>
+</head>
+<body>
+<main>
+  <img src="/icon-192.png" alt="">
+  <h1 id="t">Sem ligação à internet</h1>
+  <p id="b">A ANEN precisa de internet para mostrar os seus dados com segurança. Assim que a ligação voltar, tente de novo.</p>
+  <button type="button" onclick="location.reload()">Tentar de novo</button>
+</main>
+<script>
+  if (/^pt-BR/i.test(navigator.language || "")) {
+    document.documentElement.lang = "pt-BR";
+    document.title = "Sem conexão · ANEN";
+    document.getElementById("t").textContent = "Sem conexão com a internet";
+    document.getElementById("b").textContent = "A ANEN precisa de internet para mostrar seus dados com segurança. Assim que a conexão voltar, tente de novo.";
+  }
+  window.addEventListener("online", function () { location.reload(); });
+</script>
+</body>
+</html>

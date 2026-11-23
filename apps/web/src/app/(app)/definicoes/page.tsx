@@ -10,6 +10,8 @@ import { A11yPicker } from "./a11y-picker";
 import { A11Y_COOKIE, parseA11y } from "@/lib/a11y";
 import { ModulesForm, PreferencesForm, ProfileForm } from "./settings-forms";
 import { DangerAction } from "@/components/danger-zone";
+import { InstallApp } from "@/components/pwa";
+import { PushToggle } from "@/components/push-toggle";
 import { deleteMyAccountAction } from "../actions";
 
 export const metadata: Metadata = { title: "Definições" };
@@ -25,6 +27,7 @@ export default async function SettingsPage() {
       <nav aria-label={m.settings.jumpTo} className="glass sticky top-16 z-20 -mx-1 flex gap-2 overflow-x-auto rounded-2xl border p-1.5 lg:top-4">
         {(
           [
+            ["app", m.pwa.sectionTitle],
             ["aparencia", m.settings.appearance.title],
             ["acessibilidade", m.settings.a11y.title],
             ["areas", m.settings.modules.title],
@@ -38,6 +41,17 @@ export default async function SettingsPage() {
           </a>
         ))}
       </nav>
+      <div id="app" className="scroll-mt-24">
+        <Section title={m.pwa.sectionTitle} description={m.pwa.sectionBody}>
+          <div className="flex flex-col gap-5">
+            <InstallApp m={m} />
+            <div className="flex flex-col gap-2 border-t border-line pt-4">
+              <h3 className="font-semibold">{m.push.title}</h3>
+              <PushToggle m={m} publicKey={process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY ?? null} />
+            </div>
+          </div>
+        </Section>
+      </div>
       <div id="aparencia" className="scroll-mt-24">
         <Section title={m.settings.appearance.title} description={m.settings.appearance.body}>
           <AppearancePicker

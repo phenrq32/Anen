@@ -18,6 +18,7 @@ import { NavIcon } from "@/components/nav-links";
 import { loadIntelligence } from "@/lib/intelligence";
 import { formatPercent } from "@/lib/projects";
 import { QuickAddTile } from "./quick-tile";
+import { InstallApp } from "@/components/pwa";
 import { roleName } from "@/lib/errors";
 import { getI18n } from "@/lib/i18n";
 import { INVITATION_COLUMNS, profileNames, recentAudit } from "@/lib/org-data";
@@ -110,6 +111,7 @@ export default async function DashboardPage({
   return (
     <>
       {notice ? <Alert tone="success">{notice}</Alert> : null}
+      <InstallApp m={m} compact />
       <section className="shine relative overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-brand/10 via-surface to-surface p-5 sm:p-8">
         <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-brand/15 blur-3xl" aria-hidden />
         <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">

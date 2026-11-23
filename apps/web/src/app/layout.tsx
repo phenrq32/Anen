@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { a11yDataAttributes, A11Y_COOKIE, parseA11y } from "@/lib/a11y";
 import { parseTextSize, parseTheme, TEXT_COOKIE, THEME_COOKIE } from "@/lib/appearance";
 import { getLocale } from "@/lib/i18n";
+import { PwaRegister } from "@/components/pwa";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
@@ -15,6 +16,11 @@ export const metadata: Metadata = {
   title: { default: "ANEN", template: "%s · ANEN" },
   description: "Finanças, orçamentos e serviços para profissionais, empresas e clientes.",
   robots: { index: false, follow: false },
+  applicationName: "ANEN",
+  // iPhone: "Adicionar ao ecrã principal" abre em ecrã inteiro, com o ícone e o nome certos.
+  appleWebApp: { capable: true, title: "ANEN", statusBarStyle: "black" },
+  icons: { apple: "/apple-touch-icon.png" },
+  formatDetection: { telephone: false },
 };
 
 // As funções correm em Dublin, junto da base de dados (Supabase eu-west-1): cada consulta deixa de atravessar o Atlântico.
@@ -27,6 +33,8 @@ export const viewport: Viewport = {
   ],
   width: "device-width",
   initialScale: 1,
+  // Ecrã inteiro no iPhone com entalhe: o conteúdo respeita as margens seguras (env(safe-area-inset-*)).
+  viewportFit: "cover",
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -36,7 +44,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const a11y = a11yDataAttributes(parseA11y(cookieStore.get(A11Y_COOKIE)?.value));
   return (
     <html lang={locale} data-theme={theme} data-text={text} {...a11y} className={`${inter.variable} ${manrope.variable} ${readable.variable}`}>
-      <body className="min-h-dvh">{children}</body>
+      <body className="min-h-dvh">
+        {children}
+        <PwaRegister />
+      </body>
     </html>
   );
 }

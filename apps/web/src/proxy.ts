@@ -2,7 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { getPublicEnv } from "@/lib/env";
 
-const PUBLIC_PREFIXES = ["/entrar", "/criar-conta", "/recuperar-acesso", "/auth", "/convite"];
+// /api/push/dispatch: rotina do servidor, protegida pelo próprio segredo (não tem sessão de utilizador).
+const PUBLIC_PREFIXES = ["/entrar", "/criar-conta", "/recuperar-acesso", "/auth", "/convite", "/api/push/dispatch"];
 const AUTH_ONLY_PAGES = ["/entrar", "/criar-conta", "/recuperar-acesso"];
 
 function isPublic(pathname: string): boolean {
@@ -51,5 +52,8 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|icon.svg|logo.svg|favicon.ico|robots.txt).*)"],
+  // Ficheiros da app instalável (manifesto, service worker, ícones, página sem rede) não passam pela sessão.
+  matcher: [
+    "/((?!_next/static|_next/image|icon.svg|logo.svg|favicon.ico|robots.txt|manifest.webmanifest|sw.js|offline.html|icon-192.png|icon-512.png|icon-maskable-512.png|apple-touch-icon.png).*)",
+  ],
 };

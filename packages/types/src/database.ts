@@ -270,6 +270,21 @@ export type Database = {
           Partial<Pick<PurchaseOrderItem, "position" | "stock_item_id" | "unit">>,
         Partial<Pick<PurchaseOrderItem, "position" | "stock_item_id" | "description" | "quantity" | "unit" | "unit_price_minor">>
       >;
+      push_subscriptions: Table<
+        {
+          id: string;
+          user_id: string;
+          endpoint: string;
+          p256dh: string;
+          auth: string;
+          user_agent: string | null;
+          failure_count: number;
+          last_success_at: string | null;
+          created_at: string;
+        },
+        { user_id: string; endpoint: string; p256dh: string; auth: string; user_agent?: string | null },
+        NoWrite
+      >;
       notifications: Table<AppNotification, NoWrite, Partial<Pick<AppNotification, "read_at" | "dismissed_at">>>;
       notification_settings: Table<
         NotificationSettings,
