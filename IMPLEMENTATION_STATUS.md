@@ -3,7 +3,7 @@
 Estados: Não iniciado · Em desenvolvimento · Implementado · Testado · Aprovado · Bloqueado.
 "Testado" = coberto por testes automáticos que passam (unitários/RLS e E2E em produção). "Aprovado" exige validação humana, e nada está aprovado ainda.
 
-_Atualizado em 23/11/2026 (Dual Workspace, Fase 5, parte 1)._ Produção: **https://anen-five.vercel.app** (Vercel + Supabase eu-west-1).
+_Atualizado em 23/11/2026 (Dual Workspace, Fase 5, parte 2)._ Produção: **https://anen-five.vercel.app** (Vercel + Supabase eu-west-1).
 
 ## Fase 1: Fundação
 
@@ -240,7 +240,13 @@ Modelo em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md) (opção A: camada 
 |---|---|---|
 | Parcelas mensais com fim (§5.6): total ou por parcela, fim por número ou data, último dia do mês, cêntimos na última, "Parcela n de N", pagar uma a uma, cancelar restantes, alterar as seguintes; pessoal e empresa | Testado (em produção) | `financial-engine/src/installments.test.ts` (8), `database/tests/installments.test.ts` (19, paridade motor/SQL); E2E `installments.spec.ts` contra produção. Migration 3000 aplicada a 23/11/2026 |
 | Orçamento do mês mostra o previsto por pagar à parte do gasto | Implementado | Sem E2E próprio |
-| Painel "Hoje", assinaturas, dívidas, calendário, menu pessoal da secção 5 | Não iniciado | Parte 2 da Fase 5 |
+| Calendário com vencimentos previstos e saldo previsto por moeda | Testado | `commitments.test.ts` (motor e paridade com o Postgres, 36); E2E `personal-today.spec.ts` |
+| Assinaturas e compromissos fixos (custo mensal e anual equivalente) | Testado | Idem |
+| Dívidas (parcelamentos e outros valores por pagar) | Testado | Idem |
+| Hoje: próximos pagamentos, orçamento disponível, objetivos | Testado | Idem |
+| Menu pessoal da secção 5 | Testado | E2E `workspace-nav.spec.ts` |
+| Personalizar os cartões do Hoje | Não iniciado | Precisa de uma preferência guardada (migration) |
+| Importar movimentos de integrações autorizadas | Bloqueado | Sem fornecedor de open banking; existe a importação de extratos CSV/OFX |
 
 ## Fases seguintes
 
@@ -256,5 +262,5 @@ Modelo em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md) (opção A: camada 
 
 ## Testes
 
-- **492 testes automáticos** (`npm test`, 23/11/2026): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços, do stock e dos relatórios; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
+- **528 testes automáticos** (`npm test`, 23/11/2026): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços, do stock e dos relatórios; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
 - **42 testes E2E (21 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção, todos a passar a 22/11/2026.

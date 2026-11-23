@@ -145,3 +145,14 @@ Migration 2900 aplicada (à segunda tentativa: a primeira recebeu um 502 da API 
 - **Encontrado no E2E e corrigido:** "1 pagas" (plural errado) → "Pagas: 1 · Faltam: 0"; o teste esperava uma mensagem de sucesso que o botão de linha não mostra.
 - **Produção:** migration 3000 aplicada e deploy feito; 10 E2E a passar contra o site (parcelas, a receber e a pagar, finanças, importação de extrato, período do painel).
 - **QA-17:** o aviso de orçamento excedido usa o símbolo "⚠". Decisão do utilizador: mantém-se.
+
+## Fase 5 (parte 2) · Hoje, assinaturas, dívidas, calendário e menu pessoal (23/11/2026)
+
+- **Calendário** (Finanças → Calendário): grelha do mês (lista no telemóvel) com valores por liquidar, parcelas e as próximas ocorrências dos recorrentes; **saldo previsto** por moeda até ao fim do mês (saldo atual das contas, só liquidado, mais o previsto; o em atraso conta hoje) e o ponto mais baixo.
+- **Assinaturas e compromissos fixos:** recorrentes ativos com custo mensal e anual equivalente (semanal × 52 ÷ 12) e totais.
+- **Dívidas:** parcelamentos de despesa com o que falta e outros valores por pagar, com o total em dívida e em atraso.
+- **Hoje (pessoal):** próximos pagamentos (14 dias), orçamento disponível do mês e objetivos.
+- **Menu pessoal** (§5): Hoje, Movimentos, Orçamento e objetivos, Contas, Assinaturas, Dívidas, Calendário, Notificações; Análise com Resumo financeiro, Análises, Inteligência e ANEN AI; Conta. O menu das empresas não muda.
+- **Sem migrations:** tudo é calculado a partir de movimentos, recorrentes e parcelas.
+- **Testes:** motor `commitments` (6) e paridade com o Postgres das datas dos recorrentes (30 casos); E2E `personal-today.spec.ts` (valores calculados à mão: saldo 987,01 € e previsto 887,01 €); `workspace-nav` e `review-settings` atualizados para os nomes do menu pessoal. Bateria completa local: 55 a passar, 3 ignorados (só desktop), 12 a falhar só por falta de chaves no ambiente local (as mesmas de sempre).
+- **Por fazer na Fase 5:** personalizar os cartões do Hoje (precisa de uma preferência guardada) e importação automática de movimentos com integrações autorizadas (não há fornecedor ligado).
