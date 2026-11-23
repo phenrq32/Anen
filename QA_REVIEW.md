@@ -97,7 +97,7 @@ Gravidade: crítico · alto · médio · baixo. Estado: **corrigido** (com teste
 
 ### Verificação de isolamento em todas as tabelas
 
-`isolation.test.ts` percorre as 33 tabelas com âmbito e exige: RLS ativo, anónimos sem privilégios, um único dono por registo, nenhuma política aberta, políticas sempre ligadas a quem pede e o gatilho `workspace_immutable`.
+`isolation.test.ts` percorre as 32 tabelas com âmbito e exige: RLS ativo, anónimos sem privilégios, um único dono por registo, nenhuma política aberta, políticas sempre ligadas a quem pede e o gatilho `workspace_immutable`.
 
 - **Achado, depois verificado:** sete tabelas (orçamentos mensais, contas, documentos fiscais, despesas fixas, planos mensais, fichas técnicas, objetivos) dão `UPDATE` também nas colunas de âmbito. **Não havia falha**: os gatilhos de cada tabela já recusavam mudar o âmbito (`forbidden`). Mas a proteção estava espalhada e dependia de cada tabela nova se lembrar dela.
 - **Migration 2800:** um gatilho único, `workspace_immutable`, em todas as tabelas com âmbito (para qualquer papel, mesmo sem RLS), e auditoria de recorrências, anexos, orçamentos mensais e objetivos. Testado para contas, orçamentos mensais, objetivos, contactos e categorias (esta última sem gatilho antigo, onde a guarda nova atua sozinha).
