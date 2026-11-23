@@ -29,7 +29,7 @@ export const metadata: Metadata = { title: "Painel" };
 export default async function DashboardPage({
   searchParams,
 }: {
-  searchParams: Promise<{ periodo?: string | string[]; saiu?: string; organizacao?: string }>;
+  searchParams: Promise<{ periodo?: string | string[]; saiu?: string; organizacao?: string; contexto?: string }>;
 }) {
   const { m, locale } = await getI18n();
   const sp = await searchParams;
@@ -111,6 +111,9 @@ export default async function DashboardPage({
   return (
     <>
       {notice ? <Alert tone="success">{notice}</Alert> : null}
+      {sp.contexto === "alterado" ? (
+        <Alert tone="info">{format(m.dashboard.workspaceChanged, { workspace: active?.organization.name ?? m.dashboard.personalWorkspace })}</Alert>
+      ) : null}
       <InstallApp m={m} compact />
       <section className="shine relative overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-brand/10 via-surface to-surface p-5 sm:p-8">
         <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-brand/15 blur-3xl" aria-hidden />

@@ -147,6 +147,13 @@ Detalhe em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md).
 | `private.can_access_workspace(type, id, permission?)` / `public.can_access_workspace` | Pessoal só o próprio; empresarial: membro ativo ou `has_org_permission` |
 | `ensure_personal_workspace()` | SECURITY DEFINER, idempotente: repõe o perfil e as preferências em falta sem alterar o que existe |
 
+## Workspace imutável e auditoria (migration 2800, Dual Workspace Fase 3)
+
+| Objeto | Notas |
+|---|---|
+| `private.prevent_workspace_change()` + gatilho `workspace_immutable` | BEFORE UPDATE em todas as tabelas com `organization_id`/`owner_user_id` (exceto `audit_logs`): recusa mudar o workspace de um registo (`workspace_immutable`), para qualquer papel. Uniformiza a proteção que antes estava espalhada por gatilhos de cada tabela |
+| Auditoria nova | `recurring_transactions`, `transaction_attachments`, `budgets` e `savings_goals` passam a escrever em `audit_logs` |
+
 ## Próximas fases
 
 As tabelas de finanças, orçamentos, custos, fiscalidade, marketplace, CRM, assinaturas, IA e administração listadas no prompt mestre serão criadas por migration em cada fase, sempre com `organization_id`, RLS por `has_org_permission` e auditoria.

@@ -20,6 +20,7 @@ import { formString, type FormState } from "@/lib/form";
 import { getI18n } from "@/lib/i18n";
 import { quotesScope } from "@/lib/quotes";
 import { requireOnboardedSession } from "@/lib/session";
+import { guardWorkspace } from "@/lib/workspace-guard";
 
 async function context() {
   const { m } = await getI18n();
@@ -45,6 +46,7 @@ function safeJson(value: string): unknown {
 // Orçamentos
 // ---------------------------------------------------------------------------
 export async function createQuoteAction(formData: FormData): Promise<void> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await context();
   if (!scope.canWrite) redirect("/orcamentos");
   const key = formString(formData, "template");
@@ -101,6 +103,7 @@ export async function createQuoteAction(formData: FormData): Promise<void> {
 }
 
 export async function saveQuoteAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await context();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const parsed = quoteHeaderSchema.safeParse({
@@ -198,6 +201,7 @@ export async function saveQuoteAction(_: FormState, formData: FormData): Promise
 const STATUSES: QuoteStatus[] = ["draft", "sent", "accepted", "rejected", "expired", "cancelled"];
 
 export async function setQuoteStatusAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await context();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const status = formString(formData, "status") as QuoteStatus;
@@ -213,6 +217,7 @@ export async function setQuoteStatusAction(_: FormState, formData: FormData): Pr
 
 /** Apaga um ou vários orçamentos (campo `id`, repetido), em qualquer estado. A base de dados confirma a permissão. */
 export async function deleteQuoteAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await context();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const ids = [...new Set(formData.getAll("id").map(String))].filter((v) => UUID.test(v)).slice(0, 200);
@@ -228,6 +233,7 @@ export async function deleteQuoteAction(_: FormState, formData: FormData): Promi
 // Fichas técnicas
 // ---------------------------------------------------------------------------
 export async function createRecipeAction(formData: FormData): Promise<void> {
+  await guardWorkspace(formData);
   const { session, scope } = await context();
   if (!scope.canWrite) redirect("/restauracao");
   const name = formString(formData, "name").trim().slice(0, 120) || "Prato";
@@ -270,6 +276,7 @@ interface RawIngredient {
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export async function saveRecipeAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await context();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const id = formString(formData, "id");
@@ -375,6 +382,7 @@ export async function saveRecipeAction(_: FormState, formData: FormData): Promis
 }
 
 export async function deleteRecipeAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await context();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const { error } = await session.supabase.from("recipes").delete().eq("id", formString(formData, "id"));
@@ -385,6 +393,7 @@ export async function deleteRecipeAction(_: FormState, formData: FormData): Prom
 
 /** Regista uma produção da ficha: dá saída dos ingredientes ligados ao stock (tudo ou nada, no servidor). */
 export async function produceRecipeAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session } = await context();
   const id = formString(formData, "id");
   if (!UUID.test(id)) return { status: "error", message: m.errors.forbidden };

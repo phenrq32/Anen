@@ -9,6 +9,7 @@ import { errorMessage } from "@/lib/errors";
 import { financeScope, scopeFields } from "@/lib/finance";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession } from "@/lib/session";
+import { guardWorkspace } from "@/lib/workspace-guard";
 
 /** Linha vinda do navegador (já lida do ficheiro); tudo é validado outra vez aqui. */
 const rowSchema = z.object({
@@ -40,7 +41,8 @@ async function context() {
 }
 
 /** Marca duplicados e sugere categorias, sem gravar nada. */
-export async function previewImportAction(payload: { accountId: string; rows: ImportRowInput[] }): Promise<PreviewResult> {
+export async function previewImportAction(payload: { workspace: string; accountId: string; rows: ImportRowInput[] }): Promise<PreviewResult> {
+  await guardWorkspace(payload.workspace);
   const { m, session, scope } = await context();
   if (!scope.canWrite) return { ok: false, message: m.errors.forbidden };
   const parsed = payloadSchema.safeParse(payload);
@@ -93,7 +95,8 @@ export async function previewImportAction(payload: { accountId: string; rows: Im
 }
 
 /** Grava as linhas escolhidas. Linhas já importadas (mesma referência na conta) são ignoradas pela base de dados. */
-export async function importStatementAction(payload: { accountId: string; rows: ImportRowInput[] }): Promise<PreviewResult & { imported?: number }> {
+export async function importStatementAction(payload: { workspace: string; accountId: string; rows: ImportRowInput[] }): Promise<PreviewResult & { imported?: number }> {
+  await guardWorkspace(payload.workspace);
   const { m, session, scope } = await context();
   if (!scope.canWrite) return { ok: false, message: m.errors.forbidden };
   const parsed = payloadSchema.safeParse(payload);
@@ -107,7 +110,12 @@ export async function importStatementAction(payload: { accountId: string; rows: 
     .is("archived_at", null)
     .maybeSingle();
   if (!account) return { ok: false, message: m.errors.account_invalid };
-  const { data: cats } = await session.supabase.from("transaction_categories").select("id, kind");
+  // Só categorias de sistema e do workspace ativo: uma categoria de outro workspace é ignorada (QA-05),
+  // em vez de fazer falhar a importação inteira com category_invalid.
+  const { data: cats } = await session.supabase
+    .from("transaction_categories")
+    .select("id, kind")
+    .or(`is_system.eq.true,${scope.column}.eq.${scope.value}`);
   const catKind = new Map((cats ?? []).map((c) => [c.id, c.kind]));
 
   const records = [];

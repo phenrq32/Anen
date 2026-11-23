@@ -8,9 +8,11 @@ import { formString, type FormState } from "@/lib/form";
 import { getI18n } from "@/lib/i18n";
 import { createCheckoutLink, infinitePayHandle } from "@/lib/infinitepay";
 import { can, requireOnboardedSession } from "@/lib/session";
+import { guardWorkspace } from "@/lib/workspace-guard";
 
 /** Começa o pagamento de um plano no Brasil: cria o pedido (preço vem da base de dados) e abre o checkout. */
 export async function startCheckoutAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const plan = formString(formData, "plan");

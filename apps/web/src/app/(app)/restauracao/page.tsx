@@ -6,6 +6,7 @@ import { getI18n } from "@/lib/i18n";
 import { quotesScope } from "@/lib/quotes";
 import { requireOnboardedSession } from "@/lib/session";
 import { createRecipeAction } from "../orcamentos/actions";
+import { WorkspaceField } from "@/components/workspace-context";
 
 export const metadata: Metadata = { title: "Fichas técnicas" };
 
@@ -30,6 +31,7 @@ export default async function RecipesPage({ searchParams }: { searchParams: Prom
       <PageHeader title={m.recipes.title} description={m.recipes.subtitle} />
       {scope.canWrite ? (
         <form action={createRecipeAction} className="flex flex-wrap items-end gap-2">
+<WorkspaceField />
           <label className="flex min-w-60 flex-1 flex-col gap-1.5 text-sm font-medium">
             {m.recipes.name}
             <input name="name" required maxLength={120} className="h-11 rounded-md border border-line bg-surface px-3.5 text-[15px] focus:border-brand focus:outline-none" />

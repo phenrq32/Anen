@@ -1699,6 +1699,8 @@ export const ptPT = {
     },
   },
   dashboard: {
+    workspaceChanged: "Nada foi gravado: o espaço ativo mudou noutra aba ou janela. Está agora em {workspace}. Confirme e repita a operação, se for o caso.",
+    personalWorkspace: "Pessoal",
     period: {
       label: "Período dos totais",
       month: "Este mês",
@@ -1964,6 +1966,7 @@ export const ptPT = {
     },
   },
   errors: {
+    workspace_immutable: "Um registo não pode mudar de espaço (pessoal ou empresa). Crie-o no espaço certo.",
     generic: "Ocorreu um erro. Tente novamente.",
     unauthorized: "A sessão terminou. Entre novamente.",
     forbidden: "Não tem permissão para esta ação.",

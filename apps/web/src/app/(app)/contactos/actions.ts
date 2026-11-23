@@ -8,6 +8,7 @@ import { errorMessage, translateFieldErrors } from "@/lib/errors";
 import { formString, type FormState } from "@/lib/form";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession } from "@/lib/session";
+import { guardWorkspace } from "@/lib/workspace-guard";
 
 function refresh() {
   revalidatePath("/contactos", "layout");
@@ -16,6 +17,7 @@ function refresh() {
 }
 
 export async function saveContactAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const scope = businessScope(session);
@@ -55,6 +57,7 @@ export async function saveContactAction(_: FormState, formData: FormData): Promi
 }
 
 export async function toggleArchiveContactAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const scope = businessScope(session);
@@ -78,6 +81,7 @@ function refreshContact(contactId: string) {
 }
 
 export async function saveContactNoteAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const scope = businessScope(session);
@@ -102,6 +106,7 @@ export async function saveContactNoteAction(_: FormState, formData: FormData): P
 }
 
 export async function deleteContactNoteAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const scope = businessScope(session);
@@ -120,6 +125,7 @@ export async function deleteContactNoteAction(_: FormState, formData: FormData):
 }
 
 export async function saveSupplierPriceAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const scope = businessScope(session);
@@ -160,6 +166,7 @@ export async function saveSupplierPriceAction(_: FormState, formData: FormData):
 }
 
 export async function deleteSupplierPriceAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const scope = businessScope(session);

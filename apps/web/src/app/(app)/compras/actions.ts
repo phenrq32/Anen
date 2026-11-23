@@ -9,6 +9,7 @@ import { errorMessage, translateFieldErrors } from "@/lib/errors";
 import { formString, type FormState } from "@/lib/form";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession } from "@/lib/session";
+import { guardWorkspace } from "@/lib/workspace-guard";
 
 function refresh(orderId?: string) {
   revalidatePath("/compras", "layout");
@@ -23,6 +24,7 @@ async function context() {
 }
 
 export async function createPurchaseOrderAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await context();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const parsed = purchaseOrderSchema.safeParse({
@@ -42,6 +44,7 @@ export async function createPurchaseOrderAction(_: FormState, formData: FormData
 }
 
 export async function savePurchaseOrderAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await context();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const parsed = purchaseOrderSchema.safeParse({
@@ -76,6 +79,7 @@ export async function savePurchaseOrderAction(_: FormState, formData: FormData):
 }
 
 export async function addPurchaseLineAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await context();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const parsed = purchaseLineSchema.safeParse({
@@ -120,6 +124,7 @@ export async function addPurchaseLineAction(_: FormState, formData: FormData): P
 }
 
 export async function removePurchaseLineAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await context();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const { data, error } = await session.supabase.from("purchase_order_items").delete().eq("id", formString(formData, "id")).select("order_id");
@@ -133,6 +138,7 @@ export async function removePurchaseLineAction(_: FormState, formData: FormData)
 const NEXT_STATUSES = ["ordered", "draft", "cancelled"] as const;
 
 export async function setPurchaseStatusAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await context();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const status = formString(formData, "status");
@@ -147,6 +153,7 @@ export async function setPurchaseStatusAction(_: FormState, formData: FormData):
 }
 
 export async function deletePurchaseOrderAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await context();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const { data, error } = await session.supabase
@@ -162,6 +169,7 @@ export async function deletePurchaseOrderAction(_: FormState, formData: FormData
 }
 
 export async function receivePurchaseOrderAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await context();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const parsed = receivePurchaseSchema.safeParse({

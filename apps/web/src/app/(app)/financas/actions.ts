@@ -24,6 +24,7 @@ import { financeScope, scopeFields, todayIn, type FinanceScope } from "@/lib/fin
 import { formString, type FormState } from "@/lib/form";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession, type SessionContext } from "@/lib/session";
+import { guardWorkspace } from "@/lib/workspace-guard";
 
 const ok = (message?: string): FormState => ({ status: "success", ...(message ? { message } : {}) });
 
@@ -58,6 +59,7 @@ async function accountCurrency(session: SessionContext, accountId: string): Prom
 // Contas
 // ---------------------------------------------------------------------------
 export async function saveAccountAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const ctx = await writableScope();
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
@@ -93,6 +95,7 @@ export async function saveAccountAction(_: FormState, formData: FormData): Promi
 }
 
 export async function toggleArchiveAccountAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const ctx = await writableScope();
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
@@ -111,6 +114,7 @@ export async function toggleArchiveAccountAction(_: FormState, formData: FormDat
 // Movimentos
 // ---------------------------------------------------------------------------
 export async function saveTransactionAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const ctx = await writableScope();
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
@@ -219,6 +223,7 @@ export async function saveTransactionAction(_: FormState, formData: FormData): P
 }
 
 export async function deleteTransactionAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const ctx = await writableScope();
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
@@ -257,11 +262,14 @@ export type PrepareAttachmentResult =
   | { ok: false; message: string };
 
 export async function prepareAttachmentAction(input: {
+  /** Workspace que estava no ecrã (QA-03). */
+  workspace: string;
   transactionId: string;
   fileName: string;
   mimeType: string;
   size: number;
 }): Promise<PrepareAttachmentResult> {
+  await guardWorkspace(input.workspace);
   const ctx = await writableScope();
   if ("error" in ctx) return { ok: false, message: ctx.error.message ?? "" };
   const { m, session, scope } = ctx;
@@ -297,11 +305,17 @@ export async function prepareAttachmentAction(input: {
 }
 
 /** Confirma o envio (o ficheiro tem de existir) ou desfaz o registo se o envio falhou. */
-export async function finishAttachmentAction(input: { id: string; uploaded: boolean }): Promise<{ ok: boolean; message?: string }> {
+export async function finishAttachmentAction(input: { workspace: string; id: string; uploaded: boolean }): Promise<{ ok: boolean; message?: string }> {
+  await guardWorkspace(input.workspace);
   const ctx = await writableScope();
   if ("error" in ctx) return { ok: false, message: ctx.error.message ?? "" };
-  const { m, session } = ctx;
-  const { data: row } = await session.supabase.from("transaction_attachments").select("id, storage_path").eq("id", input.id).maybeSingle();
+  const { m, session, scope } = ctx;
+  const { data: row } = await session.supabase
+    .from("transaction_attachments")
+    .select("id, storage_path")
+    .eq("id", input.id)
+    .eq(scope.column, scope.value)
+    .maybeSingle();
   if (!row) return { ok: false, message: m.errors.forbidden };
   const [folder, file] = [row.storage_path.slice(0, row.storage_path.lastIndexOf("/")), row.storage_path.slice(row.storage_path.lastIndexOf("/") + 1)];
   const { data: listed } = input.uploaded
@@ -316,6 +330,7 @@ export async function finishAttachmentAction(input: { id: string; uploaded: bool
 }
 
 export async function deleteAttachmentAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const ctx = await writableScope();
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
@@ -336,6 +351,7 @@ export async function deleteAttachmentAction(_: FormState, formData: FormData): 
 
 /** Marca um movimento pendente ou parcial como totalmente liquidado. */
 export async function markSettledAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const ctx = await writableScope();
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
@@ -352,6 +368,7 @@ export async function markSettledAction(_: FormState, formData: FormData): Promi
 // Centros de custo (permissão business.write)
 // ---------------------------------------------------------------------------
 export async function saveCostCenterAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const scope = businessScope(session);
@@ -365,6 +382,7 @@ export async function saveCostCenterAction(_: FormState, formData: FormData): Pr
 }
 
 export async function archiveCostCenterAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const scope = businessScope(session);
@@ -383,6 +401,7 @@ export async function archiveCostCenterAction(_: FormState, formData: FormData):
 // Recorrentes
 // ---------------------------------------------------------------------------
 export async function saveRecurringAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const ctx = await writableScope();
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
@@ -452,6 +471,7 @@ function recurringLinkColumns(
 
 /** Edição de uma recorrência: valor, descrição, categoria, fim e ligações (o calendário não muda). */
 export async function updateRecurringAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const ctx = await writableScope();
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
@@ -496,6 +516,7 @@ export async function updateRecurringAction(_: FormState, formData: FormData): P
 }
 
 export async function toggleRecurringAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const ctx = await writableScope();
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
@@ -510,6 +531,7 @@ export async function toggleRecurringAction(_: FormState, formData: FormData): P
 }
 
 export async function deleteRecurringAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const ctx = await writableScope();
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
@@ -523,6 +545,7 @@ export async function deleteRecurringAction(_: FormState, formData: FormData): P
 // Orçamentos e objetivos
 // ---------------------------------------------------------------------------
 export async function saveBudgetAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const ctx = await writableScope();
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
@@ -562,6 +585,7 @@ export async function saveBudgetAction(_: FormState, formData: FormData): Promis
 }
 
 export async function deleteBudgetAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const ctx = await writableScope();
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
@@ -572,6 +596,7 @@ export async function deleteBudgetAction(_: FormState, formData: FormData): Prom
 }
 
 export async function saveGoalAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const ctx = await writableScope();
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
@@ -602,6 +627,7 @@ export async function saveGoalAction(_: FormState, formData: FormData): Promise<
 }
 
 export async function deleteGoalAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const ctx = await writableScope();
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
@@ -615,6 +641,7 @@ export async function deleteGoalAction(_: FormState, formData: FormData): Promis
 // Categorias
 // ---------------------------------------------------------------------------
 export async function saveCategoryAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const ctx = await writableScope();
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
@@ -631,6 +658,7 @@ export async function saveCategoryAction(_: FormState, formData: FormData): Prom
 }
 
 export async function archiveCategoryAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const ctx = await writableScope();
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;

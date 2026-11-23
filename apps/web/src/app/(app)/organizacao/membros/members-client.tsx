@@ -6,6 +6,7 @@ import { ActionForm, CopyField, InlineAction, SubmitButton } from "@/components/
 import { Alert, Field, SelectField } from "@/components/ui";
 import { initialFormState } from "@/lib/form";
 import { inviteMemberAction, removeMemberAction, updateMemberAction } from "../../actions";
+import { WorkspaceField } from "@/components/workspace-context";
 
 export interface RoleOption {
   value: string;
@@ -50,6 +51,7 @@ export function MemberRoleForm({
   const [state, action] = useActionState(updateMemberAction, initialFormState);
   return (
     <form action={action} className="flex flex-col gap-1">
+<WorkspaceField />
       <input type="hidden" name="memberId" value={memberId} />
       <div className="flex flex-wrap items-center gap-2">
         <label className="sr-only" htmlFor={`role-${memberId}`}>

@@ -8,6 +8,7 @@ import { errorMessage } from "@/lib/errors";
 import { formString, type FormState } from "@/lib/form";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession } from "@/lib/session";
+import { guardWorkspace } from "@/lib/workspace-guard";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -19,6 +20,7 @@ async function context() {
 
 /** Acompanhar uma série (ou mudar o limiar): alerta quando |variação mensal| ≥ limiar. */
 export async function saveWatchAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await context();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const seriesId = formString(formData, "seriesId");
@@ -36,6 +38,7 @@ export async function saveWatchAction(_: FormState, formData: FormData): Promise
 }
 
 export async function removeWatchAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await context();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const { data, error } = await session.supabase.from("market_watches").delete().eq("id", formString(formData, "watchId")).eq(scope.column, scope.value).select("id");
@@ -45,7 +48,8 @@ export async function removeWatchAction(_: FormState, formData: FormData): Promi
   return { status: "success" };
 }
 
-export async function markAlertsReadAction(_: FormState, _formData: FormData): Promise<FormState> {
+export async function markAlertsReadAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await context();
   if (!scope.canRead) return { status: "error", message: m.errors.forbidden };
   const { error } = await session.supabase.from("market_alerts").update({ read_at: new Date().toISOString() }).eq(scope.column, scope.value).is("read_at", null);

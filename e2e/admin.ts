@@ -53,3 +53,10 @@ export async function storageObjectExists(bucket: string, path: string): Promise
   if (res.status === 400 || res.status === 404) return false;
   throw new Error(`Consultar o Storage falhou: ${res.status} ${await res.text()}`);
 }
+
+/** Movimentos com esta descrição, em qualquer workspace (para confirmar que nada foi gravado). */
+export async function countTransactionsByDescription(description: string): Promise<number> {
+  const res = await fetch(`${url()}/rest/v1/transactions?select=id&description=eq.${encodeURIComponent(description)}`, { headers: headers() });
+  if (!res.ok) throw new Error(`Consultar movimentos falhou: ${res.status} ${await res.text()}`);
+  return ((await res.json()) as unknown[]).length;
+}

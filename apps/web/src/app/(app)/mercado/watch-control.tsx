@@ -5,6 +5,7 @@ import type { Messages } from "@anen/i18n";
 import { SubmitButton } from "@/components/forms";
 import { initialFormState } from "@/lib/form";
 import { removeWatchAction, saveWatchAction } from "./actions";
+import { WorkspaceField } from "@/components/workspace-context";
 
 /** Acompanhar uma série com um limiar de variação mensal (pontos percentuais). */
 export function WatchControl({
@@ -25,6 +26,7 @@ export function WatchControl({
     <div className="flex flex-col items-end gap-1">
       <div className="flex items-center justify-end gap-1.5">
         <form action={save} className="flex items-center gap-1.5">
+<WorkspaceField />
           <input type="hidden" name="seriesId" value={seriesId} />
           {watch ? <input type="hidden" name="watchId" value={watch.id} /> : null}
           <input
@@ -42,6 +44,7 @@ export function WatchControl({
         </form>
         {watch ? (
           <form action={remove}>
+<WorkspaceField />
             <input type="hidden" name="watchId" value={watch.id} />
             <SubmitButton pendingLabel="…" variant="ghost" className="h-9 px-2">
               <span aria-hidden="true">✕</span>

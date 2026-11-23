@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { activeWorkspace, listWorkspaces, resolveWorkspace, workspaceKey, workspaceScope, type WorkspaceSessionInput } from "./workspace";
+import { activeWorkspace, checkWorkspaceKey, listWorkspaces, resolveWorkspace, workspaceKey, workspaceScope, type WorkspaceSessionInput } from "./workspace";
 
 const empresaA = { id: "aaaaaaaa-0000-4000-8000-000000000001", name: "Empresa A", currency_code: "EUR", timezone: "Europe/Lisbon" };
 const empresaB = { id: "bbbbbbbb-0000-4000-8000-000000000002", name: "Empresa B", currency_code: "BRL", timezone: "America/Sao_Paulo" };
@@ -75,5 +75,26 @@ describe("lista, chave e resolução", () => {
     expect(resolveWorkspace(personal, `org:${outra}`)).toBeNull();
     expect(resolveWorkspace(personal, "")).toBeNull();
     expect(resolveWorkspace({ ...personal, memberships: [] }, empresaA.id)).toBeNull();
+  });
+});
+
+describe("guarda de workspace nos formulários (QA-03)", () => {
+  it("aceita só o workspace que está ativo no servidor", () => {
+    expect(checkWorkspaceKey(personal, "personal")).toBe("ok");
+    expect(checkWorkspaceKey(inB, `org:${empresaB.id}`)).toBe("ok");
+  });
+
+  it("recusa quando outra aba mudou de contexto, nos dois sentidos", () => {
+    expect(checkWorkspaceKey(inB, "personal")).toBe("changed");
+    expect(checkWorkspaceKey(personal, `org:${empresaB.id}`)).toBe("changed");
+    expect(checkWorkspaceKey(inB, `org:${empresaA.id}`)).toBe("changed");
+  });
+
+  it("recusa pedidos sem workspace (falha fechada) e valores inventados", () => {
+    expect(checkWorkspaceKey(personal, null)).toBe("missing");
+    expect(checkWorkspaceKey(personal, undefined)).toBe("missing");
+    expect(checkWorkspaceKey(personal, "")).toBe("missing");
+    expect(checkWorkspaceKey(personal, "user-1")).toBe("changed");
+    expect(checkWorkspaceKey(inB, empresaB.id)).toBe("changed");
   });
 });

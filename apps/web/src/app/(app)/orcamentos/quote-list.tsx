@@ -7,6 +7,7 @@ import { initialFormState } from "@/lib/form";
 import { SubmitButton } from "@/components/forms";
 import { Badge, cx } from "@/components/ui";
 import { deleteQuoteAction } from "./actions";
+import { WorkspaceField } from "@/components/workspace-context";
 
 export interface QuoteRow {
   id: string;
@@ -42,6 +43,7 @@ export function QuoteList({ m, rows, canDelete }: { m: Messages; rows: QuoteRow[
           }}
           className="flex min-h-11 flex-wrap items-center gap-3 rounded-xl border border-line bg-surface px-4 py-2"
         >
+<WorkspaceField />
           <label className="flex min-h-11 cursor-pointer items-center gap-3 text-sm">
             <input
               type="checkbox"

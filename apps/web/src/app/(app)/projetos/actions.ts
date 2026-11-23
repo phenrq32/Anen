@@ -8,6 +8,7 @@ import { errorMessage, translateFieldErrors } from "@/lib/errors";
 import { formString, type FormState } from "@/lib/form";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession } from "@/lib/session";
+import { guardWorkspace } from "@/lib/workspace-guard";
 
 function refresh() {
   revalidatePath("/projetos", "layout");
@@ -16,6 +17,7 @@ function refresh() {
 }
 
 export async function saveProjectAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const scope = businessScope(session);
@@ -65,6 +67,7 @@ export async function saveProjectAction(_: FormState, formData: FormData): Promi
 }
 
 export async function deleteProjectAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const scope = businessScope(session);
@@ -82,6 +85,7 @@ export async function deleteProjectAction(_: FormState, formData: FormData): Pro
 }
 
 export async function createProjectFromQuoteAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   if (!businessScope(session).canWrite) return { status: "error", message: m.errors.forbidden };

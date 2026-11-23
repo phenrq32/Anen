@@ -23,6 +23,7 @@ import { encryptSecret, encryptionConfigured } from "@/lib/invoicing/crypto";
 import { fromMinor, InvoiceXpress, InvoicingError, isGuide, ixDate, lisbonLocalToUtc, type IxDocumentInput, type IxItem } from "@/lib/invoicing/invoicexpress";
 import { clientFor, fiscalFields, invoicingErrorMessage, loadInvoicing } from "@/lib/invoicing/service";
 import { requireOnboardedSession } from "@/lib/session";
+import { guardWorkspace } from "@/lib/workspace-guard";
 
 const UUID = /^[0-9a-f-]{36}$/;
 
@@ -42,6 +43,7 @@ async function ctx() {
 // Ligação à conta InvoiceXpress
 // ---------------------------------------------------------------------------
 export async function connectInvoicingAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, fin, connection } = await ctx();
   if (!fin.canWrite) return { status: "error", message: m.errors.forbidden };
   if (!encryptionConfigured()) return { status: "error", message: m.invoicing.notConfigured };
@@ -72,6 +74,7 @@ export async function connectInvoicingAction(_: FormState, formData: FormData): 
 }
 
 export async function saveLoadAddressAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, fin, connection } = await ctx();
   if (!fin.canWrite || !connection) return { status: "error", message: m.errors.forbidden };
   const address = {
@@ -87,7 +90,8 @@ export async function saveLoadAddressAction(_: FormState, formData: FormData): P
   return { status: "success", message: m.invoicing.saved };
 }
 
-export async function refreshInvoicingSettingsAction(_: FormState): Promise<FormState> {
+export async function refreshInvoicingSettingsAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, fin, connection } = await ctx();
   if (!fin.canWrite || !connection) return { status: "error", message: m.errors.forbidden };
   try {
@@ -108,7 +112,8 @@ export async function refreshInvoicingSettingsAction(_: FormState): Promise<Form
   return { status: "success", message: m.invoicing.saved };
 }
 
-export async function disconnectInvoicingAction(_: FormState): Promise<FormState> {
+export async function disconnectInvoicingAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, fin, connection } = await ctx();
   if (!fin.canWrite || !connection) return { status: "error", message: m.errors.forbidden };
   const { error } = await session.supabase.from("invoicing_connections").delete().eq("id", connection.id);
@@ -122,6 +127,7 @@ export async function disconnectInvoicingAction(_: FormState): Promise<FormState
 // ---------------------------------------------------------------------------
 /** Cria o documento como RASCUNHO no InvoiceXpress e guarda a cópia local. Sem valor fiscal até finalizar. */
 export async function createFiscalDocumentAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, fin, connection } = await ctx();
   if (!fin.canWrite) return { status: "error", message: m.errors.forbidden };
   if (!connection) return { status: "error", message: m.errors.invoicing_not_connected };
@@ -260,6 +266,7 @@ async function loadDoc(session: Awaited<ReturnType<typeof requireOnboardedSessio
  * Depois: cria o valor a receber nas finanças (faturas) e dá baixa no stock, se pedido.
  */
 export async function finalizeFiscalDocumentAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, fin, connection } = await ctx();
   if (!fin.canWrite || !connection) return { status: "error", message: m.errors.forbidden };
   const doc = await loadDoc(session, formString(formData, "id"));
@@ -336,6 +343,7 @@ export async function finalizeFiscalDocumentAction(_: FormState, formData: FormD
 }
 
 export async function cancelFiscalDocumentAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, fin, connection } = await ctx();
   if (!fin.canWrite || !connection) return { status: "error", message: m.errors.forbidden };
   const parsed = cancelFiscalSchema.safeParse({ id: formString(formData, "id"), reason: formString(formData, "reason") });
@@ -380,6 +388,7 @@ export async function cancelFiscalDocumentAction(_: FormState, formData: FormDat
 
 /** Rascunho apagado no InvoiceXpress e aqui. */
 export async function deleteDraftAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, fin, connection } = await ctx();
   if (!fin.canWrite || !connection) return { status: "error", message: m.errors.forbidden };
   const doc = await loadDoc(session, formString(formData, "id"));
@@ -397,6 +406,7 @@ export async function deleteDraftAction(_: FormState, formData: FormData): Promi
 
 /** Nota de crédito total de uma fatura finalizada (fica em rascunho para rever e finalizar). */
 export async function creditNoteAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, fin, connection } = await ctx();
   if (!fin.canWrite || !connection) return { status: "error", message: m.errors.forbidden };
   const doc = await loadDoc(session, formString(formData, "id"));
@@ -473,6 +483,7 @@ export async function creditNoteAction(_: FormState, formData: FormData): Promis
 
 /** Volta a ler o documento no InvoiceXpress (estado, código AT das guias, link). */
 export async function refreshFiscalDocumentAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, fin, connection } = await ctx();
   if (!fin.canWrite || !connection) return { status: "error", message: m.errors.forbidden };
   const doc = await loadDoc(session, formString(formData, "id"));
@@ -499,6 +510,7 @@ export async function refreshFiscalDocumentAction(_: FormState, formData: FormDa
 }
 
 export async function emailFiscalDocumentAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, fin, connection } = await ctx();
   if (!fin.canWrite || !connection) return { status: "error", message: m.errors.forbidden };
   const doc = await loadDoc(session, formString(formData, "id"));

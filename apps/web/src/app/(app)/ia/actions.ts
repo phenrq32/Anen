@@ -8,6 +8,7 @@ import { errorMessage } from "@/lib/errors";
 import { formString, type FormState } from "@/lib/form";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession } from "@/lib/session";
+import { guardWorkspace } from "@/lib/workspace-guard";
 
 const UUID = /^[0-9a-f-]{36}$/;
 
@@ -18,6 +19,7 @@ export async function acceptAiConsentAction(): Promise<void> {
 }
 
 export async function askAiAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, locale } = await getI18n();
   const session = await requireOnboardedSession();
   const config = geminiConfig();
@@ -102,6 +104,7 @@ async function currentTitle(
 }
 
 export async function deleteConversationAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const { data, error } = await session.supabase.from("ai_conversations").delete().eq("id", formString(formData, "id")).select("id");

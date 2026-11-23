@@ -8,6 +8,8 @@ import { cookies } from "next/headers";
 import { TOUR_COOKIE } from "@/lib/appearance";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession } from "@/lib/session";
+import { WorkspaceKeyProvider } from "@/components/workspace-context";
+import { workspaceKey } from "@/lib/workspace";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const { m } = await getI18n();
@@ -52,9 +54,13 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     />
   ) : null;
 
+  // Chave do workspace com que esta página foi desenhada: os formulários enviam-na e o servidor recusa
+  // gravar se outra aba entretanto mudou o workspace ativo (QA-03).
   return (
-    <AppShell m={m} session={session} overlay={overlay} unread={unread ?? 0} canQuickAdd={scope.canWrite && (accounts.data ?? []).length > 0} showTour={(await cookies()).get(TOUR_COOKIE)?.value !== "done"}>
-      {children}
-    </AppShell>
+    <WorkspaceKeyProvider value={workspaceKey(scope.workspace)}>
+      <AppShell m={m} session={session} overlay={overlay} unread={unread ?? 0} canQuickAdd={scope.canWrite && (accounts.data ?? []).length > 0} showTour={(await cookies()).get(TOUR_COOKIE)?.value !== "done"}>
+        {children}
+      </AppShell>
+    </WorkspaceKeyProvider>
   );
 }

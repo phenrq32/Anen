@@ -7,6 +7,7 @@ import { initialFormState } from "@/lib/form";
 import { QUICK_ADD_EVENT } from "@/components/mobile-tabbar";
 import { saveTransactionAction } from "@/app/(app)/financas/actions";
 import { TransactionFields, type AccountOption, type CategoryOption } from "@/app/(app)/financas/finance-forms";
+import { WorkspaceField } from "@/components/workspace-context";
 
 /** Registo rápido de movimentos, disponível em toda a área autenticada (botão ou tecla N). */
 export function QuickAdd({
@@ -89,6 +90,7 @@ export function QuickAdd({
             startTransition(() => action(data));
           }}
         >
+<WorkspaceField />
           <div className="flex items-center justify-between">
             <h2 id="quick-add-title" className="text-lg font-semibold">{m.finance.tx.quickAdd}</h2>
             <button type="button" onClick={() => dialog.current?.close()} className="grid size-9 place-items-center rounded-md text-muted hover:bg-graphite hover:text-paper" aria-label={m.common.close}>

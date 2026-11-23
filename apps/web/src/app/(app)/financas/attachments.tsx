@@ -8,6 +8,7 @@ import { ATTACHMENT_MAX_BYTES, ATTACHMENT_MIME_TYPES } from "@anen/validation";
 import { InlineAction } from "@/components/forms";
 import { Alert, Button } from "@/components/ui";
 import { deleteAttachmentAction, finishAttachmentAction, prepareAttachmentAction } from "./actions";
+import { useWorkspaceKey } from "@/components/workspace-context";
 
 export interface AttachmentItem {
   id: string;
@@ -38,6 +39,7 @@ export function AttachmentsPanel({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
+  const workspace = useWorkspaceKey();
 
   async function upload() {
     setError(null);
@@ -48,11 +50,11 @@ export function AttachmentsPanel({
     if (file.size > ATTACHMENT_MAX_BYTES) return setError(t.tooLarge);
     setBusy(true);
     try {
-      const prepared = await prepareAttachmentAction({ transactionId, fileName: file.name, mimeType: file.type, size: file.size });
+      const prepared = await prepareAttachmentAction({ workspace: workspace ?? "", transactionId, fileName: file.name, mimeType: file.type, size: file.size });
       if (!prepared.ok) return setError(prepared.message);
       const client = createClient(storage.url, storage.key, { auth: { persistSession: false, autoRefreshToken: false } });
       const sent = await client.storage.from("attachments").uploadToSignedUrl(prepared.path, prepared.token, file, { contentType: file.type });
-      const finished = await finishAttachmentAction({ id: prepared.id, uploaded: !sent.error });
+      const finished = await finishAttachmentAction({ workspace: workspace ?? "", id: prepared.id, uploaded: !sent.error });
       if (!finished.ok) return setError(finished.message ?? m.errors.generic);
       if (input.current) input.current.value = "";
       setDone(true);

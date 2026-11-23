@@ -8,6 +8,7 @@ import { errorMessage, translateFieldErrors } from "@/lib/errors";
 import { formString, type FormState } from "@/lib/form";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession } from "@/lib/session";
+import { guardWorkspace } from "@/lib/workspace-guard";
 
 function refresh() {
   revalidatePath("/inventario", "layout");
@@ -22,6 +23,7 @@ async function writableScope() {
 }
 
 export async function saveStockItemAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await writableScope();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const parsed = stockItemSchema.safeParse({
@@ -61,6 +63,7 @@ export async function saveStockItemAction(_: FormState, formData: FormData): Pro
 }
 
 export async function toggleArchiveStockItemAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await writableScope();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const archive = formString(formData, "archive") === "1";
@@ -77,6 +80,7 @@ export async function toggleArchiveStockItemAction(_: FormState, formData: FormD
 }
 
 export async function deleteStockItemAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await writableScope();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const { data, error } = await session.supabase
@@ -92,6 +96,7 @@ export async function deleteStockItemAction(_: FormState, formData: FormData): P
 }
 
 export async function recordStockMovementAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await writableScope();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const parsed = stockMovementSchema.safeParse({
@@ -138,7 +143,8 @@ export async function recordStockMovementAction(_: FormState, formData: FormData
   return { status: "success", message: m.inventory.movement.saved };
 }
 
-export async function createReorderDraftsAction(_: FormState): Promise<FormState> {
+export async function createReorderDraftsAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, session, scope } = await writableScope();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
   const { data, error } = await session.supabase.rpc("create_reorder_drafts", { p_org: scope.orgId });

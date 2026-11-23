@@ -6,9 +6,11 @@ import { errorMessage } from "@/lib/errors";
 import { formString, type FormState } from "@/lib/form";
 import { getI18n } from "@/lib/i18n";
 import { can, requireOnboardedSession } from "@/lib/session";
+import { guardWorkspace } from "@/lib/workspace-guard";
 
 /** Portugal: cria o pedido por transferência (valor da tabela de preços) e mostra o IBAN com a referência. */
 export async function startBankTransferAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const plan = formString(formData, "plan");

@@ -6,6 +6,7 @@ import { errorMessage, translateFieldErrors } from "@/lib/errors";
 import { formString, type FormState } from "@/lib/form";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession, type SessionContext } from "@/lib/session";
+import { guardWorkspace } from "@/lib/workspace-guard";
 
 /** O plano do mês é sempre pessoal: o dono é o utilizador da sessão, a moeda a das suas preferências. */
 async function personal(): Promise<{ session: SessionContext; currency: string; minorUnit: number } | { error: FormState }> {
@@ -23,6 +24,7 @@ function refresh() {
 }
 
 export async function savePlanAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const ctx = await personal();
   if ("error" in ctx) return ctx.error;
@@ -58,6 +60,7 @@ export async function savePlanAction(_: FormState, formData: FormData): Promise<
 }
 
 export async function saveFixedExpenseAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const ctx = await personal();
   if ("error" in ctx) return ctx.error;
@@ -92,6 +95,7 @@ export async function saveFixedExpenseAction(_: FormState, formData: FormData): 
 }
 
 export async function deleteFixedExpenseAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const ctx = await personal();
   if ("error" in ctx) return ctx.error;

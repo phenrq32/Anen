@@ -16,6 +16,7 @@ import {
 } from "@anen/validation";
 import { Alert, Badge, Button, SelectField, cx } from "@/components/ui";
 import { importStatementAction, previewImportAction } from "./actions";
+import { useWorkspaceKey } from "@/components/workspace-context";
 
 export interface ImportAccount {
   id: string;
@@ -88,12 +89,13 @@ export function ImportWizard({ m, locale, accounts, categories }: { m: Messages;
     if (!guess) setError(t.mapManually);
   };
 
+  const workspace = useWorkspaceKey();
   const review = () => {
     if (!parsed || !account || parsed.rows.length === 0) return setError(t.nothingFound);
     setError("");
     start(async () => {
       const payload = parsed.rows.map((r) => ({ occurredOn: r.occurredOn, description: r.description, amountMinor: r.amountMinor.toString(), ref: r.ref }));
-      const res = await previewImportAction({ accountId, rows: payload });
+      const res = await previewImportAction({ workspace: workspace ?? "", accountId, rows: payload });
       if (!res.ok) return setError(res.message ?? m.errors.generic);
       const dup = new Set(res.duplicates ?? []);
       setRows(
@@ -111,6 +113,7 @@ export function ImportWizard({ m, locale, accounts, categories }: { m: Messages;
     if (chosen.length === 0) return setError(t.noneSelected);
     start(async () => {
       const res = await importStatementAction({
+        workspace: workspace ?? "",
         accountId,
         rows: chosen.map((r) => ({ occurredOn: r.occurredOn, description: r.description, amountMinor: r.amountMinor.toString(), ref: r.ref, categoryId: r.categoryId })),
       });

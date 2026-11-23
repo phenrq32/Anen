@@ -1700,6 +1700,8 @@ export const ptBR: Messages = {
     },
   },
   dashboard: {
+    workspaceChanged: "Nada foi salvo: o espaço ativo mudou em outra aba ou janela. Você está agora em {workspace}. Confira e repita a operação, se for o caso.",
+    personalWorkspace: "Pessoal",
     period: {
       label: "Período dos totais",
       month: "Este mês",
@@ -1965,6 +1967,7 @@ export const ptBR: Messages = {
     },
   },
   errors: {
+    workspace_immutable: "Um registro não pode mudar de espaço (pessoal ou empresa). Crie-o no espaço certo.",
     generic: "Ocorreu um erro. Tente novamente.",
     unauthorized: "A sessão expirou. Entre novamente.",
     forbidden: "Você não tem permissão para esta ação.",

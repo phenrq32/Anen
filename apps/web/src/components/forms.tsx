@@ -1,5 +1,6 @@
 "use client";
 
+import { WorkspaceField } from "@/components/workspace-context";
 import { createContext, startTransition, useActionState, useContext, useId, useState, type ReactNode } from "react";
 import { useFormStatus } from "react-dom";
 
@@ -77,6 +78,7 @@ export function ActionForm({
         noValidate
         aria-busy={isPending}
       >
+        <WorkspaceField />
         {state.status === "error" && state.message ? <Alert tone="error">{state.message}</Alert> : null}
         {state.status === "success" && (state.message ?? successMessage) ? (
           <Alert tone="success">{state.message ?? successMessage}</Alert>
@@ -112,6 +114,7 @@ export function InlineAction({
       }}
       className="inline-flex flex-col items-end gap-1"
     >
+      <WorkspaceField />
       {Object.entries(fields).map(([name, value]) => (
         <input key={name} type="hidden" name={name} value={value} />
       ))}

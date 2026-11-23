@@ -19,6 +19,7 @@ import { formString, type FormState } from "@/lib/form";
 import { getI18n, setLocaleCookie } from "@/lib/i18n";
 import { requireOnboardedSession, requireSession } from "@/lib/session";
 import { resolveWorkspace } from "@/lib/workspace";
+import { guardWorkspace } from "@/lib/workspace-guard";
 
 const ok = (message?: string, data?: Record<string, string>): FormState => ({
   status: "success",
@@ -72,6 +73,7 @@ export async function createOrganizationAction(_: FormState, formData: FormData)
 }
 
 export async function updateOrganizationAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const org = session.active?.organization;
@@ -145,6 +147,7 @@ export async function updateHiddenModulesAction(_: FormState, formData: FormData
 }
 
 export async function inviteMemberAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const parsed = invitationSchema.safeParse({
@@ -168,6 +171,7 @@ export async function inviteMemberAction(_: FormState, formData: FormData): Prom
 }
 
 export async function revokeInvitationAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const { error } = await session.supabase.rpc("revoke_invitation", { p_invitation_id: formString(formData, "invitationId") });
@@ -177,6 +181,7 @@ export async function revokeInvitationAction(_: FormState, formData: FormData): 
 }
 
 export async function updateMemberAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const parsed = memberUpdateSchema.safeParse({ memberId: formString(formData, "memberId"), roleId: formString(formData, "roleId") });
@@ -193,6 +198,7 @@ export async function updateMemberAction(_: FormState, formData: FormData): Prom
 }
 
 export async function removeMemberAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const memberId = formString(formData, "memberId");
@@ -204,6 +210,7 @@ export async function removeMemberAction(_: FormState, formData: FormData): Prom
 }
 
 export async function saveRoleAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const parsed = roleSchema.safeParse({
@@ -228,6 +235,7 @@ export async function saveRoleAction(_: FormState, formData: FormData): Promise<
 }
 
 export async function deleteRoleAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m } = await getI18n();
   const session = await requireOnboardedSession();
   const { error } = await session.supabase.rpc("delete_role", { p_role_id: formString(formData, "roleId") });
@@ -260,7 +268,8 @@ export async function deleteMyAccountAction(_: FormState, formData: FormData): P
 }
 
 /** Sair da organização ativa (a última proprietária não pode sair). */
-export async function leaveOrganizationAction(_: FormState): Promise<FormState> {
+export async function leaveOrganizationAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const session = await requireOnboardedSession();
   const { m } = await getI18n();
   if (!session.active) return { status: "error", message: m.errors.forbidden };
@@ -272,6 +281,7 @@ export async function leaveOrganizationAction(_: FormState): Promise<FormState> 
 
 /** Apagar a organização ativa (só proprietários, confirmando o nome). */
 export async function deleteOrganizationAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const session = await requireOnboardedSession();
   const { m } = await getI18n();
   if (!session.active) return { status: "error", message: m.errors.forbidden };

@@ -6,6 +6,7 @@ import { getI18n } from "@/lib/i18n";
 import { quotesScope } from "@/lib/quotes";
 import { requireOnboardedSession } from "@/lib/session";
 import { createQuoteAction } from "../actions";
+import { WorkspaceField } from "@/components/workspace-context";
 
 export const metadata: Metadata = { title: "Novo orçamento" };
 
@@ -20,6 +21,7 @@ export default async function NewQuotePage() {
     <>
       <PageHeader title={m.quotes.chooseTemplate} description={m.quotes.templateHint} />
       <form action={createQuoteAction} className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+<WorkspaceField />
         {sorted.map((t) => (
           <button
             key={t.key}

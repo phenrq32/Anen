@@ -12,12 +12,14 @@ import { formString, type FormState } from "@/lib/form";
 import { getI18n } from "@/lib/i18n";
 import { DIGEST_DAYS, parseDigestKind } from "@/lib/intelligence";
 import { requireOnboardedSession } from "@/lib/session";
+import { guardWorkspace } from "@/lib/workspace-guard";
 
 /**
  * Gera o resumo da ANEN AI para o período (7 ou 30 dias até hoje). Gasta 1 pergunta do limite
  * diário (reservada no servidor antes de chamar o modelo) e guarda o resultado em ai_digests.
  */
 export async function generateDigestAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
   const { m, locale } = await getI18n();
   const session = await requireOnboardedSession();
   const config = geminiConfig();

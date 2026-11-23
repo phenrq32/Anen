@@ -111,3 +111,16 @@ export function resolveWorkspace(session: WorkspaceSessionInput, requested: stri
   const member = (session.memberships ?? []).find((m) => m.organization.id === id);
   return member ? { type: "BUSINESS", id: member.organization.id } : null;
 }
+
+/** Nome do campo oculto que os formulários enviam com o workspace que estava no ecrã. */
+export const WORKSPACE_FIELD = "__workspace";
+
+/**
+ * Compara o workspace que o formulário trazia com o workspace ativo no servidor.
+ * "missing": o pedido não diz de que workspace vem (recusado: falha fechada).
+ * "changed": outra aba ou janela mudou o workspace ativo depois de a página ser aberta.
+ */
+export function checkWorkspaceKey(session: WorkspaceSessionInput, sent: string | null | undefined): "ok" | "missing" | "changed" {
+  if (!sent) return "missing";
+  return sent === workspaceKey(activeWorkspace(session)) ? "ok" : "changed";
+}
