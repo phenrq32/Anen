@@ -201,7 +201,7 @@ Auditoria em [DUAL_ARCHITECTURE_AUDIT.md](DUAL_ARCHITECTURE_AUDIT.md), problemas
 | Auditoria da arquitetura, zona visual protegida e plano | Implementado | `DUAL_ARCHITECTURE_AUDIT.md` |
 | QA-01: introduzir valores em "A Receber" e "A Pagar" | Testado | `open-items.test.ts`; E2E `open-items.spec.ts` |
 | QA-02 e QA-11: eliminar movimento ou anexo só no contexto ativo; ficheiros removidos do Storage | Testado | E2E `recurring-attachments.spec.ts` (verifica o ficheiro no Storage) |
-| QA-08 a QA-10, QA-12, QA-14, QA-15, QA-17 | Não iniciado | Ver `QA_REVIEW.md` |
+| QA-08 a QA-10, QA-12, QA-14, QA-15 | Não iniciado | Ver `QA_REVIEW.md` |
 
 ## Dual Workspace · Fase 2: workspaces, conta única e membros
 

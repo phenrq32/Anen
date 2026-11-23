@@ -38,7 +38,7 @@ Gravidade: crítico · alto · médio · baixo. Estado: **corrigido** (com teste
 | QA-14 | Planos (Brasil): "Assinar Pro" | Em produção, o pedido à API da InfinitePay para criar o link de pagamento devolve erro e aparece "Não foi possível abrir o pagamento agora". A ANEN cria o pedido, mas a InfinitePay recusa (credenciais/handle ou serviço). O código desta ação só mudou na guarda | Alto | Pendente: confirmar o handle e a conta InfinitePay (precisa de si) |
 | QA-15 | ANEN AI: pergunta | Uma vez, em produção (telemóvel), uma falha do fornecedor de IA terminou no ecrã genérico "Ocorreu um erro" em vez de uma mensagem clara; repetido, passou. Provável tempo máximo da função excedido | Médio | Pendente: precisa dos registos do Vercel para confirmar a causa |
 | QA-16 | Registo rápido com a tecla N (E2E) | A tecla N às vezes era premida antes de a página ficar interativa (2 casos em produção, telemóvel e desktop). Era do teste, não da app | Baixo | Corrigido: `e2e/ui.ts#openQuickAdd` repete a tecla até o diálogo abrir; 4 testes passam a usá-lo |
-| QA-17 | Orçamentos: aviso de excedido | O texto começa por "⚠", um símbolo próximo de um emoji; a marca pede "sem emojis" | Baixo | Decisão sua (não alterei elementos visuais existentes) |
+| QA-17 | Orçamentos: aviso de excedido | O texto começa por "⚠", um símbolo próximo de um emoji; a marca pede "sem emojis" | Baixo | Fechado: decisão do utilizador a 23/11/2026, o "⚠" mantém-se |
 | QA-12 | Bucket `attachments` (produção) | Até 2 PDFs de teste órfãos, deixados pela primeira versão do QA-02 durante os E2E (ver detalhe do QA-02) | Baixo | Decisão sua: limpar com uma tarefa de ficheiros órfãos (já prevista em `IMPLEMENTATION_STATUS.md`) |
 | QA-11 | `deleteAttachmentAction` | O anexo era procurado sem filtro do contexto ativo (o RLS protegia, mas podia apagar o anexo de outro contexto da mesma pessoa) | Médio | **Corrigido** |
 
@@ -144,4 +144,4 @@ Migration 2900 aplicada (à segunda tentativa: a primeira recebeu um 502 da API 
 - **Testes:** motor (8), base de dados (19: paridade motor/SQL em 6 casos, regras, acessos cruzados, leitor, escrita direta recusada, auditoria), validação; E2E `installments.spec.ts` contra produção (desktop e telemóvel).
 - **Encontrado no E2E e corrigido:** "1 pagas" (plural errado) → "Pagas: 1 · Faltam: 0"; o teste esperava uma mensagem de sucesso que o botão de linha não mostra.
 - **Produção:** migration 3000 aplicada e deploy feito; 10 E2E a passar contra o site (parcelas, a receber e a pagar, finanças, importação de extrato, período do painel).
-- **Notado, por decidir:** o aviso de orçamento excedido usa o símbolo "⚠" (texto já existente). A marca pede "sem emojis"; não alterei por ser um elemento visual existente (QA-17).
+- **QA-17:** o aviso de orçamento excedido usa o símbolo "⚠". Decisão do utilizador: mantém-se.
