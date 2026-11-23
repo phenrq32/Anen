@@ -2,9 +2,9 @@
 
 ## [0.23.0] · 23/11/2026 · Dual Workspace, Fase 1: auditoria, revisão e "A receber e a pagar"
 - "A receber e a pagar": formulário próprio na página (já como pendente; Receita é a receber, Despesa é a pagar; `?tipo=income`), e "Editar" e "Eliminar" em cada linha. Sem nenhuma conta, a página leva a criar uma. Antes só se criava um valor em aberto em Movimentos → Mais detalhes, e só se editava no mês selecionado.
-- Eliminar um movimento só remove os anexos do Storage depois de o movimento do contexto ativo ter sido eliminado. Remover um anexo também passou a filtrar pelo contexto ativo.
-- Novos `DUAL_ARCHITECTURE_AUDIT.md` (auditoria, zona visual protegida, decisão para a Fase 2) e `QA_REVIEW.md` (11 problemas, com gravidade e estado).
-- Testes: 409 unitários (`open-items.test.ts`, 16 testes com acessos cruzados); E2E `open-items.spec.ts` escrito, por correr.
+- Eliminar um movimento confirma primeiro que ele é do contexto ativo; só então remove os anexos do Storage e o movimento. Remover um anexo também passou a filtrar pelo contexto ativo.
+- Novos `DUAL_ARCHITECTURE_AUDIT.md` (auditoria, zona visual protegida, decisão para a Fase 2) e `QA_REVIEW.md` (12 problemas, com gravidade e estado).
+- Testes: 409 unitários (`open-items.test.ts`, 16 testes com acessos cruzados); E2E novo `open-items.spec.ts` e `recurring-attachments.spec.ts` alargado (o ficheiro sai do Storage ao eliminar o movimento), com `storageObjectExists` em `e2e/admin.ts`. 10 E2E a passar (desktop e telemóvel).
 
 ## [0.22.0] · 23/11/2026 · App instalável, notificações push, importador e mais
 - App instalável (PWA, grátis, sem lojas): manifesto com atalhos, ícones (incluindo adaptável e iPhone), service worker que nunca guarda páginas nem dados no aparelho (só ficheiros públicos), página "sem ligação", botão "Instalar" (Android/computador) e passos para o iPhone, no painel e em Definições → App no telemóvel.

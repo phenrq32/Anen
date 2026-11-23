@@ -215,17 +215,18 @@ export async function deleteTransactionAction(_: FormState, formData: FormData):
   if ("error" in ctx) return ctx.error;
   const { m, session, scope } = ctx;
   const id = formString(formData, "id");
-  // Os ficheiros no Storage não são apagados em cascata. Só se removem depois de o movimento
-  // do contexto ativo ter sido mesmo eliminado: noutro contexto (ou sem permissão) nada se perde.
-  const { data: files } = await session.supabase
-    .from("transaction_attachments")
-    .select("storage_path")
-    .eq("transaction_id", id)
-    .eq(scope.column, scope.value);
-  const { data: deleted, error } = await session.supabase.from("transactions").delete().eq("id", id).eq(scope.column, scope.value).select("id");
+  // 1) O movimento tem de ser do contexto ativo: noutro contexto (por exemplo, uma aba antiga) nada é tocado.
+  const { data: tx } = await session.supabase.from("transactions").select("id").eq("id", id).eq(scope.column, scope.value).maybeSingle();
+  if (!tx) return { status: "error", message: m.errors.forbidden };
+  // 2) Os ficheiros no Storage não são apagados em cascata e a política do Storage só deixa
+  //    apagá-los enquanto o movimento existe: removem-se antes de eliminar o movimento.
+  const { data: files } = await session.supabase.from("transaction_attachments").select("storage_path").eq("transaction_id", id);
+  if (files?.length) {
+    const removed = await session.supabase.storage.from(ATTACHMENTS_BUCKET).remove(files.map((f) => f.storage_path));
+    if (removed.error) return { status: "error", message: m.errors.generic };
+  }
+  const { error } = await session.supabase.from("transactions").delete().eq("id", id).eq(scope.column, scope.value);
   if (error) return { status: "error", message: errorMessage(m, error) };
-  if (!deleted?.length) return { status: "error", message: m.errors.forbidden };
-  if (files?.length) await session.supabase.storage.from(ATTACHMENTS_BUCKET).remove(files.map((f) => f.storage_path));
   refresh();
   return ok();
 }

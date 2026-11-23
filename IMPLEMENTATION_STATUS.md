@@ -61,7 +61,7 @@ Plano completo e dependências externas em [EXPANSION_PLAN.md](EXPANSION_PLAN.md
 | Despesas e receitas: contacto, projeto, centro de custo, tipo de custo, vencimento, imposto incluído, método de pagamento, n.º de documento | Testado (BD) | `business.test.ts` (âmbito, moeda do projeto, coerência do imposto) |
 | Pagamentos pendentes e parciais; saldo e relatórios em base de caixa | Testado (BD) | `business.test.ts` |
 | A receber e a pagar, vencidos, marcar como liquidado | Testado | E2E em produção |
-| Registar, editar e eliminar valores na própria página "A receber e a pagar" (pessoal e organização) | Testado (BD) | `open-items.test.ts` (16, incluindo acessos cruzados); E2E `open-items.spec.ts` escrito, por correr |
+| Registar, editar e eliminar valores na própria página "A receber e a pagar" (pessoal e organização) | Testado | `open-items.test.ts` (16, incluindo acessos cruzados); E2E `open-items.spec.ts` (desktop e telemóvel, 23/11/2026) |
 | Previsto vs. real por projeto e por tipo de custo, alerta de ultrapassagem | Testado (motor) | `project.test.ts` (inclui o exemplo 300 € → 350 €) |
 | Painel com valores em aberto, projetos e orçamentos recentes | Implementado | — |
 | Comprovativo anexado (ficheiro) | Não iniciado | Supabase Storage com RLS; fica para a fase de compras |
@@ -199,10 +199,10 @@ Auditoria em [DUAL_ARCHITECTURE_AUDIT.md](DUAL_ARCHITECTURE_AUDIT.md), problemas
 | Funcionalidade | Estado | Evidência |
 |---|---|---|
 | Auditoria da arquitetura, zona visual protegida e plano | Implementado | `DUAL_ARCHITECTURE_AUDIT.md` |
-| QA-01: introduzir valores em "A Receber" e "A Pagar" | Testado (BD) | `open-items.test.ts`; E2E por correr |
-| QA-02 e QA-11: eliminar movimento ou anexo só no contexto ativo, sem apagar ficheiros antes | Implementado | Sem teste automático (o Storage não é emulado); E2E na Fase 3 |
-| QA-03 a QA-10 | Não iniciado | Ver `QA_REVIEW.md` |
-| Modelo de workspaces (Fase 2) | Bloqueado | Decisão pendente: opção A ou B em `DUAL_ARCHITECTURE_AUDIT.md` §6 |
+| QA-01: introduzir valores em "A Receber" e "A Pagar" | Testado | `open-items.test.ts`; E2E `open-items.spec.ts` |
+| QA-02 e QA-11: eliminar movimento ou anexo só no contexto ativo; ficheiros removidos do Storage | Testado | E2E `recurring-attachments.spec.ts` (verifica o ficheiro no Storage) |
+| QA-03 a QA-10, QA-12 | Não iniciado | Ver `QA_REVIEW.md` |
+| Modelo de workspaces (Fase 2) | Não iniciado | Decidido: opção A de `DUAL_ARCHITECTURE_AUDIT.md` §6 (camada sobre o modelo atual, sem migrar dados) |
 
 ## Fases seguintes
 

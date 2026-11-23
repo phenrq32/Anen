@@ -45,3 +45,11 @@ export async function setPersonalPlan(userId: string, plan: "free" | "pro" | "ma
   });
   if (!res.ok) throw new Error(`Atribuir plano falhou: ${res.status} ${await res.text()}`);
 }
+
+/** O ficheiro criado pelo próprio teste ainda existe no Storage? (caminho exato, sem listar o bucket) */
+export async function storageObjectExists(bucket: string, path: string): Promise<boolean> {
+  const res = await fetch(`${url()}/storage/v1/object/info/${bucket}/${path.split("/").map(encodeURIComponent).join("/")}`, { headers: headers() });
+  if (res.status === 200) return true;
+  if (res.status === 400 || res.status === 404) return false;
+  throw new Error(`Consultar o Storage falhou: ${res.status} ${await res.text()}`);
+}

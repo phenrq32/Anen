@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { createConfirmedUser, deleteUser } from "./admin";
+import { createConfirmedUser, deleteUser, storageObjectExists } from "./admin";
 
 const password = "Segura12345e2e";
 const created: string[] = [];
@@ -56,7 +56,8 @@ test("recorrente editável e gerado como pendente; anexo de fatura enviado, aber
   // O movimento de hoje é gerado como pendente (aparece em "A pagar")
   await page.goto("/financas/movimentos");
   await page.goto("/financas/em-aberto");
-  await expect(main.getByText("Renda").first()).toBeVisible();
+  // Só na lista "A pagar": o formulário da página também tem a categoria "Renda"
+  await expect(main.getByRole("region", { name: "A pagar" }).getByText("Renda").first()).toBeVisible();
 
   // Anexar fatura ao movimento
   await page.goto("/financas/movimentos");
@@ -87,4 +88,22 @@ test("recorrente editável e gerado como pendente; anexo de fatura enviado, aber
   await main.getByRole("button", { name: "Remover" }).click();
   await expect(main.getByRole("link", { name: "fatura-renda.pdf" })).toHaveCount(0);
   await expect(main.getByText("Sem anexos.")).toBeVisible();
+
+  // Eliminar o movimento com anexo: o movimento sai e o ficheiro deixa de existir no Storage
+  await main.getByLabel("Ficheiro").setInputFiles({ name: "fatura-final.pdf", mimeType: "application/pdf", buffer: pdf });
+  await main.getByRole("button", { name: "Anexar" }).click();
+  await expect(main.getByRole("link", { name: "fatura-final.pdf" })).toBeVisible();
+  const opened = await page.request.get((await main.getByRole("link", { name: "fatura-final.pdf" }).getAttribute("href"))!, { maxRedirects: 0 });
+  const signedUrl = opened.headers()["location"];
+  expect(signedUrl).toBeTruthy();
+  expect((await page.request.get(signedUrl!)).status()).toBe(200);
+  expect(await storageObjectExists("attachments", decodeURIComponent(new URL(signedUrl!).pathname.replace(/^\/storage\/v1\/object\/sign\/attachments\//, "")))).toBe(true);
+  await page.goto("/financas/em-aberto");
+  const payables = main.getByRole("region", { name: "A pagar" });
+  page.once("dialog", (d) => d.accept());
+  await payables.getByRole("button", { name: "Eliminar" }).first().click();
+  await expect(payables.getByText("Renda")).toHaveCount(0);
+  // O URL assinado pode continuar em cache na CDN; confirma-se no Storage pelo caminho do próprio ficheiro.
+  const objectPath = decodeURIComponent(new URL(signedUrl!).pathname.replace(/^\/storage\/v1\/object\/sign\/attachments\//, ""));
+  await expect.poll(() => storageObjectExists("attachments", objectPath)).toBe(false);
 });

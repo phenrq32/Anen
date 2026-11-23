@@ -65,7 +65,7 @@ test("a receber e a pagar: registar, editar, liquidar e eliminar na própria pá
   await expect(main.getByLabel("Estado do pagamento")).toHaveValue("pending");
   await main.getByLabel(/^Valor/).fill("1300");
   await main.getByRole("button", { name: "Guardar" }).click();
-  await expect(main.getByText("Movimento registado.")).toBeVisible();
+  await expect(main.getByText("Movimento atualizado.")).toBeVisible();
   await page.goto("/financas/em-aberto");
   await expect(main.getByRole("region", { name: "A pagar" }).getByText("1300,00 €").first()).toBeVisible();
 

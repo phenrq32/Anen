@@ -9,13 +9,14 @@ _Fase 1 · 23/11/2026._ Arquitetura em [DUAL_ARCHITECTURE_AUDIT.md](DUAL_ARCHITE
 | `npm test` | **409 testes a passar** (51 ficheiros), incluindo os 16 novos de `open-items.test.ts` |
 | `npm run typecheck` (TypeScript estrito, todos os workspaces) | Sem erros |
 | `npm run build` | Sem erros nem avisos (49 páginas) |
+| E2E (Playwright, Chromium desktop e Pixel 7) | **10 a passar**: `open-items`, `finance`, `business` e `recurring-attachments`. Correram com o código desta fase numa instância local ligada ao Supabase de produção (sem migrações novas; a produção está na migration 2600, a mesma do repositório). As contas de teste são apagadas no fim |
 | `npm audit --omit=dev` | 0 vulnerabilidades |
 | `any`, `TODO`, `FIXME` no código-fonte | Nenhum |
 | Consultas a tabelas com âmbito sem filtro de contexto (análise estática das 17 `actions.ts` e de `lib/`) | Ver QA-05 |
 | Service worker | Não guarda páginas nem dados (só ficheiros públicos), por isso não há fuga entre contas nem contextos |
 | Identidade visual | Sem alterações (`git diff` vazio nos ficheiros da zona protegida) |
 
-**Limites desta revisão.** O contentor de desenvolvimento não tem acesso ao Supabase nem às chaves de E2E. Por isso, desta vez não percorri as páginas no browser nem corri os E2E (que correm contra produção). A revisão foi feita por código, testes de base de dados e build. A revisão no browser (desktop, tablet e telemóvel) e os E2E ficam para quando houver um ambiente de staging (QA-08) ou para correr contra produção, com a sua autorização.
+**Limites desta revisão.** Corri no browser só os E2E das áreas alteradas, não os 25 ficheiros. A revisão página a página no browser (desktop, tablet e telemóvel) fica para a revisão completa da Fase 10, idealmente em staging (QA-08).
 
 ## Problemas encontrados
 
@@ -24,7 +25,7 @@ Gravidade: crítico · alto · médio · baixo. Estado: **corrigido** (com teste
 | ID | Local | Problema | Gravidade | Estado |
 |---|---|---|---|---|
 | QA-01 | `/financas/em-aberto` | Não se conseguia introduzir valores em "A Receber" e "A Pagar" | Crítico | **Corrigido** |
-| QA-02 | `financas/actions.ts#deleteTransactionAction` | Os anexos eram apagados do Storage antes de se confirmar que o movimento era do contexto ativo, o que podia levar à perda de ficheiros | Alto | Corrigido sem teste automático |
+| QA-02 | `financas/actions.ts#deleteTransactionAction` | Os anexos eram apagados do Storage antes de se confirmar que o movimento era do contexto ativo, o que podia levar à perda de ficheiros | Alto | **Corrigido** |
 | QA-03 | Contexto ativo (`user_preferences.active_organization_id`) | Com duas abas em contextos diferentes, um formulário grava no contexto ativo no momento de gravar, não no que estava no ecrã | Alto | Pendente (Fase 3/4) |
 | QA-04 | Menu (`components/app-shell.tsx`) | O espaço pessoal mostra os módulos de empresa (Compras, Inventário, Faturação, Fichas técnicas) | Médio | Pendente (Fase 4) |
 | QA-05 | `financas/importar/actions.ts:110` | As categorias são lidas sem filtro de contexto. A base de dados recusa categorias de outro espaço (`category_invalid`), mas a importação falharia inteira em vez de ignorar a categoria | Baixo | Pendente |
@@ -33,7 +34,8 @@ Gravidade: crítico · alto · médio · baixo. Estado: **corrigido** (com teste
 | QA-08 | E2E | Correm contra produção e criam contas reais temporárias; falta staging | Médio | Decisão sua (precisa de um projeto Supabase de staging) |
 | QA-09 | Repositório | Não há linter (ESLint ou equivalente); só `tsc` | Baixo | Pendente |
 | QA-10 | "Marcar como liquidado" | Só liquida o total; um pagamento parcial regista-se editando o movimento | Baixo | Pendente (Fase 5/6, com as parcelas) |
-| QA-11 | `deleteAttachmentAction` | O anexo era procurado sem filtro do contexto ativo (o RLS protegia, mas podia apagar o anexo de outro contexto da mesma pessoa) | Médio | Corrigido sem teste automático |
+| QA-12 | Bucket `attachments` (produção) | Até 2 PDFs de teste órfãos, deixados pela primeira versão do QA-02 durante os E2E (ver detalhe do QA-02) | Baixo | Decisão sua: limpar com uma tarefa de ficheiros órfãos (já prevista em `IMPLEMENTATION_STATUS.md`) |
+| QA-11 | `deleteAttachmentAction` | O anexo era procurado sem filtro do contexto ativo (o RLS protegia, mas podia apagar o anexo de outro contexto da mesma pessoa) | Médio | **Corrigido** |
 
 ## Detalhe
 
@@ -48,13 +50,14 @@ Gravidade: crítico · alto · médio · baixo. Estado: **corrigido** (com teste
   - Funciona no espaço pessoal e no de organização. O leitor (sem `finance.write`) continua só a ver.
 - **Testes:**
   - `packages/database/tests/open-items.test.ts` (16 testes, a passar): criar pendente e parcial, saldo só com o liquidado, editar mantém pendente, liquidar, eliminar, nos dois espaços. Inclui acessos cruzados: outra pessoa não vê, não liquida nem apaga mesmo com o identificador; ninguém grava no espaço de outro; os dados pessoais da proprietária não aparecem aos membros da organização; o leitor não escreve; o âmbito não muda numa edição; os anónimos são recusados.
-  - `e2e/open-items.spec.ts`: o fluxo completo na página (vírgula decimal e separador de milhares, parcial, editar, liquidar e eliminar), em desktop e telemóvel. **Escrito, mas por correr:** precisa das chaves de E2E (ver "Limites").
+  - `e2e/open-items.spec.ts`: o fluxo completo na página (vírgula decimal e separador de milhares, parcial, editar, liquidar e eliminar), em desktop e telemóvel. **A passar.**
 
-### QA-02 · Eliminar movimento apagava anexos antes de validar (alto, corrigido sem teste automático)
+### QA-02 · Eliminar movimento apagava anexos antes de validar (alto, corrigido)
 
 - **Cenário:** uma pessoa com acesso ao espaço pessoal e a uma organização carrega em Eliminar numa aba antiga, depois de ter mudado de contexto noutra aba. Os ficheiros do movimento eram apagados do Storage (o RLS permitia, porque é membro), mas o movimento não, porque não pertence ao contexto ativo. Ficava um movimento com anexos partidos.
-- **Correção:** o movimento é apagado primeiro, com o filtro do contexto ativo e a confirmação de que foi mesmo eliminado. Só depois se removem os ficheiros. Se nada foi apagado, devolve "sem permissão".
-- **Teste em falta:** a ação usa o Storage do Supabase, que os testes de PGlite não emulam. Fica para um E2E de anexos (Fase 3).
+- **Correção:** primeiro confirma-se que o movimento é do contexto ativo; se não for, nada é tocado e a resposta é "sem permissão". Depois removem-se os ficheiros (se a remoção falhar, o movimento fica) e só então se elimina o movimento.
+- **Primeira tentativa errada, apanhada pelo teste:** eliminar o movimento antes dos ficheiros deixava os ficheiros órfãos, porque a política do Storage (`private.can_write_attachment_path`) só deixa apagá-los enquanto o movimento existe. O E2E novo detetou isto e a ordem foi corrigida. Nessa execução de teste podem ter ficado até 2 PDFs de teste (poucos bytes) órfãos no bucket `attachments` de produção, de contas de teste já apagadas. Não os removi: para os encontrar seria preciso listar o bucket inteiro, com ficheiros de clientes reais. Fica a decisão consigo (QA-12).
+- **Teste:** `e2e/recurring-attachments.spec.ts` anexa um ficheiro, confirma no Storage que existe (pelo caminho exato do ficheiro do teste), elimina o movimento em "A pagar" e confirma que o ficheiro saiu do Storage. Desktop e telemóvel, a passar. O mesmo teste cobre o QA-11 (remover anexo).
 
 ### QA-03 · Contexto global entre abas (alto, pendente)
 

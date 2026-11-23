@@ -12,7 +12,7 @@ _Fase 1 do prompt "Dual Workspace Architecture" v1.3 · 23/11/2026._ Revisão fu
 - As colunas de âmbito não estão nos `grant update`, por isso um registo não muda de espaço numa edição (há um teste para isto).
 - O contexto ativo fica em `user_preferences.active_organization_id`, validado por gatilho: só aceita organizações em que a pessoa é membro ativo.
 
-Por isso, a Fase 2 não precisa de recriar tabelas nem de migrar dados. Proponho adaptar o que existe (ver §6), e esta decisão fica à espera de aprovação.
+Por isso, a Fase 2 não precisa de recriar tabelas nem de migrar dados. **Decisão (23/11/2026): opção A** (ver §6), adaptar o que existe.
 
 ## 2. Stack
 
