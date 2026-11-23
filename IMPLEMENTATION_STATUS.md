@@ -3,7 +3,7 @@
 Estados: Não iniciado · Em desenvolvimento · Implementado · Testado · Aprovado · Bloqueado.
 "Testado" = coberto por testes automáticos que passam (unitários/RLS e E2E em produção). "Aprovado" exige validação humana, e nada está aprovado ainda.
 
-_Atualizado em 23/11/2026 (Dual Workspace, Fase 4)._ Produção: **https://anen-five.vercel.app** (Vercel + Supabase eu-west-1).
+_Atualizado em 23/11/2026 (Dual Workspace, Fase 5, parte 1)._ Produção: **https://anen-five.vercel.app** (Vercel + Supabase eu-west-1).
 
 ## Fase 1: Fundação
 
@@ -201,7 +201,7 @@ Auditoria em [DUAL_ARCHITECTURE_AUDIT.md](DUAL_ARCHITECTURE_AUDIT.md), problemas
 | Auditoria da arquitetura, zona visual protegida e plano | Implementado | `DUAL_ARCHITECTURE_AUDIT.md` |
 | QA-01: introduzir valores em "A Receber" e "A Pagar" | Testado | `open-items.test.ts`; E2E `open-items.spec.ts` |
 | QA-02 e QA-11: eliminar movimento ou anexo só no contexto ativo; ficheiros removidos do Storage | Testado | E2E `recurring-attachments.spec.ts` (verifica o ficheiro no Storage) |
-| QA-08 a QA-10, QA-12, QA-14 a QA-16 | Não iniciado | Ver `QA_REVIEW.md` |
+| QA-08 a QA-10, QA-12, QA-14, QA-15, QA-17 | Não iniciado | Ver `QA_REVIEW.md` |
 
 ## Dual Workspace · Fase 2: workspaces, conta única e membros
 
@@ -234,6 +234,14 @@ Modelo em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md) (opção A: camada 
 | Abas sincronizadas (BroadcastChannel e `/api/workspace` ao voltar à aba); estado do cliente recomeça ao mudar | Testado | E2E `workspace-nav.spec.ts` |
 | Contexto no endereço (`/app/pessoal/...`) | Não iniciado | Decisão: não mudar os 49 endereços; a guarda de gravação (Fase 3) e a sincronização cobrem o risco. Ver `DUAL_ARCHITECTURE.md` D7 |
 
+## Dual Workspace · Fase 5: ambiente pessoal
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Parcelas mensais com fim (§5.6): total ou por parcela, fim por número ou data, último dia do mês, cêntimos na última, "Parcela n de N", pagar uma a uma, cancelar restantes, alterar as seguintes; pessoal e empresa | Testado (em produção) | `financial-engine/src/installments.test.ts` (8), `database/tests/installments.test.ts` (19, paridade motor/SQL); E2E `installments.spec.ts` contra produção. Migration 3000 aplicada a 23/11/2026 |
+| Orçamento do mês mostra o previsto por pagar à parte do gasto | Implementado | Sem E2E próprio |
+| Painel "Hoje", assinaturas, dívidas, calendário, menu pessoal da secção 5 | Não iniciado | Parte 2 da Fase 5 |
+
 ## Fases seguintes
 
 | Fase | Estado | O que é preciso para avançar |
@@ -248,5 +256,5 @@ Modelo em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md) (opção A: camada 
 
 ## Testes
 
-- **462 testes automáticos** (`npm test`, 23/11/2026): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços, do stock e dos relatórios; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
+- **492 testes automáticos** (`npm test`, 23/11/2026): motores financeiro, de orçamentos, de receitas, de projetos, do plano do mês, do histórico de preços, do stock e dos relatórios; validação; i18n; RLS e acessos cruzados em Postgres 17 real (PGlite).
 - **42 testes E2E (21 cenários × desktop e telemóvel)** (`npx playwright test`) contra produção, todos a passar a 22/11/2026.

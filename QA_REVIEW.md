@@ -37,7 +37,8 @@ Gravidade: crítico · alto · médio · baixo. Estado: **corrigido** (com teste
 | QA-13 | `e2e/income-period.spec.ts` | O teste confirmava a conta com `getByText("Conta")`, que também apanha o separador "Contas", e seguia antes de a gravação terminar (o pedido era cancelado). Falha intermitente do teste, não da app | Médio | Corrigido (nome exato) |
 | QA-14 | Planos (Brasil): "Assinar Pro" | Em produção, o pedido à API da InfinitePay para criar o link de pagamento devolve erro e aparece "Não foi possível abrir o pagamento agora". A ANEN cria o pedido, mas a InfinitePay recusa (credenciais/handle ou serviço). O código desta ação só mudou na guarda | Alto | Pendente: confirmar o handle e a conta InfinitePay (precisa de si) |
 | QA-15 | ANEN AI: pergunta | Uma vez, em produção (telemóvel), uma falha do fornecedor de IA terminou no ecrã genérico "Ocorreu um erro" em vez de uma mensagem clara; repetido, passou. Provável tempo máximo da função excedido | Médio | Pendente: precisa dos registos do Vercel para confirmar a causa |
-| QA-16 | Registo rápido com a tecla N (telemóvel) | Num E2E em produção, a tecla N não abriu o registo rápido uma vez; repetido 3 vezes, passou sempre. Provável tecla antes de a página ficar interativa | Baixo | Pendente: observar; se repetir, o E2E deve esperar pela página interativa |
+| QA-16 | Registo rápido com a tecla N (E2E) | A tecla N às vezes era premida antes de a página ficar interativa (2 casos em produção, telemóvel e desktop). Era do teste, não da app | Baixo | Corrigido: `e2e/ui.ts#openQuickAdd` repete a tecla até o diálogo abrir; 4 testes passam a usá-lo |
+| QA-17 | Orçamentos: aviso de excedido | O texto começa por "⚠", um símbolo próximo de um emoji; a marca pede "sem emojis" | Baixo | Decisão sua (não alterei elementos visuais existentes) |
 | QA-12 | Bucket `attachments` (produção) | Até 2 PDFs de teste órfãos, deixados pela primeira versão do QA-02 durante os E2E (ver detalhe do QA-02) | Baixo | Decisão sua: limpar com uma tarefa de ficheiros órfãos (já prevista em `IMPLEMENTATION_STATUS.md`) |
 | QA-11 | `deleteAttachmentAction` | O anexo era procurado sem filtro do contexto ativo (o RLS protegia, mas podia apagar o anexo de outro contexto da mesma pessoa) | Médio | **Corrigido** |
 
@@ -136,3 +137,11 @@ Migration 2800 aplicada (35 tabelas com `workspace_immutable`, 4 auditorias nova
 ## Fase 4 em produção (23/11/2026)
 
 Migration 2900 aplicada (à segunda tentativa: a primeira recebeu um 502 da API do Supabase e, por correr numa transação, não deixou nada a meio) e deploy feito. Contra https://anen-five.vercel.app: **14 a passar**, incluindo o menu por workspace, as abas sincronizadas, o **convite aceite no seletor**, as duas abas, as Áreas do menu, contas e convites, e "A receber e a pagar". 3 ignorados (cenários só de desktop) e 1 intermitente (QA-16), que passou 3 vezes em 3 ao repetir.
+
+## Fase 5 (parte 1) · Parcelas mensais com fim (23/11/2026)
+
+- **Funcionalidade:** Finanças → Parcelas (pessoal e empresa). Valor total ou por parcela, fim por número ou data, dia do vencimento com o último dia do mês quando falta, cêntimos acertados na última parcela, cada parcela é um movimento previsto ("Parcela 3 de 12") pago individualmente, cancelar as restantes (as pagas e parciais ficam) e alterar esta e as seguintes. Os orçamentos mostram o previsto por pagar à parte do gasto.
+- **Testes:** motor (8), base de dados (19: paridade motor/SQL em 6 casos, regras, acessos cruzados, leitor, escrita direta recusada, auditoria), validação; E2E `installments.spec.ts` contra produção (desktop e telemóvel).
+- **Encontrado no E2E e corrigido:** "1 pagas" (plural errado) → "Pagas: 1 · Faltam: 0"; o teste esperava uma mensagem de sucesso que o botão de linha não mostra.
+- **Produção:** migration 3000 aplicada e deploy feito; 10 E2E a passar contra o site (parcelas, a receber e a pagar, finanças, importação de extrato, período do painel).
+- **Notado, por decidir:** o aviso de orçamento excedido usa o símbolo "⚠" (texto já existente). A marca pede "sem emojis"; não alterei por ser um elemento visual existente (QA-17).

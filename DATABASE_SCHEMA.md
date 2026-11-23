@@ -161,6 +161,16 @@ Detalhe em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md).
 | `my_invitations()` | SECURITY DEFINER. Convites pendentes, não expirados nem revogados, para o email confirmado de quem pede, de organizações onde ainda não é membro. Sem `token_hash` |
 | `accept_my_invitation(p_invitation_id)` | As regras de `accept_invitation(token)`, pelo id. Um convite de outra pessoa devolve `invitation_invalid` (não revela que existe) |
 
+## Parcelas (migration 3000, Dual Workspace Fase 5)
+
+| Objeto | Notas |
+|---|---|
+| `installment_plans` | Plano de parcelas mensais: tipo, descrição, conta, categoria e contacto opcionais, moeda, `total_minor`, `installment_count` (1 a 360), `due_day` (1 a 31), `start_on`, `first_due_on`, `last_due_on`, `cancelled_at`/`cancelled_from`. Só leitura (`finance.read`); escreve-se pelas funções. `workspace_immutable` e auditoria |
+| `transactions` (+) | `installment_plan_id` e `installment_number` (os dois ou nenhum; único por plano). Só as funções de parcelas os preenchem e não mudam depois (gatilho `transactions_installment_link`) |
+| `create_installment_plan(...)` | SECURITY DEFINER. Calcula as datas e os valores como `installmentSchedule` do motor e cria cada parcela como movimento pendente com vencimento |
+| `cancel_installments(plan, from?)` | Apaga as parcelas sem nada pago a partir de `from` (por omissão, a primeira por pagar) e marca o plano |
+| `update_installments_from(plan, from, amount?, due_day?)` | Altera as parcelas sem nada pago a partir de `from` e recalcula o total |
+
 ## Próximas fases
 
 As tabelas de finanças, orçamentos, custos, fiscalidade, marketplace, CRM, assinaturas, IA e administração listadas no prompt mestre serão criadas por migration em cada fase, sempre com `organization_id`, RLS por `has_org_permission` e auditoria.

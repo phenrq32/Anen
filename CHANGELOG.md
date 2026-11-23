@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.27.0] · 23/11/2026 · Dual Workspace, Fase 5 (parte 1): parcelas mensais com fim
+- Finanças → Parcelas: despesas e receitas mensais até uma data ou um número de parcelas, com pré-visualização, "Parcela n de N" em Movimentos e em A receber e a pagar, pagamento parcela a parcela, cancelar as restantes e alterar as seguintes. Pessoal e empresa.
+- Motor `installmentSchedule`/`installmentProgress`; migration 3000 com o mesmo cálculo em SQL (teste de paridade).
+- Orçamentos mostram o previsto por pagar do mês à parte do gasto.
+- E2E: `installments.spec.ts`; abertura robusta do registo rápido (`e2e/ui.ts`, QA-16). Publicado e verificado em produção.
+
 ## [0.26.0] · 23/11/2026 · Dual Workspace, Fase 4: seletor de contexto e navegação adaptativa
 - Menu por workspace (QA-04): no pessoal saem os módulos de empresa sem dados pessoais; numa organização, as áreas sem permissão de leitura. As Áreas do menu explicam a regra no pessoal.
 - Convites pendentes no seletor, aceites sem o link (migration 2900: `my_invitations`, `accept_my_invitation`).
