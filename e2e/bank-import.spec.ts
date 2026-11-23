@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { createConfirmedUser, deleteUser } from "./admin";
+import { openQuickAdd } from "./ui";
 
 // Importar extrato (migration 2300): CSV de banco português, categoria lembrada e sem duplicar.
 const password = "Segura12345e2e";
@@ -39,7 +40,7 @@ test("importar extrato CSV: pré-visualização, categoria lembrada e sem duplic
 
   // Um registo anterior com a mesma descrição e categoria: a importação deve lembrá-la.
   await page.goto("/financas");
-  await page.keyboard.press("n");
+  await openQuickAdd(page);
   const dialog = page.getByRole("dialog");
   await dialog.getByLabel(/Valor/).fill("10");
   await dialog.getByLabel("Descrição").fill("Supermercado; Centro");

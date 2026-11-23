@@ -628,7 +628,7 @@ export const ptPT = {
       saved: "Parcelas criadas.",
       empty: "Ainda não há planos de parcelas.",
       parcel: "Parcela {n} de {total}",
-      progress: "{paid} pagas · faltam {remaining}",
+      progress: "Pagas: {paid} · Faltam: {remaining}",
       outstanding: "Em dívida",
       nextDue: "Próxima: {date}",
       finished: "Concluído",

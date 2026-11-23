@@ -629,7 +629,7 @@ export const ptBR: Messages = {
       saved: "Parcelas criadas.",
       empty: "Ainda não há parcelamentos.",
       parcel: "Parcela {n} de {total}",
-      progress: "{paid} pagas · faltam {remaining}",
+      progress: "Pagas: {paid} · Faltam: {remaining}",
       outstanding: "Em aberto",
       nextDue: "Próxima: {date}",
       finished: "Concluído",

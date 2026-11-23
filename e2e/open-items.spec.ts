@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { createConfirmedUser, deleteOrganizationsCreatedBy, deleteUser } from "./admin";
+import { openQuickAdd } from "./ui";
 
 const password = "Segura12345e2e";
 const created: string[] = [];
@@ -82,7 +83,7 @@ test("a receber e a pagar: registar, editar, liquidar e eliminar na própria pá
 
   // Também no registo rápido (tecla N): "Por pagar" com vencimento vai para "A pagar"
   await page.goto("/financas");
-  await page.keyboard.press("n");
+  await openQuickAdd(page);
   const dialog = page.getByRole("dialog");
   await expect(dialog.getByRole("heading", { name: "Registo rápido" })).toBeVisible();
   await expect(dialog.getByLabel("Vencimento")).toHaveCount(0);

@@ -43,7 +43,7 @@ test("parcelas: criar 12, ver em a pagar, pagar uma e cancelar as restantes", as
   await main.getByRole("button", { name: "Criar parcelas" }).click();
   await expect(main.getByText("Parcelas criadas.")).toBeVisible();
   const plan = main.getByRole("listitem", { name: "Telemóvel em prestações" });
-  await expect(plan.getByText("0 pagas · faltam 12")).toBeVisible();
+  await expect(plan.getByText("Pagas: 0 · Faltam: 12")).toBeVisible();
   await expect(plan.getByText("1000,00 €")).toBeVisible();
 
   // As parcelas aparecem em "A pagar" como previstas, com o número
@@ -59,10 +59,10 @@ test("parcelas: criar 12, ver em a pagar, pagar uma e cancelar as restantes", as
 
   // Cancelar as restantes: a paga fica
   await page.goto("/financas/parcelas");
-  await expect(plan.getByText("1 pagas · faltam 11")).toBeVisible();
+  await expect(plan.getByText("Pagas: 1 · Faltam: 11")).toBeVisible();
   page.once("dialog", (d) => d.accept());
   await plan.getByRole("button", { name: "Cancelar as restantes" }).click();
-  await expect(main.getByText("Parcelas restantes canceladas.")).toBeVisible();
+  await expect(plan.getByText("Pagas: 1 · Faltam: 0")).toBeVisible();
   await expect(plan.getByText("Cancelado a partir da parcela 2")).toBeVisible();
   await expect(plan.getByText("0,00 €")).toBeVisible();
   await plan.getByText("Ver parcelas").click();

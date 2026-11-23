@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import { createConfirmedUser, deleteUser } from "./admin";
+import { openQuickAdd } from "./ui";
 
 const password = "Segura12345e2e";
 const created: string[] = [];
@@ -38,7 +39,7 @@ test("finanças pessoais: conta, registo rápido, movimentos, orçamento e expor
 
   // Registo rápido com a tecla N (após recarregar, o layout já conhece a conta)
   await page.goto("/financas");
-  await page.keyboard.press("n");
+  await openQuickAdd(page);
   const dialog = page.getByRole("dialog");
   await expect(dialog.getByRole("heading", { name: "Registo rápido" })).toBeVisible();
   await dialog.getByLabel(/Valor/).fill("12,345");

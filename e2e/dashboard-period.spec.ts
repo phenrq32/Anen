@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { createConfirmedUser, deleteUser } from "./admin";
+import { openQuickAdd } from "./ui";
 
 // Painel: os totais seguem o período escolhido (este mês, 3 meses, 12 meses) e comparam com o período anterior.
 const password = "Segura12345e2e";
@@ -39,7 +40,7 @@ test("painel: filtro de período nos totais", async ({ page }, info) => {
   // Despesa deste mês (10 €) e de há 2 meses (30 €)
   await page.goto("/financas");
   for (const [value, desc, date] of [["10", "Agora", null], ["30", "Antes", isoMonthsAgo(2)]] as const) {
-    await page.keyboard.press("n");
+    await openQuickAdd(page);
     const dialog = page.getByRole("dialog");
     await expect(dialog.getByRole("heading", { name: "Registo rápido" })).toBeVisible();
     await dialog.getByLabel(/Valor/).fill(value);
