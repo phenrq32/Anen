@@ -1,47 +1,17 @@
 import "server-only";
 import type { Contact, CostCenter, Project } from "@anen/types";
-import { can, type SessionContext } from "@/lib/session";
+import type { SessionContext } from "@/lib/session";
+import { workspaceScope, type WorkspaceScope } from "@/lib/workspace";
 import type { ServerClient } from "@/lib/supabase/server";
 
 /**
- * Âmbito de negócio (clientes, fornecedores, projetos, centros de custo): o mesmo princípio do
- * âmbito financeiro, com as permissões business.*. Determinado sempre a partir da sessão.
+ * Âmbito de negócio (clientes, fornecedores, projetos, centros de custo) do workspace ativo:
+ * o mesmo princípio do âmbito financeiro, com as permissões business.*. Determinado sempre a partir da sessão.
  */
-export interface BusinessScope {
-  orgId: string | null;
-  ownerId: string | null;
-  column: "organization_id" | "owner_user_id";
-  value: string;
-  canRead: boolean;
-  canWrite: boolean;
-  defaultCurrency: string;
-  timezone: string;
-}
+export type BusinessScope = WorkspaceScope;
 
 export function businessScope(session: SessionContext): BusinessScope {
-  if (session.active) {
-    const org = session.active.organization;
-    return {
-      orgId: org.id,
-      ownerId: null,
-      column: "organization_id",
-      value: org.id,
-      canRead: can(session.active, "business.read"),
-      canWrite: can(session.active, "business.write"),
-      defaultCurrency: org.currency_code,
-      timezone: org.timezone,
-    };
-  }
-  return {
-    orgId: null,
-    ownerId: session.user.id,
-    column: "owner_user_id",
-    value: session.user.id,
-    canRead: true,
-    canWrite: true,
-    defaultCurrency: session.preferences.currency_code,
-    timezone: session.preferences.timezone,
-  };
+  return workspaceScope(session, { read: "business.read", write: "business.write" });
 }
 
 export function businessScopeFields(scope: BusinessScope): { organization_id: string | null; owner_user_id: string | null } {

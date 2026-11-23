@@ -136,6 +136,17 @@ Fonte de verdade: `supabase/migrations/*.sql`. Todas as tabelas têm RLS ativo.
 | `fiscal_documents` | Cópia local dos documentos emitidos no InvoiceXpress: fatura, fatura-recibo, fatura simplificada, nota de crédito, guia de transporte e de remessa. `provider_id`, `proprietary_uid` (idempotência), `sequence_number`, `atcud`, `saft_hash`, `at_doc_code` (código AT das guias), cliente (fotografia), ligações a contacto, orçamento, projeto, movimento e documento de origem. Depois de emitido, o conteúdo fica bloqueado; estados draft → final/settled → canceled (com motivo). Só os rascunhos se apagam. |
 | `fiscal_document_lines` | Linhas (nome ≤ 60, quantidade, preço, IVA, desconto, artigo de stock); bloqueadas depois de emitido. |
 
+## Workspaces (migration 2700, Dual Workspace Fase 2)
+
+Detalhe em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md).
+
+| Objeto | Notas |
+|---|---|
+| `workspaces` (vista) | `security_invoker`. O espaço pessoal (`PERSONAL`, id = utilizador, de `user_preferences`) e as organizações em que a pessoa é membro ativo (`BUSINESS`). Só leitura |
+| `workspace_members` (vista) | No pessoal, o próprio como `owner`; nas organizações, `organization_members` com a chave da função. Só leitura |
+| `private.can_access_workspace(type, id, permission?)` / `public.can_access_workspace` | Pessoal só o próprio; empresarial: membro ativo ou `has_org_permission` |
+| `ensure_personal_workspace()` | SECURITY DEFINER, idempotente: repõe o perfil e as preferências em falta sem alterar o que existe |
+
 ## Próximas fases
 
 As tabelas de finanças, orçamentos, custos, fiscalidade, marketplace, CRM, assinaturas, IA e administração listadas no prompt mestre serão criadas por migration em cada fase, sempre com `organization_id`, RLS por `has_org_permission` e auditoria.

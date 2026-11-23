@@ -4,6 +4,8 @@
  * `supabase gen types typescript --project-id <ref>` quando o projeto estiver ligado.
  */
 import type {
+  Workspace,
+  WorkspaceMember,
   TransactionAttachment,
   FixedExpense,
   InvestmentOption,
@@ -406,8 +408,13 @@ export type Database = {
         Partial<Pick<SavingsGoal, "name" | "target_minor" | "saved_minor" | "target_date">>
       >;
     };
-    Views: { [_ in never]: never };
+    Views: {
+      workspaces: { Row: Plain<Workspace>; Relationships: [] };
+      workspace_members: { Row: Plain<WorkspaceMember>; Relationships: [] };
+    };
     Functions: {
+      ensure_personal_workspace: { Args: Record<string, never>; Returns: string };
+      can_access_workspace: { Args: { p_type: string; p_id: string; p_permission?: string | null }; Returns: boolean };
       create_organization: {
         Args: {
           p_kind: OrganizationKind;

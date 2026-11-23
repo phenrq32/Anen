@@ -1,47 +1,18 @@
 import "server-only";
 import { lookup, type Messages } from "@anen/i18n";
 import type { FinancialAccount, TransactionCategory } from "@anen/types";
-import { can, type SessionContext } from "@/lib/session";
+import type { SessionContext } from "@/lib/session";
+import { workspaceScope, type WorkspaceScope } from "@/lib/workspace";
 import type { ServerClient } from "@/lib/supabase/server";
 
 /**
- * Âmbito financeiro ativo: a organização do contexto atual ou as finanças pessoais.
+ * Âmbito financeiro do workspace ativo: a organização do contexto atual ou as finanças pessoais.
  * Determinado SEMPRE a partir da sessão no servidor; o cliente nunca escolhe o âmbito.
  */
-export interface FinanceScope {
-  orgId: string | null;
-  ownerId: string | null;
-  column: "organization_id" | "owner_user_id";
-  value: string;
-  canRead: boolean;
-  canWrite: boolean;
-  defaultCurrency: string;
-  timezone: string;
-}
+export type FinanceScope = WorkspaceScope;
 
 export function financeScope(session: SessionContext): FinanceScope {
-  if (session.active) {
-    return {
-      orgId: session.active.organization.id,
-      ownerId: null,
-      column: "organization_id",
-      value: session.active.organization.id,
-      canRead: can(session.active, "finance.read"),
-      canWrite: can(session.active, "finance.write"),
-      defaultCurrency: session.active.organization.currency_code,
-      timezone: session.active.organization.timezone,
-    };
-  }
-  return {
-    orgId: null,
-    ownerId: session.user.id,
-    column: "owner_user_id",
-    value: session.user.id,
-    canRead: true,
-    canWrite: true,
-    defaultCurrency: session.preferences.currency_code,
-    timezone: session.preferences.timezone,
-  };
+  return workspaceScope(session, { read: "finance.read", write: "finance.write" });
 }
 
 /** Campos de âmbito para inserções. */

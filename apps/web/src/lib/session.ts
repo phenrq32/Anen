@@ -29,13 +29,24 @@ export const getSession = cache(async (): Promise<SessionContext | null> => {
   const userId = claims.sub;
   const email = typeof claims.email === "string" ? claims.email : "";
 
-  const [profileRes, prefsRes, membersRes] = await Promise.all([
-    supabase.from("users_profiles").select("*").eq("id", userId).maybeSingle(),
-    supabase.from("user_preferences").select("*").eq("user_id", userId).maybeSingle(),
+  const loadIdentity = () =>
+    Promise.all([
+      supabase.from("users_profiles").select("*").eq("id", userId).maybeSingle(),
+      supabase.from("user_preferences").select("*").eq("user_id", userId).maybeSingle(),
+    ]);
+  let [[profileRes, prefsRes], membersRes] = await Promise.all([
+    loadIdentity(),
     supabase.from("organization_members").select("*").eq("user_id", userId).eq("status", "active"),
   ]);
   if (profileRes.error || prefsRes.error || membersRes.error) {
     throw new Error("Falha ao carregar a sessão");
+  }
+  if (!profileRes.data || !prefsRes.data) {
+    // Conta sem espaço pessoal (por exemplo, anterior ao gatilho de registo): repõe-no de forma idempotente.
+    const ensured = await supabase.rpc("ensure_personal_workspace");
+    if (ensured.error) throw new Error("Falha ao preparar o espaço pessoal");
+    [profileRes, prefsRes] = await loadIdentity();
+    if (profileRes.error || prefsRes.error) throw new Error("Falha ao carregar a sessão");
   }
   if (!profileRes.data || !prefsRes.data) return null;
 

@@ -1,0 +1,34 @@
+# Arquitetura Dual (Pessoal e Empresarial)
+
+Uma conta ANEN, uma identidade visual e uma infraestrutura, com dois tipos de espaço de trabalho e os dados rigorosamente separados.
+
+| Documento | Conteúdo |
+|---|---|
+| [DUAL_ARCHITECTURE_AUDIT.md](DUAL_ARCHITECTURE_AUDIT.md) | Auditoria inicial, lacunas, zona visual protegida e a decisão da opção A |
+| [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md) | Vistas, funções, correspondência com o prompt e reversão |
+| [QA_REVIEW.md](QA_REVIEW.md) | Problemas encontrados e o seu estado |
+
+## Princípios
+
+1. **O workspace ativo decide-se no servidor.** Vem da sessão (`user_preferences.active_organization_id`, validado por gatilho), nunca de um valor enviado pelo cliente sem validação (`resolveWorkspace`).
+2. **A autorização está na base de dados.** O RLS de cada tabela, `private.has_org_permission` e `private.can_access_workspace` aplicam-se mesmo que a interface falhe.
+3. **Cada registo pertence a um único workspace** (`owner_user_id` ou `organization_id`), que não muda numa edição.
+4. **Não se migram dados.** A camada de workspaces é feita de vistas e funções sobre o modelo existente.
+
+## Decisões
+
+| # | Decisão | Motivo |
+|---|---|---|
+| D1 | Opção A: vistas `workspaces` e `workspace_members` em vez de uma tabela nova com `workspace_id` | O isolamento já existia e estava testado; migrar 35 tabelas trazia risco sem ganho de segurança |
+| D2 | Id do workspace pessoal = id do utilizador | Os registos pessoais já usam `owner_user_id`; não é preciso uma tabela nem uma chave nova |
+| D3 | Organizações `business` e `independent` são ambas `BUSINESS` | São atividades profissionais; o `organization_kind` continua disponível para a interface |
+| D4 | Sem tabela `workspace_settings` | As definições já estão em colunas validadas (`user_preferences`, `organizations`, `notification_settings`) |
+| D5 | O contexto continua a ser uma preferência no servidor até à Fase 3/4 | Fica registado como QA-03 (duas abas); a passagem para o endereço é da Fase 4 |
+
+## Estado das fases
+
+| Fase | Estado |
+|---|---|
+| 1. Auditoria e revisão | Concluída |
+| 2. Workspaces, conta única e membros | Concluída (por aplicar em produção: migration 2700) |
+| 3–10 | Por iniciar |

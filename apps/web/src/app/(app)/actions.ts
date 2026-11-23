@@ -18,6 +18,7 @@ import { errorMessage, translateFieldErrors } from "@/lib/errors";
 import { formString, type FormState } from "@/lib/form";
 import { getI18n, setLocaleCookie } from "@/lib/i18n";
 import { requireOnboardedSession, requireSession } from "@/lib/session";
+import { resolveWorkspace } from "@/lib/workspace";
 
 const ok = (message?: string, data?: Record<string, string>): FormState => ({
   status: "success",
@@ -27,10 +28,15 @@ const ok = (message?: string, data?: Record<string, string>): FormState => ({
 
 export async function switchContextAction(formData: FormData): Promise<void> {
   const session = await requireSession();
-  const value = formString(formData, "context");
-  const target = value === "personal" ? null : session.memberships.find((x) => x.organization.id === value)?.organization.id;
-  if (target === undefined) redirect("/painel");
-  await session.supabase.from("user_preferences").update({ active_organization_id: target }).eq("user_id", session.user.id);
+  // Só workspaces da própria pessoa (o pessoal ou organizações de que é membro ativo); a BD volta a validar por gatilho.
+  const target = resolveWorkspace(session, formString(formData, "context"));
+  if (!target) redirect("/painel");
+  const { error } = await session.supabase
+    .from("user_preferences")
+    .update({ active_organization_id: target.type === "BUSINESS" ? target.id : null })
+    .eq("user_id", session.user.id);
+  // Sem isto, a pessoa ficava no contexto antigo sem aviso (QA-07): a página de erro explica e permite tentar de novo.
+  if (error) throw new Error("Falha ao mudar de contexto");
   revalidatePath("/", "layout");
   redirect("/painel");
 }

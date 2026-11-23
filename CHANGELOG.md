@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.24.0] · 23/11/2026 · Dual Workspace, Fase 2: workspaces, conta única e membros
+- Migration 2700 (só acrescenta, não altera dados): vistas só de leitura `workspaces` (o pessoal e as organizações de que a pessoa é membro ativo) e `workspace_members`; `can_access_workspace`; `ensure_personal_workspace` (idempotente).
+- `lib/workspace.ts`: workspace ativo, âmbito por módulo, lista, chave de cache e resolução que recusa organizações de que a pessoa não é membro. `financeScope`, `businessScope` e `quotesScope` passam a derivar daqui.
+- A sessão repõe o espaço pessoal de uma conta a que falte, em vez de a mandar para o login. Uma falha ao mudar de contexto passa a ser mostrada (QA-07).
+- Documentação: `DUAL_ARCHITECTURE.md`, `WORKSPACE_DATA_MODEL.md`, `DATABASE_SCHEMA.md`.
+- Testes: 429 unitários (`workspaces.test.ts` com 14, `workspace.test.ts` com 6); 14 E2E a passar (contas, finanças, empresa, a receber e a pagar, notificações), em desktop e telemóvel.
+
 ## [0.23.0] · 23/11/2026 · Dual Workspace, Fase 1: auditoria, revisão e "A receber e a pagar"
 - "A receber e a pagar": formulário próprio na página (já como pendente; Receita é a receber, Despesa é a pagar; `?tipo=income`), e "Editar" e "Eliminar" em cada linha. Sem nenhuma conta, a página leva a criar uma. Antes só se criava um valor em aberto em Movimentos → Mais detalhes, e só se editava no mês selecionado.
 - Eliminar um movimento confirma primeiro que ele é do contexto ativo; só então remove os anexos do Storage e o movimento. Remover um anexo também passou a filtrar pelo contexto ativo.

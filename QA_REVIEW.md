@@ -30,7 +30,7 @@ Gravidade: crítico · alto · médio · baixo. Estado: **corrigido** (com teste
 | QA-04 | Menu (`components/app-shell.tsx`) | O espaço pessoal mostra os módulos de empresa (Compras, Inventário, Faturação, Fichas técnicas) | Médio | Pendente (Fase 4) |
 | QA-05 | `financas/importar/actions.ts:110` | As categorias são lidas sem filtro de contexto. A base de dados recusa categorias de outro espaço (`category_invalid`), mas a importação falharia inteira em vez de ignorar a categoria | Baixo | Pendente |
 | QA-06 | Registo rápido (tecla N) | Não permite marcar um valor como pendente; só "pago" | Baixo | Pendente: agora resolve-se em "A receber e a pagar". Decisão sua: acrescentar ou não |
-| QA-07 | `switchContextAction` | Se a gravação da preferência falhar, não mostra erro e vai para o painel no contexto antigo | Baixo | Pendente |
+| QA-07 | `switchContextAction` | Se a gravação da preferência falhar, não mostra erro e vai para o painel no contexto antigo | Baixo | Corrigido na Fase 2 (sem teste automático do caminho de erro) |
 | QA-08 | E2E | Correm contra produção e criam contas reais temporárias; falta staging | Médio | Decisão sua (precisa de um projeto Supabase de staging) |
 | QA-09 | Repositório | Não há linter (ESLint ou equivalente); só `tsc` | Baixo | Pendente |
 | QA-10 | "Marcar como liquidado" | Só liquida o total; um pagamento parcial regista-se editando o movimento | Baixo | Pendente (Fase 5/6, com as parcelas) |
@@ -63,3 +63,12 @@ Gravidade: crítico · alto · médio · baixo. Estado: **corrigido** (com teste
 
 - **Cenário:** aba A em "Empresa X → Movimentos", aba B muda para Pessoal, e na aba A grava-se um movimento. O movimento fica no espaço Pessoal. Não é uma fuga entre contas, porque a pessoa tem acesso aos dois espaços, mas um dado fica no espaço errado.
 - **Proposta (Fase 3/4):** o contexto passa a fazer parte do endereço (`/app/pessoal/…`, `/app/empresa/<slug>/…`, ou um campo oculto `workspace` em cada formulário), e o servidor recusa a gravação quando o contexto enviado não coincide com o que o utilizador pode usar.
+
+## Revisão rápida no fim da Fase 2
+
+Áreas afetadas: sessão, mudança de contexto e âmbitos de finanças, negócio e orçamentos.
+
+- `npm test`: 429 a passar. `npm run typecheck`: sem erros. `npm run build`: sem erros.
+- E2E na app local ligada a produção (sem a migration 2700, que a app só usa quando falta o espaço pessoal): `accounts`, `finance`, `business`, `open-items` e `notifications-reports`, 14 a passar em desktop e telemóvel.
+- Identidade visual: `git diff` vazio na zona protegida.
+- Nenhum problema novo.

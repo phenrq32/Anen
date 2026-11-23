@@ -91,6 +91,41 @@ export interface UserPreferences {
   hidden_modules: string[];
 }
 
+/** Dual Workspace: espaço pessoal (o utilizador) ou empresarial (uma organização). Ver supabase/migrations/*_workspaces.sql. */
+export const WORKSPACE_TYPES = ["PERSONAL", "BUSINESS"] as const;
+export type WorkspaceType = (typeof WORKSPACE_TYPES)[number];
+
+/** Referência a um workspace. No PERSONAL o id é o do utilizador; no BUSINESS é o da organização. */
+export type WorkspaceRef = { type: "PERSONAL"; id: string } | { type: "BUSINESS"; id: string };
+
+/** Linha da vista public.workspaces (só leitura, filtrada pelo RLS das tabelas de origem). */
+export interface Workspace {
+  id: string;
+  type: WorkspaceType;
+  /** null no pessoal: a interface mostra "Pessoal" no idioma de quem vê. */
+  name: string | null;
+  organization_kind: OrganizationKind | null;
+  owner_user_id: string | null;
+  country_code: string | null;
+  region_id: string | null;
+  currency_code: string;
+  timezone: string;
+  /** null nas organizações: cada membro usa o seu idioma. */
+  language_code: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+/** Linha da vista public.workspace_members. */
+export interface WorkspaceMember {
+  workspace_id: string;
+  workspace_type: WorkspaceType;
+  user_id: string;
+  role_key: string;
+  status: MemberStatus;
+  created_at: string;
+}
+
 export interface Organization {
   id: string;
   kind: OrganizationKind;
