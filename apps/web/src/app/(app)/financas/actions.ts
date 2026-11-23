@@ -13,13 +13,14 @@ import {
   recurringLinksSchema,
   recurringSchema,
   transactionSchema,
+  periodDates,
   ATTACHMENT_MAX_BYTES,
   ATTACHMENT_MIME_TYPES,
 } from "@anen/validation";
 import type { Messages } from "@anen/i18n";
 import { businessScope, businessScopeFields } from "@/lib/business";
 import { errorMessage, translateFieldErrors } from "@/lib/errors";
-import { financeScope, scopeFields, type FinanceScope } from "@/lib/finance";
+import { financeScope, scopeFields, todayIn, type FinanceScope } from "@/lib/finance";
 import { formString, type FormState } from "@/lib/form";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession, type SessionContext } from "@/lib/session";
@@ -116,6 +117,7 @@ export async function saveTransactionAction(_: FormState, formData: FormData): P
   const parsed = transactionSchema.safeParse({
     id: formString(formData, "id"),
     kind: formString(formData, "kind"),
+    period: formString(formData, "period"),
     amount: formString(formData, "amount"),
     occurredOn: formString(formData, "occurredOn"),
     accountId: formString(formData, "accountId"),
@@ -172,12 +174,25 @@ export async function saveTransactionAction(_: FormState, formData: FormData): P
     };
   }
 
+  // Valor de um período: a data do movimento fica no fim do período (ou hoje, se ainda está a decorrer).
+  let occurredOn = v.occurredOn;
+  let periodFields = {};
+  if (formData.has("period")) {
+    if (v.period) {
+      const p = periodDates(v.period, v.occurredOn, todayIn(scope.timezone));
+      occurredOn = p.occurredOn;
+      periodFields = { period_start: p.start, period_end: p.end };
+    } else {
+      periodFields = { period_start: null, period_end: null };
+    }
+  }
   const fields = {
     account_id: v.accountId,
     category_id: v.categoryId,
     kind: v.kind,
     amount_minor: Number(amount),
-    occurred_on: v.occurredOn,
+    occurred_on: occurredOn,
+    ...periodFields,
     description: v.description,
     counterparty: v.counterparty,
     notes: v.notes,

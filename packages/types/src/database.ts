@@ -90,6 +90,8 @@ type TxWrite = {
   settled_minor?: number;
   payment_method?: FinanceTransaction["payment_method"];
   document_ref?: string | null;
+  period_start?: string | null;
+  period_end?: string | null;
 };
 type ContactWrite = Pick<Contact, "kind" | "name" | "tax_id" | "email" | "phone" | "address" | "payment_terms_days" | "notes">;
 type ProjectWrite = Pick<Project, "name" | "description" | "client_contact_id" | "status" | "planned_cost_minor" | "planned_revenue_minor" | "start_on" | "end_on" | "notes">;
@@ -467,6 +469,7 @@ export type Database = {
       stock_reorder_suggestions: { Args: { p_org?: string | null }; Returns: ReorderSuggestion[] };
       create_reorder_drafts: { Args: { p_org?: string | null }; Returns: { orders: number; lines: number; skipped: number } };
       refresh_my_notifications: { Args: Record<string, never>; Returns: number };
+      admin_confirm_billing: { Args: { p_order_id: string }; Returns: string };
       create_billing_order: {
         Args: { p_org: string | null; p_plan: string; p_months: number; p_currency: string; p_provider: string };
         Returns: { id: string; order_nsu: string; amount_minor: number; currency_code: string }[];

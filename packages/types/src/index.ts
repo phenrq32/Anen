@@ -197,6 +197,9 @@ export interface FinanceTransaction extends FinanceScoped {
   created_at: string;
   /** Linha do extrato importado (FITID ou impressão digital); evita duplicar a mesma linha na conta. */
   import_ref: string | null;
+  /** Valor de um período (dia, semana ou mês) em vez de um movimento único. */
+  period_start: string | null;
+  period_end: string | null;
 }
 
 export const PAYMENT_METHODS = ["transfer", "card", "cash", "direct_debit", "mbway", "pix", "boleto", "check", "other"] as const;

@@ -2,6 +2,7 @@
 
 import { suggestCategory } from "@/lib/category-memory";
 import { useState } from "react";
+import { periodRange, type MovementPeriod } from "@anen/validation";
 import { format, type Messages } from "@anen/i18n";
 import type { TransactionKind } from "@anen/types";
 import { ActionForm, InlineAction, SubmitButton } from "@/components/forms";
@@ -74,6 +75,8 @@ export interface TransactionInitial {
   kind: TransactionKind;
   amount: string;
   occurredOn: string;
+  /** Valor de um período: tipo do período (para editar). */
+  period?: MovementPeriod | null;
   accountId: string;
   categoryId: string | null;
   description: string;
@@ -263,6 +266,11 @@ export function TransactionFields({
   // A pessoa escolheu a categoria à mão: a memória deixa de mexer nela.
   const [manualCategory, setManualCategory] = useState(Boolean(initial?.categoryId));
   const [description, setDescription] = useState(initial?.description ?? "");
+  // Receita de um período ("recebi X esta semana"): "" = um recebimento só.
+  const [period, setPeriod] = useState<MovementPeriod | "">(initial?.period ?? "");
+  const [refDate, setRefDate] = useState(initial?.occurredOn ?? defaults.date);
+  const range = period && /^\d{4}-\d{2}-\d{2}$/.test(refDate) ? periodRange(period, refDate) : null;
+  const short = (iso: string) => iso.slice(8, 10) + "/" + iso.slice(5, 7);
   const suggestFor = (k: TransactionKind, description: string) => {
     if (!memory || manualCategory) return;
     const id = suggestCategory(memory, k, description);
@@ -288,6 +296,32 @@ export function TransactionFields({
           suggestFor(k, description);
         }}
       />
+      {kind === "income" ? (
+        <fieldset className="flex flex-col gap-1.5">
+          <legend className="mb-1.5 text-sm font-medium">{m.finance.tx.periodLabel}</legend>
+          <div className="grid grid-cols-4 gap-1 rounded-lg border border-line bg-ink p-1">
+            {(["", "day", "week", "month"] as const).map((p) => (
+              <label
+                key={p || "single"}
+                className={cx(
+                  "flex h-9 cursor-pointer items-center justify-center rounded-md px-1 text-center text-xs transition-colors sm:text-sm",
+                  period === p ? "bg-graphite font-medium text-paper" : "text-muted hover:text-paper",
+                )}
+              >
+                <input type="radio" name="period" value={p} checked={period === p} onChange={() => setPeriod(p)} className="sr-only" />
+                {m.finance.tx.periods[p || "single"]}
+              </label>
+            ))}
+          </div>
+          {range ? (
+            <p className="pop-in text-xs text-brand">
+              {format(m.finance.tx.periodPreview[period as MovementPeriod], { start: short(range.start), end: short(range.end) })}
+            </p>
+          ) : null}
+        </fieldset>
+      ) : (
+        <input type="hidden" name="period" value="" />
+      )}
       <div className={cx("grid gap-4", compact ? "grid-cols-2" : "sm:grid-cols-3")}>
         <Field
           name="amount"
@@ -300,7 +334,15 @@ export function TransactionFields({
           error={errors?.amount}
           className="tabular text-lg"
         />
-        <Field name="occurredOn" type="date" label={m.finance.tx.date} defaultValue={initial?.occurredOn ?? defaults.date} required error={errors?.occurredOn} />
+        <Field
+          name="occurredOn"
+          type="date"
+          label={period && kind === "income" ? m.finance.tx.periodDate : m.finance.tx.date}
+          value={refDate}
+          onChange={(e) => setRefDate(e.target.value)}
+          required
+          error={errors?.occurredOn}
+        />
         <SelectField
           name="accountId"
           label={m.finance.tx.account}

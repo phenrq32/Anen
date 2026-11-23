@@ -3,10 +3,26 @@
 import type { Messages } from "@anen/i18n";
 import { ActionForm, SubmitButton } from "@/components/forms";
 import { startCheckoutAction } from "./actions";
+import { startBankTransferAction } from "./bank-actions";
 
-export function BuyButton({ m, plan, months, label, confirmMessage }: { m: Messages; plan: string; months: number; label: string; confirmMessage?: string }) {
+export function BuyButton({
+  m,
+  plan,
+  months,
+  label,
+  confirmMessage,
+  bank = false,
+}: {
+  m: Messages;
+  plan: string;
+  months: number;
+  label: string;
+  confirmMessage?: string;
+  /** Portugal: transferência por IBAN em vez do checkout da InfinitePay. */
+  bank?: boolean;
+}) {
   return (
-    <ActionForm action={startCheckoutAction} {...(confirmMessage ? { confirmMessage } : {})}>
+    <ActionForm action={bank ? startBankTransferAction : startCheckoutAction} {...(confirmMessage ? { confirmMessage } : {})}>
       {() => (
         <>
           <input type="hidden" name="plan" value={plan} />

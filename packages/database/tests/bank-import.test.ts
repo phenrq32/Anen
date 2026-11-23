@@ -39,4 +39,19 @@ describe("importação de extratos", () => {
     await expect(asUser(db, ana, (tx) => tx.query(`update public.transactions set import_ref = 'x'`))).rejects.toThrow(/permission denied/);
     await expect(insert(a1, "x".repeat(201))).rejects.toThrow(/check/);
   });
+
+  it("período (receitas de um dia, semana ou mês): datas coerentes com a data do movimento", async () => {
+    const ins = (start: string | null, end: string | null, on = "2026-11-22") =>
+      asUser(db, ana, (tx) =>
+        tx.query(
+          `insert into public.transactions (owner_user_id, account_id, kind, amount_minor, currency_code, occurred_on, description, period_start, period_end)
+           values ($1, $2, 'income', 85000, 'EUR', $3, 'Entregas', $4, $5)`,
+          [ana, a1, on, start, end],
+        ),
+      );
+    await ins("2026-11-16", "2026-11-22");
+    await expect(ins("2026-11-16", null)).rejects.toThrow(/transactions_period_check/);
+    await expect(ins("2026-11-23", "2026-11-29")).rejects.toThrow(/transactions_period_check/); // data fora do período
+    await expect(ins("2026-10-01", "2026-12-31")).rejects.toThrow(/transactions_period_check/); // mais de um mês
+  });
 });

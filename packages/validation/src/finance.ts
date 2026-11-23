@@ -1,3 +1,4 @@
+import { MOVEMENT_PERIODS } from "./period";
 import { z } from "zod";
 
 const uuid = z.uuid({ message: "generic" });
@@ -43,6 +44,11 @@ export const accountSchema = z.object({
 
 export const transactionSchema = z.object({
   id: optionalUuid,
+  /** Valor de um período (dia, semana ou mês) em vez de um movimento único; vazio = movimento único. */
+  period: z
+    .union([z.enum(MOVEMENT_PERIODS), z.literal("")])
+    .optional()
+    .transform((v) => (v ? v : null)),
   kind: z.enum(TRANSACTION_KINDS, { message: "generic" }),
   amount: amountText,
   occurredOn: isoDate,

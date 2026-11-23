@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { format, formatMoney } from "@anen/i18n";
-import { formatAmountInput, monthParam } from "@anen/validation";
+import { formatAmountInput, monthParam, periodKind } from "@anen/validation";
 import { EmptyFinance, TransactionList } from "@/components/finance-ui";
 import { Alert, Section, buttonClass } from "@/components/ui";
 import { getPublicEnv } from "@/lib/env";
@@ -101,6 +101,7 @@ export default async function TransactionsPage({ searchParams }: { searchParams:
                     kind: editing.kind,
                     amount: formatAmountInput(BigInt(editing.amount_minor), basics.minorUnits.get(editing.currency_code) ?? 2),
                     occurredOn: editing.occurred_on,
+                    period: editing.period_start && editing.period_end ? periodKind(editing.period_start, editing.period_end) : null,
                     accountId: editing.account_id,
                     categoryId: editing.category_id,
                     description: editing.description,

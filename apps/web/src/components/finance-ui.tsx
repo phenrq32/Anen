@@ -1,3 +1,4 @@
+import { periodKind } from "@anen/validation";
 import Link from "next/link";
 import { marginPercent, decimalToString, moneyFromMinor, subtract } from "@anen/financial-engine";
 import { format, formatDate, formatMoney, type Messages } from "@anen/i18n";
@@ -144,7 +145,17 @@ export function TransactionList({
             </span>
             {/* As etiquetas ficam por baixo da descrição para a linha caber no telemóvel. */}
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-medium">{tx.description}</p>
+              <p className="flex min-w-0 items-center gap-2 text-sm font-medium">
+                <span className="truncate">{tx.description}</span>
+                {tx.period_start && tx.period_end ? (
+                  <span className="shrink-0 rounded-full border border-brand/30 bg-brand/10 px-2 py-0.5 text-[11px] font-medium text-brand">
+                    {format(m.finance.tx.periodBadge[periodKind(tx.period_start, tx.period_end)], {
+                      start: `${tx.period_start.slice(8, 10)}/${tx.period_start.slice(5, 7)}`,
+                      end: `${tx.period_end.slice(8, 10)}/${tx.period_end.slice(5, 7)}`,
+                    })}
+                  </span>
+                ) : null}
+              </p>
               <p className="truncate text-xs text-subtle">
                 {formatDate(tx.occurred_on, locale, "UTC", { day: "2-digit", month: "short" })}
                 {" · "}
