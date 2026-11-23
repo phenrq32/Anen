@@ -6,6 +6,7 @@
 - Abas sincronizadas: BroadcastChannel e `/api/workspace` ao voltar à aba; o estado do cliente recomeça ao mudar de workspace.
 - Fase 3 publicada (migration 2800 e deploy). Corrigida uma corrida nos E2E de duas abas. Registados QA-14 (checkout InfinitePay em produção) e QA-15 (erro genérico numa falha da IA).
 - Testes: 462 unitários; E2E `workspace-nav.spec.ts`; `review-settings.spec.ts` adaptado.
+- Publicado em produção a 23/11/2026 (migration 2900 aplicada antes); 14 E2E a passar contra o site, incluindo o convite aceite no seletor.
 
 ## [0.25.0] · 23/11/2026 · Dual Workspace, Fase 3: separação dos dados e segurança no servidor
 - Uma gravação só acontece no workspace que estava no ecrã (QA-03). Os formulários enviam `__workspace` (automático em `ActionForm` e `InlineAction`), 78 ações começam por `guardWorkspace` com falha fechada, e o painel avisa quando nada foi gravado.

@@ -201,7 +201,7 @@ Auditoria em [DUAL_ARCHITECTURE_AUDIT.md](DUAL_ARCHITECTURE_AUDIT.md), problemas
 | Auditoria da arquitetura, zona visual protegida e plano | Implementado | `DUAL_ARCHITECTURE_AUDIT.md` |
 | QA-01: introduzir valores em "A Receber" e "A Pagar" | Testado | `open-items.test.ts`; E2E `open-items.spec.ts` |
 | QA-02 e QA-11: eliminar movimento ou anexo só no contexto ativo; ficheiros removidos do Storage | Testado | E2E `recurring-attachments.spec.ts` (verifica o ficheiro no Storage) |
-| QA-08 a QA-10, QA-12, QA-14, QA-15 | Não iniciado | Ver `QA_REVIEW.md` |
+| QA-08 a QA-10, QA-12, QA-14 a QA-16 | Não iniciado | Ver `QA_REVIEW.md` |
 
 ## Dual Workspace · Fase 2: workspaces, conta única e membros
 
@@ -230,7 +230,7 @@ Modelo em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md) (opção A: camada 
 | Funcionalidade | Estado | Evidência |
 |---|---|---|
 | Menu por workspace (QA-04): pessoal sem módulos de empresa sem uso; organização por permissão de leitura | Testado | `modules.test.ts`; E2E `workspace-nav.spec.ts`, `review-settings.spec.ts` |
-| Convites pendentes no seletor, aceites sem o link | Testado (BD) | `my-invitations.test.ts` (7). E2E escrito; **migration 2900 por aplicar em produção** |
+| Convites pendentes no seletor, aceites sem o link | Testado (em produção) | `my-invitations.test.ts` (7); E2E `workspace-nav.spec.ts` contra produção. Migration 2900 aplicada a 23/11/2026 |
 | Abas sincronizadas (BroadcastChannel e `/api/workspace` ao voltar à aba); estado do cliente recomeça ao mudar | Testado | E2E `workspace-nav.spec.ts` |
 | Contexto no endereço (`/app/pessoal/...`) | Não iniciado | Decisão: não mudar os 49 endereços; a guarda de gravação (Fase 3) e a sincronização cobrem o risco. Ver `DUAL_ARCHITECTURE.md` D7 |
 

@@ -37,5 +37,5 @@ Uma conta ANEN, uma identidade visual e uma infraestrutura, com dois tipos de es
 | 1. Auditoria e revisão | Concluída |
 | 2. Workspaces, conta única e membros | Concluída; migration 2700 aplicada em produção a 23/11/2026 |
 | 3. Separação dos dados e segurança no servidor | Concluída; em produção a 23/11/2026 |
-| 4. Seletor de contexto e navegação adaptativa | Concluída; migration 2900 e deploy por aprovar |
+| 4. Seletor de contexto e navegação adaptativa | Concluída; em produção a 23/11/2026 |
 | 5–10 | Por iniciar |
