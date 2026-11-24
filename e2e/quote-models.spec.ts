@@ -50,7 +50,7 @@ test("orçamento a partir de um serviço com preço: categoria, serviço, quanti
 
   // Fontes e PDF
   await main.getByText(/Fontes e metodologia/).click();
-  await expect(main.getByText(/Zaask/)).toBeVisible();
+  await expect(main.getByText(/Zaask/).first()).toBeVisible();
   await expect(main.getByRole("link", { name: /tabela de preços \(PDF\)/ })).toHaveAttribute("href", "/modelos/Modelos_Orcamento_2026_Portugal.pdf");
 
   await main.getByRole("button", { name: "Criar orçamento" }).click();
