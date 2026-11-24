@@ -1,0 +1,59 @@
+{
+ "segments": [
+  {
+   "id": "s1",
+   "text": "Seu dinheiro ainda vive espalhado em planilhas?",
+   "start": 0.25,
+   "end": 2.358
+  },
+  {
+   "id": "s2",
+   "text": "Conheça a ANEN: pessoal e empresa, num só app.",
+   "start": 2.758,
+   "end": 5.307
+  },
+  {
+   "id": "s3",
+   "text": "Saldo, receitas e despesas num piscar de olhos.",
+   "start": 5.707,
+   "end": 8.474
+  },
+  {
+   "id": "s4",
+   "text": "Registre um gasto em segundos.",
+   "start": 8.874,
+   "end": 10.461
+  },
+  {
+   "id": "s5",
+   "text": "Veja o que vai pagar, receber, e quanto sobra no fim do mês.",
+   "start": 10.861,
+   "end": 14.029
+  },
+  {
+   "id": "s6",
+   "text": "Parcelou? A ANEN acompanha cada parcela.",
+   "start": 14.429,
+   "end": 16.927
+  },
+  {
+   "id": "s7",
+   "text": "Na empresa, orçamentos com preço de mercado em poucos cliques.",
+   "start": 17.327,
+   "end": 20.459
+  },
+  {
+   "id": "s8",
+   "text": "Tudo separado, sem misturar.",
+   "start": 20.859,
+   "end": 22.345
+  },
+  {
+   "id": "s9",
+   "text": "ANEN. Seu dinheiro sob controle. Comece grátis.",
+   "start": 22.745,
+   "end": 26.082
+  }
+ ],
+ "total": 27.38
+}

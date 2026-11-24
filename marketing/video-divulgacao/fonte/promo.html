@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="fonts/manrope.css" />
+<style>
+  :root { --ink: #090909; --surface: #141414; --graphite: #202020; --line: #353535; --paper: #ffffff; --brand: #ff851b; --muted: #a3a3a3; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; background: var(--ink); overflow: hidden; }
+  body { font-family: Inter, sans-serif; color: var(--paper); position: relative; }
+  .glow { position: absolute; width: 1100px; height: 1100px; border-radius: 50%; background: radial-gradient(circle, rgba(255,133,27,0.22), rgba(255,133,27,0) 65%); left: -10px; top: 260px; }
+  .logo { position: absolute; top: 90px; left: 50%; width: 300px; transform: translateX(-50%); }
+  .chip { position: absolute; top: 205px; left: 50%; transform: translateX(-50%); padding: 14px 30px; border-radius: 999px; border: 2px solid var(--line); background: var(--surface); font-family: Manrope, sans-serif; font-weight: 700; font-size: 40px; white-space: nowrap; }
+  .chip b { color: var(--brand); font-weight: 800; }
+  .phone { position: absolute; left: 240px; top: 300px; width: 600px; height: 1298px; border-radius: 72px; border: 10px solid #202020; box-shadow: 0 0 0 2px #353535, 0 40px 120px rgba(0,0,0,0.6); overflow: hidden; background: var(--ink); }
+  .screen { position: absolute; inset: 0; width: 580px; height: 1278px; overflow: hidden; border-radius: 62px; }
+  .screen img { position: absolute; left: 0; top: 0; width: 1170px; height: 2532px; max-width: none; transform-origin: 0 0; }
+  .hl { position: absolute; border: 6px solid var(--brand); border-radius: 26px; box-shadow: 0 0 40px rgba(255,133,27,0.55); }
+  .cap { position: absolute; left: 70px; right: 70px; top: 1640px; min-height: 220px; display: flex; align-items: center; justify-content: center; text-align: center; }
+  .cap p { font-family: Manrope, sans-serif; font-weight: 800; font-size: 62px; line-height: 1.14; letter-spacing: -0.5px; text-shadow: 0 4px 24px rgba(0,0,0,0.8); }
+  .cap span { opacity: 0.18; transition: none; }
+  .cap span.on { opacity: 1; }
+  .cap span.now { color: var(--brand); opacity: 1; }
+  .hook { position: absolute; left: 80px; right: 80px; top: 520px; font-family: Manrope, sans-serif; font-weight: 800; font-size: 150px; line-height: 1.02; letter-spacing: -3px; }
+  .hook div { transform-origin: left center; }
+  .hook .o { color: var(--brand); }
+  .tag { position: absolute; padding: 16px 28px; border-radius: 20px; background: var(--graphite); border: 2px solid var(--line); color: var(--muted); font-size: 38px; font-weight: 600; }
+  .cta { position: absolute; left: 0; right: 0; top: 560px; text-align: center; }
+  .cta img { width: 620px; }
+  .cta h2 { margin-top: 90px; font-family: Manrope, sans-serif; font-weight: 800; font-size: 96px; line-height: 1.05; letter-spacing: -2px; }
+  .cta h2 .o { color: var(--brand); }
+  .btn { display: inline-block; margin-top: 80px; padding: 34px 70px; border-radius: 28px; background: var(--brand); color: #090909; font-family: Manrope, sans-serif; font-weight: 800; font-size: 58px; }
+  .small { margin-top: 36px; color: var(--muted); font-size: 38px; }
+  .toggle { position: absolute; top: 205px; left: 50%; transform: translateX(-50%); display: flex; gap: 0; padding: 8px; border-radius: 999px; background: var(--surface); border: 2px solid var(--line); }
+  .toggle div { padding: 14px 36px; border-radius: 999px; font-family: Manrope, sans-serif; font-weight: 800; font-size: 40px; color: var(--muted); }
+  .toggle div.act { background: var(--brand); color: #090909; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="glow" id="glow"></div>
+<img class="logo" id="logo" src="logo.svg" alt="ANEN" />
+<div class="chip hidden" id="chip"></div>
+<div class="toggle hidden" id="toggle"><div id="tg1">Pessoal</div><div id="tg2">Empresa</div></div>
+<div class="hook hidden" id="hook"></div>
+<div id="tags"></div>
+<div class="phone hidden" id="phone"><div class="screen"><img id="imgA" /><img id="imgB" /></div><div class="hl hidden" id="hl"></div></div>
+<div class="cta hidden" id="cta">
+  <img src="logo.svg" alt="ANEN" />
+  <h2>Seu dinheiro<br /><span class="o">sob controle.</span></h2>
+  <div class="btn">Comece grátis</div>
+  <div class="small">Pessoal e empresa num só app</div>
+</div>
+<div class="cap" id="cap"><p id="capText"></p></div>
+<script>
+// Coordenadas nas capturas (1170 × 2532 px). O ecrã do telemóvel mostra 580 px de largura.
+const SCALE = 580 / 1170;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const ease = (x) => { x = clamp(x, 0, 1); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const back = (x) => { x = clamp(x, 0, 1); const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const lerp = (a, b, x) => a + (b - a) * x;
+const $ = (id) => document.getElementById(id);
+
+let T = null, SCENES = null;
+window.setup = (timeline) => {
+  T = timeline;
+  const s = Object.fromEntries(T.segments.map((x) => [x.id, x]));
+  const next = (id, k) => (k < T.segments.length - 1 ? T.segments[k + 1].start : T.total);
+  const ids = T.segments.map((x) => x.id);
+  const span = (id) => { const k = ids.indexOf(id); return [s[id].start - 0.2, next(id, k) - 0.2]; };
+  // shots: [imagem, de (fração), zoom inicial, zoom final, foco x, foco y (px na captura), destaque {x,y,w,h} opcional]
+  SCENES = [
+    { id: "s2", span: span("s2"), chip: "Conheça a <b>ANEN</b>", shots: [["shots/01-hoje.png", 0, 1, 1.04, 585, 700]] },
+    { id: "s3", span: span("s3"), chip: "Tudo num <b>piscar de olhos</b>", shots: [["shots/01b-kpis.png", 0, 1, 1.06, 585, 640, { x: 36, y: 150, w: 1098, h: 800 }]] },
+    { id: "s4", span: span("s4"), chip: "Lançamento <b>rápido</b>", shots: [["shots/03-registro-rapido.png", 0, 1, 1.06, 585, 700, { x: 28, y: 800, w: 560, h: 170 }]] },
+    { id: "s5", span: span("s5"), chip: "A pagar e <b>a receber</b>", chip2: "Saldo <b>previsto</b>", shots: [["shots/04-a-receber-pagar.png", 0, 1, 1.05, 585, 1000, { x: 36, y: 1030, w: 1098, h: 290 }], ["shots/05-calendario.png", 0.5, 1, 1.06, 585, 1700, { x: 60, y: 1700, w: 1050, h: 320 }]] },
+    { id: "s6", span: span("s6"), chip: "Cada <b>parcela</b> sob controle", shots: [["shots/06-parcelas.png", 0, 1, 1.06, 585, 1050, { x: 40, y: 1045, w: 1090, h: 430 }]] },
+    { id: "s7", span: span("s7"), chip: "Orçamentos <b>prontos</b>", shots: [["shots/07-orcamento-modelos.png", 0, 1, 1.04, 585, 900], ["shots/08-orcamento-total.png", 0.5, 1, 1.06, 585, 1800, { x: 40, y: 2130, w: 1090, h: 140 }]] },
+    { id: "s8", span: span("s8"), toggle: true, shots: [["shots/09-contexto.png", 0, 1, 1.06, 585, 900, { x: 30, y: 800, w: 1110, h: 440 }]] },
+  ];
+  return true;
+};
+
+function placeImg(img, src, zoom, fx, fy) {
+  if (img.getAttribute("src") !== src) img.setAttribute("src", src);
+  // Mantém o ponto de foco (fx, fy) da captura no centro do ecrã do telemóvel.
+  const z = SCALE * zoom;
+  let tx = 290 - fx * z, ty = 639 - fy * z;
+  tx = clamp(tx, 580 - 1170 * z, 0);
+  ty = clamp(ty, 1278 - 2532 * z, 0);
+  img.style.transform = `translate(${tx}px, ${ty}px) scale(${z})`;
+  return { z, tx, ty };
+}
+
+function captions(t) {
+  const seg = T.segments.find((x) => t >= x.start - 0.15 && t < x.end + 0.35);
+  const p = $("capText");
+  if (!seg) { p.innerHTML = ""; return; }
+  const words = seg.text.split(" ");
+  const weights = words.map((w) => w.length + 2);
+  const total = weights.reduce((a, b) => a + b, 0);
+  let acc = 0, html = "";
+  const prog = (t - seg.start) / (seg.end - seg.start);
+  words.forEach((w, i) => {
+    const a = acc / total, b = (acc + weights[i]) / total; acc += weights[i];
+    const cls = prog >= b ? "on" : prog >= a ? "now" : "";
+    html += `<span class="${cls}">${w}</span> `;
+  });
+  p.innerHTML = html;
+  const pop = back((t - seg.start + 0.15) / 0.3);
+  $("cap").style.transform = `translateY(${lerp(30, 0, pop)}px) scale(${lerp(0.92, 1, pop)})`;
+}
+
+window.render = (t) => {
+  const s1 = T.segments[0], s9 = T.segments[8];
+  // Gancho
+  const hookOn = t < T.segments[1].start - 0.1;
+  $("hook").classList.toggle("hidden", !hookOn);
+  $("tags").innerHTML = "";
+  if (hookOn) {
+    const lines = [["Seu dinheiro", ""], ["ainda vive", ""], ["espalhado?", "o"]];
+    $("hook").innerHTML = lines.map(([l, c], i) => {
+      const x = back((t - s1.start - i * 0.42) / 0.38);
+      return `<div class="${c}" style="opacity:${clamp(x * 1.4, 0, 1)};transform:translateX(${lerp(-80, 0, x)}px) scale(${lerp(0.7, 1, x)})">${l}</div>`;
+    }).join("");
+    const tags = [["planilha.xlsx", 90, 300, -6], ["anotações", 640, 380, 7], ["extrato.pdf", 120, 1180, 5], ["boletos", 700, 1260, -8], ["caderno", 380, 1420, 3]];
+    $("tags").innerHTML = tags.map(([txt, x, y, r], i) => {
+      const k = back((t - 0.3 - i * 0.18) / 0.4);
+      const drift = Math.sin(t * 2 + i) * 10;
+      return `<div class="tag" style="left:${x}px;top:${y + drift}px;opacity:${clamp(k, 0, 1) * 0.9};transform:rotate(${r}deg) scale(${lerp(0.5, 1, k)})">${txt}</div>`;
+    }).join("");
+  }
+  // Logo: grande no início das cenas do app, pequeno depois
+  const ctaOn = t >= s9.start - 0.2;
+  $("logo").classList.toggle("hidden", hookOn || ctaOn);
+  // Telemóvel e cenas
+  const scene = SCENES.find((x) => t >= x.span[0] && t < x.span[1]);
+  $("phone").classList.toggle("hidden", !scene);
+  $("chip").classList.toggle("hidden", !scene || !!scene.toggle);
+  $("toggle").classList.toggle("hidden", !scene || !scene.toggle);
+  $("hl").classList.add("hidden");
+  if (scene) {
+    const [a, b] = scene.span, d = b - a, local = (t - a) / d;
+    // Entrada do telemóvel na primeira cena; nas outras, um pequeno "pulo"
+    const first = scene.id === "s2";
+    const enter = first ? back((t - a) / 0.6) : back((t - a) / 0.35);
+    $("phone").style.transform = first ? `translateY(${lerp(900, 0, enter)}px) rotate(${lerp(8, 0, enter)}deg)` : `scale(${lerp(0.96, 1, enter)})`;
+    // Imagem atual (com troca a meio quando a cena tem duas capturas)
+    const idx = scene.shots.length > 1 && local >= scene.shots[1][1] ? 1 : 0;
+    const shot = scene.shots[idx];
+    const segStart = shot[1], segEnd = idx === 0 && scene.shots.length > 1 ? scene.shots[1][1] : 1;
+    const k = ease((local - segStart) / (segEnd - segStart));
+    const zoom = lerp(shot[2], shot[3], k);
+    const pos = placeImg($("imgA"), shot[0], zoom, shot[4], shot[5]);
+    // Transição: a imagem anterior desvanece
+    const fade = clamp((local - segStart) / 0.08, 0, 1);
+    $("imgA").style.opacity = idx === 1 ? fade : 1;
+    $("imgB").style.opacity = 0;
+    if (shot[6] && k > 0.55) {
+      const h = shot[6], hl = $("hl");
+      hl.classList.remove("hidden");
+      hl.style.left = `${10 + pos.tx + h.x * pos.z}px`;
+      hl.style.top = `${10 + pos.ty + h.y * pos.z}px`;
+      hl.style.width = `${h.w * pos.z}px`;
+      hl.style.height = `${h.h * pos.z}px`;
+      hl.style.opacity = clamp((k - 0.55) / 0.15, 0, 1);
+    }
+    // Etiqueta do topo
+    const chip = scene.chip2 && idx === 1 ? scene.chip2 : scene.chip;
+    if (chip) {
+      const c = $("chip");
+      c.innerHTML = chip;
+      const ck = back((local - segStart) / 0.12);
+      c.style.transform = `translateX(-50%) translateY(${lerp(-30, 0, ck)}px)`;
+      c.style.opacity = clamp(ck, 0, 1);
+    }
+    if (scene.toggle) {
+      const flip = Math.floor((t - a) / 0.55) % 2 === 1;
+      $("tg1").classList.toggle("act", !flip);
+      $("tg2").classList.toggle("act", flip);
+    }
+  }
+  // Chamada final
+  $("cta").classList.toggle("hidden", !ctaOn);
+  if (ctaOn) {
+    const k = back((t - s9.start + 0.2) / 0.5);
+    $("cta").style.transform = `scale(${lerp(0.8, 1, k)})`;
+    $("cta").style.opacity = clamp(k, 0, 1);
+  }
+  $("glow").style.transform = `translateY(${Math.sin(t * 0.8) * 40}px) scale(${1 + Math.sin(t * 0.6) * 0.05})`;
+  captions(t);
+  return true;
+};
+</script>
+</body>
+</html>
