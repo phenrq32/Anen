@@ -9,6 +9,7 @@ import { requireOnboardedSession } from "@/lib/session";
 import { createQuoteAction } from "../actions";
 import { WorkspaceField } from "@/components/workspace-context";
 import { ModelPicker } from "./model-picker";
+import { numericText } from "@anen/validation";
 
 export const metadata: Metadata = { title: "Novo orçamento" };
 
@@ -69,7 +70,7 @@ export default async function NewQuotePage({ searchParams }: { searchParams: Pro
               setId={set.id}
               currency={set.currency_code}
               minorUnit={currencyRes.data?.minor_unit ?? 2}
-              suggestedTax={set.suggested_tax_percent && set.suggested_tax_label ? { percent: set.suggested_tax_percent, label: set.suggested_tax_label } : null}
+              suggestedTax={set.suggested_tax_percent !== null && set.suggested_tax_label ? { percent: numericText(set.suggested_tax_percent), label: set.suggested_tax_label } : null}
               models={list.map((x) => ({
                 key: x.service_key,
                 name: x.name,

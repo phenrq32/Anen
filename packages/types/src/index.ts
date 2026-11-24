@@ -158,7 +158,8 @@ export interface QuoteModelSet {
   version: string;
   taxes_included: boolean;
   tax_note: string;
-  suggested_tax_percent: string | null;
+  /** numeric: número JSON pelo PostgREST, texto pelo Postgres direto. */
+  suggested_tax_percent: string | number | null;
   suggested_tax_label: string | null;
   suggested_tax_reference: string | null;
   methodology: string;

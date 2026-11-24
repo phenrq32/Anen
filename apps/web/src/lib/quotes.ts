@@ -12,3 +12,4 @@ export function quotesScope(session: SessionContext): FinanceScope {
 export function numericToString(value: number, decimals = 3): string {
   return Number(value.toFixed(decimals)).toString();
 }
+

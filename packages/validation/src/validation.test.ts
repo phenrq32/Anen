@@ -126,3 +126,14 @@ describe("parcelas (Fase 5)", () => {
     expect(installmentUpdateSchema.safeParse({ planId: id, from: "3", dueDay: "40" }).success).toBe(false);
   });
 });
+
+describe("numeric da base de dados como texto (motor)", () => {
+  it("aceita número do PostgREST e texto do Postgres, sem zeros à direita", async () => {
+    const { numericText } = await import("./quote");
+    expect(numericText(23)).toBe("23");
+    expect(numericText("23.000")).toBe("23");
+    expect(numericText("6.5")).toBe("6.5");
+    expect(numericText(6.25)).toBe("6.25");
+    expect(() => numericText(-1)).toThrow();
+  });
+});

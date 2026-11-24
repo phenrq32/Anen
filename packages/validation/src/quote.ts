@@ -92,3 +92,13 @@ export function parseQuoteDiscount(type: (typeof QUOTE_DISCOUNT_TYPES)[number], 
   if (amount === null || amount < 0n) return null;
   return amount === 0n ? { type: "none" } : { type: "amount", amountMinor: amount };
 }
+
+/**
+ * Valor de uma coluna numeric como texto decimal para o motor. O PostgREST devolve numeric como número
+ * JSON (23) e o Postgres direto como texto ("23.000"); o motor aceita só texto.
+ */
+export function numericText(value: string | number): string {
+  const s = typeof value === "number" ? value.toString() : value.trim();
+  if (!/^\d+(\.\d+)?$/.test(s)) throw new Error("Valor numérico inválido");
+  return s.includes(".") ? s.replace(/0+$/, "").replace(/\.$/, "") : s;
+}

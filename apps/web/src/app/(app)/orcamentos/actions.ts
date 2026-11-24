@@ -18,6 +18,7 @@ import {
   fieldErrors,
   parseAmountInput,
   parsePercentInput,
+  numericText,
   parseQuantityInput,
   parseQuoteDiscount,
   parseQuoteLines,
@@ -131,7 +132,8 @@ export async function createQuoteFromModelAction(_: FormState, formData: FormDat
   // Só modelos da moeda do workspace (nunca misturar moedas).
   if (!set || !model || set.currency_code !== scope.defaultCurrency) return { status: "error", message: m.errors.generic };
   const addTax = formData.get("addTax") === "1" && set.suggested_tax_percent !== null;
-  const taxRate = addTax && set.suggested_tax_percent ? set.suggested_tax_percent : "0";
+  // numeric chega do PostgREST como número (23) e o motor quer texto decimal ("23").
+  const taxRate = addTax && set.suggested_tax_percent !== null ? numericText(set.suggested_tax_percent) : "0";
   const lines = quoteLinesFromServiceModel(
     { unit: model.unit, composition: model.composition.map((c) => ({ line: c.line, kind: c.kind, amountMinor: BigInt(c.amount_minor) })) },
     quantity,
