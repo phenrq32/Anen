@@ -252,8 +252,8 @@ Modelo em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md) (opção A: camada 
 
 | Funcionalidade | Estado | Evidência |
 |---|---|---|
-| 395 serviços com preço recomendado, faixa de mercado, materiais e composição (PT sem IVA, BR com impostos), com fontes e versão | Testado (BD) | `quote-models.test.ts` (cada serviço igual ao JSON, em cêntimos; validações; migration = saída do gerador). **Migrations 3100 e 3200 por aplicar em produção** |
-| Novo orçamento → categoria → serviço → quantidade (IVA 23 % opcional em Portugal) → orçamento pré-preenchido, totais pelo motor no servidor | Implementado | `service-models.test.ts` (130 € × 12,5 m² = 1625 €; com IVA 1998,75 €). E2E `quote-models.spec.ts` escrito, por correr (precisa das migrations) |
+| 395 serviços com preço recomendado, faixa de mercado, materiais e composição (PT sem IVA, BR com impostos), com fontes e versão | Testado (BD) | `quote-models.test.ts`. Migrations 3100 e 3200 aplicadas em produção a 24/11/2026 |
+| Novo orçamento → categoria → serviço → quantidade (IVA 23 % opcional em Portugal) → orçamento pré-preenchido, totais pelo motor no servidor | Testado (local contra produção) | `service-models.test.ts`; E2E `quote-models.spec.ts` a passar localmente. **Em produção falta o deploy da correção QA-18 (Vercel recusa o acesso)** |
 | Referência do modelo (preço e faixa de mercado) no editor, só para o profissional | Implementado | Idem |
 | PDFs do pacote para descarregar (com sessão) | Implementado | `apps/web/public/modelos/` |
 

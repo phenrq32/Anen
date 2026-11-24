@@ -39,6 +39,7 @@ Gravidade: crítico · alto · médio · baixo. Estado: **corrigido** (com teste
 | QA-15 | ANEN AI: pergunta | Uma vez, em produção (telemóvel), uma falha do fornecedor de IA terminou no ecrã genérico "Ocorreu um erro" em vez de uma mensagem clara; repetido, passou. Provável tempo máximo da função excedido | Médio | Pendente: precisa dos registos do Vercel para confirmar a causa |
 | QA-16 | Registo rápido com a tecla N (E2E) | A tecla N às vezes era premida antes de a página ficar interativa (2 casos em produção, telemóvel e desktop). Era do teste, não da app | Baixo | Corrigido: `e2e/ui.ts#openQuickAdd` repete a tecla até o diálogo abrir; 4 testes passam a usá-lo |
 | QA-17 | Orçamentos: aviso de excedido | O texto começa por "⚠", um símbolo próximo de um emoji; a marca pede "sem emojis" | Baixo | Fechado: decisão do utilizador a 23/11/2026, o "⚠" mantém-se |
+| QA-18 | Modelos de orçamento em produção: "Somar IVA 23%" | O seletor rebentava ao marcar o IVA: o PostgREST devolve numeric como número (23) e o motor quer texto. Corrigido no código (`numericText`) e verificado localmente contra a base de produção; **o deploy da correção falhou** porque o Vercel passou a recusar o acesso à equipa (conta "limited", 403) | Alto | Corrigido no código; em produção continua a versão com o erro até um novo deploy |
 | QA-12 | Bucket `attachments` (produção) | Até 2 PDFs de teste órfãos, deixados pela primeira versão do QA-02 durante os E2E (ver detalhe do QA-02) | Baixo | Decisão sua: limpar com uma tarefa de ficheiros órfãos (já prevista em `IMPLEMENTATION_STATUS.md`) |
 | QA-11 | `deleteAttachmentAction` | O anexo era procurado sem filtro do contexto ativo (o RLS protegia, mas podia apagar o anexo de outro contexto da mesma pessoa) | Médio | **Corrigido** |
 
@@ -169,3 +170,8 @@ Decisões tomadas:
 - A faixa de mercado aparece só ao profissional (no seletor e no editor), nunca no documento do cliente. Os materiais vão para a descrição e a nota do serviço para as condições.
 - Os PDFs ficam em `/modelos/…` e só se descarregam com sessão iniciada.
 - Só se mostram modelos da moeda do workspace (EUR → Portugal, BRL → Brasil); nunca se misturam moedas.
+
+## Publicação de 24/11/2026
+
+- Migrations 3100 e 3200 aplicadas (2 conjuntos, PT 195 e BR 200 serviços) e deploy feito: em produção passam Hoje, Assinaturas, Dívidas, Calendário, parcelas, menu, convites e os orçamentos existentes (14 E2E).
+- O E2E dos modelos de orçamento encontrou QA-18. A correção passa localmente (desktop e telemóvel) contra a base de produção, mas o deploy seguinte falhou: a API do Vercel responde 403 ao projeto e à equipa com o token fornecido (a conta aparece como "limited"). A versão em produção mantém o erro ao marcar o IVA; sem o marcar, o fluxo funciona.
