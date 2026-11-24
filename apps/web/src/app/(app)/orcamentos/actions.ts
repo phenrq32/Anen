@@ -8,7 +8,8 @@ import {
   computeQuote,
   computeRecipe,
   defaultNature,
-  quoteLinesFromServiceModel,
+  quoteLinesFromServiceModels,
+  SERVICE_MODEL_MAX_SELECTION,
   type IngredientInput,
   type QuoteBreakdown,
 } from "@anen/financial-engine";
@@ -113,30 +114,50 @@ export async function createQuoteAction(formData: FormData): Promise<void> {
 }
 
 /**
- * Novo orçamento a partir de um modelo com preço (pacote 2026-11): linhas = composição do preço
- * recomendado, quantidade indicada, margem 0 % (o preço já a inclui) e, em Portugal, o IVA só se
- * o profissional o pedir. Totais calculados pelo motor e gravados como no editor (versão 1).
+ * Novo orçamento a partir de um ou mais modelos com preço (mesma edição e categoria): linhas = composição
+ * do preço recomendado de cada serviço, com a quantidade de cada um, margem 0 % (o preço já a inclui) e,
+ * em Portugal, o IVA só se o profissional o pedir. Totais calculados pelo motor e gravados como no editor.
+ * Com um só serviço, o orçamento guarda o modelo de origem (referência de mercado no editor).
  */
 export async function createQuoteFromModelAction(_: FormState, formData: FormData): Promise<FormState> {
   await guardWorkspace(formData);
   const { m, session, scope } = await context();
   if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
-  const quantity = parseQuantityInput(formString(formData, "quantity"));
-  if (quantity === null || Number(quantity) <= 0) return { status: "error", fieldErrors: { quantity: m.errors.quantity_invalid } };
-  const [setRes, modelRes] = await Promise.all([
-    session.supabase.from("quote_model_sets").select("*").eq("id", formString(formData, "set")).maybeSingle(),
-    session.supabase.from("quote_service_models").select("*").eq("set_id", formString(formData, "set")).eq("service_key", formString(formData, "service")).maybeSingle(),
+  const keys = [...new Set(formData.getAll("service").filter((v): v is string => typeof v === "string" && v.length > 0))];
+  if (keys.length === 0) return { status: "error", message: m.errors.service_required };
+  if (keys.length > SERVICE_MODEL_MAX_SELECTION) return { status: "error", message: format(m.errors.services_too_many, { max: SERVICE_MODEL_MAX_SELECTION }) };
+  const quantities = new Map<string, string>();
+  const fieldErrors: Record<string, string> = {};
+  for (const key of keys) {
+    const q = parseQuantityInput(formString(formData, `quantity_${key}`));
+    if (q === null || Number(q) <= 0) fieldErrors[`quantity_${key}`] = m.errors.quantity_invalid;
+    else quantities.set(key, q);
+  }
+  if (Object.keys(fieldErrors).length > 0) return { status: "error", fieldErrors };
+  const setId = formString(formData, "set");
+  const [setRes, modelsRes] = await Promise.all([
+    session.supabase.from("quote_model_sets").select("*").eq("id", setId).maybeSingle(),
+    session.supabase.from("quote_service_models").select("*").eq("set_id", setId).in("service_key", keys),
   ]);
   const set = setRes.data;
-  const model = modelRes.data;
-  // Só modelos da moeda do workspace (nunca misturar moedas).
-  if (!set || !model || set.currency_code !== scope.defaultCurrency) return { status: "error", message: m.errors.generic };
+  const byKey = new Map((modelsRes.data ?? []).map((x) => [x.service_key, x]));
+  const models = keys.map((k) => byKey.get(k));
+  // Só modelos da moeda do workspace (nunca misturar moedas), todos encontrados e da mesma categoria.
+  if (!set || set.currency_code !== scope.defaultCurrency || models.some((x) => !x)) return { status: "error", message: m.errors.generic };
+  const chosen = models.filter((x): x is NonNullable<typeof x> => Boolean(x));
+  const first = chosen[0]!;
+  if (chosen.some((x) => x.template_key !== first.template_key)) return { status: "error", message: m.errors.generic };
+  const single = chosen.length === 1;
   const addTax = formData.get("addTax") === "1" && set.suggested_tax_percent !== null;
   // numeric chega do PostgREST como número (23) e o motor quer texto decimal ("23").
   const taxRate = addTax && set.suggested_tax_percent !== null ? numericText(set.suggested_tax_percent) : "0";
-  const lines = quoteLinesFromServiceModel(
-    { unit: model.unit, composition: model.composition.map((c) => ({ line: c.line, kind: c.kind, amountMinor: BigInt(c.amount_minor) })) },
-    quantity,
+  const lines = quoteLinesFromServiceModels(
+    chosen.map((x) => ({
+      name: x.name,
+      unit: x.unit,
+      quantity: quantities.get(x.service_key)!,
+      composition: x.composition.map((c) => ({ line: c.line, kind: c.kind, amountMinor: BigInt(c.amount_minor) })),
+    })),
   );
   const breakdown = computeQuote({
     currency: set.currency_code,
@@ -145,15 +166,23 @@ export async function createQuoteFromModelAction(_: FormState, formData: FormDat
     taxRatePercent: taxRate,
   });
   const taxLabel = addTax ? set.suggested_tax_label : null;
+  const title = (single ? first.name : format(m.quotes.models.titleMany, { first: first.name, count: chosen.length - 1 })).slice(0, 160);
+  const materialsText = (x: (typeof chosen)[number]) => (x.materials ? format(m.quotes.models.materialsLine, { materials: x.materials }) : null);
+  const description = single
+    ? materialsText(first)
+    : chosen.map((x) => (x.materials ? `${x.name}: ${x.materials}` : null)).filter(Boolean).join("\n").slice(0, 4000) || null;
+  const conditions = single
+    ? (first.note ?? null)
+    : chosen.map((x) => (x.note ? `${x.name}: ${x.note}` : null)).filter(Boolean).join("\n").slice(0, 4000) || null;
   const { data: created, error: createError } = await session.supabase
     .from("quotes")
     .insert({
       ...scopeFields(scope),
       number: "pendente",
-      template_key: model.template_key,
-      service_model_set_id: model.set_id,
-      service_model_key: model.service_key,
-      title: model.name,
+      template_key: first.template_key,
+      service_model_set_id: single ? first.set_id : null,
+      service_model_key: single ? first.service_key : null,
+      title,
       currency_code: set.currency_code,
       margin_percent: Number(SERVICE_MODEL_MARGIN_PERCENT),
       tax_rate_percent: Number(taxRate),
@@ -180,8 +209,8 @@ export async function createQuoteFromModelAction(_: FormState, formData: FormDat
   const { error } = await session.supabase.rpc("save_quote_content", {
     p_quote_id: created.id,
     p_fields: {
-      title: model.name,
-      description: model.materials ? format(m.quotes.models.materialsLine, { materials: model.materials }) : null,
+      title,
+      description,
       client_contact_id: null,
       client_name: null,
       client_email: null,
@@ -191,7 +220,7 @@ export async function createQuoteFromModelAction(_: FormState, formData: FormDat
       margin_percent: SERVICE_MODEL_MARGIN_PERCENT,
       tax_rate_percent: taxRate,
       tax_label: taxLabel,
-      conditions: model.note ?? null,
+      conditions,
       discount_percent: "0",
       discount_fixed_minor: "0",
       discount_minor: breakdown.discount.amountMinor.toString(),

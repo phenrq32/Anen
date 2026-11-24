@@ -35,3 +35,25 @@ export function quoteLinesFromServiceModel(model: { unit: string; composition: r
     unitCostMinor: c.amountMinor,
   }));
 }
+
+/** Limite de serviços num orçamento criado a partir de vários modelos de uma vez. */
+export const SERVICE_MODEL_MAX_SELECTION = 40;
+/** Limite de texto de uma linha de orçamento (igual ao da base de dados). */
+const LINE_DESCRIPTION_MAX = 300;
+
+/**
+ * Vários serviços de uma vez: as linhas de cada serviço, pela ordem escolhida, cada uma com a sua
+ * quantidade. Com mais de um serviço, cada linha começa pelo nome do serviço ("Pintura · Tinta")
+ * para o orçamento continuar legível. Total sem imposto = Σ preço recomendado × quantidade.
+ */
+export function quoteLinesFromServiceModels(
+  items: readonly { name: string; unit: string; composition: readonly ServiceModelLine[]; quantity: string }[],
+): ServiceModelQuoteLine[] {
+  const many = items.length > 1;
+  return items.flatMap((item) =>
+    quoteLinesFromServiceModel(item, item.quantity).map((l) => ({
+      ...l,
+      description: many ? `${item.name} · ${l.description}`.slice(0, LINE_DESCRIPTION_MAX) : l.description,
+    })),
+  );
+}

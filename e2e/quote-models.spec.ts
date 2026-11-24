@@ -5,6 +5,7 @@ import { createConfirmedUser, deleteOrganizationsCreatedBy, deleteUser } from ".
  * Modelos de orçamento com preços (edição 2026-12, Portugal, sem IVA; este serviço manteve o preço da edição 2026-11).
  * Parede de tijolo 11 cm rebocada (2 faces): 45 €/m², mercado 35 € – 60 €.
  * 12,5 m² → 562,50 €; com IVA 23 % → 691,88 €.
+ * Vários de uma vez: + Teto falso em pladur (25 €/m²) × 10 m² = 250 € → 812,50 € sem IVA.
  */
 const password = "Segura12345e2e";
 const created: string[] = [];
@@ -65,4 +66,40 @@ test("orçamento a partir de um serviço com preço: categoria, serviço, quanti
   const pdf = await page.request.get("/modelos/Modelos_Orcamento_2026_Portugal.pdf");
   expect(pdf.status()).toBe(200);
   expect((await pdf.body()).subarray(0, 5).toString()).toBe("%PDF-");
+});
+
+test("vários serviços de uma vez, cada um com a sua quantidade", async ({ page }, info) => {
+  test.setTimeout(180_000);
+  const email = `e2e-modelos-varios-${Date.now()}-${info.project.name}@example.com`;
+  created.push(await createConfirmedUser(email, password, "Paulo Obras"));
+  await page.goto("/entrar");
+  await page.getByLabel("Email").fill(email);
+  await page.getByLabel("Palavra-passe").fill(password);
+  await page.getByRole("button", { name: "Entrar" }).click();
+  await page.waitForURL(/\/boas-vindas/);
+  await page.getByText("Finanças pessoais", { exact: true }).click();
+  await page.getByRole("button", { name: "Concluir" }).click();
+  await page.waitForURL(/\/painel/);
+  const main = page.getByRole("main");
+
+  await page.goto("/orcamentos/novo?categoria=construction");
+  await expect(main.getByRole("button", { name: "Criar orçamento" })).toBeDisabled();
+  const wall = main.getByRole("listitem", { name: "Parede de tijolo 11 cm rebocada (2 faces)" });
+  const ceiling = main.getByRole("listitem", { name: "Teto falso em pladur" });
+  await wall.getByRole("checkbox").check();
+  await wall.getByLabel(/^Quantidade/).fill("12,5");
+  await ceiling.getByRole("checkbox").check();
+  await ceiling.getByLabel(/^Quantidade/).fill("10");
+  await expect(main.getByText("2 serviços escolhidos")).toBeVisible();
+  await expect(main.getByText(/Total: 812,50\s€/)).toBeVisible();
+
+  await main.getByRole("button", { name: "Criar orçamento" }).click();
+  await page.waitForURL(/\/orcamentos\/[0-9a-f-]{36}$/);
+  await expect(main.getByRole("heading", { name: /Parede de tijolo 11 cm rebocada \(2 faces\) \(\+1\)/ })).toBeVisible();
+  await expect(main.getByText(/812,50\s€/).first()).toBeVisible();
+  // Linhas identificadas pelo serviço; sem referência de um único modelo
+  await expect
+    .poll(() => main.locator("input, textarea").evaluateAll((els) => els.some((e) => (e as HTMLInputElement).value.startsWith("Teto falso em pladur · "))))
+    .toBe(true);
+  await expect(main.getByRole("complementary", { name: "Referência do modelo" })).toHaveCount(0);
 });

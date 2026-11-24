@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { computeQuote } from "./quote";
-import { quoteLinesFromServiceModel, SERVICE_MODEL_MARGIN_PERCENT } from "./service-models";
+import { quoteLinesFromServiceModel, quoteLinesFromServiceModels, SERVICE_MODEL_MARGIN_PERCENT } from "./service-models";
 
 // Exemplo do pacote (Portugal): parede de drywall 2 faces c/ isolamento, 130 €/m² (sem IVA)
 const drywall = {
@@ -46,5 +46,37 @@ describe("orçamento a partir de um modelo com preço", () => {
     const r = total("12.5", "23");
     expect(r.tax.amountMinor).toBe(37375n);
     expect(r.total.amountMinor).toBe(199875n);
+  });
+
+  it("vários serviços de uma vez: linhas de cada serviço com o nome à frente e a sua quantidade; total = soma", () => {
+    const pintura = {
+      name: "Pintura interior",
+      unit: "m²",
+      composition: [
+        { line: "Tinta", kind: "material" as const, amountMinor: 300n },
+        { line: "Pintura", kind: "labor" as const, amountMinor: 400n },
+      ],
+      quantity: "40",
+    };
+    const lines = quoteLinesFromServiceModels([{ ...drywall, name: "Drywall", quantity: "12.5" }, pintura]);
+    expect(lines).toHaveLength(7);
+    expect(lines[0]!.description).toBe("Drywall · Materiais de construção");
+    expect(lines.slice(5).map((l) => [l.description, l.quantity, l.unitCostMinor])).toEqual([
+      ["Pintura interior · Tinta", "40", 300n],
+      ["Pintura interior · Pintura", "40", 400n],
+    ]);
+    const r = computeQuote({
+      currency: "EUR",
+      lines: lines.map((l) => ({ kind: l.kind, nature: l.nature, quantity: l.quantity, unitCostMinor: l.unitCostMinor })),
+      marginPercent: SERVICE_MODEL_MARGIN_PERCENT,
+      taxRatePercent: "0",
+    });
+    // 130 € × 12,5 + 7 € × 40 = 1625 € + 280 €
+    expect(r.total.amountMinor).toBe(190500n);
+  });
+
+  it("um só serviço: as linhas ficam como na composição (sem o nome à frente)", () => {
+    const lines = quoteLinesFromServiceModels([{ ...drywall, name: "Drywall", quantity: "1" }]);
+    expect(lines[0]!.description).toBe("Materiais de construção");
   });
 });
