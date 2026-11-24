@@ -1,0 +1,3083 @@
+[
+ {
+  "categoria": "Agricultura",
+  "servico": "Hora-máquina: trator com roçadeira",
+  "unidade": "hora",
+  "preco_recomendado_brl": 230,
+  "faixa_min": 180,
+  "faixa_max": 300,
+  "materiais_produtos": "Trator 75–100 cv, roçadeira hidráulica/arrasto, diesel",
+  "nota": "Mínimo habitual de 2 h",
+  "composicao": {
+   "Mão de obra": 40,
+   "Maquinaria": 180,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Agricultura",
+  "servico": "Roçada manual com roçadeira costal",
+  "unidade": "diária",
+  "preco_recomendado_brl": 220,
+  "faixa_min": 160,
+  "faixa_max": 300,
+  "materiais_produtos": "Roçadeira a gasolina, fio de nylon/lâmina, mistura 2T, EPI",
+  "nota": "",
+  "composicao": {
+   "Mão de obra": 170,
+   "Maquinaria": 30,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Agricultura",
+  "servico": "Roçada / limpeza de lote urbano",
+  "unidade": "m²",
+  "preco_recomendado_brl": 2.0,
+  "faixa_min": 1.2,
+  "faixa_max": 3.5,
+  "materiais_produtos": "Roçadeira, rastelo, retirada do mato cortado",
+  "nota": "Mato alto/entulho: usar o topo da faixa",
+  "composicao": {
+   "Mão de obra": 1.2,
+   "Maquinaria": 0.6,
+   "Deslocação": 0.2
+  }
+ },
+ {
+  "categoria": "Agricultura",
+  "servico": "Gradagem / aração",
+  "unidade": "hectare",
+  "preco_recomendado_brl": 400,
+  "faixa_min": 300,
+  "faixa_max": 550,
+  "materiais_produtos": "Trator, grade aradora/niveladora ou arado, diesel",
+  "nota": "",
+  "composicao": {
+   "Mão de obra": 60,
+   "Maquinaria": 320,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Agricultura",
+  "servico": "Poda de árvore frutífera",
+  "unidade": "árvore",
+  "preco_recomendado_brl": 70,
+  "faixa_min": 40,
+  "faixa_max": 120,
+  "materiais_produtos": "Tesoura de poda, serrote, motosserra leve, pasta cicatrizante",
+  "nota": "",
+  "composicao": {
+   "Mão de obra": 50,
+   "Maquinaria": 10,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Agricultura",
+  "servico": "Plantio de mudas (muda inclusa)",
+  "unidade": "muda",
+  "preco_recomendado_brl": 38,
+  "faixa_min": 25,
+  "faixa_max": 60,
+  "materiais_produtos": "Muda em saco/vaso, adubo orgânico, calcário, tutor",
+  "nota": "",
+  "composicao": {
+   "Sementes / plantas": 18,
+   "Fertilizantes": 4,
+   "Mão de obra": 12,
+   "Maquinaria": 2,
+   "Deslocação": 2
+  }
+ },
+ {
+  "categoria": "Agricultura",
+  "servico": "Plantio de grama esmeralda (com grama)",
+  "unidade": "m²",
+  "preco_recomendado_brl": 24,
+  "faixa_min": 18,
+  "faixa_max": 35,
+  "materiais_produtos": "Placas de grama, terra preta/adubo, nivelamento",
+  "nota": "",
+  "composicao": {
+   "Sementes / plantas": 12,
+   "Fertilizantes": 2,
+   "Mão de obra": 9,
+   "Deslocação": 1
+  }
+ },
+ {
+  "categoria": "Agricultura",
+  "servico": "Pulverização / adubação",
+  "unidade": "hectare",
+  "preco_recomendado_brl": 450,
+  "faixa_min": 300,
+  "faixa_max": 700,
+  "materiais_produtos": "Defensivo ou adubo, pulverizador tratorizado/costal",
+  "nota": "Exige receituário agronômico",
+  "composicao": {
+   "Fertilizantes": 250,
+   "Mão de obra": 60,
+   "Maquinaria": 120,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Agricultura",
+  "servico": "Corte de árvore de médio porte",
+  "unidade": "árvore",
+  "preco_recomendado_brl": 350,
+  "faixa_min": 200,
+  "faixa_max": 700,
+  "materiais_produtos": "Motosserra, cordas, EPI, retirada de galhos",
+  "nota": "Verificar autorização ambiental do município",
+  "composicao": {
+   "Mão de obra": 250,
+   "Maquinaria": 80,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Agricultura",
+  "servico": "Diária de trabalhador rural",
+  "unidade": "diária",
+  "preco_recomendado_brl": 130,
+  "faixa_min": 100,
+  "faixa_max": 180,
+  "materiais_produtos": "Ferramentas manuais (enxada, foice, cavadeira)",
+  "nota": "",
+  "composicao": {
+   "Mão de obra": 120,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Automotivo",
+  "servico": "Troca de óleo e filtro",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 235,
+  "faixa_min": 180,
+  "faixa_max": 350,
+  "materiais_produtos": "Óleo sintético 0W20/5W30 (≈4 L) conforme manual, filtro de óleo, arruela do bujão",
+  "nota": "",
+  "composicao": {
+   "Peças": 35,
+   "Óleos e consumíveis": 160,
+   "Mão de obra": 40
+  }
+ },
+ {
+  "categoria": "Automotivo",
+  "servico": "Revisão completa (óleo + filtros + check-up)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 530,
+  "faixa_min": 400,
+  "faixa_max": 900,
+  "materiais_produtos": "Filtros de óleo, ar, cabine e combustível, óleo, check-list de itens",
+  "nota": "",
+  "composicao": {
+   "Peças": 150,
+   "Óleos e consumíveis": 170,
+   "Mão de obra": 180,
+   "Diagnóstico": 30
+  }
+ },
+ {
+  "categoria": "Automotivo",
+  "servico": "Pastilhas de freio dianteiras",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 240,
+  "faixa_min": 150,
+  "faixa_max": 400,
+  "materiais_produtos": "Jogo de pastilhas, graxa para freio, limpa-freios",
+  "nota": "",
+  "composicao": {
+   "Peças": 130,
+   "Óleos e consumíveis": 10,
+   "Mão de obra": 100
+  }
+ },
+ {
+  "categoria": "Automotivo",
+  "servico": "Discos + pastilhas de freio (eixo)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 550,
+  "faixa_min": 400,
+  "faixa_max": 850,
+  "materiais_produtos": "Par de discos, jogo de pastilhas, fluido se necessário",
+  "nota": "",
+  "composicao": {
+   "Peças": 380,
+   "Óleos e consumíveis": 10,
+   "Mão de obra": 160
+  }
+ },
+ {
+  "categoria": "Automotivo",
+  "servico": "Correia dentada + tensor + bomba d'água",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 1050,
+  "faixa_min": 750,
+  "faixa_max": 1600,
+  "materiais_produtos": "Kit correia, tensor, bomba d'água, aditivo de radiador",
+  "nota": "Varia muito por motor",
+  "composicao": {
+   "Peças": 550,
+   "Óleos e consumíveis": 50,
+   "Mão de obra": 450
+  }
+ },
+ {
+  "categoria": "Automotivo",
+  "servico": "Troca de embreagem (kit)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 1440,
+  "faixa_min": 1000,
+  "faixa_max": 2200,
+  "materiais_produtos": "Kit embreagem (platô, disco, rolamento), óleo de câmbio",
+  "nota": "",
+  "composicao": {
+   "Peças": 800,
+   "Óleos e consumíveis": 40,
+   "Mão de obra": 600
+  }
+ },
+ {
+  "categoria": "Automotivo",
+  "servico": "Diagnóstico com scanner",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 120,
+  "faixa_min": 80,
+  "faixa_max": 200,
+  "materiais_produtos": "Scanner automotivo OBD2, relatório de falhas",
+  "nota": "Pode ser abatido se fizer o serviço",
+  "composicao": {
+   "Diagnóstico": 120
+  }
+ },
+ {
+  "categoria": "Automotivo",
+  "servico": "Higienização + carga de gás do ar-condicionado",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 280,
+  "faixa_min": 200,
+  "faixa_max": 400,
+  "materiais_produtos": "Gás R134a/R1234yf, óleo PAG, higienizador, filtro de cabine",
+  "nota": "",
+  "composicao": {
+   "Óleos e consumíveis": 150,
+   "Mão de obra": 100,
+   "Diagnóstico": 30
+  }
+ },
+ {
+  "categoria": "Automotivo",
+  "servico": "Bateria 60 Ah instalada",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 510,
+  "faixa_min": 400,
+  "faixa_max": 700,
+  "materiais_produtos": "Bateria 60 Ah, teste de alternador",
+  "nota": "Start-stop (EFB/AGM): +R$ 300–600",
+  "composicao": {
+   "Peças": 480,
+   "Mão de obra": 20,
+   "Diagnóstico": 10
+  }
+ },
+ {
+  "categoria": "Automotivo",
+  "servico": "Alinhamento e balanceamento",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 110,
+  "faixa_min": 80,
+  "faixa_max": 160,
+  "materiais_produtos": "Alinhador 3D, chumbos de balanceamento",
+  "nota": "",
+  "composicao": {
+   "Óleos e consumíveis": 15,
+   "Mão de obra": 95
+  }
+ },
+ {
+  "categoria": "Automotivo",
+  "servico": "Amortecedores dianteiros (par)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 800,
+  "faixa_min": 600,
+  "faixa_max": 1200,
+  "materiais_produtos": "Par de amortecedores, kit batente e coifa",
+  "nota": "",
+  "composicao": {
+   "Peças": 550,
+   "Mão de obra": 250
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Visita técnica / diagnóstico",
+  "unidade": "visita",
+  "preco_recomendado_brl": 120,
+  "faixa_min": 80,
+  "faixa_max": 180,
+  "materiais_produtos": "—",
+  "nota": "Costuma ser abatida se o cliente fechar o serviço",
+  "composicao": {
+   "Instalação / reparação": 80,
+   "Deslocação": 40
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Desentupimento de pia / ralo / vaso",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 220,
+  "faixa_min": 150,
+  "faixa_max": 380,
+  "materiais_produtos": "Desentupidor, sonda/mola manual, produto desincrustante",
+  "nota": "Com máquina rotativa/hidrojato: R$ 400–1.300",
+  "composicao": {
+   "Instalação / reparação": 180,
+   "Deslocação": 40
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Troca de torneira (torneira inclusa)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 250,
+  "faixa_min": 180,
+  "faixa_max": 380,
+  "materiais_produtos": "Torneira padrão médio, flexível, fita veda-rosca",
+  "nota": "",
+  "composicao": {
+   "Tubagem e acessórios": 10,
+   "Torneiras / louças": 120,
+   "Instalação / reparação": 90,
+   "Deslocação": 30
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Reparo de descarga / caixa acoplada",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 195,
+  "faixa_min": 130,
+  "faixa_max": 280,
+  "materiais_produtos": "Kit reparo universal, boia, vedações",
+  "nota": "",
+  "composicao": {
+   "Tubagem e acessórios": 5,
+   "Torneiras / louças": 60,
+   "Instalação / reparação": 100,
+   "Deslocação": 30
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Instalação de vaso sanitário (vaso incluso)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 785,
+  "faixa_min": 600,
+  "faixa_max": 1100,
+  "materiais_produtos": "Vaso com caixa acoplada, anel de vedação, engate flexível, parafusos",
+  "nota": "",
+  "composicao": {
+   "Tubagem e acessórios": 25,
+   "Torneiras / louças": 550,
+   "Instalação / reparação": 180,
+   "Deslocação": 30
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Caça-vazamento (detecção)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 320,
+  "faixa_min": 150,
+  "faixa_max": 700,
+  "materiais_produtos": "Geofone, teste de pressão, câmera térmica",
+  "nota": "Visita simples: R$ 150–350",
+  "composicao": {
+   "Instalação / reparação": 270,
+   "Deslocação": 50
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Reparo de vazamento em cano",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 280,
+  "faixa_min": 180,
+  "faixa_max": 450,
+  "materiais_produtos": "Luva de correr, tubo PVC/PPR, conexões, cola",
+  "nota": "Quebra e acabamento à parte",
+  "composicao": {
+   "Tubagem e acessórios": 40,
+   "Instalação / reparação": 200,
+   "Deslocação": 40
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Instalação de aquecedor a gás (sem equipamento)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 540,
+  "faixa_min": 400,
+  "faixa_max": 800,
+  "materiais_produtos": "Flexíveis, registro de gás, chaminé/duto, teste de estanqueidade",
+  "nota": "Profissional habilitado para gás",
+  "composicao": {
+   "Tubagem e acessórios": 120,
+   "Instalação / reparação": 380,
+   "Deslocação": 40
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Limpeza de caixa d'água (até 1.000 L)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 220,
+  "faixa_min": 150,
+  "faixa_max": 300,
+  "materiais_produtos": "Escova, cloro/hipoclorito, esvaziamento",
+  "nota": "Recomendada a cada 6 meses",
+  "composicao": {
+   "Instalação / reparação": 180,
+   "Deslocação": 40
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Hidráulica nova de banheiro (água + esgoto)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 3800,
+  "faixa_min": 2500,
+  "faixa_max": 6000,
+  "materiais_produtos": "Tubos PVC soldável/PPR, conexões, registros, esgoto 40/50/100 mm",
+  "nota": "Quebra e revestimento à parte",
+  "composicao": {
+   "Tubagem e acessórios": 900,
+   "Instalação / reparação": 2800,
+   "Deslocação": 100
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Instalação de máquina de lavar",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 135,
+  "faixa_min": 100,
+  "faixa_max": 180,
+  "materiais_produtos": "Torneira de máquina, mangueira, sifão",
+  "nota": "",
+  "composicao": {
+   "Tubagem e acessórios": 25,
+   "Instalação / reparação": 80,
+   "Deslocação": 30
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Diária de pedreiro + ajudante",
+  "unidade": "diária",
+  "preco_recomendado_brl": 490,
+  "faixa_min": 400,
+  "faixa_max": 600,
+  "materiais_produtos": "Ferramentas do profissional",
+  "nota": "Base para serviços sem medição",
+  "composicao": {
+   "Mão de obra (pedreiro)": 300,
+   "Mão de obra (servente)": 170,
+   "Deslocação / entulho": 20
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Alvenaria de bloco cerâmico (levantamento)",
+  "unidade": "m²",
+  "preco_recomendado_brl": 155,
+  "faixa_min": 110,
+  "faixa_max": 200,
+  "materiais_produtos": "Bloco cerâmico 9x19x29, argamassa, ferro de amarração",
+  "nota": "Só mão de obra: R$ 60–110/m²",
+  "composicao": {
+   "Materiais de construção": 70,
+   "Mão de obra (pedreiro)": 55,
+   "Mão de obra (servente)": 25,
+   "Aluguer de equipamento": 3,
+   "Deslocação / entulho": 2
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Muro de bloco de concreto (sem fundação)",
+  "unidade": "m²",
+  "preco_recomendado_brl": 142,
+  "faixa_min": 110,
+  "faixa_max": 190,
+  "materiais_produtos": "Bloco 14x19x39, argamassa, graute e ferro nas colunas",
+  "nota": "Fundação/sapata à parte",
+  "composicao": {
+   "Materiais de construção": 65,
+   "Mão de obra (pedreiro)": 50,
+   "Mão de obra (servente)": 22,
+   "Aluguer de equipamento": 3,
+   "Deslocação / entulho": 2
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Chapisco + reboco",
+  "unidade": "m²",
+  "preco_recomendado_brl": 62,
+  "faixa_min": 45,
+  "faixa_max": 90,
+  "materiais_produtos": "Cimento, areia, cal/aditivo, régua e desempenadeira",
+  "nota": "Só mão de obra: R$ 35–60/m²",
+  "composicao": {
+   "Materiais de construção": 18,
+   "Mão de obra (pedreiro)": 32,
+   "Mão de obra (servente)": 10,
+   "Aluguer de equipamento": 1,
+   "Deslocação / entulho": 1
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Contrapiso",
+  "unidade": "m²",
+  "preco_recomendado_brl": 64,
+  "faixa_min": 45,
+  "faixa_max": 90,
+  "materiais_produtos": "Argamassa de contrapiso (4–5 cm), tela se necessário",
+  "nota": "",
+  "composicao": {
+   "Materiais de construção": 25,
+   "Mão de obra (pedreiro)": 25,
+   "Mão de obra (servente)": 10,
+   "Aluguer de equipamento": 2,
+   "Deslocação / entulho": 2
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Assentamento de piso cerâmico / porcelanato",
+  "unidade": "m²",
+  "preco_recomendado_brl": 70,
+  "faixa_min": 50,
+  "faixa_max": 95,
+  "materiais_produtos": "Argamassa AC-II/AC-III, rejunte, espaçadores, niveladores",
+  "nota": "Piso à parte; grandes formatos +R$ 15–30/m²",
+  "composicao": {
+   "Materiais de construção": 12,
+   "Mão de obra (pedreiro)": 45,
+   "Mão de obra (servente)": 10,
+   "Deslocação / entulho": 3
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Revestimento de parede (azulejo)",
+  "unidade": "m²",
+  "preco_recomendado_brl": 75,
+  "faixa_min": 55,
+  "faixa_max": 100,
+  "materiais_produtos": "Argamassa, rejunte, cantoneiras",
+  "nota": "Revestimento à parte",
+  "composicao": {
+   "Materiais de construção": 12,
+   "Mão de obra (pedreiro)": 50,
+   "Mão de obra (servente)": 10,
+   "Deslocação / entulho": 3
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Parede de drywall 2 faces c/ isolamento",
+  "unidade": "m²",
+  "preco_recomendado_brl": 130,
+  "faixa_min": 95,
+  "faixa_max": 180,
+  "materiais_produtos": "Chapas de gesso 12,5 mm, perfis, lã de vidro/rocha, fita e massa",
+  "nota": "Chapa RU (verde) para áreas úmidas",
+  "composicao": {
+   "Materiais de construção": 70,
+   "Mão de obra (pedreiro)": 45,
+   "Mão de obra (servente)": 10,
+   "Aluguer de equipamento": 3,
+   "Deslocação / entulho": 2
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Forro de drywall",
+  "unidade": "m²",
+  "preco_recomendado_brl": 100,
+  "faixa_min": 75,
+  "faixa_max": 140,
+  "materiais_produtos": "Chapa ST, perfis F530, tirantes, fita e massa",
+  "nota": "",
+  "composicao": {
+   "Materiais de construção": 50,
+   "Mão de obra (pedreiro)": 38,
+   "Mão de obra (servente)": 8,
+   "Aluguer de equipamento": 2,
+   "Deslocação / entulho": 2
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Laje pré-moldada (com concretagem)",
+  "unidade": "m²",
+  "preco_recomendado_brl": 275,
+  "faixa_min": 200,
+  "faixa_max": 380,
+  "materiais_produtos": "Vigotas, EPS/lajotas, concreto usinado, aço, escoramento",
+  "nota": "Exige projeto e ART",
+  "composicao": {
+   "Materiais de construção": 150,
+   "Mão de obra (pedreiro)": 70,
+   "Mão de obra (servente)": 35,
+   "Aluguer de equipamento": 15,
+   "Deslocação / entulho": 5
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Piso intertravado (bloquete)",
+  "unidade": "m²",
+  "preco_recomendado_brl": 125,
+  "faixa_min": 90,
+  "faixa_max": 170,
+  "materiais_produtos": "Bloquete 6–8 cm, base de brita/pó de pedra, meio-fio, placa vibratória",
+  "nota": "",
+  "composicao": {
+   "Materiais de construção": 65,
+   "Mão de obra (pedreiro)": 35,
+   "Mão de obra (servente)": 15,
+   "Aluguer de equipamento": 5,
+   "Deslocação / entulho": 5
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Caçamba de entulho (4–5 m³)",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 420,
+  "faixa_min": 300,
+  "faixa_max": 600,
+  "materiais_produtos": "Caçamba, retirada e destinação em aterro licenciado",
+  "nota": "",
+  "composicao": {
+   "Mão de obra (servente)": 40,
+   "Aluguer de equipamento": 380
+  }
+ },
+ {
+  "categoria": "Consultoria",
+  "servico": "Hora de consultoria",
+  "unidade": "hora",
+  "preco_recomendado_brl": 200,
+  "faixa_min": 120,
+  "faixa_max": 400,
+  "materiais_produtos": "—",
+  "nota": "Sênior/especializado: R$ 300–400/h",
+  "composicao": {
+   "Consultoria": 200
+  }
+ },
+ {
+  "categoria": "Consultoria",
+  "servico": "Diagnóstico empresarial (PME)",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 3600,
+  "faixa_min": 2500,
+  "faixa_max": 8000,
+  "materiais_produtos": "Entrevistas, análise financeira, relatório com plano de ação",
+  "nota": "",
+  "composicao": {
+   "Diagnóstico": 1500,
+   "Consultoria": 1200,
+   "Relatório": 800,
+   "Deslocação": 100
+  }
+ },
+ {
+  "categoria": "Consultoria",
+  "servico": "Plano de negócios",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 4500,
+  "faixa_min": 3000,
+  "faixa_max": 9000,
+  "materiais_produtos": "Pesquisa de mercado, DRE projetada 3–5 anos, planilha",
+  "nota": "",
+  "composicao": {
+   "Diagnóstico": 800,
+   "Consultoria": 2500,
+   "Relatório": 1200
+  }
+ },
+ {
+  "categoria": "Consultoria",
+  "servico": "Projeto para crédito / editais (BNDES, FINEP, editais)",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 5000,
+  "faixa_min": 3000,
+  "faixa_max": 12000,
+  "materiais_produtos": "Análise de elegibilidade, projeto técnico, submissão",
+  "nota": "Comum: + taxa de êxito 2–5%",
+  "composicao": {
+   "Diagnóstico": 600,
+   "Consultoria": 3000,
+   "Relatório": 1400
+  }
+ },
+ {
+  "categoria": "Consultoria",
+  "servico": "Estudo de viabilidade econômico-financeira",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 5000,
+  "faixa_min": 3000,
+  "faixa_max": 10000,
+  "materiais_produtos": "VPL/TIR, payback, cenários",
+  "nota": "",
+  "composicao": {
+   "Diagnóstico": 800,
+   "Consultoria": 2800,
+   "Relatório": 1400
+  }
+ },
+ {
+  "categoria": "Consultoria",
+  "servico": "Consultoria mensal de gestão",
+  "unidade": "mês",
+  "preco_recomendado_brl": 3200,
+  "faixa_min": 2000,
+  "faixa_max": 6000,
+  "materiais_produtos": "Reuniões, indicadores (KPI), acompanhamento",
+  "nota": "",
+  "composicao": {
+   "Consultoria": 2500,
+   "Relatório": 500,
+   "Deslocação": 200
+  }
+ },
+ {
+  "categoria": "Consultoria",
+  "servico": "Adequação à LGPD",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 4300,
+  "faixa_min": 2500,
+  "faixa_max": 8000,
+  "materiais_produtos": "Mapeamento de dados, políticas, termos, treinamento",
+  "nota": "",
+  "composicao": {
+   "Diagnóstico": 700,
+   "Consultoria": 2500,
+   "Relatório": 1000,
+   "Deslocação": 100
+  }
+ },
+ {
+  "categoria": "Consultoria",
+  "servico": "Consultoria financeira / fluxo de caixa",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 3300,
+  "faixa_min": 2000,
+  "faixa_max": 6000,
+  "materiais_produtos": "Fluxo de caixa, precificação, análise de crédito",
+  "nota": "",
+  "composicao": {
+   "Diagnóstico": 600,
+   "Consultoria": 2000,
+   "Relatório": 700
+  }
+ },
+ {
+  "categoria": "Design",
+  "servico": "Hora de design gráfico",
+  "unidade": "hora",
+  "preco_recomendado_brl": 100,
+  "faixa_min": 60,
+  "faixa_max": 180,
+  "materiais_produtos": "—",
+  "nota": "",
+  "composicao": {
+   "Criação": 100
+  }
+ },
+ {
+  "categoria": "Design",
+  "servico": "Logotipo (3 propostas + 2 revisões)",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 1600,
+  "faixa_min": 800,
+  "faixa_max": 5000,
+  "materiais_produtos": "Arquivos AI/SVG/PDF/PNG, versões colorida e monocromática",
+  "nota": "",
+  "composicao": {
+   "Briefing e pesquisa": 250,
+   "Criação": 1000,
+   "Revisões": 300,
+   "Licenças de imagens / fontes": 50
+  }
+ },
+ {
+  "categoria": "Design",
+  "servico": "Identidade visual completa + manual de marca",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 5700,
+  "faixa_min": 3500,
+  "faixa_max": 15000,
+  "materiais_produtos": "Logo, paleta, tipografia, papelaria, aplicações digitais",
+  "nota": "",
+  "composicao": {
+   "Briefing e pesquisa": 800,
+   "Criação": 3500,
+   "Revisões": 1200,
+   "Licenças de imagens / fontes": 200
+  }
+ },
+ {
+  "categoria": "Design",
+  "servico": "Cartão de visita (arte)",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 230,
+  "faixa_min": 120,
+  "faixa_max": 400,
+  "materiais_produtos": "Frente e verso, arquivo para gráfica",
+  "nota": "Impressão à parte",
+  "composicao": {
+   "Briefing e pesquisa": 40,
+   "Criação": 150,
+   "Revisões": 40
+  }
+ },
+ {
+  "categoria": "Design",
+  "servico": "Flyer / cartaz",
+  "unidade": "peça",
+  "preco_recomendado_brl": 400,
+  "faixa_min": 200,
+  "faixa_max": 700,
+  "materiais_produtos": "Arquivo para impressão (CMYK, sangria) e versão digital",
+  "nota": "",
+  "composicao": {
+   "Briefing e pesquisa": 50,
+   "Criação": 250,
+   "Revisões": 70,
+   "Licenças de imagens / fontes": 30
+  }
+ },
+ {
+  "categoria": "Design",
+  "servico": "Pack de 12 posts para redes sociais",
+  "unidade": "pack",
+  "preco_recomendado_brl": 630,
+  "faixa_min": 400,
+  "faixa_max": 1200,
+  "materiais_produtos": "Templates editáveis (Canva/Figma), imagens de banco",
+  "nota": "",
+  "composicao": {
+   "Briefing e pesquisa": 60,
+   "Criação": 450,
+   "Revisões": 90,
+   "Licenças de imagens / fontes": 30
+  }
+ },
+ {
+  "categoria": "Design",
+  "servico": "Design de site (UI, até 5 páginas)",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 3000,
+  "faixa_min": 1500,
+  "faixa_max": 6000,
+  "materiais_produtos": "Wireframes, protótipo Figma desktop + mobile",
+  "nota": "Desenvolvimento: ver Tecnologia",
+  "composicao": {
+   "Briefing e pesquisa": 400,
+   "Criação": 2000,
+   "Revisões": 500,
+   "Licenças de imagens / fontes": 100
+  }
+ },
+ {
+  "categoria": "Design",
+  "servico": "Design de embalagem / rótulo",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 2100,
+  "faixa_min": 1200,
+  "faixa_max": 5000,
+  "materiais_produtos": "Faca/planificação, mockups 3D, arte-final",
+  "nota": "",
+  "composicao": {
+   "Briefing e pesquisa": 300,
+   "Criação": 1300,
+   "Revisões": 400,
+   "Licenças de imagens / fontes": 100
+  }
+ },
+ {
+  "categoria": "Design",
+  "servico": "Catálogo / apresentação",
+  "unidade": "página",
+  "preco_recomendado_brl": 100,
+  "faixa_min": 60,
+  "faixa_max": 150,
+  "materiais_produtos": "Diagramação, tratamento de imagens",
+  "nota": "",
+  "composicao": {
+   "Briefing e pesquisa": 10,
+   "Criação": 70,
+   "Revisões": 15,
+   "Licenças de imagens / fontes": 5
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Reforço escolar (fundamental)",
+  "unidade": "hora",
+  "preco_recomendado_brl": 50,
+  "faixa_min": 35,
+  "faixa_max": 70,
+  "materiais_produtos": "Listas de exercícios, apostilas",
+  "nota": "Média nacional ≈ R$ 45–60/h",
+  "composicao": {
+   "Aulas / formação": 42,
+   "Preparação": 5,
+   "Materiais didáticos": 3
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Aula ensino médio / ENEM / vestibular",
+  "unidade": "hora",
+  "preco_recomendado_brl": 75,
+  "faixa_min": 55,
+  "faixa_max": 120,
+  "materiais_produtos": "Provas anteriores, resumos, simulados",
+  "nota": "",
+  "composicao": {
+   "Aulas / formação": 62,
+   "Preparação": 10,
+   "Materiais didáticos": 3
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Aula universitária / concursos",
+  "unidade": "hora",
+  "preco_recomendado_brl": 100,
+  "faixa_min": 70,
+  "faixa_max": 180,
+  "materiais_produtos": "Resolução de questões, material de apoio",
+  "nota": "",
+  "composicao": {
+   "Aulas / formação": 85,
+   "Preparação": 12,
+   "Materiais didáticos": 3
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Aula de idiomas individual",
+  "unidade": "hora",
+  "preco_recomendado_brl": 65,
+  "faixa_min": 45,
+  "faixa_max": 100,
+  "materiais_produtos": "Material próprio, áudios, plataforma online",
+  "nota": "",
+  "composicao": {
+   "Aulas / formação": 58,
+   "Preparação": 5,
+   "Materiais didáticos": 2
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Aula em grupo (por aluno, até 5)",
+  "unidade": "aluno/h",
+  "preco_recomendado_brl": 38,
+  "faixa_min": 25,
+  "faixa_max": 55,
+  "materiais_produtos": "Apostila, plataforma online",
+  "nota": "",
+  "composicao": {
+   "Aulas / formação": 32,
+   "Preparação": 3,
+   "Materiais didáticos": 3
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Aula de música / instrumento",
+  "unidade": "hora",
+  "preco_recomendado_brl": 80,
+  "faixa_min": 55,
+  "faixa_max": 130,
+  "materiais_produtos": "Partituras, métodos",
+  "nota": "",
+  "composicao": {
+   "Aulas / formação": 70,
+   "Preparação": 5,
+   "Materiais didáticos": 5
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Pacote mensal de reforço (8 aulas)",
+  "unidade": "mês",
+  "preco_recomendado_brl": 390,
+  "faixa_min": 280,
+  "faixa_max": 520,
+  "materiais_produtos": "Plano de estudo, relatório aos pais",
+  "nota": "",
+  "composicao": {
+   "Aulas / formação": 330,
+   "Preparação": 40,
+   "Materiais didáticos": 20
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Workshop de 3 h (até 15 pessoas)",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 1400,
+  "faixa_min": 800,
+  "faixa_max": 2500,
+  "materiais_produtos": "Slides, apostila, certificado",
+  "nota": "",
+  "composicao": {
+   "Aulas / formação": 900,
+   "Preparação": 300,
+   "Materiais didáticos": 200
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Treinamento in company (8 h)",
+  "unidade": "diária",
+  "preco_recomendado_brl": 3400,
+  "faixa_min": 2000,
+  "faixa_max": 6000,
+  "materiais_produtos": "Apostila, avaliação, certificado",
+  "nota": "",
+  "composicao": {
+   "Aulas / formação": 2500,
+   "Preparação": 600,
+   "Materiais didáticos": 300
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Visita técnica / diagnóstico",
+  "unidade": "visita",
+  "preco_recomendado_brl": 130,
+  "faixa_min": 80,
+  "faixa_max": 200,
+  "materiais_produtos": "Multímetro, alicate amperímetro",
+  "nota": "Abatida se fechar o serviço",
+  "composicao": {
+   "Instalação": 100,
+   "Deslocação": 30
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Diária de eletricista",
+  "unidade": "diária",
+  "preco_recomendado_brl": 400,
+  "faixa_min": 265,
+  "faixa_max": 450,
+  "materiais_produtos": "Ferramentas do profissional",
+  "nota": "",
+  "composicao": {
+   "Instalação": 380,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Troca de tomada ou interruptor",
+  "unidade": "ponto",
+  "preco_recomendado_brl": 85,
+  "faixa_min": 60,
+  "faixa_max": 120,
+  "materiais_produtos": "Tomada/interruptor padrão NBR 14136 com placa",
+  "nota": "Pontos seguintes: R$ 45–60",
+  "composicao": {
+   "Tomadas / interruptores": 15,
+   "Instalação": 50,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Novo ponto de tomada (embutido)",
+  "unidade": "ponto",
+  "preco_recomendado_brl": 170,
+  "faixa_min": 120,
+  "faixa_max": 250,
+  "materiais_produtos": "Tomada, cabo 2,5 mm², eletroduto corrugado, caixa 4x2, massa",
+  "nota": "",
+  "composicao": {
+   "Tomadas / interruptores": 20,
+   "Cabo elétrico": 25,
+   "Caixas e tubagem": 15,
+   "Instalação": 90,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Novo ponto de luz",
+  "unidade": "ponto",
+  "preco_recomendado_brl": 155,
+  "faixa_min": 110,
+  "faixa_max": 230,
+  "materiais_produtos": "Interruptor, cabo 1,5 mm², eletroduto, caixa octogonal",
+  "nota": "",
+  "composicao": {
+   "Tomadas / interruptores": 18,
+   "Cabo elétrico": 22,
+   "Caixas e tubagem": 15,
+   "Instalação": 80,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Instalação de chuveiro elétrico",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 180,
+  "faixa_min": 120,
+  "faixa_max": 260,
+  "materiais_produtos": "Conectores, fita isolante",
+  "nota": "Circuito novo/disjuntor: orçar à parte",
+  "composicao": {
+   "Instalação": 150,
+   "Deslocação": 30
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Instalação de luminária ou ventilador de teto",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 160,
+  "faixa_min": 100,
+  "faixa_max": 250,
+  "materiais_produtos": "Conectores Wago, bucha e gancho",
+  "nota": "",
+  "composicao": {
+   "Cabo elétrico": 5,
+   "Instalação": 130,
+   "Deslocação": 25
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Troca de quadro de distribuição (QDC)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 1480,
+  "faixa_min": 1100,
+  "faixa_max": 1900,
+  "materiais_produtos": "Quadro 12–24 disjuntores, DR 30 mA, DPS, barramentos",
+  "nota": "Coluna 'Tomadas' = disjuntores e proteções",
+  "composicao": {
+   "Tomadas / interruptores": 550,
+   "Cabo elétrico": 50,
+   "Caixas e tubagem": 80,
+   "Instalação": 750,
+   "Deslocação": 50
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Circuito exclusivo para ar-condicionado",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 780,
+  "faixa_min": 400,
+  "faixa_max": 1200,
+  "materiais_produtos": "Cabo 4 mm², disjuntor, eletroduto/canaleta, tomada 20 A",
+  "nota": "",
+  "composicao": {
+   "Tomadas / interruptores": 80,
+   "Cabo elétrico": 250,
+   "Caixas e tubagem": 80,
+   "Instalação": 330,
+   "Deslocação": 40
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Troca de fiação completa",
+  "unidade": "m²",
+  "preco_recomendado_brl": 115,
+  "faixa_min": 89,
+  "faixa_max": 140,
+  "materiais_produtos": "Cabos, eletrodutos, caixas, tomadas padrão médio",
+  "nota": "Apto 60 m² ≈ R$ 6.900",
+  "composicao": {
+   "Tomadas / interruptores": 35,
+   "Cabo elétrico": 30,
+   "Caixas e tubagem": 10,
+   "Instalação": 40
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Instalação de carregador veicular (sem equipamento)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 1700,
+  "faixa_min": 1200,
+  "faixa_max": 2500,
+  "materiais_produtos": "Cabo 6–10 mm², DR tipo A/B, disjuntor, eletroduto",
+  "nota": "",
+  "composicao": {
+   "Cabo elétrico": 400,
+   "Caixas e tubagem": 150,
+   "Instalação": 1100,
+   "Deslocação": 50
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Manicure (mão)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 40,
+  "faixa_min": 30,
+  "faixa_max": 55,
+  "materiais_produtos": "Lixa, alicate esterilizado, esmalte, base, creme",
+  "nota": "",
+  "composicao": {
+   "Serviço": 28,
+   "Produtos": 6,
+   "Espaço e equipamento": 6
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Pé e mão",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 70,
+  "faixa_min": 55,
+  "faixa_max": 100,
+  "materiais_produtos": "Kit esterilizado, esmaltes, lixa de pé, hidratante",
+  "nota": "",
+  "composicao": {
+   "Serviço": 50,
+   "Produtos": 10,
+   "Espaço e equipamento": 10
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Esmaltação em gel",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 80,
+  "faixa_min": 60,
+  "faixa_max": 120,
+  "materiais_produtos": "Base/top coat gel, esmalte em gel, cabine LED",
+  "nota": "",
+  "composicao": {
+   "Serviço": 55,
+   "Produtos": 15,
+   "Espaço e equipamento": 10
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Alongamento em gel / fibra",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 190,
+  "faixa_min": 140,
+  "faixa_max": 300,
+  "materiais_produtos": "Gel construtor ou fibra, moldes, lixa elétrica",
+  "nota": "Manutenção: R$ 100–150",
+  "composicao": {
+   "Serviço": 130,
+   "Produtos": 40,
+   "Espaço e equipamento": 20
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Depilação com cera – perna inteira",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 85,
+  "faixa_min": 60,
+  "faixa_max": 150,
+  "materiais_produtos": "Cera quente/roll-on, espátulas, óleo pós",
+  "nota": "",
+  "composicao": {
+   "Serviço": 62,
+   "Produtos": 12,
+   "Espaço e equipamento": 11
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Depilação com cera – virilha completa",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 75,
+  "faixa_min": 50,
+  "faixa_max": 110,
+  "materiais_produtos": "Cera quente, espátulas descartáveis",
+  "nota": "",
+  "composicao": {
+   "Serviço": 55,
+   "Produtos": 10,
+   "Espaço e equipamento": 10
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Design de sobrancelha",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 35,
+  "faixa_min": 25,
+  "faixa_max": 50,
+  "materiais_produtos": "Pinça, linha ou cera",
+  "nota": "Com henna: R$ 50–70",
+  "composicao": {
+   "Serviço": 28,
+   "Produtos": 4,
+   "Espaço e equipamento": 3
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Limpeza de pele",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 140,
+  "faixa_min": 100,
+  "faixa_max": 200,
+  "materiais_produtos": "Demaquilante, esfoliante, vapor, extração, máscara",
+  "nota": "",
+  "composicao": {
+   "Serviço": 90,
+   "Produtos": 30,
+   "Espaço e equipamento": 20
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Massagem relaxante (60 min)",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 130,
+  "faixa_min": 90,
+  "faixa_max": 180,
+  "materiais_produtos": "Óleo/creme, maca, toalhas",
+  "nota": "",
+  "composicao": {
+   "Serviço": 100,
+   "Produtos": 10,
+   "Espaço e equipamento": 20
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Drenagem linfática (60 min)",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 120,
+  "faixa_min": 90,
+  "faixa_max": 170,
+  "materiais_produtos": "Creme/óleo neutro, maca",
+  "nota": "Pacote de 10: ~15% de desconto",
+  "composicao": {
+   "Serviço": 95,
+   "Produtos": 10,
+   "Espaço e equipamento": 15
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Extensão de cílios fio a fio",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 180,
+  "faixa_min": 130,
+  "faixa_max": 280,
+  "materiais_produtos": "Fios de seda, cola, primer, pinças",
+  "nota": "Manutenção: R$ 90–130",
+  "composicao": {
+   "Serviço": 120,
+   "Produtos": 40,
+   "Espaço e equipamento": 20
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Maquiagem social",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 150,
+  "faixa_min": 100,
+  "faixa_max": 250,
+  "materiais_produtos": "Kit profissional, cílios postiços",
+  "nota": "Noiva c/ prova: R$ 400–1.200",
+  "composicao": {
+   "Serviço": 120,
+   "Produtos": 30
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Festa infantil 50 pessoas (pacote)",
+  "unidade": "evento",
+  "preco_recomendado_brl": 6200,
+  "faixa_min": 4000,
+  "faixa_max": 9000,
+  "materiais_produtos": "Buffet ≈ R$ 70/pessoa, salão, brinquedos, decoração base",
+  "nota": "",
+  "composicao": {
+   "Organização": 500,
+   "Aluguer de equipamento": 600,
+   "Espaço": 1500,
+   "Catering": 3500,
+   "Deslocação": 100
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Aniversário adulto 50 pessoas (em casa)",
+  "unidade": "evento",
+  "preco_recomendado_brl": 4000,
+  "faixa_min": 2500,
+  "faixa_max": 6500,
+  "materiais_produtos": "Buffet ≈ R$ 60/pessoa, mesas/cadeiras, som",
+  "nota": "",
+  "composicao": {
+   "Organização": 400,
+   "Aluguer de equipamento": 500,
+   "Catering": 3000,
+   "Deslocação": 100
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Evento corporativo 50 pessoas (meio período)",
+  "unidade": "evento",
+  "preco_recomendado_brl": 4500,
+  "faixa_min": 3000,
+  "faixa_max": 8000,
+  "materiais_produtos": "Sala, projetor/som, coffee break ≈ R$ 30/pessoa",
+  "nota": "",
+  "composicao": {
+   "Organização": 800,
+   "Aluguer de equipamento": 600,
+   "Espaço": 1500,
+   "Catering": 1500,
+   "Deslocação": 100
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Casamento 100 convidados (produção completa)",
+  "unidade": "evento",
+  "preco_recomendado_brl": 34500,
+  "faixa_min": 25000,
+  "faixa_max": 70000,
+  "materiais_produtos": "Espaço, buffet ≈ R$ 150/pessoa, som/luz, decoração floral",
+  "nota": "Foto e DJ à parte",
+  "composicao": {
+   "Organização": 5000,
+   "Aluguer de equipamento": 6000,
+   "Espaço": 8000,
+   "Catering": 15000,
+   "Deslocação": 500
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Assessoria / cerimonial de casamento",
+  "unidade": "evento",
+  "preco_recomendado_brl": 4800,
+  "faixa_min": 3000,
+  "faixa_max": 9000,
+  "materiais_produtos": "Gestão de fornecedores, cronograma, coordenação no dia",
+  "nota": "",
+  "composicao": {
+   "Organização": 4500,
+   "Deslocação": 300
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "DJ com som e luz (5 h)",
+  "unidade": "evento",
+  "preco_recomendado_brl": 1800,
+  "faixa_min": 1000,
+  "faixa_max": 3500,
+  "materiais_produtos": "Controladora, caixas, iluminação, microfone",
+  "nota": "",
+  "composicao": {
+   "Organização": 800,
+   "Aluguer de equipamento": 900,
+   "Deslocação": 100
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Fotógrafo de evento (4 h)",
+  "unidade": "evento",
+  "preco_recomendado_brl": 1200,
+  "faixa_min": 600,
+  "faixa_max": 2500,
+  "materiais_produtos": "Câmera, flash, 200–400 fotos editadas",
+  "nota": "Coluna 'Organização' = serviço",
+  "composicao": {
+   "Organização": 900,
+   "Aluguer de equipamento": 200,
+   "Deslocação": 100
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Tenda 10 × 10 m (com montagem)",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 1600,
+  "faixa_min": 900,
+  "faixa_max": 2500,
+  "materiais_produtos": "Tenda pirâmide/chapéu de bruxa, montagem e desmontagem",
+  "nota": "",
+  "composicao": {
+   "Aluguer de equipamento": 1400,
+   "Deslocação": 200
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Decoração de festa (balões + mesa)",
+  "unidade": "evento",
+  "preco_recomendado_brl": 900,
+  "faixa_min": 400,
+  "faixa_max": 1800,
+  "materiais_produtos": "Arco de balões, painel, mesa, toalhas, suportes",
+  "nota": "",
+  "composicao": {
+   "Organização": 300,
+   "Aluguer de equipamento": 550,
+   "Deslocação": 50
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Recreação infantil (2 recreadores, 4 h)",
+  "unidade": "evento",
+  "preco_recomendado_brl": 700,
+  "faixa_min": 400,
+  "faixa_max": 1000,
+  "materiais_produtos": "Brincadeiras, pintura facial, materiais",
+  "nota": "",
+  "composicao": {
+   "Organização": 550,
+   "Aluguer de equipamento": 100,
+   "Deslocação": 50
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Diária de faxina (8 h)",
+  "unidade": "diária",
+  "preco_recomendado_brl": 200,
+  "faixa_min": 130,
+  "faixa_max": 280,
+  "materiais_produtos": "Produtos multiuso, panos, vassoura, rodo",
+  "nota": "Deslocação = passagem/condução",
+  "composicao": {
+   "Limpeza": 155,
+   "Produtos de limpeza": 15,
+   "Deslocação": 30
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Meia diária (4 h)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 130,
+  "faixa_min": 90,
+  "faixa_max": 170,
+  "materiais_produtos": "Produtos do cliente ou kit próprio",
+  "nota": "",
+  "composicao": {
+   "Limpeza": 95,
+   "Produtos de limpeza": 10,
+   "Deslocação": 25
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Faxina pesada (apto 2 quartos)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 400,
+  "faixa_min": 300,
+  "faixa_max": 600,
+  "materiais_produtos": "Desengordurante, removedor de limo, interior de armários",
+  "nota": "",
+  "composicao": {
+   "Limpeza": 300,
+   "Produtos de limpeza": 50,
+   "Equipamento": 30,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Limpeza pós-obra",
+  "unidade": "m²",
+  "preco_recomendado_brl": 11.0,
+  "faixa_min": 7,
+  "faixa_max": 18,
+  "materiais_produtos": "Removedor de cimento, espátulas, aspirador de pó/água",
+  "nota": "",
+  "composicao": {
+   "Limpeza": 8,
+   "Produtos de limpeza": 1.5,
+   "Equipamento": 1,
+   "Deslocação": 0.5
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Limpeza de check-out (Airbnb, studio/1 quarto)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 120,
+  "faixa_min": 80,
+  "faixa_max": 170,
+  "materiais_produtos": "Troca de enxoval (lavanderia à parte), reposição de amenities",
+  "nota": "",
+  "composicao": {
+   "Limpeza": 90,
+   "Produtos de limpeza": 15,
+   "Equipamento": 5,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Limpeza comercial / escritório",
+  "unidade": "hora",
+  "preco_recomendado_brl": 40,
+  "faixa_min": 30,
+  "faixa_max": 55,
+  "materiais_produtos": "Produtos profissionais, carrinho funcional",
+  "nota": "",
+  "composicao": {
+   "Limpeza": 32,
+   "Produtos de limpeza": 4,
+   "Equipamento": 2,
+   "Deslocação": 2
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Limpeza de vidros",
+  "unidade": "m²",
+  "preco_recomendado_brl": 8.0,
+  "faixa_min": 5,
+  "faixa_max": 14,
+  "materiais_produtos": "Limpa-vidros, rodo, extensor",
+  "nota": "Altura/fachada: orçar à parte",
+  "composicao": {
+   "Limpeza": 6,
+   "Produtos de limpeza": 0.6,
+   "Equipamento": 0.8,
+   "Deslocação": 0.6
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Higienização de sofá 3 lugares",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 260,
+  "faixa_min": 180,
+  "faixa_max": 380,
+  "materiais_produtos": "Extratora, shampoo têxtil, impermeabilizante opcional",
+  "nota": "",
+  "composicao": {
+   "Limpeza": 150,
+   "Produtos de limpeza": 40,
+   "Equipamento": 50,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Higienização de colchão casal",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 200,
+  "faixa_min": 140,
+  "faixa_max": 280,
+  "materiais_produtos": "Extratora, vapor, antiácaro",
+  "nota": "",
+  "composicao": {
+   "Limpeza": 110,
+   "Produtos de limpeza": 30,
+   "Equipamento": 40,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Lavagem de tapete / carpete",
+  "unidade": "m²",
+  "preco_recomendado_brl": 25,
+  "faixa_min": 15,
+  "faixa_max": 40,
+  "materiais_produtos": "Extratora, removedor de manchas",
+  "nota": "",
+  "composicao": {
+   "Limpeza": 16,
+   "Produtos de limpeza": 3,
+   "Equipamento": 3,
+   "Deslocação": 3
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Limpeza de condomínio (1×/semana, prédio pequeno)",
+  "unidade": "mês",
+  "preco_recomendado_brl": 1400,
+  "faixa_min": 900,
+  "faixa_max": 2200,
+  "materiais_produtos": "Escadas, hall, elevador, garagem",
+  "nota": "",
+  "composicao": {
+   "Limpeza": 1100,
+   "Produtos de limpeza": 120,
+   "Equipamento": 40,
+   "Deslocação": 140
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "Social media básico (12 posts/mês)",
+  "unidade": "mês",
+  "preco_recomendado_brl": 1400,
+  "faixa_min": 1000,
+  "faixa_max": 2500,
+  "materiais_produtos": "Planejamento, artes, legendas, agendamento, 1–2 redes",
+  "nota": "",
+  "composicao": {
+   "Estratégia": 300,
+   "Produção de conteúdos": 1000,
+   "Relatórios": 100
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "Social media completo (20 posts + 8 reels)",
+  "unidade": "mês",
+  "preco_recomendado_brl": 3800,
+  "faixa_min": 2500,
+  "faixa_max": 6000,
+  "materiais_produtos": "2–3 redes, gestão de comunidade, relatório",
+  "nota": "",
+  "composicao": {
+   "Estratégia": 700,
+   "Produção de conteúdos": 2800,
+   "Relatórios": 300
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "Gestão de tráfego pago (Meta / Google)",
+  "unidade": "mês",
+  "preco_recomendado_brl": 1200,
+  "faixa_min": 700,
+  "faixa_max": 2500,
+  "materiais_produtos": "Configuração de campanhas, públicos, criativos, otimização",
+  "nota": "Verba de anúncios paga pelo cliente",
+  "composicao": {
+   "Estratégia": 500,
+   "Produção de conteúdos": 300,
+   "Relatórios": 400
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "Pacote lançamento com verba de R$ 1.000",
+  "unidade": "mês",
+  "preco_recomendado_brl": 2800,
+  "faixa_min": 2000,
+  "faixa_max": 4500,
+  "materiais_produtos": "Estratégia, criativos, R$ 1.000 de mídia, relatório",
+  "nota": "",
+  "composicao": {
+   "Estratégia": 600,
+   "Produção de conteúdos": 1000,
+   "Investimento em anúncios": 1000,
+   "Relatórios": 200
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "Planejamento de marketing anual",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 3800,
+  "faixa_min": 2500,
+  "faixa_max": 8000,
+  "materiais_produtos": "Análise de mercado, personas, calendário, orçamento",
+  "nota": "",
+  "composicao": {
+   "Estratégia": 3000,
+   "Relatórios": 800
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "SEO mensal",
+  "unidade": "mês",
+  "preco_recomendado_brl": 1500,
+  "faixa_min": 1000,
+  "faixa_max": 3500,
+  "materiais_produtos": "Otimização on-page, 2–4 artigos/mês, link building",
+  "nota": "",
+  "composicao": {
+   "Estratégia": 400,
+   "Produção de conteúdos": 900,
+   "Relatórios": 200
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "Auditoria SEO técnica",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 800,
+  "faixa_min": 400,
+  "faixa_max": 1500,
+  "materiais_produtos": "Screaming Frog, Search Console, PageSpeed",
+  "nota": "",
+  "composicao": {
+   "Estratégia": 500,
+   "Relatórios": 300
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "E-mail marketing (4 envios/mês)",
+  "unidade": "mês",
+  "preco_recomendado_brl": 750,
+  "faixa_min": 400,
+  "faixa_max": 1200,
+  "materiais_produtos": "RD Station/Mailchimp, design, segmentação",
+  "nota": "",
+  "composicao": {
+   "Estratégia": 150,
+   "Produção de conteúdos": 500,
+   "Relatórios": 100
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "Vídeo curto / Reels profissional",
+  "unidade": "peça",
+  "preco_recomendado_brl": 800,
+  "faixa_min": 400,
+  "faixa_max": 1800,
+  "materiais_produtos": "Roteiro, gravação, edição, legendas, trilha licenciada",
+  "nota": "",
+  "composicao": {
+   "Estratégia": 150,
+   "Produção de conteúdos": 650
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "Fotos de produto (20 fotos)",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 800,
+  "faixa_min": 450,
+  "faixa_max": 1500,
+  "materiais_produtos": "Estúdio/iluminação, edição, fundo branco + lifestyle",
+  "nota": "",
+  "composicao": {
+   "Estratégia": 100,
+   "Produção de conteúdos": 700
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Pintura interna de paredes (2 demãos)",
+  "unidade": "m²",
+  "preco_recomendado_brl": 30,
+  "faixa_min": 22,
+  "faixa_max": 45,
+  "materiais_produtos": "Tinta acrílica fosca/acetinada, selador, fita, lona",
+  "nota": "m² de área pintada (parede/teto)",
+  "composicao": {
+   "Tinta": 7,
+   "Primário / selante": 2,
+   "Fita, lixas, plásticos de proteção": 1,
+   "Preparação de superfícies": 3,
+   "Pintura": 16,
+   "Deslocação": 1
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Pintura de teto",
+  "unidade": "m²",
+  "preco_recomendado_brl": 32.0,
+  "faixa_min": 24,
+  "faixa_max": 48,
+  "materiais_produtos": "Tinta acrílica/PVA branca, selador",
+  "nota": "",
+  "composicao": {
+   "Tinta": 7,
+   "Primário / selante": 2,
+   "Fita, lixas, plásticos de proteção": 1,
+   "Preparação de superfícies": 3.5,
+   "Pintura": 17.5,
+   "Deslocação": 1
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Massa corrida + lixamento",
+  "unidade": "m²",
+  "preco_recomendado_brl": 25,
+  "faixa_min": 15,
+  "faixa_max": 35,
+  "materiais_produtos": "Massa corrida/acrílica, lixa 150/180",
+  "nota": "Paredes novas ou com defeitos",
+  "composicao": {
+   "Primário / selante": 2,
+   "Fita, lixas, plásticos de proteção": 1,
+   "Preparação de superfícies": 22
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Pintura de quarto ~12 m² (paredes + teto)",
+  "unidade": "cômodo",
+  "preco_recomendado_brl": 1350,
+  "faixa_min": 1000,
+  "faixa_max": 1900,
+  "materiais_produtos": "≈ 45 m² de superfície, 2 demãos",
+  "nota": "",
+  "composicao": {
+   "Tinta": 300,
+   "Primário / selante": 90,
+   "Fita, lixas, plásticos de proteção": 45,
+   "Preparação de superfícies": 135,
+   "Pintura": 740,
+   "Deslocação": 40
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Pintura de apartamento 2 quartos",
+  "unidade": "imóvel",
+  "preco_recomendado_brl": 6100,
+  "faixa_min": 4500,
+  "faixa_max": 9000,
+  "materiais_produtos": "≈ 200 m² de superfície, tinta padrão médio",
+  "nota": "",
+  "composicao": {
+   "Tinta": 1400,
+   "Primário / selante": 400,
+   "Fita, lixas, plásticos de proteção": 200,
+   "Preparação de superfícies": 700,
+   "Pintura": 3300,
+   "Deslocação": 100
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Pintura de fachada (sem andaime)",
+  "unidade": "m²",
+  "preco_recomendado_brl": 48,
+  "faixa_min": 35,
+  "faixa_max": 70,
+  "materiais_produtos": "Tinta acrílica externa/elastomérica, fundo preparador",
+  "nota": "Andaime/balancim à parte",
+  "composicao": {
+   "Tinta": 12,
+   "Primário / selante": 4,
+   "Fita, lixas, plásticos de proteção": 1,
+   "Preparação de superfícies": 8,
+   "Pintura": 22,
+   "Deslocação": 1
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Pintura de muro externo",
+  "unidade": "m²",
+  "preco_recomendado_brl": 31,
+  "faixa_min": 22,
+  "faixa_max": 45,
+  "materiais_produtos": "Tinta acrílica externa, selador, escova de aço",
+  "nota": "",
+  "composicao": {
+   "Tinta": 8,
+   "Primário / selante": 3,
+   "Fita, lixas, plásticos de proteção": 1,
+   "Preparação de superfícies": 4,
+   "Pintura": 14,
+   "Deslocação": 1
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Textura / grafiato",
+  "unidade": "m²",
+  "preco_recomendado_brl": 46,
+  "faixa_min": 35,
+  "faixa_max": 65,
+  "materiais_produtos": "Textura acrílica, desempenadeira, rolo de textura",
+  "nota": "",
+  "composicao": {
+   "Tinta": 12,
+   "Primário / selante": 3,
+   "Fita, lixas, plásticos de proteção": 1,
+   "Preparação de superfícies": 4,
+   "Pintura": 25,
+   "Deslocação": 1
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Pintura de porta (esmalte, 2 faces)",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 200,
+  "faixa_min": 150,
+  "faixa_max": 320,
+  "materiais_produtos": "Esmalte sintético/base água, fundo nivelador, lixas",
+  "nota": "",
+  "composicao": {
+   "Tinta": 25,
+   "Primário / selante": 10,
+   "Fita, lixas, plásticos de proteção": 5,
+   "Preparação de superfícies": 50,
+   "Pintura": 110
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Pintura de grade / portão",
+  "unidade": "m²",
+  "preco_recomendado_brl": 55,
+  "faixa_min": 40,
+  "faixa_max": 80,
+  "materiais_produtos": "Fundo anticorrosivo (zarcão), esmalte, escova de aço",
+  "nota": "",
+  "composicao": {
+   "Tinta": 10,
+   "Primário / selante": 6,
+   "Fita, lixas, plásticos de proteção": 2,
+   "Preparação de superfícies": 12,
+   "Pintura": 24,
+   "Deslocação": 1
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Verniz / stain em madeira e deck",
+  "unidade": "m²",
+  "preco_recomendado_brl": 50,
+  "faixa_min": 35,
+  "faixa_max": 75,
+  "materiais_produtos": "Stain/verniz marítimo, lixadeira",
+  "nota": "",
+  "composicao": {
+   "Tinta": 14,
+   "Primário / selante": 2,
+   "Fita, lixas, plásticos de proteção": 2,
+   "Preparação de superfícies": 12,
+   "Pintura": 18,
+   "Deslocação": 2
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Impermeabilização de laje (manta líquida)",
+  "unidade": "m²",
+  "preco_recomendado_brl": 70,
+  "faixa_min": 50,
+  "faixa_max": 110,
+  "materiais_produtos": "Manta líquida acrílica, primer, tela de poliéster",
+  "nota": "",
+  "composicao": {
+   "Tinta": 30,
+   "Primário / selante": 8,
+   "Fita, lixas, plásticos de proteção": 2,
+   "Preparação de superfícies": 10,
+   "Pintura": 18,
+   "Deslocação": 2
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Reforma completa de banheiro (≈ 4 m²)",
+  "unidade": "obra",
+  "preco_recomendado_brl": 15800,
+  "faixa_min": 10000,
+  "faixa_max": 25000,
+  "materiais_produtos": "Porcelanato, louças, metais, box, hidráulica, forro, bancada",
+  "nota": "Padrão médio",
+  "composicao": {
+   "Demolição e preparação": 1500,
+   "Materiais": 7000,
+   "Execução": 6500,
+   "Remoção de entulho": 600,
+   "Deslocação": 200
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Reforma de cozinha (sem eletrodomésticos)",
+  "unidade": "obra",
+  "preco_recomendado_brl": 23800,
+  "faixa_min": 15000,
+  "faixa_max": 40000,
+  "materiais_produtos": "Marcenaria padrão médio, bancada de granito/quartzo, revestimentos",
+  "nota": "",
+  "composicao": {
+   "Demolição e preparação": 1800,
+   "Materiais": 15000,
+   "Execução": 6000,
+   "Remoção de entulho": 700,
+   "Deslocação": 300
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Troca de banheira por box com chuveiro",
+  "unidade": "obra",
+  "preco_recomendado_brl": 4150,
+  "faixa_min": 3000,
+  "faixa_max": 6000,
+  "materiais_produtos": "Box de vidro, piso, ralo linear, registro, revestimento",
+  "nota": "",
+  "composicao": {
+   "Demolição e preparação": 500,
+   "Materiais": 1800,
+   "Execução": 1500,
+   "Remoção de entulho": 250,
+   "Deslocação": 100
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Reforma completa de apartamento",
+  "unidade": "m²",
+  "preco_recomendado_brl": 1500,
+  "faixa_min": 1000,
+  "faixa_max": 2500,
+  "materiais_produtos": "Pisos, pintura, banheiro, cozinha, elétrica",
+  "nota": "Apto 60 m² ≈ R$ 90 mil",
+  "composicao": {
+   "Demolição e preparação": 80,
+   "Materiais": 750,
+   "Execução": 600,
+   "Remoção de entulho": 50,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Demolição de parede de alvenaria",
+  "unidade": "m²",
+  "preco_recomendado_brl": 70,
+  "faixa_min": 45,
+  "faixa_max": 100,
+  "materiais_produtos": "Marreta/rompedor, sacos de entulho",
+  "nota": "Verificar se não é estrutural",
+  "composicao": {
+   "Demolição e preparação": 50,
+   "Remoção de entulho": 18,
+   "Deslocação": 2
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Piso vinílico / laminado instalado",
+  "unidade": "m²",
+  "preco_recomendado_brl": 130,
+  "faixa_min": 90,
+  "faixa_max": 180,
+  "materiais_produtos": "Piso vinílico click/laminado, manta, perfis",
+  "nota": "Rodapé à parte",
+  "composicao": {
+   "Demolição e preparação": 5,
+   "Materiais": 85,
+   "Execução": 35,
+   "Remoção de entulho": 3,
+   "Deslocação": 2
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Rodapé",
+  "unidade": "metro",
+  "preco_recomendado_brl": 28,
+  "faixa_min": 18,
+  "faixa_max": 40,
+  "materiais_produtos": "Rodapé MDF/poliestireno 7–10 cm, cola/pregos",
+  "nota": "",
+  "composicao": {
+   "Demolição e preparação": 1,
+   "Materiais": 15,
+   "Execução": 12
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Troca de janela de alumínio (1,20 × 1,20 m)",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 1820,
+  "faixa_min": 1200,
+  "faixa_max": 2800,
+  "materiais_produtos": "Janela de correr com vidro, espuma, silicone, acabamento",
+  "nota": "",
+  "composicao": {
+   "Demolição e preparação": 100,
+   "Materiais": 1300,
+   "Execução": 350,
+   "Remoção de entulho": 40,
+   "Deslocação": 30
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Porta interna completa instalada",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 1080,
+  "faixa_min": 800,
+  "faixa_max": 1500,
+  "materiais_produtos": "Kit porta pronta (folha, batente, guarnição, fechadura)",
+  "nota": "",
+  "composicao": {
+   "Demolição e preparação": 40,
+   "Materiais": 750,
+   "Execução": 250,
+   "Remoção de entulho": 20,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Varanda: impermeabilização + revestimento",
+  "unidade": "m²",
+  "preco_recomendado_brl": 245,
+  "faixa_min": 180,
+  "faixa_max": 350,
+  "materiais_produtos": "Manta, porcelanato antiderrapante, argamassa AC-III",
+  "nota": "",
+  "composicao": {
+   "Demolição e preparação": 30,
+   "Materiais": 110,
+   "Execução": 90,
+   "Remoção de entulho": 10,
+   "Deslocação": 5
+  }
+ },
+ {
+  "categoria": "Alimentação / buffet",
+  "servico": "Coffee break",
+  "unidade": "pessoa",
+  "preco_recomendado_brl": 30,
+  "faixa_min": 20,
+  "faixa_max": 45,
+  "materiais_produtos": "Café, chá, sucos, salgados, bolos, frutas",
+  "nota": "",
+  "composicao": {
+   "Ingredientes": 14,
+   "Cozinha e serviço": 10,
+   "Equipamento e loiça": 4,
+   "Transporte": 2
+  }
+ },
+ {
+  "categoria": "Alimentação / buffet",
+  "servico": "Coquetel volante",
+  "unidade": "pessoa",
+  "preco_recomendado_brl": 60,
+  "faixa_min": 40,
+  "faixa_max": 90,
+  "materiais_produtos": "10–12 tipos de salgados e finger foods, bebidas não alcoólicas",
+  "nota": "",
+  "composicao": {
+   "Ingredientes": 30,
+   "Cozinha e serviço": 22,
+   "Equipamento e loiça": 6,
+   "Transporte": 2
+  }
+ },
+ {
+  "categoria": "Alimentação / buffet",
+  "servico": "Marmita / comida caseira entregue",
+  "unidade": "refeição",
+  "preco_recomendado_brl": 25,
+  "faixa_min": 18,
+  "faixa_max": 35,
+  "materiais_produtos": "Prato principal, arroz, feijão, salada",
+  "nota": "",
+  "composicao": {
+   "Ingredientes": 11,
+   "Cozinha e serviço": 9,
+   "Equipamento e loiça": 2,
+   "Transporte": 3
+  }
+ },
+ {
+  "categoria": "Alimentação / buffet",
+  "servico": "Buffet de festa infantil",
+  "unidade": "pessoa",
+  "preco_recomendado_brl": 70,
+  "faixa_min": 50,
+  "faixa_max": 120,
+  "materiais_produtos": "Salgados, mini-lanches, doces, refrigerante, monitores",
+  "nota": "",
+  "composicao": {
+   "Ingredientes": 30,
+   "Cozinha e serviço": 25,
+   "Equipamento e loiça": 10,
+   "Transporte": 5
+  }
+ },
+ {
+  "categoria": "Alimentação / buffet",
+  "servico": "Buffet de churrasco",
+  "unidade": "pessoa",
+  "preco_recomendado_brl": 80,
+  "faixa_min": 60,
+  "faixa_max": 120,
+  "materiais_produtos": "3–4 carnes, acompanhamentos, churrasqueiro, garçons",
+  "nota": "",
+  "composicao": {
+   "Ingredientes": 45,
+   "Cozinha e serviço": 25,
+   "Equipamento e loiça": 6,
+   "Transporte": 4
+  }
+ },
+ {
+  "categoria": "Alimentação / buffet",
+  "servico": "Buffet completo (jantar)",
+  "unidade": "pessoa",
+  "preco_recomendado_brl": 105,
+  "faixa_min": 80,
+  "faixa_max": 150,
+  "materiais_produtos": "Entradas, 2 pratos quentes, sobremesas, garçons",
+  "nota": "",
+  "composicao": {
+   "Ingredientes": 50,
+   "Cozinha e serviço": 40,
+   "Equipamento e loiça": 12,
+   "Transporte": 3
+  }
+ },
+ {
+  "categoria": "Alimentação / buffet",
+  "servico": "Buffet de casamento (sem bebida alcoólica)",
+  "unidade": "pessoa",
+  "preco_recomendado_brl": 150,
+  "faixa_min": 100,
+  "faixa_max": 250,
+  "materiais_produtos": "Recepção, jantar, sobremesas, bolo, equipe",
+  "nota": "",
+  "composicao": {
+   "Ingredientes": 65,
+   "Cozinha e serviço": 60,
+   "Equipamento e loiça": 20,
+   "Transporte": 5
+  }
+ },
+ {
+  "categoria": "Alimentação / buffet",
+  "servico": "Open bar (5 h)",
+  "unidade": "pessoa",
+  "preco_recomendado_brl": 80,
+  "faixa_min": 50,
+  "faixa_max": 130,
+  "materiais_produtos": "Destilados, cerveja, drinks, refrigerante, bartender",
+  "nota": "",
+  "composicao": {
+   "Ingredientes": 45,
+   "Cozinha e serviço": 25,
+   "Equipamento e loiça": 6,
+   "Transporte": 4
+  }
+ },
+ {
+  "categoria": "Alimentação / buffet",
+  "servico": "Mesa de doces (6 doces/pessoa + bolo)",
+  "unidade": "pessoa",
+  "preco_recomendado_brl": 20,
+  "faixa_min": 12,
+  "faixa_max": 30,
+  "materiais_produtos": "Docinhos finos/tradicionais, forminhas, bandejas",
+  "nota": "",
+  "composicao": {
+   "Ingredientes": 9,
+   "Cozinha e serviço": 6,
+   "Equipamento e loiça": 3,
+   "Transporte": 2
+  }
+ },
+ {
+  "categoria": "Alimentação / buffet",
+  "servico": "Chef em casa (jantar para 6)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 1250,
+  "faixa_min": 800,
+  "faixa_max": 2000,
+  "materiais_produtos": "Menu degustação, ingredientes inclusos",
+  "nota": "",
+  "composicao": {
+   "Ingredientes": 450,
+   "Cozinha e serviço": 700,
+   "Equipamento e loiça": 50,
+   "Transporte": 50
+  }
+ },
+ {
+  "categoria": "Alimentação / buffet",
+  "servico": "Bolo decorado",
+  "unidade": "kg",
+  "preco_recomendado_brl": 110,
+  "faixa_min": 80,
+  "faixa_max": 160,
+  "materiais_produtos": "Massa, recheio, cobertura (chantilly/pasta americana)",
+  "nota": "Topo personalizado à parte",
+  "composicao": {
+   "Ingredientes": 45,
+   "Cozinha e serviço": 50,
+   "Equipamento e loiça": 5,
+   "Transporte": 10
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Sessão de fisioterapia",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 130,
+  "faixa_min": 80,
+  "faixa_max": 230,
+  "materiais_produtos": "Maca, eletroterapia, faixas, gel",
+  "nota": "SP/RJ: R$ 120–220",
+  "composicao": {
+   "Consulta / sessão": 95,
+   "Consumíveis": 10,
+   "Espaço e equipamento": 25
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Pacote 10 sessões de fisioterapia",
+  "unidade": "pacote",
+  "preco_recomendado_brl": 1200,
+  "faixa_min": 800,
+  "faixa_max": 1900,
+  "materiais_produtos": "Avaliação inicial + plano de tratamento",
+  "nota": "",
+  "composicao": {
+   "Consulta / sessão": 920,
+   "Consumíveis": 80,
+   "Espaço e equipamento": 200
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Fisioterapia domiciliar",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 200,
+  "faixa_min": 150,
+  "faixa_max": 300,
+  "materiais_produtos": "Maca portátil, materiais de exercício",
+  "nota": "",
+  "composicao": {
+   "Consulta / sessão": 190,
+   "Consumíveis": 10
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Consulta de nutrição (1ª)",
+  "unidade": "consulta",
+  "preco_recomendado_brl": 220,
+  "faixa_min": 150,
+  "faixa_max": 400,
+  "materiais_produtos": "Bioimpedância, avaliação antropométrica, plano alimentar",
+  "nota": "",
+  "composicao": {
+   "Consulta / sessão": 180,
+   "Consumíveis": 10,
+   "Espaço e equipamento": 30
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Consulta de retorno (nutrição)",
+  "unidade": "consulta",
+  "preco_recomendado_brl": 135,
+  "faixa_min": 90,
+  "faixa_max": 200,
+  "materiais_produtos": "Reavaliação, ajuste do plano",
+  "nota": "",
+  "composicao": {
+   "Consulta / sessão": 110,
+   "Consumíveis": 5,
+   "Espaço e equipamento": 20
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Sessão de psicologia (50 min)",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 180,
+  "faixa_min": 100,
+  "faixa_max": 250,
+  "materiais_produtos": "Consultório ou online",
+  "nota": "",
+  "composicao": {
+   "Consulta / sessão": 150,
+   "Espaço e equipamento": 30
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Massoterapia / terapêutica",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 140,
+  "faixa_min": 100,
+  "faixa_max": 200,
+  "materiais_produtos": "Óleo/creme, ventosas, maca",
+  "nota": "",
+  "composicao": {
+   "Consulta / sessão": 110,
+   "Consumíveis": 10,
+   "Espaço e equipamento": 20
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Osteopatia / quiropraxia",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 200,
+  "faixa_min": 150,
+  "faixa_max": 300,
+  "materiais_produtos": "Maca, lençol descartável",
+  "nota": "",
+  "composicao": {
+   "Consulta / sessão": 170,
+   "Consumíveis": 5,
+   "Espaço e equipamento": 25
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Pilates individual",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 120,
+  "faixa_min": 80,
+  "faixa_max": 180,
+  "materiais_produtos": "Reformer, cadillac, acessórios",
+  "nota": "",
+  "composicao": {
+   "Consulta / sessão": 90,
+   "Espaço e equipamento": 30
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Personal trainer",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 120,
+  "faixa_min": 80,
+  "faixa_max": 180,
+  "materiais_produtos": "Plano de treino, acessórios",
+  "nota": "",
+  "composicao": {
+   "Consulta / sessão": 100,
+   "Espaço e equipamento": 20
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Podologia",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 120,
+  "faixa_min": 80,
+  "faixa_max": 180,
+  "materiais_produtos": "Instrumental esterilizado, curativos",
+  "nota": "",
+  "composicao": {
+   "Consulta / sessão": 90,
+   "Consumíveis": 15,
+   "Espaço e equipamento": 15
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Enfermagem domiciliar (curativo / injeção)",
+  "unidade": "visita",
+  "preco_recomendado_brl": 100,
+  "faixa_min": 60,
+  "faixa_max": 150,
+  "materiais_produtos": "Materiais de curativo, luvas, gazes",
+  "nota": "",
+  "composicao": {
+   "Consulta / sessão": 80,
+   "Consumíveis": 20
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Diarista (tarefas gerais, 8 h)",
+  "unidade": "diária",
+  "preco_recomendado_brl": 190,
+  "faixa_min": 140,
+  "faixa_max": 260,
+  "materiais_produtos": "Produtos do cliente",
+  "nota": "Lavar, passar, cozinhar, arrumar",
+  "composicao": {
+   "Serviço": 165,
+   "Deslocação": 25
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Passadeira",
+  "unidade": "hora",
+  "preco_recomendado_brl": 40,
+  "faixa_min": 30,
+  "faixa_max": 55,
+  "materiais_produtos": "Ferro a vapor, cabides",
+  "nota": "",
+  "composicao": {
+   "Serviço": 35,
+   "Deslocação": 5
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Babá / babysitter",
+  "unidade": "hora",
+  "preco_recomendado_brl": 40,
+  "faixa_min": 25,
+  "faixa_max": 60,
+  "materiais_produtos": "—",
+  "nota": "Noite/fim de semana: +20–30%",
+  "composicao": {
+   "Serviço": 35,
+   "Deslocação": 5
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Cuidador(a) de idosos (plantão 12 h)",
+  "unidade": "plantão",
+  "preco_recomendado_brl": 240,
+  "faixa_min": 180,
+  "faixa_max": 320,
+  "materiais_produtos": "Luvas, itens de higiene",
+  "nota": "",
+  "composicao": {
+   "Serviço": 220,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Jardinagem – visita (até 4 h)",
+  "unidade": "visita",
+  "preco_recomendado_brl": 220,
+  "faixa_min": 150,
+  "faixa_max": 320,
+  "materiais_produtos": "Cortador de grama, roçadeira, tesouras, soprador",
+  "nota": "",
+  "composicao": {
+   "Serviço": 180,
+   "Materiais": 20,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Corte de grama (até 200 m²)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 150,
+  "faixa_min": 100,
+  "faixa_max": 220,
+  "materiais_produtos": "Cortador, aparador, recolhimento",
+  "nota": "",
+  "composicao": {
+   "Serviço": 110,
+   "Materiais": 10,
+   "Deslocação": 30
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Marido de aluguel / pequenos reparos",
+  "unidade": "hora",
+  "preco_recomendado_brl": 90,
+  "faixa_min": 60,
+  "faixa_max": 130,
+  "materiais_produtos": "Furadeira, buchas, parafusos, silicone",
+  "nota": "Mínimo 1 h",
+  "composicao": {
+   "Serviço": 80,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Montagem de móveis (guarda-roupa 6 portas)",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 250,
+  "faixa_min": 180,
+  "faixa_max": 400,
+  "materiais_produtos": "Parafusadeira, nível, cavilhas",
+  "nota": "",
+  "composicao": {
+   "Serviço": 220,
+   "Materiais": 10,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Cozinheira (preparo de marmitas, 4 h)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 190,
+  "faixa_min": 140,
+  "faixa_max": 260,
+  "materiais_produtos": "—",
+  "nota": "Ingredientes à parte",
+  "composicao": {
+   "Serviço": 170,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Passeador de cães (45 min)",
+  "unidade": "passeio",
+  "preco_recomendado_brl": 40,
+  "faixa_min": 25,
+  "faixa_max": 60,
+  "materiais_produtos": "Guia, saquinhos, petiscos",
+  "nota": "",
+  "composicao": {
+   "Serviço": 35,
+   "Deslocação": 5
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Hora de desenvolvimento sob medida",
+  "unidade": "hora",
+  "preco_recomendado_brl": 120,
+  "faixa_min": 70,
+  "faixa_max": 200,
+  "materiais_produtos": "—",
+  "nota": "",
+  "composicao": {
+   "Desenvolvimento": 120
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Landing page",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 1800,
+  "faixa_min": 1000,
+  "faixa_max": 4000,
+  "materiais_produtos": "WordPress/Webflow, formulário, integração WhatsApp, SEO básico",
+  "nota": "",
+  "composicao": {
+   "Análise e desenho": 300,
+   "Desenvolvimento": 1200,
+   "Testes e implementação": 200,
+   "Licenças e serviços de terceiros": 100
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Site institucional (até 5 páginas)",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 3800,
+  "faixa_min": 1500,
+  "faixa_max": 8000,
+  "materiais_produtos": "WordPress, tema premium, formulário, SSL",
+  "nota": "",
+  "composicao": {
+   "Análise e desenho": 600,
+   "Desenvolvimento": 2400,
+   "Testes e implementação": 500,
+   "Licenças e serviços de terceiros": 300
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Loja virtual (até 100 produtos)",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 8500,
+  "faixa_min": 5000,
+  "faixa_max": 20000,
+  "materiais_produtos": "Nuvemshop/Shopify/WooCommerce, Pix/cartão, frete",
+  "nota": "",
+  "composicao": {
+   "Análise e desenho": 1200,
+   "Desenvolvimento": 5500,
+   "Testes e implementação": 1300,
+   "Licenças e serviços de terceiros": 500
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Aplicativo MVP (iOS + Android)",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 62000,
+  "faixa_min": 35000,
+  "faixa_max": 120000,
+  "materiais_produtos": "Flutter/React Native, backend, publicação nas lojas",
+  "nota": "",
+  "composicao": {
+   "Análise e desenho": 8000,
+   "Desenvolvimento": 42000,
+   "Testes e implementação": 10000,
+   "Licenças e serviços de terceiros": 2000
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Chatbot WhatsApp / automação",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 4300,
+  "faixa_min": 2000,
+  "faixa_max": 9000,
+  "materiais_produtos": "API WhatsApp, n8n/Make, IA, integração com CRM",
+  "nota": "",
+  "composicao": {
+   "Análise e desenho": 800,
+   "Desenvolvimento": 2500,
+   "Testes e implementação": 600,
+   "Licenças e serviços de terceiros": 400
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Manutenção mensal de site",
+  "unidade": "mês",
+  "preco_recomendado_brl": 400,
+  "faixa_min": 250,
+  "faixa_max": 1000,
+  "materiais_produtos": "Atualizações, backups, segurança, monitoramento",
+  "nota": "",
+  "composicao": {
+   "Desenvolvimento": 250,
+   "Testes e implementação": 80,
+   "Licenças e serviços de terceiros": 70
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Hospedagem + domínio .com.br",
+  "unidade": "ano",
+  "preco_recomendado_brl": 500,
+  "faixa_min": 250,
+  "faixa_max": 900,
+  "materiais_produtos": "Hospedagem, domínio, e-mail profissional",
+  "nota": "",
+  "composicao": {
+   "Testes e implementação": 150,
+   "Licenças e serviços de terceiros": 350
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Formatação / manutenção de computador",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 190,
+  "faixa_min": 120,
+  "faixa_max": 300,
+  "materiais_produtos": "Diagnóstico, reinstalação do sistema, backup",
+  "nota": "Peças à parte",
+  "composicao": {
+   "Análise e desenho": 40,
+   "Desenvolvimento": 120,
+   "Testes e implementação": 30
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Instalação de rede Wi-Fi (escritório pequeno)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 800,
+  "faixa_min": 500,
+  "faixa_max": 1500,
+  "materiais_produtos": "Configuração de roteador/mesh, cabeamento",
+  "nota": "Equipamentos à parte",
+  "composicao": {
+   "Análise e desenho": 150,
+   "Desenvolvimento": 500,
+   "Testes e implementação": 150
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Suporte de TI mensal (até 10 computadores)",
+  "unidade": "mês",
+  "preco_recomendado_brl": 1800,
+  "faixa_min": 1000,
+  "faixa_max": 3500,
+  "materiais_produtos": "Help desk remoto, antivírus, backup",
+  "nota": "",
+  "composicao": {
+   "Desenvolvimento": 1200,
+   "Testes e implementação": 300,
+   "Licenças e serviços de terceiros": 300
+  }
+ },
+ {
+  "categoria": "Transportes",
+  "servico": "Carreto (pick-up / VUC) até 10 km + 1 ajudante",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 200,
+  "faixa_min": 120,
+  "faixa_max": 350,
+  "materiais_produtos": "Veículo, cintas, cobertores",
+  "nota": "Média nacional ≈ R$ 180",
+  "composicao": {
+   "Quilómetros": 80,
+   "Carga e descarga": 120
+  }
+ },
+ {
+  "categoria": "Transportes",
+  "servico": "Frete por km (caminhão 3/4 dedicado)",
+  "unidade": "km",
+  "preco_recomendado_brl": 4.0,
+  "faixa_min": 3,
+  "faixa_max": 5,
+  "materiais_produtos": "Diesel, desgaste, seguro",
+  "nota": "Contar ida e volta",
+  "composicao": {
+   "Quilómetros": 4.0
+  }
+ },
+ {
+  "categoria": "Transportes",
+  "servico": "Hora de caminhão + motorista + 1 ajudante",
+  "unidade": "hora",
+  "preco_recomendado_brl": 150,
+  "faixa_min": 100,
+  "faixa_max": 220,
+  "materiais_produtos": "Caminhão baú, cintas, cobertores",
+  "nota": "Mínimo 2 h",
+  "composicao": {
+   "Quilómetros": 80,
+   "Carga e descarga": 70
+  }
+ },
+ {
+  "categoria": "Transportes",
+  "servico": "Transporte de geladeira / móvel avulso",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 180,
+  "faixa_min": 120,
+  "faixa_max": 280,
+  "materiais_produtos": "Carrinho de carga, cobertores",
+  "nota": "",
+  "composicao": {
+   "Quilómetros": 80,
+   "Carga e descarga": 90,
+   "Material de embalagem": 10
+  }
+ },
+ {
+  "categoria": "Transportes",
+  "servico": "Mudança local kitnet / 1 quarto",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 1300,
+  "faixa_min": 800,
+  "faixa_max": 2500,
+  "materiais_produtos": "Caminhão 3/4, 2–3 ajudantes, plástico bolha, filme",
+  "nota": "",
+  "composicao": {
+   "Quilómetros": 350,
+   "Carga e descarga": 800,
+   "Material de embalagem": 150
+  }
+ },
+ {
+  "categoria": "Transportes",
+  "servico": "Mudança local 2 quartos",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 2300,
+  "faixa_min": 1500,
+  "faixa_max": 3500,
+  "materiais_produtos": "Caminhão baú, 3–4 ajudantes, desmontagem simples",
+  "nota": "",
+  "composicao": {
+   "Quilómetros": 550,
+   "Carga e descarga": 1500,
+   "Material de embalagem": 250
+  }
+ },
+ {
+  "categoria": "Transportes",
+  "servico": "Mudança interestadual compartilhada (ex.: SP–RJ)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 3500,
+  "faixa_min": 3200,
+  "faixa_max": 8500,
+  "materiais_produtos": "Caminhão compartilhado, embalagem, seguro",
+  "nota": "Exclusivo: até ≈ R$ 8.500",
+  "composicao": {
+   "Quilómetros": 2200,
+   "Carga e descarga": 800,
+   "Portagens / pedágios": 200,
+   "Material de embalagem": 300
+  }
+ },
+ {
+  "categoria": "Transportes",
+  "servico": "Transporte de piano",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 950,
+  "faixa_min": 600,
+  "faixa_max": 1500,
+  "materiais_produtos": "Carrinho de piano, cintas, 3–4 ajudantes",
+  "nota": "Escadas: +R$ 200–400",
+  "composicao": {
+   "Quilómetros": 200,
+   "Carga e descarga": 700,
+   "Material de embalagem": 50
+  }
+ },
+ {
+  "categoria": "Transportes",
+  "servico": "Motoboy / entrega urbana",
+  "unidade": "entrega",
+  "preco_recomendado_brl": 20,
+  "faixa_min": 12,
+  "faixa_max": 35,
+  "materiais_produtos": "Moto, baú",
+  "nota": "",
+  "composicao": {
+   "Quilómetros": 14,
+   "Carga e descarga": 6
+  }
+ },
+ {
+  "categoria": "Transportes",
+  "servico": "Kit embalagem (20 caixas + fita + plástico bolha)",
+  "unidade": "kit",
+  "preco_recomendado_brl": 180,
+  "faixa_min": 120,
+  "faixa_max": 260,
+  "materiais_produtos": "Caixas de papelão, fita, plástico bolha, filme stretch",
+  "nota": "",
+  "composicao": {
+   "Material de embalagem": 180
+  }
+ }
+]

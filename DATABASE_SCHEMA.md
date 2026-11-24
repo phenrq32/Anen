@@ -171,6 +171,16 @@ Detalhe em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md).
 | `cancel_installments(plan, from?)` | Apaga as parcelas sem nada pago a partir de `from` (por omissão, a primeira por pagar) e marca o plano |
 | `update_installments_from(plan, from, amount?, due_day?)` | Altera as parcelas sem nada pago a partir de `from` e recalcula o total |
 
+## Modelos de orçamento com preços (migrations 3100 e 3200)
+
+Fonte: pacote do dono da app em `data/modelos-orcamento/` (versão 2026-11). A migration 3100 é **gerada** por `scripts/quote-models/build-migration.mjs`; um teste confirma que é exatamente a saída do gerador.
+
+| Tabela | Notas |
+|---|---|
+| `quote_model_sets` | Um por país e versão: moeda, `taxes_included`, nota de impostos, IVA sugerido (só Portugal: 23 %, continente, com referência legal), metodologia, fontes, aviso e `valid_from`. Leitura para quem tem sessão; sem escrita pelos clientes |
+| `quote_service_models` | 395 serviços (PT 195, BR 200): categoria e modelo da app (`template_key`), nome, unidade, preço recomendado e faixa de mercado em cêntimos, materiais, nota e `composition` (linha, tipo, valor). Um gatilho garante que a composição soma o preço; uma restrição, que o preço está dentro da faixa |
+| `quotes` (+, 3200) | `service_model_set_id` e `service_model_key`: modelo de origem, mostrado ao profissional como referência (não vai para o documento do cliente) |
+
 ## Próximas fases
 
 As tabelas de finanças, orçamentos, custos, fiscalidade, marketplace, CRM, assinaturas, IA e administração listadas no prompt mestre serão criadas por migration em cada fase, sempre com `organization_id`, RLS por `has_org_permission` e auditoria.

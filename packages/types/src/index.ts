@@ -150,6 +150,44 @@ export interface InstallmentPlan {
   updated_at: string;
 }
 
+/** Conjunto de modelos de orçamento com preços de um país e versão (migration 3100). Só leitura. */
+export interface QuoteModelSet {
+  id: string;
+  country_code: string;
+  currency_code: string;
+  version: string;
+  taxes_included: boolean;
+  tax_note: string;
+  suggested_tax_percent: string | null;
+  suggested_tax_label: string | null;
+  suggested_tax_reference: string | null;
+  methodology: string;
+  sources: string[];
+  disclaimer: string;
+  valid_from: string;
+  valid_until: string | null;
+  is_active: boolean;
+  created_at: string;
+}
+
+/** Serviço com preço recomendado, faixa de mercado e composição pelas linhas de custo (cêntimos). */
+export interface QuoteServiceModel {
+  set_id: string;
+  service_key: string;
+  category_key: string;
+  template_key: string;
+  category_name: string;
+  name: string;
+  unit: string;
+  recommended_minor: number;
+  range_min_minor: number;
+  range_max_minor: number;
+  materials: string | null;
+  note: string | null;
+  composition: { line: string; kind: QuoteItemKind; amount_minor: number }[];
+  position: number;
+}
+
 export interface Organization {
   id: string;
   kind: OrganizationKind;
@@ -357,6 +395,9 @@ export interface Quote extends FinanceScoped {
   version: number;
   created_at: string;
   updated_at: string;
+  /** Modelo com preço de onde o orçamento foi criado (referência para o profissional). */
+  service_model_set_id: string | null;
+  service_model_key: string | null;
 }
 
 export interface QuoteItem {

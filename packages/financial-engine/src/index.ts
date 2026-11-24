@@ -15,3 +15,4 @@ export * from "./intelligence";
 export * from "./health";
 export * from "./installments";
 export * from "./commitments";
+export * from "./service-models";

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.29.0] · 24/11/2026 · Modelos de orçamento com preços (Portugal e Brasil)
+- 395 serviços pré-prontos nas 19 categorias (PT sem IVA, BR com impostos): preço recomendado, faixa de mercado, materiais e composição pelas linhas de custo, com fontes, metodologia e versão (2026-11). Migrations 3100 (gerada a partir do pacote) e 3200.
+- Novo orçamento: categoria → serviço → quantidade, com pré-visualização do total e IVA opcional em Portugal; o orçamento fica pré-preenchido (margem 0 %, totais pelo motor no servidor) e mostra ao profissional a referência de mercado.
+- PDFs das tabelas para descarregar. Pacote guardado em `data/modelos-orcamento/`.
+- Testes: 537 unitários (`quote-models.test.ts`, `service-models.test.ts`); E2E `quote-models.spec.ts`.
+
 ## [0.28.0] · 23/11/2026 · Dual Workspace, Fase 5 (parte 2): Hoje, assinaturas, dívidas e calendário
 - Finanças → Calendário (vencimentos previstos e saldo previsto por moeda), Assinaturas (compromissos fixos com custo mensal e anual) e Dívidas.
 - Hoje (pessoal): próximos pagamentos, orçamento disponível e objetivos. Menu pessoal da secção 5; o das empresas não muda.

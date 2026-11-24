@@ -4,6 +4,8 @@
  * `supabase gen types typescript --project-id <ref>` quando o projeto estiver ligado.
  */
 import type {
+  QuoteModelSet,
+  QuoteServiceModel,
   InstallmentPlan,
   Workspace,
   WorkspaceMember,
@@ -172,6 +174,8 @@ export type Database = {
         Partial<Pick<TransactionCategory, "name" | "color" | "archived_at">>
       >;
       installment_plans: Table<InstallmentPlan>;
+      quote_model_sets: Table<QuoteModelSet>;
+      quote_service_models: Table<QuoteServiceModel>;
       transactions: Table<
         FinanceTransaction,
         Scope & TxWrite & { import_ref?: string | null },
@@ -229,7 +233,7 @@ export type Database = {
       quote_templates: Table<QuoteTemplate>;
       quotes: Table<
         Quote,
-        Scope & QuoteWrite & { currency_code: string; number: string; template_key?: string | null },
+        Scope & QuoteWrite & { currency_code: string; number: string; template_key?: string | null; service_model_set_id?: string | null; service_model_key?: string | null },
         Partial<QuoteWrite & { status: Quote["status"]; currency_code: string }>
       >;
       quote_items: Table<QuoteItem, Omit<QuoteItem, "id">, Partial<Omit<QuoteItem, "id" | "quote_id">>>;

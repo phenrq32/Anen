@@ -156,3 +156,16 @@ Migration 2900 aplicada (à segunda tentativa: a primeira recebeu um 502 da API 
 - **Sem migrations:** tudo é calculado a partir de movimentos, recorrentes e parcelas.
 - **Testes:** motor `commitments` (6) e paridade com o Postgres das datas dos recorrentes (30 casos); E2E `personal-today.spec.ts` (valores calculados à mão: saldo 987,01 € e previsto 887,01 €); `workspace-nav` e `review-settings` atualizados para os nomes do menu pessoal. Bateria completa local: 55 a passar, 3 ignorados (só desktop), 12 a falhar só por falta de chaves no ambiente local (as mesmas de sempre).
 - **Por fazer na Fase 5:** personalizar os cartões do Hoje (precisa de uma preferência guardada) e importação automática de movimentos com integrações autorizadas (não há fornecedor ligado).
+
+## Modelos de orçamento com preços (24/11/2026)
+
+Pacote recebido: `modelos-orcamento-2026.zip` (guardado em `data/modelos-orcamento/`). Verificado antes de importar:
+- 395 serviços (PT 195, BR 200) nas 19 categorias da app; a composição soma sempre o preço; o preço está sempre dentro da faixa; ids únicos; todas as linhas pertencem à categoria.
+- **"Deslocação / entulho"** (Construção, PT e BR) não existe nas linhas da app, que usam "Deslocação". Mantive o nome do pacote (a regra do pacote é não renomear) e o tipo "deslocação". Decisão sua: renomear no pacote ou acrescentar a linha ao modelo da app.
+
+Decisões tomadas:
+- **Margem 0 %** nos orçamentos criados a partir de um modelo: a composição divide o preço final (que já inclui a margem), enquanto o motor da ANEN soma a margem aos custos. Com a margem do modelo (20 a 35 %), o preço sairia inflacionado. O profissional ajusta linhas e margem depois.
+- **IVA em Portugal só se o profissional o pedir** ("Somar IVA 23% (continente)"). A taxa vem dos dados do conjunto de modelos, com a referência legal (CIVA, art. 18.º), e não do código. Açores e Madeira têm taxas diferentes: o profissional altera a taxa no editor.
+- A faixa de mercado aparece só ao profissional (no seletor e no editor), nunca no documento do cliente. Os materiais vão para a descrição e a nota do serviço para as condições.
+- Os PDFs ficam em `/modelos/…` e só se descarregam com sessão iniciada.
+- Só se mostram modelos da moeda do workspace (EUR → Portugal, BRL → Brasil); nunca se misturam moedas.

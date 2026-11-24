@@ -1,0 +1,201 @@
+﻿Categoria;Serviço;Unidade;Preço recomendado (R$);Mínimo;Máximo;Materiais / produtos;Nota;Composição
+Agricultura;Hora-máquina: trator com roçadeira;hora;230;180;300;Trator 75–100 cv, roçadeira hidráulica/arrasto, diesel;Mínimo habitual de 2 h;Mão de obra: 40 | Maquinaria: 180 | Deslocação: 10
+Agricultura;Roçada manual com roçadeira costal;diária;220;160;300;Roçadeira a gasolina, fio de nylon/lâmina, mistura 2T, EPI;;Mão de obra: 170 | Maquinaria: 30 | Deslocação: 20
+Agricultura;Roçada / limpeza de lote urbano;m²;2,0;1,2;3,5;Roçadeira, rastelo, retirada do mato cortado;Mato alto/entulho: usar o topo da faixa;Mão de obra: 1,2 | Maquinaria: 0,6 | Deslocação: 0,2
+Agricultura;Gradagem / aração;hectare;400;300;550;Trator, grade aradora/niveladora ou arado, diesel;;Mão de obra: 60 | Maquinaria: 320 | Deslocação: 20
+Agricultura;Poda de árvore frutífera;árvore;70;40;120;Tesoura de poda, serrote, motosserra leve, pasta cicatrizante;;Mão de obra: 50 | Maquinaria: 10 | Deslocação: 10
+Agricultura;Plantio de mudas (muda inclusa);muda;38;25;60;Muda em saco/vaso, adubo orgânico, calcário, tutor;;Sementes / plantas: 18 | Fertilizantes: 4 | Mão de obra: 12 | Maquinaria: 2 | Deslocação: 2
+Agricultura;Plantio de grama esmeralda (com grama);m²;24;18;35;Placas de grama, terra preta/adubo, nivelamento;;Sementes / plantas: 12 | Fertilizantes: 2 | Mão de obra: 9 | Deslocação: 1
+Agricultura;Pulverização / adubação;hectare;450;300;700;Defensivo ou adubo, pulverizador tratorizado/costal;Exige receituário agronômico;Fertilizantes: 250 | Mão de obra: 60 | Maquinaria: 120 | Deslocação: 20
+Agricultura;Corte de árvore de médio porte;árvore;350;200;700;Motosserra, cordas, EPI, retirada de galhos;Verificar autorização ambiental do município;Mão de obra: 250 | Maquinaria: 80 | Deslocação: 20
+Agricultura;Diária de trabalhador rural;diária;130;100;180;Ferramentas manuais (enxada, foice, cavadeira);;Mão de obra: 120 | Deslocação: 10
+Automotivo;Troca de óleo e filtro;serviço;235;180;350;Óleo sintético 0W20/5W30 (≈4 L) conforme manual, filtro de óleo, arruela do bujão;;Peças: 35 | Óleos e consumíveis: 160 | Mão de obra: 40
+Automotivo;Revisão completa (óleo + filtros + check-up);serviço;530;400;900;Filtros de óleo, ar, cabine e combustível, óleo, check-list de itens;;Peças: 150 | Óleos e consumíveis: 170 | Mão de obra: 180 | Diagnóstico: 30
+Automotivo;Pastilhas de freio dianteiras;serviço;240;150;400;Jogo de pastilhas, graxa para freio, limpa-freios;;Peças: 130 | Óleos e consumíveis: 10 | Mão de obra: 100
+Automotivo;Discos + pastilhas de freio (eixo);serviço;550;400;850;Par de discos, jogo de pastilhas, fluido se necessário;;Peças: 380 | Óleos e consumíveis: 10 | Mão de obra: 160
+Automotivo;Correia dentada + tensor + bomba d'água;serviço;1050;750;1600;Kit correia, tensor, bomba d'água, aditivo de radiador;Varia muito por motor;Peças: 550 | Óleos e consumíveis: 50 | Mão de obra: 450
+Automotivo;Troca de embreagem (kit);serviço;1440;1000;2200;Kit embreagem (platô, disco, rolamento), óleo de câmbio;;Peças: 800 | Óleos e consumíveis: 40 | Mão de obra: 600
+Automotivo;Diagnóstico com scanner;serviço;120;80;200;Scanner automotivo OBD2, relatório de falhas;Pode ser abatido se fizer o serviço;Diagnóstico: 120
+Automotivo;Higienização + carga de gás do ar-condicionado;serviço;280;200;400;Gás R134a/R1234yf, óleo PAG, higienizador, filtro de cabine;;Óleos e consumíveis: 150 | Mão de obra: 100 | Diagnóstico: 30
+Automotivo;Bateria 60 Ah instalada;serviço;510;400;700;Bateria 60 Ah, teste de alternador;Start-stop (EFB/AGM): +R$ 300–600;Peças: 480 | Mão de obra: 20 | Diagnóstico: 10
+Automotivo;Alinhamento e balanceamento;serviço;110;80;160;Alinhador 3D, chumbos de balanceamento;;Óleos e consumíveis: 15 | Mão de obra: 95
+Automotivo;Amortecedores dianteiros (par);serviço;800;600;1200;Par de amortecedores, kit batente e coifa;;Peças: 550 | Mão de obra: 250
+Hidráulica;Visita técnica / diagnóstico;visita;120;80;180;—;Costuma ser abatida se o cliente fechar o serviço;Instalação / reparação: 80 | Deslocação: 40
+Hidráulica;Desentupimento de pia / ralo / vaso;serviço;220;150;380;Desentupidor, sonda/mola manual, produto desincrustante;Com máquina rotativa/hidrojato: R$ 400–1.300;Instalação / reparação: 180 | Deslocação: 40
+Hidráulica;Troca de torneira (torneira inclusa);serviço;250;180;380;Torneira padrão médio, flexível, fita veda-rosca;;Tubagem e acessórios: 10 | Torneiras / louças: 120 | Instalação / reparação: 90 | Deslocação: 30
+Hidráulica;Reparo de descarga / caixa acoplada;serviço;195;130;280;Kit reparo universal, boia, vedações;;Tubagem e acessórios: 5 | Torneiras / louças: 60 | Instalação / reparação: 100 | Deslocação: 30
+Hidráulica;Instalação de vaso sanitário (vaso incluso);serviço;785;600;1100;Vaso com caixa acoplada, anel de vedação, engate flexível, parafusos;;Tubagem e acessórios: 25 | Torneiras / louças: 550 | Instalação / reparação: 180 | Deslocação: 30
+Hidráulica;Caça-vazamento (detecção);serviço;320;150;700;Geofone, teste de pressão, câmera térmica;Visita simples: R$ 150–350;Instalação / reparação: 270 | Deslocação: 50
+Hidráulica;Reparo de vazamento em cano;serviço;280;180;450;Luva de correr, tubo PVC/PPR, conexões, cola;Quebra e acabamento à parte;Tubagem e acessórios: 40 | Instalação / reparação: 200 | Deslocação: 40
+Hidráulica;Instalação de aquecedor a gás (sem equipamento);serviço;540;400;800;Flexíveis, registro de gás, chaminé/duto, teste de estanqueidade;Profissional habilitado para gás;Tubagem e acessórios: 120 | Instalação / reparação: 380 | Deslocação: 40
+Hidráulica;Limpeza de caixa d'água (até 1.000 L);serviço;220;150;300;Escova, cloro/hipoclorito, esvaziamento;Recomendada a cada 6 meses;Instalação / reparação: 180 | Deslocação: 40
+Hidráulica;Hidráulica nova de banheiro (água + esgoto);serviço;3800;2500;6000;Tubos PVC soldável/PPR, conexões, registros, esgoto 40/50/100 mm;Quebra e revestimento à parte;Tubagem e acessórios: 900 | Instalação / reparação: 2800 | Deslocação: 100
+Hidráulica;Instalação de máquina de lavar;serviço;135;100;180;Torneira de máquina, mangueira, sifão;;Tubagem e acessórios: 25 | Instalação / reparação: 80 | Deslocação: 30
+Construção;Diária de pedreiro + ajudante;diária;490;400;600;Ferramentas do profissional;Base para serviços sem medição;Mão de obra (pedreiro): 300 | Mão de obra (servente): 170 | Deslocação / entulho: 20
+Construção;Alvenaria de bloco cerâmico (levantamento);m²;155;110;200;Bloco cerâmico 9x19x29, argamassa, ferro de amarração;Só mão de obra: R$ 60–110/m²;Materiais de construção: 70 | Mão de obra (pedreiro): 55 | Mão de obra (servente): 25 | Aluguer de equipamento: 3 | Deslocação / entulho: 2
+Construção;Muro de bloco de concreto (sem fundação);m²;142;110;190;Bloco 14x19x39, argamassa, graute e ferro nas colunas;Fundação/sapata à parte;Materiais de construção: 65 | Mão de obra (pedreiro): 50 | Mão de obra (servente): 22 | Aluguer de equipamento: 3 | Deslocação / entulho: 2
+Construção;Chapisco + reboco;m²;62;45;90;Cimento, areia, cal/aditivo, régua e desempenadeira;Só mão de obra: R$ 35–60/m²;Materiais de construção: 18 | Mão de obra (pedreiro): 32 | Mão de obra (servente): 10 | Aluguer de equipamento: 1 | Deslocação / entulho: 1
+Construção;Contrapiso;m²;64;45;90;Argamassa de contrapiso (4–5 cm), tela se necessário;;Materiais de construção: 25 | Mão de obra (pedreiro): 25 | Mão de obra (servente): 10 | Aluguer de equipamento: 2 | Deslocação / entulho: 2
+Construção;Assentamento de piso cerâmico / porcelanato;m²;70;50;95;Argamassa AC-II/AC-III, rejunte, espaçadores, niveladores;"Piso à parte; grandes formatos +R$ 15–30/m²";Materiais de construção: 12 | Mão de obra (pedreiro): 45 | Mão de obra (servente): 10 | Deslocação / entulho: 3
+Construção;Revestimento de parede (azulejo);m²;75;55;100;Argamassa, rejunte, cantoneiras;Revestimento à parte;Materiais de construção: 12 | Mão de obra (pedreiro): 50 | Mão de obra (servente): 10 | Deslocação / entulho: 3
+Construção;Parede de drywall 2 faces c/ isolamento;m²;130;95;180;Chapas de gesso 12,5 mm, perfis, lã de vidro/rocha, fita e massa;Chapa RU (verde) para áreas úmidas;Materiais de construção: 70 | Mão de obra (pedreiro): 45 | Mão de obra (servente): 10 | Aluguer de equipamento: 3 | Deslocação / entulho: 2
+Construção;Forro de drywall;m²;100;75;140;Chapa ST, perfis F530, tirantes, fita e massa;;Materiais de construção: 50 | Mão de obra (pedreiro): 38 | Mão de obra (servente): 8 | Aluguer de equipamento: 2 | Deslocação / entulho: 2
+Construção;Laje pré-moldada (com concretagem);m²;275;200;380;Vigotas, EPS/lajotas, concreto usinado, aço, escoramento;Exige projeto e ART;Materiais de construção: 150 | Mão de obra (pedreiro): 70 | Mão de obra (servente): 35 | Aluguer de equipamento: 15 | Deslocação / entulho: 5
+Construção;Piso intertravado (bloquete);m²;125;90;170;Bloquete 6–8 cm, base de brita/pó de pedra, meio-fio, placa vibratória;;Materiais de construção: 65 | Mão de obra (pedreiro): 35 | Mão de obra (servente): 15 | Aluguer de equipamento: 5 | Deslocação / entulho: 5
+Construção;Caçamba de entulho (4–5 m³);unidade;420;300;600;Caçamba, retirada e destinação em aterro licenciado;;Mão de obra (servente): 40 | Aluguer de equipamento: 380
+Consultoria;Hora de consultoria;hora;200;120;400;—;Sênior/especializado: R$ 300–400/h;Consultoria: 200
+Consultoria;Diagnóstico empresarial (PME);projeto;3600;2500;8000;Entrevistas, análise financeira, relatório com plano de ação;;Diagnóstico: 1500 | Consultoria: 1200 | Relatório: 800 | Deslocação: 100
+Consultoria;Plano de negócios;projeto;4500;3000;9000;Pesquisa de mercado, DRE projetada 3–5 anos, planilha;;Diagnóstico: 800 | Consultoria: 2500 | Relatório: 1200
+Consultoria;Projeto para crédito / editais (BNDES, FINEP, editais);projeto;5000;3000;12000;Análise de elegibilidade, projeto técnico, submissão;Comum: + taxa de êxito 2–5%;Diagnóstico: 600 | Consultoria: 3000 | Relatório: 1400
+Consultoria;Estudo de viabilidade econômico-financeira;projeto;5000;3000;10000;VPL/TIR, payback, cenários;;Diagnóstico: 800 | Consultoria: 2800 | Relatório: 1400
+Consultoria;Consultoria mensal de gestão;mês;3200;2000;6000;Reuniões, indicadores (KPI), acompanhamento;;Consultoria: 2500 | Relatório: 500 | Deslocação: 200
+Consultoria;Adequação à LGPD;projeto;4300;2500;8000;Mapeamento de dados, políticas, termos, treinamento;;Diagnóstico: 700 | Consultoria: 2500 | Relatório: 1000 | Deslocação: 100
+Consultoria;Consultoria financeira / fluxo de caixa;projeto;3300;2000;6000;Fluxo de caixa, precificação, análise de crédito;;Diagnóstico: 600 | Consultoria: 2000 | Relatório: 700
+Design;Hora de design gráfico;hora;100;60;180;—;;Criação: 100
+Design;Logotipo (3 propostas + 2 revisões);projeto;1600;800;5000;Arquivos AI/SVG/PDF/PNG, versões colorida e monocromática;;Briefing e pesquisa: 250 | Criação: 1000 | Revisões: 300 | Licenças de imagens / fontes: 50
+Design;Identidade visual completa + manual de marca;projeto;5700;3500;15000;Logo, paleta, tipografia, papelaria, aplicações digitais;;Briefing e pesquisa: 800 | Criação: 3500 | Revisões: 1200 | Licenças de imagens / fontes: 200
+Design;Cartão de visita (arte);projeto;230;120;400;Frente e verso, arquivo para gráfica;Impressão à parte;Briefing e pesquisa: 40 | Criação: 150 | Revisões: 40
+Design;Flyer / cartaz;peça;400;200;700;Arquivo para impressão (CMYK, sangria) e versão digital;;Briefing e pesquisa: 50 | Criação: 250 | Revisões: 70 | Licenças de imagens / fontes: 30
+Design;Pack de 12 posts para redes sociais;pack;630;400;1200;Templates editáveis (Canva/Figma), imagens de banco;;Briefing e pesquisa: 60 | Criação: 450 | Revisões: 90 | Licenças de imagens / fontes: 30
+Design;Design de site (UI, até 5 páginas);projeto;3000;1500;6000;Wireframes, protótipo Figma desktop + mobile;Desenvolvimento: ver Tecnologia;Briefing e pesquisa: 400 | Criação: 2000 | Revisões: 500 | Licenças de imagens / fontes: 100
+Design;Design de embalagem / rótulo;projeto;2100;1200;5000;Faca/planificação, mockups 3D, arte-final;;Briefing e pesquisa: 300 | Criação: 1300 | Revisões: 400 | Licenças de imagens / fontes: 100
+Design;Catálogo / apresentação;página;100;60;150;Diagramação, tratamento de imagens;;Briefing e pesquisa: 10 | Criação: 70 | Revisões: 15 | Licenças de imagens / fontes: 5
+Educação;Reforço escolar (fundamental);hora;50;35;70;Listas de exercícios, apostilas;Média nacional ≈ R$ 45–60/h;Aulas / formação: 42 | Preparação: 5 | Materiais didáticos: 3
+Educação;Aula ensino médio / ENEM / vestibular;hora;75;55;120;Provas anteriores, resumos, simulados;;Aulas / formação: 62 | Preparação: 10 | Materiais didáticos: 3
+Educação;Aula universitária / concursos;hora;100;70;180;Resolução de questões, material de apoio;;Aulas / formação: 85 | Preparação: 12 | Materiais didáticos: 3
+Educação;Aula de idiomas individual;hora;65;45;100;Material próprio, áudios, plataforma online;;Aulas / formação: 58 | Preparação: 5 | Materiais didáticos: 2
+Educação;Aula em grupo (por aluno, até 5);aluno/h;38;25;55;Apostila, plataforma online;;Aulas / formação: 32 | Preparação: 3 | Materiais didáticos: 3
+Educação;Aula de música / instrumento;hora;80;55;130;Partituras, métodos;;Aulas / formação: 70 | Preparação: 5 | Materiais didáticos: 5
+Educação;Pacote mensal de reforço (8 aulas);mês;390;280;520;Plano de estudo, relatório aos pais;;Aulas / formação: 330 | Preparação: 40 | Materiais didáticos: 20
+Educação;Workshop de 3 h (até 15 pessoas);sessão;1400;800;2500;Slides, apostila, certificado;;Aulas / formação: 900 | Preparação: 300 | Materiais didáticos: 200
+Educação;Treinamento in company (8 h);diária;3400;2000;6000;Apostila, avaliação, certificado;;Aulas / formação: 2500 | Preparação: 600 | Materiais didáticos: 300
+Elétrica;Visita técnica / diagnóstico;visita;130;80;200;Multímetro, alicate amperímetro;Abatida se fechar o serviço;Instalação: 100 | Deslocação: 30
+Elétrica;Diária de eletricista;diária;400;265;450;Ferramentas do profissional;;Instalação: 380 | Deslocação: 20
+Elétrica;Troca de tomada ou interruptor;ponto;85;60;120;Tomada/interruptor padrão NBR 14136 com placa;Pontos seguintes: R$ 45–60;Tomadas / interruptores: 15 | Instalação: 50 | Deslocação: 20
+Elétrica;Novo ponto de tomada (embutido);ponto;170;120;250;Tomada, cabo 2,5 mm², eletroduto corrugado, caixa 4x2, massa;;Tomadas / interruptores: 20 | Cabo elétrico: 25 | Caixas e tubagem: 15 | Instalação: 90 | Deslocação: 20
+Elétrica;Novo ponto de luz;ponto;155;110;230;Interruptor, cabo 1,5 mm², eletroduto, caixa octogonal;;Tomadas / interruptores: 18 | Cabo elétrico: 22 | Caixas e tubagem: 15 | Instalação: 80 | Deslocação: 20
+Elétrica;Instalação de chuveiro elétrico;serviço;180;120;260;Conectores, fita isolante;Circuito novo/disjuntor: orçar à parte;Instalação: 150 | Deslocação: 30
+Elétrica;Instalação de luminária ou ventilador de teto;unidade;160;100;250;Conectores Wago, bucha e gancho;;Cabo elétrico: 5 | Instalação: 130 | Deslocação: 25
+Elétrica;Troca de quadro de distribuição (QDC);serviço;1480;1100;1900;Quadro 12–24 disjuntores, DR 30 mA, DPS, barramentos;Coluna 'Tomadas' = disjuntores e proteções;Tomadas / interruptores: 550 | Cabo elétrico: 50 | Caixas e tubagem: 80 | Instalação: 750 | Deslocação: 50
+Elétrica;Circuito exclusivo para ar-condicionado;serviço;780;400;1200;Cabo 4 mm², disjuntor, eletroduto/canaleta, tomada 20 A;;Tomadas / interruptores: 80 | Cabo elétrico: 250 | Caixas e tubagem: 80 | Instalação: 330 | Deslocação: 40
+Elétrica;Troca de fiação completa;m²;115;89;140;Cabos, eletrodutos, caixas, tomadas padrão médio;Apto 60 m² ≈ R$ 6.900;Tomadas / interruptores: 35 | Cabo elétrico: 30 | Caixas e tubagem: 10 | Instalação: 40
+Elétrica;Instalação de carregador veicular (sem equipamento);serviço;1700;1200;2500;Cabo 6–10 mm², DR tipo A/B, disjuntor, eletroduto;;Cabo elétrico: 400 | Caixas e tubagem: 150 | Instalação: 1100 | Deslocação: 50
+Estética;Manicure (mão);serviço;40;30;55;Lixa, alicate esterilizado, esmalte, base, creme;;Serviço: 28 | Produtos: 6 | Espaço e equipamento: 6
+Estética;Pé e mão;serviço;70;55;100;Kit esterilizado, esmaltes, lixa de pé, hidratante;;Serviço: 50 | Produtos: 10 | Espaço e equipamento: 10
+Estética;Esmaltação em gel;serviço;80;60;120;Base/top coat gel, esmalte em gel, cabine LED;;Serviço: 55 | Produtos: 15 | Espaço e equipamento: 10
+Estética;Alongamento em gel / fibra;serviço;190;140;300;Gel construtor ou fibra, moldes, lixa elétrica;Manutenção: R$ 100–150;Serviço: 130 | Produtos: 40 | Espaço e equipamento: 20
+Estética;Depilação com cera – perna inteira;serviço;85;60;150;Cera quente/roll-on, espátulas, óleo pós;;Serviço: 62 | Produtos: 12 | Espaço e equipamento: 11
+Estética;Depilação com cera – virilha completa;serviço;75;50;110;Cera quente, espátulas descartáveis;;Serviço: 55 | Produtos: 10 | Espaço e equipamento: 10
+Estética;Design de sobrancelha;serviço;35;25;50;Pinça, linha ou cera;Com henna: R$ 50–70;Serviço: 28 | Produtos: 4 | Espaço e equipamento: 3
+Estética;Limpeza de pele;sessão;140;100;200;Demaquilante, esfoliante, vapor, extração, máscara;;Serviço: 90 | Produtos: 30 | Espaço e equipamento: 20
+Estética;Massagem relaxante (60 min);sessão;130;90;180;Óleo/creme, maca, toalhas;;Serviço: 100 | Produtos: 10 | Espaço e equipamento: 20
+Estética;Drenagem linfática (60 min);sessão;120;90;170;Creme/óleo neutro, maca;Pacote de 10: ~15% de desconto;Serviço: 95 | Produtos: 10 | Espaço e equipamento: 15
+Estética;Extensão de cílios fio a fio;serviço;180;130;280;Fios de seda, cola, primer, pinças;Manutenção: R$ 90–130;Serviço: 120 | Produtos: 40 | Espaço e equipamento: 20
+Estética;Maquiagem social;serviço;150;100;250;Kit profissional, cílios postiços;Noiva c/ prova: R$ 400–1.200;Serviço: 120 | Produtos: 30
+Eventos;Festa infantil 50 pessoas (pacote);evento;6200;4000;9000;Buffet ≈ R$ 70/pessoa, salão, brinquedos, decoração base;;Organização: 500 | Aluguer de equipamento: 600 | Espaço: 1500 | Catering: 3500 | Deslocação: 100
+Eventos;Aniversário adulto 50 pessoas (em casa);evento;4000;2500;6500;Buffet ≈ R$ 60/pessoa, mesas/cadeiras, som;;Organização: 400 | Aluguer de equipamento: 500 | Catering: 3000 | Deslocação: 100
+Eventos;Evento corporativo 50 pessoas (meio período);evento;4500;3000;8000;Sala, projetor/som, coffee break ≈ R$ 30/pessoa;;Organização: 800 | Aluguer de equipamento: 600 | Espaço: 1500 | Catering: 1500 | Deslocação: 100
+Eventos;Casamento 100 convidados (produção completa);evento;34500;25000;70000;Espaço, buffet ≈ R$ 150/pessoa, som/luz, decoração floral;Foto e DJ à parte;Organização: 5000 | Aluguer de equipamento: 6000 | Espaço: 8000 | Catering: 15000 | Deslocação: 500
+Eventos;Assessoria / cerimonial de casamento;evento;4800;3000;9000;Gestão de fornecedores, cronograma, coordenação no dia;;Organização: 4500 | Deslocação: 300
+Eventos;DJ com som e luz (5 h);evento;1800;1000;3500;Controladora, caixas, iluminação, microfone;;Organização: 800 | Aluguer de equipamento: 900 | Deslocação: 100
+Eventos;Fotógrafo de evento (4 h);evento;1200;600;2500;Câmera, flash, 200–400 fotos editadas;Coluna 'Organização' = serviço;Organização: 900 | Aluguer de equipamento: 200 | Deslocação: 100
+Eventos;Tenda 10 × 10 m (com montagem);unidade;1600;900;2500;Tenda pirâmide/chapéu de bruxa, montagem e desmontagem;;Aluguer de equipamento: 1400 | Deslocação: 200
+Eventos;Decoração de festa (balões + mesa);evento;900;400;1800;Arco de balões, painel, mesa, toalhas, suportes;;Organização: 300 | Aluguer de equipamento: 550 | Deslocação: 50
+Eventos;Recreação infantil (2 recreadores, 4 h);evento;700;400;1000;Brincadeiras, pintura facial, materiais;;Organização: 550 | Aluguer de equipamento: 100 | Deslocação: 50
+Limpeza;Diária de faxina (8 h);diária;200;130;280;Produtos multiuso, panos, vassoura, rodo;Deslocação = passagem/condução;Limpeza: 155 | Produtos de limpeza: 15 | Deslocação: 30
+Limpeza;Meia diária (4 h);serviço;130;90;170;Produtos do cliente ou kit próprio;;Limpeza: 95 | Produtos de limpeza: 10 | Deslocação: 25
+Limpeza;Faxina pesada (apto 2 quartos);serviço;400;300;600;Desengordurante, removedor de limo, interior de armários;;Limpeza: 300 | Produtos de limpeza: 50 | Equipamento: 30 | Deslocação: 20
+Limpeza;Limpeza pós-obra;m²;11,0;7;18;Removedor de cimento, espátulas, aspirador de pó/água;;Limpeza: 8 | Produtos de limpeza: 1,5 | Equipamento: 1 | Deslocação: 0,5
+Limpeza;Limpeza de check-out (Airbnb, studio/1 quarto);serviço;120;80;170;Troca de enxoval (lavanderia à parte), reposição de amenities;;Limpeza: 90 | Produtos de limpeza: 15 | Equipamento: 5 | Deslocação: 10
+Limpeza;Limpeza comercial / escritório;hora;40;30;55;Produtos profissionais, carrinho funcional;;Limpeza: 32 | Produtos de limpeza: 4 | Equipamento: 2 | Deslocação: 2
+Limpeza;Limpeza de vidros;m²;8,0;5;14;Limpa-vidros, rodo, extensor;Altura/fachada: orçar à parte;Limpeza: 6 | Produtos de limpeza: 0,6 | Equipamento: 0,8 | Deslocação: 0,6
+Limpeza;Higienização de sofá 3 lugares;unidade;260;180;380;Extratora, shampoo têxtil, impermeabilizante opcional;;Limpeza: 150 | Produtos de limpeza: 40 | Equipamento: 50 | Deslocação: 20
+Limpeza;Higienização de colchão casal;unidade;200;140;280;Extratora, vapor, antiácaro;;Limpeza: 110 | Produtos de limpeza: 30 | Equipamento: 40 | Deslocação: 20
+Limpeza;Lavagem de tapete / carpete;m²;25;15;40;Extratora, removedor de manchas;;Limpeza: 16 | Produtos de limpeza: 3 | Equipamento: 3 | Deslocação: 3
+Limpeza;Limpeza de condomínio (1×/semana, prédio pequeno);mês;1400;900;2200;Escadas, hall, elevador, garagem;;Limpeza: 1100 | Produtos de limpeza: 120 | Equipamento: 40 | Deslocação: 140
+Marketing;Social media básico (12 posts/mês);mês;1400;1000;2500;Planejamento, artes, legendas, agendamento, 1–2 redes;;Estratégia: 300 | Produção de conteúdos: 1000 | Relatórios: 100
+Marketing;Social media completo (20 posts + 8 reels);mês;3800;2500;6000;2–3 redes, gestão de comunidade, relatório;;Estratégia: 700 | Produção de conteúdos: 2800 | Relatórios: 300
+Marketing;Gestão de tráfego pago (Meta / Google);mês;1200;700;2500;Configuração de campanhas, públicos, criativos, otimização;Verba de anúncios paga pelo cliente;Estratégia: 500 | Produção de conteúdos: 300 | Relatórios: 400
+Marketing;Pacote lançamento com verba de R$ 1.000;mês;2800;2000;4500;Estratégia, criativos, R$ 1.000 de mídia, relatório;;Estratégia: 600 | Produção de conteúdos: 1000 | Investimento em anúncios: 1000 | Relatórios: 200
+Marketing;Planejamento de marketing anual;projeto;3800;2500;8000;Análise de mercado, personas, calendário, orçamento;;Estratégia: 3000 | Relatórios: 800
+Marketing;SEO mensal;mês;1500;1000;3500;Otimização on-page, 2–4 artigos/mês, link building;;Estratégia: 400 | Produção de conteúdos: 900 | Relatórios: 200
+Marketing;Auditoria SEO técnica;projeto;800;400;1500;Screaming Frog, Search Console, PageSpeed;;Estratégia: 500 | Relatórios: 300
+Marketing;E-mail marketing (4 envios/mês);mês;750;400;1200;RD Station/Mailchimp, design, segmentação;;Estratégia: 150 | Produção de conteúdos: 500 | Relatórios: 100
+Marketing;Vídeo curto / Reels profissional;peça;800;400;1800;Roteiro, gravação, edição, legendas, trilha licenciada;;Estratégia: 150 | Produção de conteúdos: 650
+Marketing;Fotos de produto (20 fotos);sessão;800;450;1500;Estúdio/iluminação, edição, fundo branco + lifestyle;;Estratégia: 100 | Produção de conteúdos: 700
+Pintura;Pintura interna de paredes (2 demãos);m²;30;22;45;Tinta acrílica fosca/acetinada, selador, fita, lona;m² de área pintada (parede/teto);Tinta: 7 | Primário / selante: 2 | Fita, lixas, plásticos de proteção: 1 | Preparação de superfícies: 3 | Pintura: 16 | Deslocação: 1
+Pintura;Pintura de teto;m²;32,0;24;48;Tinta acrílica/PVA branca, selador;;Tinta: 7 | Primário / selante: 2 | Fita, lixas, plásticos de proteção: 1 | Preparação de superfícies: 3,5 | Pintura: 17,5 | Deslocação: 1
+Pintura;Massa corrida + lixamento;m²;25;15;35;Massa corrida/acrílica, lixa 150/180;Paredes novas ou com defeitos;Primário / selante: 2 | Fita, lixas, plásticos de proteção: 1 | Preparação de superfícies: 22
+Pintura;Pintura de quarto ~12 m² (paredes + teto);cômodo;1350;1000;1900;≈ 45 m² de superfície, 2 demãos;;Tinta: 300 | Primário / selante: 90 | Fita, lixas, plásticos de proteção: 45 | Preparação de superfícies: 135 | Pintura: 740 | Deslocação: 40
+Pintura;Pintura de apartamento 2 quartos;imóvel;6100;4500;9000;≈ 200 m² de superfície, tinta padrão médio;;Tinta: 1400 | Primário / selante: 400 | Fita, lixas, plásticos de proteção: 200 | Preparação de superfícies: 700 | Pintura: 3300 | Deslocação: 100
+Pintura;Pintura de fachada (sem andaime);m²;48;35;70;Tinta acrílica externa/elastomérica, fundo preparador;Andaime/balancim à parte;Tinta: 12 | Primário / selante: 4 | Fita, lixas, plásticos de proteção: 1 | Preparação de superfícies: 8 | Pintura: 22 | Deslocação: 1
+Pintura;Pintura de muro externo;m²;31;22;45;Tinta acrílica externa, selador, escova de aço;;Tinta: 8 | Primário / selante: 3 | Fita, lixas, plásticos de proteção: 1 | Preparação de superfícies: 4 | Pintura: 14 | Deslocação: 1
+Pintura;Textura / grafiato;m²;46;35;65;Textura acrílica, desempenadeira, rolo de textura;;Tinta: 12 | Primário / selante: 3 | Fita, lixas, plásticos de proteção: 1 | Preparação de superfícies: 4 | Pintura: 25 | Deslocação: 1
+Pintura;Pintura de porta (esmalte, 2 faces);unidade;200;150;320;Esmalte sintético/base água, fundo nivelador, lixas;;Tinta: 25 | Primário / selante: 10 | Fita, lixas, plásticos de proteção: 5 | Preparação de superfícies: 50 | Pintura: 110
+Pintura;Pintura de grade / portão;m²;55;40;80;Fundo anticorrosivo (zarcão), esmalte, escova de aço;;Tinta: 10 | Primário / selante: 6 | Fita, lixas, plásticos de proteção: 2 | Preparação de superfícies: 12 | Pintura: 24 | Deslocação: 1
+Pintura;Verniz / stain em madeira e deck;m²;50;35;75;Stain/verniz marítimo, lixadeira;;Tinta: 14 | Primário / selante: 2 | Fita, lixas, plásticos de proteção: 2 | Preparação de superfícies: 12 | Pintura: 18 | Deslocação: 2
+Pintura;Impermeabilização de laje (manta líquida);m²;70;50;110;Manta líquida acrílica, primer, tela de poliéster;;Tinta: 30 | Primário / selante: 8 | Fita, lixas, plásticos de proteção: 2 | Preparação de superfícies: 10 | Pintura: 18 | Deslocação: 2
+Reforma;Reforma completa de banheiro (≈ 4 m²);obra;15800;10000;25000;Porcelanato, louças, metais, box, hidráulica, forro, bancada;Padrão médio;Demolição e preparação: 1500 | Materiais: 7000 | Execução: 6500 | Remoção de entulho: 600 | Deslocação: 200
+Reforma;Reforma de cozinha (sem eletrodomésticos);obra;23800;15000;40000;Marcenaria padrão médio, bancada de granito/quartzo, revestimentos;;Demolição e preparação: 1800 | Materiais: 15000 | Execução: 6000 | Remoção de entulho: 700 | Deslocação: 300
+Reforma;Troca de banheira por box com chuveiro;obra;4150;3000;6000;Box de vidro, piso, ralo linear, registro, revestimento;;Demolição e preparação: 500 | Materiais: 1800 | Execução: 1500 | Remoção de entulho: 250 | Deslocação: 100
+Reforma;Reforma completa de apartamento;m²;1500;1000;2500;Pisos, pintura, banheiro, cozinha, elétrica;Apto 60 m² ≈ R$ 90 mil;Demolição e preparação: 80 | Materiais: 750 | Execução: 600 | Remoção de entulho: 50 | Deslocação: 20
+Reforma;Demolição de parede de alvenaria;m²;70;45;100;Marreta/rompedor, sacos de entulho;Verificar se não é estrutural;Demolição e preparação: 50 | Remoção de entulho: 18 | Deslocação: 2
+Reforma;Piso vinílico / laminado instalado;m²;130;90;180;Piso vinílico click/laminado, manta, perfis;Rodapé à parte;Demolição e preparação: 5 | Materiais: 85 | Execução: 35 | Remoção de entulho: 3 | Deslocação: 2
+Reforma;Rodapé;metro;28;18;40;Rodapé MDF/poliestireno 7–10 cm, cola/pregos;;Demolição e preparação: 1 | Materiais: 15 | Execução: 12
+Reforma;Troca de janela de alumínio (1,20 × 1,20 m);unidade;1820;1200;2800;Janela de correr com vidro, espuma, silicone, acabamento;;Demolição e preparação: 100 | Materiais: 1300 | Execução: 350 | Remoção de entulho: 40 | Deslocação: 30
+Reforma;Porta interna completa instalada;unidade;1080;800;1500;Kit porta pronta (folha, batente, guarnição, fechadura);;Demolição e preparação: 40 | Materiais: 750 | Execução: 250 | Remoção de entulho: 20 | Deslocação: 20
+Reforma;Varanda: impermeabilização + revestimento;m²;245;180;350;Manta, porcelanato antiderrapante, argamassa AC-III;;Demolição e preparação: 30 | Materiais: 110 | Execução: 90 | Remoção de entulho: 10 | Deslocação: 5
+Alimentação / buffet;Coffee break;pessoa;30;20;45;Café, chá, sucos, salgados, bolos, frutas;;Ingredientes: 14 | Cozinha e serviço: 10 | Equipamento e loiça: 4 | Transporte: 2
+Alimentação / buffet;Coquetel volante;pessoa;60;40;90;10–12 tipos de salgados e finger foods, bebidas não alcoólicas;;Ingredientes: 30 | Cozinha e serviço: 22 | Equipamento e loiça: 6 | Transporte: 2
+Alimentação / buffet;Marmita / comida caseira entregue;refeição;25;18;35;Prato principal, arroz, feijão, salada;;Ingredientes: 11 | Cozinha e serviço: 9 | Equipamento e loiça: 2 | Transporte: 3
+Alimentação / buffet;Buffet de festa infantil;pessoa;70;50;120;Salgados, mini-lanches, doces, refrigerante, monitores;;Ingredientes: 30 | Cozinha e serviço: 25 | Equipamento e loiça: 10 | Transporte: 5
+Alimentação / buffet;Buffet de churrasco;pessoa;80;60;120;3–4 carnes, acompanhamentos, churrasqueiro, garçons;;Ingredientes: 45 | Cozinha e serviço: 25 | Equipamento e loiça: 6 | Transporte: 4
+Alimentação / buffet;Buffet completo (jantar);pessoa;105;80;150;Entradas, 2 pratos quentes, sobremesas, garçons;;Ingredientes: 50 | Cozinha e serviço: 40 | Equipamento e loiça: 12 | Transporte: 3
+Alimentação / buffet;Buffet de casamento (sem bebida alcoólica);pessoa;150;100;250;Recepção, jantar, sobremesas, bolo, equipe;;Ingredientes: 65 | Cozinha e serviço: 60 | Equipamento e loiça: 20 | Transporte: 5
+Alimentação / buffet;Open bar (5 h);pessoa;80;50;130;Destilados, cerveja, drinks, refrigerante, bartender;;Ingredientes: 45 | Cozinha e serviço: 25 | Equipamento e loiça: 6 | Transporte: 4
+Alimentação / buffet;Mesa de doces (6 doces/pessoa + bolo);pessoa;20;12;30;Docinhos finos/tradicionais, forminhas, bandejas;;Ingredientes: 9 | Cozinha e serviço: 6 | Equipamento e loiça: 3 | Transporte: 2
+Alimentação / buffet;Chef em casa (jantar para 6);serviço;1250;800;2000;Menu degustação, ingredientes inclusos;;Ingredientes: 450 | Cozinha e serviço: 700 | Equipamento e loiça: 50 | Transporte: 50
+Alimentação / buffet;Bolo decorado;kg;110;80;160;Massa, recheio, cobertura (chantilly/pasta americana);Topo personalizado à parte;Ingredientes: 45 | Cozinha e serviço: 50 | Equipamento e loiça: 5 | Transporte: 10
+Saúde;Sessão de fisioterapia;sessão;130;80;230;Maca, eletroterapia, faixas, gel;SP/RJ: R$ 120–220;Consulta / sessão: 95 | Consumíveis: 10 | Espaço e equipamento: 25
+Saúde;Pacote 10 sessões de fisioterapia;pacote;1200;800;1900;Avaliação inicial + plano de tratamento;;Consulta / sessão: 920 | Consumíveis: 80 | Espaço e equipamento: 200
+Saúde;Fisioterapia domiciliar;sessão;200;150;300;Maca portátil, materiais de exercício;;Consulta / sessão: 190 | Consumíveis: 10
+Saúde;Consulta de nutrição (1ª);consulta;220;150;400;Bioimpedância, avaliação antropométrica, plano alimentar;;Consulta / sessão: 180 | Consumíveis: 10 | Espaço e equipamento: 30
+Saúde;Consulta de retorno (nutrição);consulta;135;90;200;Reavaliação, ajuste do plano;;Consulta / sessão: 110 | Consumíveis: 5 | Espaço e equipamento: 20
+Saúde;Sessão de psicologia (50 min);sessão;180;100;250;Consultório ou online;;Consulta / sessão: 150 | Espaço e equipamento: 30
+Saúde;Massoterapia / terapêutica;sessão;140;100;200;Óleo/creme, ventosas, maca;;Consulta / sessão: 110 | Consumíveis: 10 | Espaço e equipamento: 20
+Saúde;Osteopatia / quiropraxia;sessão;200;150;300;Maca, lençol descartável;;Consulta / sessão: 170 | Consumíveis: 5 | Espaço e equipamento: 25
+Saúde;Pilates individual;sessão;120;80;180;Reformer, cadillac, acessórios;;Consulta / sessão: 90 | Espaço e equipamento: 30
+Saúde;Personal trainer;sessão;120;80;180;Plano de treino, acessórios;;Consulta / sessão: 100 | Espaço e equipamento: 20
+Saúde;Podologia;sessão;120;80;180;Instrumental esterilizado, curativos;;Consulta / sessão: 90 | Consumíveis: 15 | Espaço e equipamento: 15
+Saúde;Enfermagem domiciliar (curativo / injeção);visita;100;60;150;Materiais de curativo, luvas, gazes;;Consulta / sessão: 80 | Consumíveis: 20
+Serviços domésticos;Diarista (tarefas gerais, 8 h);diária;190;140;260;Produtos do cliente;Lavar, passar, cozinhar, arrumar;Serviço: 165 | Deslocação: 25
+Serviços domésticos;Passadeira;hora;40;30;55;Ferro a vapor, cabides;;Serviço: 35 | Deslocação: 5
+Serviços domésticos;Babá / babysitter;hora;40;25;60;—;Noite/fim de semana: +20–30%;Serviço: 35 | Deslocação: 5
+Serviços domésticos;Cuidador(a) de idosos (plantão 12 h);plantão;240;180;320;Luvas, itens de higiene;;Serviço: 220 | Deslocação: 20
+Serviços domésticos;Jardinagem – visita (até 4 h);visita;220;150;320;Cortador de grama, roçadeira, tesouras, soprador;;Serviço: 180 | Materiais: 20 | Deslocação: 20
+Serviços domésticos;Corte de grama (até 200 m²);serviço;150;100;220;Cortador, aparador, recolhimento;;Serviço: 110 | Materiais: 10 | Deslocação: 30
+Serviços domésticos;Marido de aluguel / pequenos reparos;hora;90;60;130;Furadeira, buchas, parafusos, silicone;Mínimo 1 h;Serviço: 80 | Deslocação: 10
+Serviços domésticos;Montagem de móveis (guarda-roupa 6 portas);unidade;250;180;400;Parafusadeira, nível, cavilhas;;Serviço: 220 | Materiais: 10 | Deslocação: 20
+Serviços domésticos;Cozinheira (preparo de marmitas, 4 h);serviço;190;140;260;—;Ingredientes à parte;Serviço: 170 | Deslocação: 20
+Serviços domésticos;Passeador de cães (45 min);passeio;40;25;60;Guia, saquinhos, petiscos;;Serviço: 35 | Deslocação: 5
+Tecnologia;Hora de desenvolvimento sob medida;hora;120;70;200;—;;Desenvolvimento: 120
+Tecnologia;Landing page;projeto;1800;1000;4000;WordPress/Webflow, formulário, integração WhatsApp, SEO básico;;Análise e desenho: 300 | Desenvolvimento: 1200 | Testes e implementação: 200 | Licenças e serviços de terceiros: 100
+Tecnologia;Site institucional (até 5 páginas);projeto;3800;1500;8000;WordPress, tema premium, formulário, SSL;;Análise e desenho: 600 | Desenvolvimento: 2400 | Testes e implementação: 500 | Licenças e serviços de terceiros: 300
+Tecnologia;Loja virtual (até 100 produtos);projeto;8500;5000;20000;Nuvemshop/Shopify/WooCommerce, Pix/cartão, frete;;Análise e desenho: 1200 | Desenvolvimento: 5500 | Testes e implementação: 1300 | Licenças e serviços de terceiros: 500
+Tecnologia;Aplicativo MVP (iOS + Android);projeto;62000;35000;120000;Flutter/React Native, backend, publicação nas lojas;;Análise e desenho: 8000 | Desenvolvimento: 42000 | Testes e implementação: 10000 | Licenças e serviços de terceiros: 2000
+Tecnologia;Chatbot WhatsApp / automação;projeto;4300;2000;9000;API WhatsApp, n8n/Make, IA, integração com CRM;;Análise e desenho: 800 | Desenvolvimento: 2500 | Testes e implementação: 600 | Licenças e serviços de terceiros: 400
+Tecnologia;Manutenção mensal de site;mês;400;250;1000;Atualizações, backups, segurança, monitoramento;;Desenvolvimento: 250 | Testes e implementação: 80 | Licenças e serviços de terceiros: 70
+Tecnologia;Hospedagem + domínio .com.br;ano;500;250;900;Hospedagem, domínio, e-mail profissional;;Testes e implementação: 150 | Licenças e serviços de terceiros: 350
+Tecnologia;Formatação / manutenção de computador;serviço;190;120;300;Diagnóstico, reinstalação do sistema, backup;Peças à parte;Análise e desenho: 40 | Desenvolvimento: 120 | Testes e implementação: 30
+Tecnologia;Instalação de rede Wi-Fi (escritório pequeno);serviço;800;500;1500;Configuração de roteador/mesh, cabeamento;Equipamentos à parte;Análise e desenho: 150 | Desenvolvimento: 500 | Testes e implementação: 150
+Tecnologia;Suporte de TI mensal (até 10 computadores);mês;1800;1000;3500;Help desk remoto, antivírus, backup;;Desenvolvimento: 1200 | Testes e implementação: 300 | Licenças e serviços de terceiros: 300
+Transportes;Carreto (pick-up / VUC) até 10 km + 1 ajudante;serviço;200;120;350;Veículo, cintas, cobertores;Média nacional ≈ R$ 180;Quilómetros: 80 | Carga e descarga: 120
+Transportes;Frete por km (caminhão 3/4 dedicado);km;4,0;3;5;Diesel, desgaste, seguro;Contar ida e volta;Quilómetros: 4,0
+Transportes;Hora de caminhão + motorista + 1 ajudante;hora;150;100;220;Caminhão baú, cintas, cobertores;Mínimo 2 h;Quilómetros: 80 | Carga e descarga: 70
+Transportes;Transporte de geladeira / móvel avulso;serviço;180;120;280;Carrinho de carga, cobertores;;Quilómetros: 80 | Carga e descarga: 90 | Material de embalagem: 10
+Transportes;Mudança local kitnet / 1 quarto;serviço;1300;800;2500;Caminhão 3/4, 2–3 ajudantes, plástico bolha, filme;;Quilómetros: 350 | Carga e descarga: 800 | Material de embalagem: 150
+Transportes;Mudança local 2 quartos;serviço;2300;1500;3500;Caminhão baú, 3–4 ajudantes, desmontagem simples;;Quilómetros: 550 | Carga e descarga: 1500 | Material de embalagem: 250
+Transportes;Mudança interestadual compartilhada (ex.: SP–RJ);serviço;3500;3200;8500;Caminhão compartilhado, embalagem, seguro;Exclusivo: até ≈ R$ 8.500;Quilómetros: 2200 | Carga e descarga: 800 | Portagens / pedágios: 200 | Material de embalagem: 300
+Transportes;Transporte de piano;serviço;950;600;1500;Carrinho de piano, cintas, 3–4 ajudantes;Escadas: +R$ 200–400;Quilómetros: 200 | Carga e descarga: 700 | Material de embalagem: 50
+Transportes;Motoboy / entrega urbana;entrega;20;12;35;Moto, baú;;Quilómetros: 14 | Carga e descarga: 6
+Transportes;Kit embalagem (20 caixas + fita + plástico bolha);kit;180;120;260;Caixas de papelão, fita, plástico bolha, filme stretch;;Material de embalagem: 180

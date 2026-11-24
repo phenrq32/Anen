@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { format, formatAmountInputSafe, formatDate } from "./helpers";
 import type { QuoteStatus } from "@anen/types";
+import { formatMoney } from "@anen/i18n";
 import { InlineAction } from "@/components/forms";
 import { Alert, Badge, buttonClass } from "@/components/ui";
 import { businessScope } from "@/lib/business";
@@ -42,6 +43,18 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
   const { data: currency } = await session.supabase.from("currencies").select("minor_unit").eq("code", quote.currency_code).maybeSingle();
   const minorUnit = currency?.minor_unit ?? 2;
   const editable = scope.canWrite && (quote.status === "draft" || quote.status === "sent");
+  // Modelo com preço de origem: referência só para o profissional (não vai para o documento do cliente).
+  const reference =
+    quote.service_model_set_id && quote.service_model_key
+      ? (
+          await session.supabase
+            .from("quote_service_models")
+            .select("unit, recommended_minor, range_min_minor, range_max_minor")
+            .eq("set_id", quote.service_model_set_id)
+            .eq("service_key", quote.service_model_key)
+            .maybeSingle()
+        ).data
+      : null;
   const biz = businessScope(session);
   const { data: linkedProject } =
     quote.status === "accepted" && biz.canRead
@@ -117,6 +130,21 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
       </header>
 
       {!editable && scope.canWrite ? <Alert tone="info">{format(m.quotes.locked, { status: m.quotes.statuses[quote.status] })}</Alert> : null}
+
+      {reference ? (
+        <aside aria-label={m.quotes.models.referenceTitle} className="rounded-xl border border-line px-4 py-3 text-sm">
+          <p className="font-medium">{m.quotes.models.referenceTitle}</p>
+          <p className="tabular mt-1 text-muted">
+            {format(m.quotes.models.reference, {
+              price: formatMoney(BigInt(reference.recommended_minor), quote.currency_code, minorUnit, locale),
+              unit: reference.unit,
+              min: formatMoney(BigInt(reference.range_min_minor), quote.currency_code, minorUnit, locale),
+              max: formatMoney(BigInt(reference.range_max_minor), quote.currency_code, minorUnit, locale),
+            })}
+          </p>
+          <p className="mt-1 text-xs text-subtle">{m.quotes.models.marginNote}</p>
+        </aside>
+      ) : null}
 
       <QuoteEditor
         m={m}

@@ -2,7 +2,16 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { QuoteDiscountTooLargeError, computeQuote, computeRecipe, defaultNature, type IngredientInput, type QuoteBreakdown } from "@anen/financial-engine";
+import {
+  QuoteDiscountTooLargeError,
+  SERVICE_MODEL_MARGIN_PERCENT,
+  computeQuote,
+  computeRecipe,
+  defaultNature,
+  quoteLinesFromServiceModel,
+  type IngredientInput,
+  type QuoteBreakdown,
+} from "@anen/financial-engine";
 import { format } from "@anen/i18n";
 import type { QuoteStatus } from "@anen/types";
 import {
@@ -100,6 +109,109 @@ export async function createQuoteAction(formData: FormData): Promise<void> {
   }
   revalidatePath("/orcamentos");
   redirect(`/orcamentos/${data.id}`);
+}
+
+/**
+ * Novo orçamento a partir de um modelo com preço (pacote 2026-11): linhas = composição do preço
+ * recomendado, quantidade indicada, margem 0 % (o preço já a inclui) e, em Portugal, o IVA só se
+ * o profissional o pedir. Totais calculados pelo motor e gravados como no editor (versão 1).
+ */
+export async function createQuoteFromModelAction(_: FormState, formData: FormData): Promise<FormState> {
+  await guardWorkspace(formData);
+  const { m, session, scope } = await context();
+  if (!scope.canWrite) return { status: "error", message: m.errors.forbidden };
+  const quantity = parseQuantityInput(formString(formData, "quantity"));
+  if (quantity === null || Number(quantity) <= 0) return { status: "error", fieldErrors: { quantity: m.errors.quantity_invalid } };
+  const [setRes, modelRes] = await Promise.all([
+    session.supabase.from("quote_model_sets").select("*").eq("id", formString(formData, "set")).maybeSingle(),
+    session.supabase.from("quote_service_models").select("*").eq("set_id", formString(formData, "set")).eq("service_key", formString(formData, "service")).maybeSingle(),
+  ]);
+  const set = setRes.data;
+  const model = modelRes.data;
+  // Só modelos da moeda do workspace (nunca misturar moedas).
+  if (!set || !model || set.currency_code !== scope.defaultCurrency) return { status: "error", message: m.errors.generic };
+  const addTax = formData.get("addTax") === "1" && set.suggested_tax_percent !== null;
+  const taxRate = addTax && set.suggested_tax_percent ? set.suggested_tax_percent : "0";
+  const lines = quoteLinesFromServiceModel(
+    { unit: model.unit, composition: model.composition.map((c) => ({ line: c.line, kind: c.kind, amountMinor: BigInt(c.amount_minor) })) },
+    quantity,
+  );
+  const breakdown = computeQuote({
+    currency: set.currency_code,
+    lines: lines.map((l) => ({ kind: l.kind, nature: l.nature, quantity: l.quantity, unitCostMinor: l.unitCostMinor })),
+    marginPercent: SERVICE_MODEL_MARGIN_PERCENT,
+    taxRatePercent: taxRate,
+  });
+  const taxLabel = addTax ? set.suggested_tax_label : null;
+  const { data: created, error: createError } = await session.supabase
+    .from("quotes")
+    .insert({
+      ...scopeFields(scope),
+      number: "pendente",
+      template_key: model.template_key,
+      service_model_set_id: model.set_id,
+      service_model_key: model.service_key,
+      title: model.name,
+      currency_code: set.currency_code,
+      margin_percent: Number(SERVICE_MODEL_MARGIN_PERCENT),
+      tax_rate_percent: Number(taxRate),
+      description: null,
+      client_contact_id: null,
+      client_name: null,
+      client_email: null,
+      client_tax_id: null,
+      client_address: null,
+      valid_until: null,
+      tax_label: taxLabel,
+      conditions: null,
+      discount_percent: 0,
+      discount_fixed_minor: 0,
+      discount_minor: 0,
+      total_cost_minor: 0,
+      price_before_tax_minor: 0,
+      tax_minor: 0,
+      total_minor: 0,
+    })
+    .select("id")
+    .single();
+  if (createError || !created) return { status: "error", message: errorMessage(m, createError) };
+  const { error } = await session.supabase.rpc("save_quote_content", {
+    p_quote_id: created.id,
+    p_fields: {
+      title: model.name,
+      description: model.materials ? format(m.quotes.models.materialsLine, { materials: model.materials }) : null,
+      client_contact_id: null,
+      client_name: null,
+      client_email: null,
+      client_tax_id: null,
+      client_address: null,
+      valid_until: null,
+      margin_percent: SERVICE_MODEL_MARGIN_PERCENT,
+      tax_rate_percent: taxRate,
+      tax_label: taxLabel,
+      conditions: model.note ?? null,
+      discount_percent: "0",
+      discount_fixed_minor: "0",
+      discount_minor: breakdown.discount.amountMinor.toString(),
+      total_cost_minor: breakdown.totalCost.amountMinor.toString(),
+      price_before_tax_minor: breakdown.priceBeforeTax.amountMinor.toString(),
+      tax_minor: breakdown.tax.amountMinor.toString(),
+      total_minor: breakdown.total.amountMinor.toString(),
+    },
+    p_items: lines.map((l, i) => ({
+      position: i,
+      kind: l.kind,
+      nature: l.nature,
+      description: l.description,
+      quantity: l.quantity,
+      unit: l.unit,
+      unit_cost_minor: l.unitCostMinor.toString(),
+      total_cost_minor: breakdown.lineTotals[i]!.amountMinor.toString(),
+    })),
+  });
+  if (error) return { status: "error", message: errorMessage(m, error) };
+  revalidatePath("/orcamentos");
+  redirect(`/orcamentos/${created.id}`);
 }
 
 export async function saveQuoteAction(_: FormState, formData: FormData): Promise<FormState> {
