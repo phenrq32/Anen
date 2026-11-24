@@ -3,7 +3,7 @@
 ## [0.31.0] · 24/11/2026 · Novo orçamento com vários serviços de uma vez
 - Na lista de serviços com preço, escolhem-se vários serviços (até 40), cada um com a sua quantidade; o total aparece antes de criar. O orçamento junta as linhas de todos, identificadas pelo serviço ("Pintura · Tinta"), com margem 0 % e IVA opcional em Portugal.
 - Motor: `quoteLinesFromServiceModels` (pré-visualização e servidor usam a mesma função). Sem migrations.
-- Testes: unitários do motor; E2E `quote-models.spec.ts` com um caso de dois serviços.
+- Testes: unitários do motor; E2E `quote-models.spec.ts` com um caso de dois serviços. Publicado a 24/11/2026; E2E a passar em produção (desktop e telemóvel).
 
 ## [0.30.0] · 24/11/2026 · Modelos de orçamento: preços revistos e mais serviços (edição 2026-12)
 - Preços revistos a pedido do dono da app: no Brasil passam a seguir a média nacional publicada (antes: capitais do Sudeste); em Portugal, as médias nacionais da Zaask. 108 serviços revistos no Brasil (descida média de 20 %) e 59 em Portugal (19 %); os que não tinham fonte nova ficam como estavam.
