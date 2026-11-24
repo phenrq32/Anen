@@ -1,9 +1,13 @@
 #!/usr/bin/env node
 /**
- * Gera a migration dos modelos de orçamento com preços a partir do pacote do dono da app
- * (data/modelos-orcamento/dados/modelos_orcamento_2026.json).
+ * Gera a migration de uma edição dos modelos de orçamento com preços a partir do pacote do dono da app
+ * (data/modelos-orcamento/dados/modelos_orcamento_<edição>.json).
  *
- *   node scripts/quote-models/build-migration.mjs > supabase/migrations/<data>_quote_service_models.sql
+ *   node scripts/quote-models/build-migration.mjs 2026-11 > supabase/migrations/20261124003100_quote_service_models.sql
+ *   node scripts/quote-models/build-migration.mjs 2026-12 > supabase/migrations/20261124003300_quote_service_models_2026_12.sql
+ *
+ * A primeira edição cria as tabelas; as seguintes só acrescentam um conjunto novo por país (as anteriores ficam,
+ * para os orçamentos já criados continuarem a apontar para o modelo de onde vieram). A página usa a edição mais recente.
  *
  * Determinístico: o mesmo JSON dá sempre o mesmo SQL. Recusa dados inconsistentes (composição que não
  * soma o preço, preço fora da faixa, ids repetidos, categorias desconhecidas). Os preços passam a
@@ -14,7 +18,13 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
-const pack = JSON.parse(readFileSync(resolve(root, "data/modelos-orcamento/dados/modelos_orcamento_2026.json"), "utf8"));
+const EDITION = process.argv[2] ?? "2026-11";
+const EDITIONS = {
+  "2026-11": { schema: true, validFrom: "2026-11-01" },
+  "2026-12": { schema: false, validFrom: "2026-11-24" },
+};
+if (!EDITIONS[EDITION]) throw new Error(`Edição desconhecida: ${EDITION}`);
+const pack = JSON.parse(readFileSync(resolve(root, `data/modelos-orcamento/dados/modelos_orcamento_${EDITION}.json`), "utf8"));
 
 /** Categoria do pacote → modelo de orçamento da app (quote_templates.key). */
 export const CATEGORY_TO_TEMPLATE = {
@@ -109,8 +119,8 @@ const LINE_KIND = {
   "Relatório": "labor",
 };
 
-/** Metodologia, fontes e impostos por país (da última página de cada PDF do pacote). */
-const SETS = {
+/** Metodologia, fontes e impostos por país e por edição (da última página de cada PDF do pacote). */
+const SETS_2026_11 = {
   pt: {
     country: "PT",
     disclaimer:
@@ -151,6 +161,41 @@ const SETS = {
   },
 };
 
+const PT_TAX = { percent: "23", label: "IVA 23% (continente)", reference: "Código do IVA, art. 18.º, n.º 1, alínea c)" };
+/** Edição revista a pedido do dono da app (24/11/2026): preços pela média nacional publicada e mais serviços. */
+const SETS_2026_12 = {
+  pt: {
+    country: "PT",
+    disclaimer: SETS_2026_11.pt.disclaimer,
+    methodology:
+      "Edição revista a pedido do dono da aplicação. O preço recomendado de cada serviço revisto ou novo segue a média nacional publicada pela fonte indicada (sobretudo os guias “Quanto custa” da Zaask), e foram acrescentados serviços em todas as categorias. Os serviços sem nova fonte mantêm o valor da edição anterior. Referências comerciais, não tabelas oficiais. Referência: Portugal continental.",
+    sources: [
+      "Zaask – guias “Quanto custa” 2026, médias nacionais por serviço (zaask.pt/quanto-custa)",
+      "Expert-Zoom / ANECRA 2024 e DNotícias 2026 – revisão, kit de distribuição e hora de oficina",
+      ...SETS_2026_11.pt.sources,
+    ],
+    suggestedTax: PT_TAX,
+  },
+  br: {
+    country: "BR",
+    disclaimer: SETS_2026_11.br.disclaimer,
+    methodology:
+      "Edição revista a pedido do dono do aplicativo. Os preços recomendados passaram a seguir a média nacional publicada pelos guias de preço de 2026 (antes: capitais do Sudeste), e foram acrescentados serviços em todas as categorias. Para cada serviço revisto ou novo foi usado o valor central da faixa publicada pela fonte indicada; os serviços sem nova fonte mantêm o valor da edição anterior. A tabela de eletricista indica só mão de obra (material à parte). Referências comerciais, não tabelas oficiais.",
+    sources: [
+      "Cronoshare – guias de preço “Quanto custa” 2026, média nacional por serviço (cronoshare.com.br/quanto-custa)",
+      "Engehall – tabela de preços de eletricista 2026 (fev/2026), só mão de obra",
+      "Lar Pontual / Portal da Reforma – tabelas de encanador, reboco e contrapiso 2026",
+      "Cidesp – tabelas de mão de obra de pedreiro e hidráulica 2026",
+      "Catraca Livre, Monitor do Mercado e Diário do Comércio – diaristas, pedreiro e embreagem (2026)",
+      "Webmotors, Porto Seguro Centro Automotivo e Vrum – troca de óleo, pastilhas e fluido de câmbio",
+      "Idec – custo da hora em oficina independente",
+      "Edição 2026-11 (SINAPI/Caixa, SICRO/DNIT, Casamentos.com.br, Superprof e outras) – serviços sem nova fonte",
+    ],
+    suggestedTax: null,
+  },
+};
+const SETS = { "2026-11": SETS_2026_11, "2026-12": SETS_2026_12 }[EDITION];
+
 /** "130" → 13000n; "2.2" → 220n (até 2 casas decimais; mais é recusado). */
 function toMinor(value) {
   const s = typeof value === "number" ? String(value) : value;
@@ -167,15 +212,21 @@ function build() {
   const out = [];
   const ids = new Set();
   out.push(`-- GERADO por scripts/quote-models/build-migration.mjs a partir de data/modelos-orcamento (versão ${version}). Não editar à mão.`);
-  out.push("-- Modelos de orçamento com preços por país (Portugal sem IVA, Brasil com impostos incluídos).");
-  out.push("-- Reversão: drop table public.quote_service_models; drop table public.quote_model_sets; drop function private.validate_quote_service_model();");
-  out.push(SCHEMA);
+  if (version !== EDITION) throw new Error(`O pacote diz ${version}, pedido ${EDITION}`);
+  if (EDITIONS[EDITION].schema) {
+    out.push("-- Modelos de orçamento com preços por país (Portugal sem IVA, Brasil com impostos incluídos).");
+    out.push("-- Reversão: drop table public.quote_service_models; drop table public.quote_model_sets; drop function private.validate_quote_service_model();");
+    out.push(SCHEMA);
+  } else {
+    out.push("-- Nova edição dos modelos de orçamento (preços revistos e mais serviços). As edições anteriores ficam: os orçamentos já criados continuam a apontar para o modelo de onde vieram.");
+    out.push(`-- Reversão: delete from public.quote_model_sets where version = '${version}';`);
+  }
   for (const [code, p] of Object.entries(pack.paises)) {
     const meta = SETS[code];
     if (!meta) throw new Error(`País sem metadados: ${code}`);
     const setId = `${code}-${version}`;
     out.push(
-      `insert into public.quote_model_sets (id, country_code, currency_code, version, taxes_included, tax_note, suggested_tax_percent, suggested_tax_label, suggested_tax_reference, methodology, sources, disclaimer, valid_from) values (${q(setId)}, ${q(meta.country)}, ${q(p.moeda)}, ${q(version)}, ${p.impostos_inclusos}, ${q(p.nota_impostos)}, ${meta.suggestedTax ? meta.suggestedTax.percent : "null"}, ${q(meta.suggestedTax?.label)}, ${q(meta.suggestedTax?.reference)}, ${q(meta.methodology)}, array[${meta.sources.map(q).join(", ")}], ${q(meta.disclaimer)}, '${version}-01');`,
+      `insert into public.quote_model_sets (id, country_code, currency_code, version, taxes_included, tax_note, suggested_tax_percent, suggested_tax_label, suggested_tax_reference, methodology, sources, disclaimer, valid_from) values (${q(setId)}, ${q(meta.country)}, ${q(p.moeda)}, ${q(version)}, ${p.impostos_inclusos}, ${q(p.nota_impostos)}, ${meta.suggestedTax ? meta.suggestedTax.percent : "null"}, ${q(meta.suggestedTax?.label)}, ${q(meta.suggestedTax?.reference)}, ${q(meta.methodology)}, array[${meta.sources.map(q).join(", ")}], ${q(meta.disclaimer)}, '${EDITIONS[EDITION].validFrom}');`,
     );
     const rows = [];
     let position = 0;

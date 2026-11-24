@@ -171,14 +171,14 @@ Detalhe em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md).
 | `cancel_installments(plan, from?)` | Apaga as parcelas sem nada pago a partir de `from` (por omissão, a primeira por pagar) e marca o plano |
 | `update_installments_from(plan, from, amount?, due_day?)` | Altera as parcelas sem nada pago a partir de `from` e recalcula o total |
 
-## Modelos de orçamento com preços (migrations 3100 e 3200)
+## Modelos de orçamento com preços (migrations 3100, 3200 e 3300)
 
-Fonte: pacote do dono da app em `data/modelos-orcamento/` (versão 2026-11). A migration 3100 é **gerada** por `scripts/quote-models/build-migration.mjs`; um teste confirma que é exatamente a saída do gerador.
+Fonte: pacotes em `data/modelos-orcamento/dados/modelos_orcamento_<edição>.json` (edições 2026-11 e 2026-12). As migrations 3100 (tabelas + 2026-11) e 3300 (só dados da 2026-12) são **geradas** por `scripts/quote-models/build-migration.mjs <edição>`; um teste confirma que são exatamente a saída do gerador. Uma edição nova acrescenta conjuntos e não apaga os anteriores (os orçamentos criados continuam ligados ao modelo de origem); a página usa a edição mais recente.
 
 | Tabela | Notas |
 |---|---|
 | `quote_model_sets` | Um por país e versão: moeda, `taxes_included`, nota de impostos, IVA sugerido (só Portugal: 23 %, continente, com referência legal), metodologia, fontes, aviso e `valid_from`. Leitura para quem tem sessão; sem escrita pelos clientes |
-| `quote_service_models` | 395 serviços (PT 195, BR 200): categoria e modelo da app (`template_key`), nome, unidade, preço recomendado e faixa de mercado em cêntimos, materiais, nota e `composition` (linha, tipo, valor). Um gatilho garante que a composição soma o preço; uma restrição, que o preço está dentro da faixa |
+| `quote_service_models` | 2026-11: 395 serviços (PT 195, BR 200); 2026-12: 742 (PT 334, BR 408), com os mesmos ids da edição anterior: categoria e modelo da app (`template_key`), nome, unidade, preço recomendado e faixa de mercado em cêntimos, materiais, nota e `composition` (linha, tipo, valor). Um gatilho garante que a composição soma o preço; uma restrição, que o preço está dentro da faixa |
 | `quotes` (+, 3200) | `service_model_set_id` e `service_model_key`: modelo de origem, mostrado ao profissional como referência (não vai para o documento do cliente) |
 
 ## Próximas fases

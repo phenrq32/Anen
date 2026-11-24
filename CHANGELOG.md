@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.30.0] · 24/11/2026 · Modelos de orçamento: preços revistos e mais serviços (edição 2026-12)
+- Preços revistos a pedido do dono da app: no Brasil passam a seguir a média nacional publicada (antes: capitais do Sudeste); em Portugal, as médias nacionais da Zaask. 108 serviços revistos no Brasil (descida média de 20 %) e 59 em Portugal (19 %); os que não tinham fonte nova ficam como estavam.
+- 347 serviços novos: Brasil 200 → 408, Portugal 195 → 334, em todas as 19 categorias. Cada serviço revisto ou novo tem a fonte do preço no pacote.
+- Nova edição sem apagar a anterior (migration 3300, gerada); os ids dos serviços mantêm-se. PDFs regenerados.
+- Testes: 539 unitários; `quote-models.test.ts` cobre as duas edições.
+
 ## [0.29.0] · 24/11/2026 · Modelos de orçamento com preços (Portugal e Brasil)
 - 395 serviços pré-prontos nas 19 categorias (PT sem IVA, BR com impostos): preço recomendado, faixa de mercado, materiais e composição pelas linhas de custo, com fontes, metodologia e versão (2026-11). Migrations 3100 (gerada a partir do pacote) e 3200.
 - Novo orçamento: categoria → serviço → quantidade, com pré-visualização do total e IVA opcional em Portugal; o orçamento fica pré-preenchido (margem 0 %, totais pelo motor no servidor) e mostra ao profissional a referência de mercado.

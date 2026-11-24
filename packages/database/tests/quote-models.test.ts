@@ -5,7 +5,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import type { PGlite } from "@electric-sql/pglite";
 import { asUser, createTestDatabase, createUser } from "../src/index";
 
-/** Modelos de orçamento com preços (pacote 2026-11): a base de dados tem exatamente o que o dono da app enviou. */
+/** Modelos de orçamento com preços (edições 2026-11 e 2026-12): a base de dados tem exatamente o que está nos pacotes. */
 interface PackService {
   id: string;
   nome: string;
@@ -22,7 +22,13 @@ interface Pack {
   paises: Record<string, { moeda: string; impostos_inclusos: boolean; categorias: { id: string; servicos: PackService[] }[] }>;
 }
 
-const pack = JSON.parse(readFileSync(resolve(__dirname, "../../../data/modelos-orcamento/dados/modelos_orcamento_2026.json"), "utf8")) as Pack;
+const EDITIONS = [
+  { version: "2026-11", migration: "20261124003100_quote_service_models.sql" },
+  { version: "2026-12", migration: "20261124003300_quote_service_models_2026_12.sql" },
+] as const;
+const packs = EDITIONS.map(
+  (e) => JSON.parse(readFileSync(resolve(__dirname, `../../../data/modelos-orcamento/dados/modelos_orcamento_${e.version}.json`), "utf8")) as Pack,
+);
 /** Euros/reais do pacote → cêntimos, por texto (sem vírgula flutuante). */
 const minor = (v: number) => {
   const [i, f = ""] = String(v).split(".");
@@ -38,11 +44,13 @@ beforeAll(async () => {
 });
 
 describe("modelos de orçamento com preços", () => {
-  it("a migration é exatamente a saída do gerador (não foi editada à mão nem ficou desatualizada)", () => {
+  it("cada migration é exatamente a saída do gerador (não foi editada à mão nem ficou desatualizada)", () => {
     const root = resolve(__dirname, "../../..");
-    const generated = execFileSync(process.execPath, [resolve(root, "scripts/quote-models/build-migration.mjs")], { encoding: "utf8" });
-    const committed = readFileSync(resolve(root, "supabase/migrations/20261124003100_quote_service_models.sql"), "utf8");
-    expect(generated === committed).toBe(true);
+    for (const e of EDITIONS) {
+      const generated = execFileSync(process.execPath, [resolve(root, "scripts/quote-models/build-migration.mjs"), e.version], { encoding: "utf8" });
+      const committed = readFileSync(resolve(root, "supabase/migrations", e.migration), "utf8");
+      expect(generated === committed, e.version).toBe(true);
+    }
   });
 
   it("um conjunto por país, com moeda, impostos e fontes", async () => {
@@ -53,15 +61,19 @@ describe("modelos de orçamento com preços", () => {
     );
     expect(sets.rows.map((r) => [r.id, r.currency_code, r.taxes_included])).toEqual([
       ["br-2026-11", "BRL", true],
+      ["br-2026-12", "BRL", true],
       ["pt-2026-11", "EUR", false],
+      ["pt-2026-12", "EUR", false],
     ]);
     expect(sets.rows.every((r) => r.n >= 8)).toBe(true);
-    expect(sets.rows.find((r) => r.id === "pt-2026-11")?.suggested_tax_percent).toBe("23.000");
-    expect(sets.rows.find((r) => r.id === "br-2026-11")?.suggested_tax_percent).toBeNull();
+    for (const v of ["2026-11", "2026-12"]) {
+      expect(sets.rows.find((r) => r.id === `pt-${v}`)?.suggested_tax_percent).toBe("23.000");
+      expect(sets.rows.find((r) => r.id === `br-${v}`)?.suggested_tax_percent).toBeNull();
+    }
   });
 
-  it("cada serviço do pacote está na base com os mesmos valores, em cêntimos", async () => {
-    for (const [code, country] of Object.entries(pack.paises)) {
+  it("cada serviço de cada pacote está na base com os mesmos valores, em cêntimos", async () => {
+    for (const pack of packs) for (const [code, country] of Object.entries(pack.paises)) {
       const rows = await asUser(db, ana, (t) =>
         t.query<{ service_key: string; name: string; unit: string; recommended_minor: string; range_min_minor: string; range_max_minor: string; materials: string; note: string; composition: { line: string; amount_minor: number }[] }>(
           `select service_key, name, unit, recommended_minor, range_min_minor, range_max_minor, materials, note, composition from public.quote_service_models where set_id = $1`,
@@ -88,14 +100,27 @@ describe("modelos de orçamento com preços", () => {
     }
   });
 
-  it("Portugal 195 e Brasil 200 serviços; todas as 19 categorias ligadas a um modelo da app", async () => {
+  it("2026-11: Portugal 195 e Brasil 200 serviços; 2026-12: Portugal 334 e Brasil 408; sempre as 19 categorias", async () => {
     const r = await db.query<{ set_id: string; n: number; t: number }>(
       `select set_id, count(*)::int as n, count(distinct template_key)::int as t from public.quote_service_models group by set_id order by set_id`,
     );
     expect(r.rows).toEqual([
       { set_id: "br-2026-11", n: 200, t: 19 },
+      { set_id: "br-2026-12", n: 408, t: 19 },
       { set_id: "pt-2026-11", n: 195, t: 19 },
+      { set_id: "pt-2026-12", n: 334, t: 19 },
     ]);
+  });
+
+  it("2026-12 mantém os ids de todos os serviços de 2026-11 (os orçamentos já criados continuam ligados) e cada serviço tem fonte", () => {
+    for (const code of ["pt", "br"]) {
+      const ids = (p: Pack) => new Set(p.paises[code]!.categorias.flatMap((c) => c.servicos.map((s) => s.id)));
+      const before = ids(packs[0]!);
+      const after = ids(packs[1]!);
+      for (const id of before) expect(after.has(id), id).toBe(true);
+      const fontes = packs[1]!.paises[code]!.categorias.flatMap((c) => c.servicos.map((s) => (s as PackService & { fonte?: string }).fonte ?? ""));
+      expect(fontes.every((f) => f.trim().length > 0)).toBe(true);
+    }
   });
 
   it("a base recusa composição que não soma o preço e preço fora da faixa", async () => {

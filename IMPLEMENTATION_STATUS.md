@@ -248,7 +248,7 @@ Modelo em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md) (opção A: camada 
 | Personalizar os cartões do Hoje | Não iniciado | Precisa de uma preferência guardada (migration) |
 | Importar movimentos de integrações autorizadas | Bloqueado | Sem fornecedor de open banking; existe a importação de extratos CSV/OFX |
 
-## Modelos de orçamento com preços (pacote 2026-11)
+## Modelos de orçamento com preços (edições 2026-11 e 2026-12)
 
 | Funcionalidade | Estado | Evidência |
 |---|---|---|
@@ -256,6 +256,7 @@ Modelo em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md) (opção A: camada 
 | Novo orçamento → categoria → serviço → quantidade (IVA 23 % opcional em Portugal) → orçamento pré-preenchido, totais pelo motor no servidor | Publicado e testado em produção | `service-models.test.ts`; E2E `quote-models.spec.ts` a passar em produção (desktop e telemóvel), com a correção QA-18 |
 | Referência do modelo (preço e faixa de mercado) no editor, só para o profissional | Implementado | Idem |
 | PDFs do pacote para descarregar (com sessão) | Implementado | `apps/web/public/modelos/` |
+| Edição 2026-12 (pedido do dono da app): preços revistos pela média nacional publicada (BR antes: capitais do Sudeste), 742 serviços (PT 334, BR 408), fonte por serviço no pacote | Testado (BD) | `quote-models.test.ts` (ids da 2026-11 mantidos, fonte em todos os serviços). Migration 3300 |
 
 ## Fases seguintes
 

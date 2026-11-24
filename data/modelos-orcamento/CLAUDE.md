@@ -13,8 +13,9 @@ O utilizador informa a quantidade (m², horas, unidades…) e o total = `preco_r
 (+ IVA em Portugal, quando aplicável).
 
 ## Fonte de verdade
-- `dados/modelos_orcamento_2026.json` → arquivo a consumir no site/app (PT + BR).
-- `scripts/dados.py` e `scripts/dados_br.py` → onde os dados são editados.
+- `dados/modelos_orcamento_<edição>.json` → um arquivo por edição (PT + BR). Edições publicadas não se alteram: uma revisão é uma edição nova.
+- `scripts/dados.py` e `scripts/dados_br.py` → edição atual: parte da anterior (`dados_2026_11.py`, `dados_br_2026_11.py`) e aplica revisões `K(...)` e serviços novos `S(...)` com a fonte de cada preço (`scripts/catalogo.py`).
+- Migration: `node scripts/quote-models/build-migration.mjs <edição>` (na raiz do repositório).
 - Os nomes em `linhas_de_custo` são **idênticos** aos usados no app (não traduzir nem renomear sem
   pedir: ex. "Deslocação", "Aluguer de equipamento", "Portagens / pedágios").
 
@@ -33,7 +34,7 @@ pip install reportlab
 cd scripts
 python3 gerar.py pt      # PDF + JSON + CSV de Portugal
 python3 gerar.py br      # PDF + JSON + CSV do Brasil
-python3 unificar.py      # JSON unificado em dados/
+python3 unificar.py      # JSON unificado da edição atual em dados/
 ```
 
 ## Tarefas sugeridas

@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import { createConfirmedUser, deleteOrganizationsCreatedBy, deleteUser } from "./admin";
 
 /**
- * Modelos de orçamento com preços (pacote 2026-11, Portugal, sem IVA).
+ * Modelos de orçamento com preços (edição 2026-12, Portugal, sem IVA; este serviço manteve o preço da edição 2026-11).
  * Parede de tijolo 11 cm rebocada (2 faces): 45 €/m², mercado 35 € – 60 €.
  * 12,5 m² → 562,50 €; com IVA 23 % → 691,88 €.
  */

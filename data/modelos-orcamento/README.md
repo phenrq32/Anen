@@ -7,8 +7,10 @@ Serviços domésticos, Tecnologia, Transportes).
 
 | País     | Serviços | Moeda | Preço                                   |
 |----------|---------:|-------|-----------------------------------------|
-| Portugal |      195 | EUR   | **sem IVA** (somar 23% no continente)   |
-| Brasil   |      200 | BRL   | **final ao cliente** (impostos inclusos) |
+| Portugal |      334 | EUR   | **sem IVA** (somar 23% no continente)   |
+| Brasil   |      408 | BRL   | **final ao cliente** (impostos inclusos) |
+
+Edição atual: **2026-12** (revista a 24/11/2026: preços pela média nacional publicada e mais serviços). A edição 2026-11 fica em `dados/modelos_orcamento_2026-11.json`.
 
 ## Estrutura
 

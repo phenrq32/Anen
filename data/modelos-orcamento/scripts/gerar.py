@@ -155,7 +155,7 @@ for i, c in enumerate(CATEGORIAS):
     chips = Paragraph("Linhas de custo: " + " · ".join(c["linhas"]), st_chips)
     rows = [[Paragraph("SERVIÇO · MATERIAIS / PRODUTOS", st_th), Paragraph("UNID.", st_th),
              Paragraph("COMPOSIÇÃO DO PREÇO", st_th), Paragraph("PREÇO REC. · FAIXA", st_th_r)]]
-    for (nome, un, vals, lo, hi, mat, nota) in c["servicos"]:
+    for (nome, un, vals, lo, hi, mat, nota, *_fonte) in c["servicos"]:
         total = round(sum(vals), 2)
         blk = [Paragraph(nome, st_name), Paragraph(mat, st_mat)]
         if nota:
@@ -166,7 +166,7 @@ for i, c in enumerate(CATEGORIAS):
                       Paragraph(f"{fmt(lo)} – {fmt(hi)}", st_range)]])
         export.append({"categoria": c["nome"], "servico": nome, "unidade": un,
                        C["chave_preco"]: total, "faixa_min": lo, "faixa_max": hi,
-                       "materiais_produtos": mat, "nota": nota,
+                       "materiais_produtos": mat, "nota": nota, "fonte": _fonte[0] if _fonte else "",
                        "composicao": {l: v for l, v in zip(c["linhas"], vals) if v}})
     tb = Table(rows, colWidths=cols, repeatRows=1)
     sty = [("BACKGROUND", (0, 0), (-1, 0), ESCURO), ("VALIGN", (0, 0), (-1, -1), "TOP"),

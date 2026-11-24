@@ -8,6 +8,7 @@
   "faixa_max": 300,
   "materiais_produtos": "Trator 75–100 cv, roçadeira hidráulica/arrasto, diesel",
   "nota": "Mínimo habitual de 2 h",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Mão de obra": 40,
    "Maquinaria": 180,
@@ -18,15 +19,16 @@
   "categoria": "Agricultura",
   "servico": "Roçada manual com roçadeira costal",
   "unidade": "diária",
-  "preco_recomendado_brl": 220,
-  "faixa_min": 160,
-  "faixa_max": 300,
+  "preco_recomendado_brl": 180,
+  "faixa_min": 120,
+  "faixa_max": 280,
   "materiais_produtos": "Roçadeira a gasolina, fio de nylon/lâmina, mistura 2T, EPI",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: manter-jardim, poda-arvores (diária de jardineiro R$ 90–300)",
   "composicao": {
-   "Mão de obra": 170,
-   "Maquinaria": 30,
-   "Deslocação": 20
+   "Mão de obra": 140,
+   "Maquinaria": 24,
+   "Deslocação": 16
   }
  },
  {
@@ -34,10 +36,11 @@
   "servico": "Roçada / limpeza de lote urbano",
   "unidade": "m²",
   "preco_recomendado_brl": 2.0,
-  "faixa_min": 1.2,
-  "faixa_max": 3.5,
+  "faixa_min": 1.0,
+  "faixa_max": 4.0,
   "materiais_produtos": "Roçadeira, rastelo, retirada do mato cortado",
   "nota": "Mato alto/entulho: usar o topo da faixa",
+  "fonte": "Cronoshare – guia de preços 2026: limpar-terreno (manual R$ 2–4/m²), terraplanagem",
   "composicao": {
    "Mão de obra": 1.2,
    "Maquinaria": 0.6,
@@ -53,6 +56,7 @@
   "faixa_max": 550,
   "materiais_produtos": "Trator, grade aradora/niveladora ou arado, diesel",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Mão de obra": 60,
    "Maquinaria": 320,
@@ -68,6 +72,7 @@
   "faixa_max": 120,
   "materiais_produtos": "Tesoura de poda, serrote, motosserra leve, pasta cicatrizante",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Mão de obra": 50,
    "Maquinaria": 10,
@@ -83,6 +88,7 @@
   "faixa_max": 60,
   "materiais_produtos": "Muda em saco/vaso, adubo orgânico, calcário, tutor",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Sementes / plantas": 18,
    "Fertilizantes": 4,
@@ -100,6 +106,7 @@
   "faixa_max": 35,
   "materiais_produtos": "Placas de grama, terra preta/adubo, nivelamento",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Sementes / plantas": 12,
    "Fertilizantes": 2,
@@ -116,6 +123,7 @@
   "faixa_max": 700,
   "materiais_produtos": "Defensivo ou adubo, pulverizador tratorizado/costal",
   "nota": "Exige receituário agronômico",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Fertilizantes": 250,
    "Mão de obra": 60,
@@ -127,15 +135,16 @@
   "categoria": "Agricultura",
   "servico": "Corte de árvore de médio porte",
   "unidade": "árvore",
-  "preco_recomendado_brl": 350,
+  "preco_recomendado_brl": 300,
   "faixa_min": 200,
-  "faixa_max": 700,
+  "faixa_max": 600,
   "materiais_produtos": "Motosserra, cordas, EPI, retirada de galhos",
   "nota": "Verificar autorização ambiental do município",
+  "fonte": "Cronoshare – guia de preços 2026: podar-arvore, poda-arvores",
   "composicao": {
-   "Mão de obra": 250,
-   "Maquinaria": 80,
-   "Deslocação": 20
+   "Mão de obra": 215,
+   "Maquinaria": 68,
+   "Deslocação": 17
   }
  },
  {
@@ -147,24 +156,172 @@
   "faixa_max": 180,
   "materiais_produtos": "Ferramentas manuais (enxada, foice, cavadeira)",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Mão de obra": 120,
    "Deslocação": 10
   }
  },
  {
+  "categoria": "Agricultura",
+  "servico": "Jardineiro por hora",
+  "unidade": "hora",
+  "preco_recomendado_brl": 50,
+  "faixa_min": 30,
+  "faixa_max": 80,
+  "materiais_produtos": "Ferramentas de jardinagem",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: manter-jardim (R$ 30–80/h)",
+  "composicao": {
+   "Mão de obra": 45,
+   "Maquinaria": 3,
+   "Deslocação": 2
+  }
+ },
+ {
+  "categoria": "Agricultura",
+  "servico": "Manutenção mensal de jardim",
+  "unidade": "mês",
+  "preco_recomendado_brl": 500,
+  "faixa_min": 240,
+  "faixa_max": 1280,
+  "materiais_produtos": "Adubo, ferramentas, retirada de resíduos",
+  "nota": "Visitas quinzenais ou semanais",
+  "fonte": "Cronoshare – guia de preços 2026: manter-jardim (R$ 240–1.280/mês)",
+  "composicao": {
+   "Fertilizantes": 30,
+   "Mão de obra": 420,
+   "Maquinaria": 30,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Agricultura",
+  "servico": "Limpeza mecânica de terreno",
+  "unidade": "hora",
+  "preco_recomendado_brl": 50,
+  "faixa_min": 40,
+  "faixa_max": 60,
+  "materiais_produtos": "Roçadeira tratorizada ou minicarregadeira",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: limpar-terreno (R$ 40–60/h)",
+  "composicao": {
+   "Mão de obra": 15,
+   "Maquinaria": 30,
+   "Deslocação": 5
+  }
+ },
+ {
+  "categoria": "Agricultura",
+  "servico": "Nivelamento de terreno",
+  "unidade": "m²",
+  "preco_recomendado_brl": 35,
+  "faixa_min": 30,
+  "faixa_max": 45,
+  "materiais_produtos": "Retroescavadeira/minicarregadeira, compactação",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: nivelar-terreno (R$ 30–45/m²)",
+  "composicao": {
+   "Mão de obra": 12,
+   "Maquinaria": 20,
+   "Deslocação": 3
+  }
+ },
+ {
+  "categoria": "Agricultura",
+  "servico": "Irrigação por gotejamento instalada",
+  "unidade": "m²",
+  "preco_recomendado_brl": 18,
+  "faixa_min": 12,
+  "faixa_max": 26,
+  "materiais_produtos": "Mangueiras gotejadoras, conexões, filtro, timer",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: instalar-irrigacao-gotejamento (R$ 12–26/m²)",
+  "composicao": {
+   "Mão de obra": 7,
+   "Maquinaria": 10,
+   "Deslocação": 1
+  }
+ },
+ {
+  "categoria": "Agricultura",
+  "servico": "Irrigação por aspersão instalada",
+  "unidade": "m²",
+  "preco_recomendado_brl": 8.0,
+  "faixa_min": 5,
+  "faixa_max": 12,
+  "materiais_produtos": "Aspersores, tubulação, válvulas, controlador",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: sistema-irrigacao-automatica (R$ 5–12/m²)",
+  "composicao": {
+   "Mão de obra": 3,
+   "Maquinaria": 4.5,
+   "Deslocação": 0.5
+  }
+ },
+ {
+  "categoria": "Agricultura",
+  "servico": "Grama sintética instalada",
+  "unidade": "m²",
+  "preco_recomendado_brl": 45,
+  "faixa_min": 30,
+  "faixa_max": 60,
+  "materiais_produtos": "Grama sintética, manta, areia, cola/fita de junção",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: instalar-grama-artificial (R$ 30–60/m²)",
+  "composicao": {
+   "Sementes / plantas": 30,
+   "Mão de obra": 12,
+   "Deslocação": 3
+  }
+ },
+ {
+  "categoria": "Agricultura",
+  "servico": "Jardim vertical",
+  "unidade": "m²",
+  "preco_recomendado_brl": 800,
+  "faixa_min": 600,
+  "faixa_max": 1000,
+  "materiais_produtos": "Estrutura, módulos/feltro, plantas, irrigação",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: jardim-vertical (R$ 600–1.000/m²)",
+  "composicao": {
+   "Sementes / plantas": 350,
+   "Fertilizantes": 30,
+   "Mão de obra": 300,
+   "Maquinaria": 100,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Agricultura",
+  "servico": "Projeto de paisagismo (jardim residencial)",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 800,
+  "faixa_min": 600,
+  "faixa_max": 1000,
+  "materiais_produtos": "Visita, planta, lista de espécies",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: fazer-jardim (desenho R$ 600–1.000)",
+  "composicao": {
+   "Mão de obra": 760,
+   "Deslocação": 40
+  }
+ },
+ {
   "categoria": "Automotivo",
   "servico": "Troca de óleo e filtro",
   "unidade": "serviço",
-  "preco_recomendado_brl": 235,
-  "faixa_min": 180,
-  "faixa_max": 350,
+  "preco_recomendado_brl": 190,
+  "faixa_min": 120,
+  "faixa_max": 300,
   "materiais_produtos": "Óleo sintético 0W20/5W30 (≈4 L) conforme manual, filtro de óleo, arruela do bujão",
   "nota": "",
+  "fonte": "Guias 2026 (óleo mineral R$ 150–220); Webmotors (R$ 100–300)",
   "composicao": {
-   "Peças": 35,
-   "Óleos e consumíveis": 160,
-   "Mão de obra": 40
+   "Peças": 28,
+   "Óleos e consumíveis": 130,
+   "Mão de obra": 32
   }
  },
  {
@@ -176,6 +333,7 @@
   "faixa_max": 900,
   "materiais_produtos": "Filtros de óleo, ar, cabine e combustível, óleo, check-list de itens",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Peças": 150,
    "Óleos e consumíveis": 170,
@@ -187,15 +345,16 @@
   "categoria": "Automotivo",
   "servico": "Pastilhas de freio dianteiras",
   "unidade": "serviço",
-  "preco_recomendado_brl": 240,
+  "preco_recomendado_brl": 230,
   "faixa_min": 150,
   "faixa_max": 400,
   "materiais_produtos": "Jogo de pastilhas, graxa para freio, limpa-freios",
   "nota": "",
+  "fonte": "Webmotors / Porto Seguro Centro Automotivo – pastilhas com mão de obra R$ 150–430",
   "composicao": {
-   "Peças": 130,
-   "Óleos e consumíveis": 10,
-   "Mão de obra": 100
+   "Peças": 126,
+   "Óleos e consumíveis": 9,
+   "Mão de obra": 95
   }
  },
  {
@@ -207,6 +366,7 @@
   "faixa_max": 850,
   "materiais_produtos": "Par de discos, jogo de pastilhas, fluido se necessário",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Peças": 380,
    "Óleos e consumíveis": 10,
@@ -222,6 +382,7 @@
   "faixa_max": 1600,
   "materiais_produtos": "Kit correia, tensor, bomba d'água, aditivo de radiador",
   "nota": "Varia muito por motor",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Peças": 550,
    "Óleos e consumíveis": 50,
@@ -232,15 +393,16 @@
   "categoria": "Automotivo",
   "servico": "Troca de embreagem (kit)",
   "unidade": "serviço",
-  "preco_recomendado_brl": 1440,
-  "faixa_min": 1000,
+  "preco_recomendado_brl": 1200,
+  "faixa_min": 900,
   "faixa_max": 2200,
   "materiais_produtos": "Kit embreagem (platô, disco, rolamento), óleo de câmbio",
   "nota": "",
+  "fonte": "Monitor do Mercado 2026 – embreagem de compactos R$ 900–1.500",
   "composicao": {
-   "Peças": 800,
-   "Óleos e consumíveis": 40,
-   "Mão de obra": 600
+   "Peças": 667,
+   "Óleos e consumíveis": 33,
+   "Mão de obra": 500
   }
  },
  {
@@ -252,6 +414,7 @@
   "faixa_max": 200,
   "materiais_produtos": "Scanner automotivo OBD2, relatório de falhas",
   "nota": "Pode ser abatido se fizer o serviço",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Diagnóstico": 120
   }
@@ -265,6 +428,7 @@
   "faixa_max": 400,
   "materiais_produtos": "Gás R134a/R1234yf, óleo PAG, higienizador, filtro de cabine",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Óleos e consumíveis": 150,
    "Mão de obra": 100,
@@ -280,6 +444,7 @@
   "faixa_max": 700,
   "materiais_produtos": "Bateria 60 Ah, teste de alternador",
   "nota": "Start-stop (EFB/AGM): +R$ 300–600",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Peças": 480,
    "Mão de obra": 20,
@@ -295,6 +460,7 @@
   "faixa_max": 160,
   "materiais_produtos": "Alinhador 3D, chumbos de balanceamento",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Óleos e consumíveis": 15,
    "Mão de obra": 95
@@ -309,99 +475,211 @@
   "faixa_max": 1200,
   "materiais_produtos": "Par de amortecedores, kit batente e coifa",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Peças": 550,
    "Mão de obra": 250
   }
  },
  {
+  "categoria": "Automotivo",
+  "servico": "Hora de mecânico (oficina independente)",
+  "unidade": "hora",
+  "preco_recomendado_brl": 140,
+  "faixa_min": 80,
+  "faixa_max": 200,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Idec – mão de obra em oficina independente R$ 80–200/h",
+  "composicao": {
+   "Mão de obra": 140
+  }
+ },
+ {
+  "categoria": "Automotivo",
+  "servico": "Martelinho de ouro – amassado pequeno",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 150,
+  "faixa_min": 100,
+  "faixa_max": 200,
+  "materiais_produtos": "Ferramentas de PDR, cola quente",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: martelinho-ouro",
+  "composicao": {
+   "Óleos e consumíveis": 5,
+   "Mão de obra": 145
+  }
+ },
+ {
+  "categoria": "Automotivo",
+  "servico": "Martelinho de ouro – amassado médio",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 300,
+  "faixa_min": 200,
+  "faixa_max": 400,
+  "materiais_produtos": "Ferramentas de PDR, cola quente",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: martelinho-ouro",
+  "composicao": {
+   "Óleos e consumíveis": 10,
+   "Mão de obra": 290
+  }
+ },
+ {
+  "categoria": "Automotivo",
+  "servico": "Instalação de som automotivo (rádio)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 200,
+  "faixa_min": 100,
+  "faixa_max": 300,
+  "materiais_produtos": "Chicote/adaptador, moldura",
+  "nota": "Equipamento à parte",
+  "fonte": "Cronoshare – guia de preços 2026: instalar-som-automotivo",
+  "composicao": {
+   "Peças": 20,
+   "Mão de obra": 180
+  }
+ },
+ {
+  "categoria": "Automotivo",
+  "servico": "Instalação de alarme automotivo",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 375,
+  "faixa_min": 250,
+  "faixa_max": 500,
+  "materiais_produtos": "Central de alarme básica, sirene, sensores",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: instalar-alarme-automotivo",
+  "composicao": {
+   "Peças": 180,
+   "Mão de obra": 195
+  }
+ },
+ {
+  "categoria": "Automotivo",
+  "servico": "Reforma de estofado de banco",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 500,
+  "faixa_min": 300,
+  "faixa_max": 1200,
+  "materiais_produtos": "Tecido/couro sintético, espuma, linha",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: estofar-carro (R$ 300–1.200 por banco)",
+  "composicao": {
+   "Peças": 250,
+   "Mão de obra": 250
+  }
+ },
+ {
+  "categoria": "Automotivo",
+  "servico": "Troca de fluido de câmbio automático",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 1500,
+  "faixa_min": 750,
+  "faixa_max": 1900,
+  "materiais_produtos": "Fluido ATF/CVT conforme manual, filtro, junta",
+  "nota": "Varia muito por modelo",
+  "fonte": "Vrum, maio/2026 – R$ 750–1.900",
+  "composicao": {
+   "Peças": 150,
+   "Óleos e consumíveis": 950,
+   "Mão de obra": 400
+  }
+ },
+ {
   "categoria": "Hidráulica",
   "servico": "Visita técnica / diagnóstico",
   "unidade": "visita",
-  "preco_recomendado_brl": 120,
-  "faixa_min": 80,
-  "faixa_max": 180,
+  "preco_recomendado_brl": 90,
+  "faixa_min": 50,
+  "faixa_max": 150,
   "materiais_produtos": "—",
   "nota": "Costuma ser abatida se o cliente fechar o serviço",
+  "fonte": "Lar Pontual / Portal da Reforma – tabela de preços 2026: encanador (visita R$ 50–150)",
   "composicao": {
-   "Instalação / reparação": 80,
-   "Deslocação": 40
+   "Instalação / reparação": 60,
+   "Deslocação": 30
   }
  },
  {
   "categoria": "Hidráulica",
   "servico": "Desentupimento de pia / ralo / vaso",
   "unidade": "serviço",
-  "preco_recomendado_brl": 220,
-  "faixa_min": 150,
-  "faixa_max": 380,
+  "preco_recomendado_brl": 180,
+  "faixa_min": 100,
+  "faixa_max": 300,
   "materiais_produtos": "Desentupidor, sonda/mola manual, produto desincrustante",
   "nota": "Com máquina rotativa/hidrojato: R$ 400–1.300",
+  "fonte": "Cidesp – tabela de mão de obra 2026: hidráulica (R$ 100–250); Cronoshare – guia de preços 2026: desentupir-canos (R$ 150–300)",
   "composicao": {
-   "Instalação / reparação": 180,
-   "Deslocação": 40
+   "Instalação / reparação": 148,
+   "Deslocação": 32
   }
  },
  {
   "categoria": "Hidráulica",
   "servico": "Troca de torneira (torneira inclusa)",
   "unidade": "serviço",
-  "preco_recomendado_brl": 250,
-  "faixa_min": 180,
-  "faixa_max": 380,
+  "preco_recomendado_brl": 190,
+  "faixa_min": 130,
+  "faixa_max": 350,
   "materiais_produtos": "Torneira padrão médio, flexível, fita veda-rosca",
   "nota": "",
+  "fonte": "Lar Pontual / Portal da Reforma – tabela de preços 2026: encanador (mão de obra R$ 52–88); Cronoshare – guia de preços 2026: trocar-torneira",
   "composicao": {
-   "Tubagem e acessórios": 10,
-   "Torneiras / louças": 120,
-   "Instalação / reparação": 90,
-   "Deslocação": 30
+   "Tubagem e acessórios": 7,
+   "Torneiras / louças": 93,
+   "Instalação / reparação": 68,
+   "Deslocação": 22
   }
  },
  {
   "categoria": "Hidráulica",
   "servico": "Reparo de descarga / caixa acoplada",
   "unidade": "serviço",
-  "preco_recomendado_brl": 195,
-  "faixa_min": 130,
-  "faixa_max": 280,
+  "preco_recomendado_brl": 160,
+  "faixa_min": 80,
+  "faixa_max": 250,
   "materiais_produtos": "Kit reparo universal, boia, vedações",
   "nota": "",
+  "fonte": "Lar Pontual / Portal da Reforma – tabela de preços 2026: encanador (R$ 120–250); Cidesp – tabela de mão de obra 2026: hidráulica (R$ 80–200)",
   "composicao": {
-   "Tubagem e acessórios": 5,
-   "Torneiras / louças": 60,
-   "Instalação / reparação": 100,
-   "Deslocação": 30
+   "Tubagem e acessórios": 4,
+   "Torneiras / louças": 49,
+   "Instalação / reparação": 83,
+   "Deslocação": 24
   }
  },
  {
   "categoria": "Hidráulica",
   "servico": "Instalação de vaso sanitário (vaso incluso)",
   "unidade": "serviço",
-  "preco_recomendado_brl": 785,
-  "faixa_min": 600,
-  "faixa_max": 1100,
+  "preco_recomendado_brl": 620,
+  "faixa_min": 450,
+  "faixa_max": 1000,
   "materiais_produtos": "Vaso com caixa acoplada, anel de vedação, engate flexível, parafusos",
   "nota": "",
+  "fonte": "Lar Pontual / Portal da Reforma – tabela de preços 2026: encanador (mão de obra R$ 155–265); Cronoshare – guia de preços 2026: instalar-sanitarios",
   "composicao": {
-   "Tubagem e acessórios": 25,
-   "Torneiras / louças": 550,
-   "Instalação / reparação": 180,
-   "Deslocação": 30
+   "Tubagem e acessórios": 19,
+   "Torneiras / louças": 436,
+   "Instalação / reparação": 142,
+   "Deslocação": 23
   }
  },
  {
   "categoria": "Hidráulica",
   "servico": "Caça-vazamento (detecção)",
   "unidade": "serviço",
-  "preco_recomendado_brl": 320,
+  "preco_recomendado_brl": 270,
   "faixa_min": 150,
-  "faixa_max": 700,
+  "faixa_max": 400,
   "materiais_produtos": "Geofone, teste de pressão, câmera térmica",
   "nota": "Visita simples: R$ 150–350",
+  "fonte": "Lar Pontual / Portal da Reforma – tabela de preços 2026: encanador (geofone R$ 150–400)",
   "composicao": {
-   "Instalação / reparação": 270,
-   "Deslocação": 50
+   "Instalação / reparação": 228,
+   "Deslocação": 42
   }
  },
  {
@@ -413,6 +691,7 @@
   "faixa_max": 450,
   "materiais_produtos": "Luva de correr, tubo PVC/PPR, conexões, cola",
   "nota": "Quebra e acabamento à parte",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Tubagem e acessórios": 40,
    "Instalação / reparação": 200,
@@ -423,15 +702,16 @@
   "categoria": "Hidráulica",
   "servico": "Instalação de aquecedor a gás (sem equipamento)",
   "unidade": "serviço",
-  "preco_recomendado_brl": 540,
-  "faixa_min": 400,
+  "preco_recomendado_brl": 400,
+  "faixa_min": 250,
   "faixa_max": 800,
   "materiais_produtos": "Flexíveis, registro de gás, chaminé/duto, teste de estanqueidade",
   "nota": "Profissional habilitado para gás",
+  "fonte": "Lar Pontual / Portal da Reforma – tabela de preços 2026: encanador (R$ 250–600); Cidesp – tabela de mão de obra 2026: hidráulica (R$ 400–900)",
   "composicao": {
-   "Tubagem e acessórios": 120,
-   "Instalação / reparação": 380,
-   "Deslocação": 40
+   "Tubagem e acessórios": 88,
+   "Instalação / reparação": 283,
+   "Deslocação": 29
   }
  },
  {
@@ -443,6 +723,7 @@
   "faixa_max": 300,
   "materiais_produtos": "Escova, cloro/hipoclorito, esvaziamento",
   "nota": "Recomendada a cada 6 meses",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Instalação / reparação": 180,
    "Deslocação": 40
@@ -452,15 +733,16 @@
   "categoria": "Hidráulica",
   "servico": "Hidráulica nova de banheiro (água + esgoto)",
   "unidade": "serviço",
-  "preco_recomendado_brl": 3800,
-  "faixa_min": 2500,
-  "faixa_max": 6000,
+  "preco_recomendado_brl": 2500,
+  "faixa_min": 1500,
+  "faixa_max": 4000,
   "materiais_produtos": "Tubos PVC soldável/PPR, conexões, registros, esgoto 40/50/100 mm",
   "nota": "Quebra e revestimento à parte",
+  "fonte": "Cronoshare – guia de preços 2026: servico-encanador (banheiro R$ 1.500–2.500); Cidesp – tabela de mão de obra 2026: hidráulica",
   "composicao": {
-   "Tubagem e acessórios": 900,
-   "Instalação / reparação": 2800,
-   "Deslocação": 100
+   "Tubagem e acessórios": 592,
+   "Instalação / reparação": 1843,
+   "Deslocação": 65
   }
  },
  {
@@ -472,6 +754,7 @@
   "faixa_max": 180,
   "materiais_produtos": "Torneira de máquina, mangueira, sifão",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Tubagem e acessórios": 25,
    "Instalação / reparação": 80,
@@ -479,118 +762,309 @@
   }
  },
  {
+  "categoria": "Hidráulica",
+  "servico": "Hora de encanador",
+  "unidade": "hora",
+  "preco_recomendado_brl": 60,
+  "faixa_min": 40,
+  "faixa_max": 80,
+  "materiais_produtos": "Ferramentas do profissional",
+  "nota": "Primeira hora costuma incluir deslocamento",
+  "fonte": "Cidesp – tabela de mão de obra 2026: hidráulica (R$ 40–80/h); Cronoshare – guia de preços 2026: servico-encanador",
+  "composicao": {
+   "Instalação / reparação": 55,
+   "Deslocação": 5
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Diária de encanador",
+  "unidade": "diária",
+  "preco_recomendado_brl": 300,
+  "faixa_min": 200,
+  "faixa_max": 400,
+  "materiais_produtos": "Ferramentas do profissional",
+  "nota": "",
+  "fonte": "Lar Pontual / Portal da Reforma – tabela de preços 2026: encanador (R$ 200–350); Cidesp – tabela de mão de obra 2026: hidráulica (R$ 250–400)",
+  "composicao": {
+   "Instalação / reparação": 280,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Instalação de chuveiro elétrico (hidráulica)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 150,
+  "faixa_min": 100,
+  "faixa_max": 220,
+  "materiais_produtos": "Fita veda-rosca, conexões",
+  "nota": "Chuveiro à parte",
+  "fonte": "Lar Pontual / Portal da Reforma – tabela de preços 2026: encanador (R$ 100–220)",
+  "composicao": {
+   "Tubagem e acessórios": 10,
+   "Instalação / reparação": 130,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Troca de registro (gaveta ou pressão)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 250,
+  "faixa_min": 150,
+  "faixa_max": 350,
+  "materiais_produtos": "Reparo/base de registro, conexões",
+  "nota": "Sem quebra de parede",
+  "fonte": "Lar Pontual / Portal da Reforma – tabela de preços 2026: encanador (R$ 150–350)",
+  "composicao": {
+   "Tubagem e acessórios": 40,
+   "Instalação / reparação": 195,
+   "Deslocação": 15
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Limpeza de caixa de gordura",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 220,
+  "faixa_min": 150,
+  "faixa_max": 300,
+  "materiais_produtos": "Pá, baldes, desengordurante, descarte",
+  "nota": "",
+  "fonte": "Lar Pontual / Portal da Reforma – tabela de preços 2026: encanador (R$ 150–300)",
+  "composicao": {
+   "Instalação / reparação": 200,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Desentupimento de esgoto (com máquina)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 300,
+  "faixa_min": 180,
+  "faixa_max": 450,
+  "materiais_produtos": "Máquina de molas rotativas/hidrojato",
+  "nota": "",
+  "fonte": "Lar Pontual / Portal da Reforma – tabela de preços 2026: encanador (R$ 180–450)",
+  "composicao": {
+   "Instalação / reparação": 270,
+   "Deslocação": 30
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Novo ponto hidráulico",
+  "unidade": "ponto",
+  "preco_recomendado_brl": 250,
+  "faixa_min": 150,
+  "faixa_max": 350,
+  "materiais_produtos": "Tubos, conexões, registro, teste de estanqueidade",
+  "nota": "",
+  "fonte": "Lar Pontual / Portal da Reforma – tabela de preços 2026: encanador (R$ 150–350 por ponto)",
+  "composicao": {
+   "Tubagem e acessórios": 60,
+   "Instalação / reparação": 180,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Troca de tubulação de água",
+  "unidade": "metro",
+  "preco_recomendado_brl": 85,
+  "faixa_min": 50,
+  "faixa_max": 120,
+  "materiais_produtos": "Tubo PVC/PEX/PPR, conexões",
+  "nota": "Quebra e acabamento à parte",
+  "fonte": "Cidesp – tabela de mão de obra 2026: hidráulica (R$ 50–120/m)",
+  "composicao": {
+   "Tubagem e acessórios": 30,
+   "Instalação / reparação": 50,
+   "Deslocação": 5
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Troca de caixa d'água 1.000 L (sem a caixa)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 580,
+  "faixa_min": 350,
+  "faixa_max": 800,
+  "materiais_produtos": "Flange, boia, conexões, registro",
+  "nota": "Caixa d'água à parte",
+  "fonte": "Cronoshare – guia de preços 2026: fazer-troca-caixa-agua (R$ 350–800)",
+  "composicao": {
+   "Tubagem e acessórios": 80,
+   "Instalação / reparação": 470,
+   "Deslocação": 30
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Instalação de calha",
+  "unidade": "metro",
+  "preco_recomendado_brl": 58,
+  "faixa_min": 45,
+  "faixa_max": 70,
+  "materiais_produtos": "Calha PVC/alumínio, suportes, vedante",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: instalar-calhas (R$ 45–70/m)",
+  "composicao": {
+   "Tubagem e acessórios": 30,
+   "Instalação / reparação": 26,
+   "Deslocação": 2
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Limpeza de calhas",
+  "unidade": "metro",
+  "preco_recomendado_brl": 9,
+  "faixa_min": 6,
+  "faixa_max": 12,
+  "materiais_produtos": "Escada, luvas, descarte",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: limpeza-calhas (R$ 6–12/m)",
+  "composicao": {
+   "Instalação / reparação": 8,
+   "Deslocação": 1
+  }
+ },
+ {
+  "categoria": "Hidráulica",
+  "servico": "Esvaziamento de fossa séptica (até 3 m³)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 790,
+  "faixa_min": 675,
+  "faixa_max": 900,
+  "materiais_produtos": "Caminhão limpa-fossa, destinação licenciada",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: esvaziar-fossa-septica (R$ 675–900)",
+  "composicao": {
+   "Instalação / reparação": 640,
+   "Deslocação": 150
+  }
+ },
+ {
   "categoria": "Construção",
   "servico": "Diária de pedreiro + ajudante",
   "unidade": "diária",
-  "preco_recomendado_brl": 490,
-  "faixa_min": 400,
-  "faixa_max": 600,
+  "preco_recomendado_brl": 380,
+  "faixa_min": 290,
+  "faixa_max": 470,
   "materiais_produtos": "Ferramentas do profissional",
   "nota": "Base para serviços sem medição",
+  "fonte": "Monitor do Mercado / Catraca Livre 2026 (pedreiro R$ 200–320); Cronoshare – guia de preços 2026: metro-fazer-contrapiso (ajudante R$ 90–150)",
   "composicao": {
-   "Mão de obra (pedreiro)": 300,
-   "Mão de obra (servente)": 170,
-   "Deslocação / entulho": 20
+   "Mão de obra (pedreiro)": 234,
+   "Mão de obra (servente)": 131,
+   "Deslocação / entulho": 15
   }
  },
  {
   "categoria": "Construção",
   "servico": "Alvenaria de bloco cerâmico (levantamento)",
   "unidade": "m²",
-  "preco_recomendado_brl": 155,
-  "faixa_min": 110,
-  "faixa_max": 200,
+  "preco_recomendado_brl": 120,
+  "faixa_min": 90,
+  "faixa_max": 170,
   "materiais_produtos": "Bloco cerâmico 9x19x29, argamassa, ferro de amarração",
   "nota": "Só mão de obra: R$ 60–110/m²",
+  "fonte": "Lar Pontual / Portal da Reforma – tabela de preços 2026: alvenaria (mão de obra R$ 45–75/m²); Cronoshare – guia de preços 2026: construir-muro",
   "composicao": {
-   "Materiais de construção": 70,
-   "Mão de obra (pedreiro)": 55,
-   "Mão de obra (servente)": 25,
-   "Aluguer de equipamento": 3,
-   "Deslocação / entulho": 2
+   "Materiais de construção": 56,
+   "Mão de obra (pedreiro)": 42,
+   "Mão de obra (servente)": 19,
+   "Aluguer de equipamento": 2,
+   "Deslocação / entulho": 1
   }
  },
  {
   "categoria": "Construção",
   "servico": "Muro de bloco de concreto (sem fundação)",
   "unidade": "m²",
-  "preco_recomendado_brl": 142,
-  "faixa_min": 110,
-  "faixa_max": 190,
+  "preco_recomendado_brl": 120,
+  "faixa_min": 90,
+  "faixa_max": 170,
   "materiais_produtos": "Bloco 14x19x39, argamassa, graute e ferro nas colunas",
   "nota": "Fundação/sapata à parte",
+  "fonte": "Cronoshare – guia de preços 2026: construir-muro (alvenaria R$ 70–100/m²)",
   "composicao": {
-   "Materiais de construção": 65,
-   "Mão de obra (pedreiro)": 50,
-   "Mão de obra (servente)": 22,
-   "Aluguer de equipamento": 3,
-   "Deslocação / entulho": 2
+   "Materiais de construção": 57,
+   "Mão de obra (pedreiro)": 42,
+   "Mão de obra (servente)": 18,
+   "Aluguer de equipamento": 2,
+   "Deslocação / entulho": 1
   }
  },
  {
   "categoria": "Construção",
   "servico": "Chapisco + reboco",
   "unidade": "m²",
-  "preco_recomendado_brl": 62,
-  "faixa_min": 45,
-  "faixa_max": 90,
+  "preco_recomendado_brl": 55,
+  "faixa_min": 35,
+  "faixa_max": 88,
   "materiais_produtos": "Cimento, areia, cal/aditivo, régua e desempenadeira",
   "nota": "Só mão de obra: R$ 35–60/m²",
+  "fonte": "Cronoshare – guia de preços 2026: metro-reboco (R$ 25–40); Lar Pontual / Portal da Reforma – tabela de preços 2026: reboco (R$ 57–88)",
   "composicao": {
-   "Materiais de construção": 18,
+   "Materiais de construção": 15,
    "Mão de obra (pedreiro)": 32,
-   "Mão de obra (servente)": 10,
-   "Aluguer de equipamento": 1,
-   "Deslocação / entulho": 1
+   "Mão de obra (servente)": 8
   }
  },
  {
   "categoria": "Construção",
   "servico": "Contrapiso",
   "unidade": "m²",
-  "preco_recomendado_brl": 64,
-  "faixa_min": 45,
-  "faixa_max": 90,
+  "preco_recomendado_brl": 60,
+  "faixa_min": 40,
+  "faixa_max": 85,
   "materiais_produtos": "Argamassa de contrapiso (4–5 cm), tela se necessário",
   "nota": "",
+  "fonte": "Lar Pontual / Portal da Reforma – tabela de preços 2026: contrapiso (R$ 58–83); Cidesp – tabela de mão de obra 2026: pedreiro (R$ 25–45 mão de obra)",
   "composicao": {
-   "Materiais de construção": 25,
-   "Mão de obra (pedreiro)": 25,
-   "Mão de obra (servente)": 10,
-   "Aluguer de equipamento": 2,
-   "Deslocação / entulho": 2
+   "Materiais de construção": 26,
+   "Mão de obra (pedreiro)": 23,
+   "Mão de obra (servente)": 9,
+   "Aluguer de equipamento": 1,
+   "Deslocação / entulho": 1
   }
  },
  {
   "categoria": "Construção",
   "servico": "Assentamento de piso cerâmico / porcelanato",
   "unidade": "m²",
-  "preco_recomendado_brl": 70,
-  "faixa_min": 50,
-  "faixa_max": 95,
+  "preco_recomendado_brl": 60,
+  "faixa_min": 40,
+  "faixa_max": 80,
   "materiais_produtos": "Argamassa AC-II/AC-III, rejunte, espaçadores, niveladores",
   "nota": "Piso à parte; grandes formatos +R$ 15–30/m²",
+  "fonte": "Cronoshare – guia de preços 2026: colocacao-piso-porcelanato (R$ 40–70); Cidesp – tabela de mão de obra 2026: pedreiro (R$ 45–80)",
   "composicao": {
-   "Materiais de construção": 12,
-   "Mão de obra (pedreiro)": 45,
-   "Mão de obra (servente)": 10,
-   "Deslocação / entulho": 3
+   "Materiais de construção": 10,
+   "Mão de obra (pedreiro)": 40,
+   "Mão de obra (servente)": 8,
+   "Deslocação / entulho": 2
   }
  },
  {
   "categoria": "Construção",
   "servico": "Revestimento de parede (azulejo)",
   "unidade": "m²",
-  "preco_recomendado_brl": 75,
-  "faixa_min": 55,
-  "faixa_max": 100,
+  "preco_recomendado_brl": 55,
+  "faixa_min": 35,
+  "faixa_max": 75,
   "materiais_produtos": "Argamassa, rejunte, cantoneiras",
   "nota": "Revestimento à parte",
+  "fonte": "Cronoshare – guia de preços 2026: colocar-azulejo-banheiro (R$ 35–60/m²)",
   "composicao": {
-   "Materiais de construção": 12,
-   "Mão de obra (pedreiro)": 50,
-   "Mão de obra (servente)": 10,
-   "Deslocação / entulho": 3
+   "Materiais de construção": 8,
+   "Mão de obra (pedreiro)": 38,
+   "Mão de obra (servente)": 7,
+   "Deslocação / entulho": 2
   }
  },
  {
@@ -602,6 +1076,7 @@
   "faixa_max": 180,
   "materiais_produtos": "Chapas de gesso 12,5 mm, perfis, lã de vidro/rocha, fita e massa",
   "nota": "Chapa RU (verde) para áreas úmidas",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Materiais de construção": 70,
    "Mão de obra (pedreiro)": 45,
@@ -614,34 +1089,36 @@
   "categoria": "Construção",
   "servico": "Forro de drywall",
   "unidade": "m²",
-  "preco_recomendado_brl": 100,
-  "faixa_min": 75,
-  "faixa_max": 140,
+  "preco_recomendado_brl": 95,
+  "faixa_min": 70,
+  "faixa_max": 130,
   "materiais_produtos": "Chapa ST, perfis F530, tirantes, fita e massa",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: colocar-forro-gesso (forro liso drywall R$ 75–120)",
   "composicao": {
    "Materiais de construção": 50,
-   "Mão de obra (pedreiro)": 38,
-   "Mão de obra (servente)": 8,
-   "Aluguer de equipamento": 2,
-   "Deslocação / entulho": 2
+   "Mão de obra (pedreiro)": 36,
+   "Mão de obra (servente)": 7,
+   "Aluguer de equipamento": 1,
+   "Deslocação / entulho": 1
   }
  },
  {
   "categoria": "Construção",
   "servico": "Laje pré-moldada (com concretagem)",
   "unidade": "m²",
-  "preco_recomendado_brl": 275,
-  "faixa_min": 200,
-  "faixa_max": 380,
+  "preco_recomendado_brl": 180,
+  "faixa_min": 120,
+  "faixa_max": 250,
   "materiais_produtos": "Vigotas, EPS/lajotas, concreto usinado, aço, escoramento",
   "nota": "Exige projeto e ART",
+  "fonte": "Cronoshare – guia de preços 2026: construir-laje (R$ 70–250/m²)",
   "composicao": {
-   "Materiais de construção": 150,
-   "Mão de obra (pedreiro)": 70,
-   "Mão de obra (servente)": 35,
-   "Aluguer de equipamento": 15,
-   "Deslocação / entulho": 5
+   "Materiais de construção": 101,
+   "Mão de obra (pedreiro)": 45,
+   "Mão de obra (servente)": 22,
+   "Aluguer de equipamento": 9,
+   "Deslocação / entulho": 3
   }
  },
  {
@@ -653,6 +1130,7 @@
   "faixa_max": 170,
   "materiais_produtos": "Bloquete 6–8 cm, base de brita/pó de pedra, meio-fio, placa vibratória",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Materiais de construção": 65,
    "Mão de obra (pedreiro)": 35,
@@ -665,14 +1143,244 @@
   "categoria": "Construção",
   "servico": "Caçamba de entulho (4–5 m³)",
   "unidade": "unidade",
-  "preco_recomendado_brl": 420,
-  "faixa_min": 300,
+  "preco_recomendado_brl": 380,
+  "faixa_min": 250,
   "faixa_max": 600,
   "materiais_produtos": "Caçamba, retirada e destinação em aterro licenciado",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: poda-arvores (caçamba R$ 100–400); edição 2026-11",
   "composicao": {
+   "Mão de obra (servente)": 36,
+   "Aluguer de equipamento": 344
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Parede de drywall simples (sem isolamento)",
+  "unidade": "m²",
+  "preco_recomendado_brl": 110,
+  "faixa_min": 80,
+  "faixa_max": 140,
+  "materiais_produtos": "Chapa ST 12,5 mm, perfis, fita e massa",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: instalacao-drywall (R$ 80–140/m²)",
+  "composicao": {
+   "Materiais de construção": 55,
+   "Mão de obra (pedreiro)": 40,
+   "Mão de obra (servente)": 10,
+   "Aluguer de equipamento": 3,
+   "Deslocação / entulho": 2
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Forro de gesso liso",
+  "unidade": "m²",
+  "preco_recomendado_brl": 90,
+  "faixa_min": 70,
+  "faixa_max": 140,
+  "materiais_produtos": "Placas de gesso, tirantes, sisal/arame",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: colocar-forro-gesso (R$ 70–140/m²)",
+  "composicao": {
+   "Materiais de construção": 45,
+   "Mão de obra (pedreiro)": 32,
+   "Mão de obra (servente)": 10,
+   "Aluguer de equipamento": 2,
+   "Deslocação / entulho": 1
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Forro de PVC",
+  "unidade": "m²",
+  "preco_recomendado_brl": 60,
+  "faixa_min": 50,
+  "faixa_max": 100,
+  "materiais_produtos": "Réguas de PVC, perfis, rodaforro",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: forro-pvc (R$ 50–100/m²)",
+  "composicao": {
+   "Materiais de construção": 30,
+   "Mão de obra (pedreiro)": 25,
+   "Mão de obra (servente)": 3,
+   "Aluguer de equipamento": 1,
+   "Deslocação / entulho": 1
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Abertura de vão em parede (não estrutural)",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 350,
+  "faixa_min": 150,
+  "faixa_max": 600,
+  "materiais_produtos": "Verga/contraverga, argamassa",
+  "nota": "Parede estrutural exige engenheiro (R$ 3.000–4.200)",
+  "fonte": "Cronoshare – guia de preços 2026: abertura-vao-parede",
+  "composicao": {
+   "Materiais de construção": 40,
+   "Mão de obra (pedreiro)": 200,
+   "Mão de obra (servente)": 80,
+   "Aluguer de equipamento": 10,
+   "Deslocação / entulho": 20
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Telhado novo (estrutura + telhas)",
+  "unidade": "m²",
+  "preco_recomendado_brl": 150,
+  "faixa_min": 100,
+  "faixa_max": 200,
+  "materiais_produtos": "Madeiramento/estrutura metálica, telhas, cumeeira",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: construir-telhado (telhado simples R$ 100–200/m²)",
+  "composicao": {
+   "Materiais de construção": 85,
+   "Mão de obra (pedreiro)": 40,
+   "Mão de obra (servente)": 15,
+   "Aluguer de equipamento": 5,
+   "Deslocação / entulho": 5
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Conserto de telhado (troca de telhas)",
+  "unidade": "m²",
+  "preco_recomendado_brl": 200,
+  "faixa_min": 140,
+  "faixa_max": 300,
+  "materiais_produtos": "Telhas, cumeeira, argamassa, manta se necessário",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: consertar-telhado (R$ 140–300/m²)",
+  "composicao": {
+   "Materiais de construção": 70,
+   "Mão de obra (pedreiro)": 80,
+   "Mão de obra (servente)": 30,
+   "Aluguer de equipamento": 10,
+   "Deslocação / entulho": 10
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Piso de concreto (quintal / calçada)",
+  "unidade": "m²",
+  "preco_recomendado_brl": 90,
+  "faixa_min": 60,
+  "faixa_max": 120,
+  "materiais_produtos": "Concreto, tela soldada, juntas",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: fazer-piso-concreto (R$ 60–120/m²)",
+  "composicao": {
+   "Materiais de construção": 45,
+   "Mão de obra (pedreiro)": 30,
+   "Mão de obra (servente)": 10,
+   "Aluguer de equipamento": 3,
+   "Deslocação / entulho": 2
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Piso de cimento queimado",
+  "unidade": "m²",
+  "preco_recomendado_brl": 65,
+  "faixa_min": 50,
+  "faixa_max": 80,
+  "materiais_produtos": "Argamassa, pó xadrez, selador",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: metro-cimento-queimado (R$ 50–80/m²)",
+  "composicao": {
+   "Materiais de construção": 25,
+   "Mão de obra (pedreiro)": 30,
+   "Mão de obra (servente)": 7,
+   "Aluguer de equipamento": 2,
+   "Deslocação / entulho": 1
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Impermeabilização com manta asfáltica",
+  "unidade": "m²",
+  "preco_recomendado_brl": 58,
+  "faixa_min": 40,
+  "faixa_max": 75,
+  "materiais_produtos": "Manta asfáltica 3–4 mm, primer, maçarico",
+  "nota": "Proteção mecânica à parte",
+  "fonte": "Cronoshare – guia de preços 2026: m2-aplicacao-manta-asfaltica (R$ 40–75/m²)",
+  "composicao": {
+   "Materiais de construção": 30,
+   "Mão de obra (pedreiro)": 20,
+   "Mão de obra (servente)": 6,
+   "Aluguer de equipamento": 1,
+   "Deslocação / entulho": 1
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Sapata com coluna",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 280,
+  "faixa_min": 180,
+  "faixa_max": 390,
+  "materiais_produtos": "Concreto, aço CA-50, formas",
+  "nota": "Exige projeto estrutural",
+  "fonte": "Cronoshare – guia de preços 2026: sapata-coluna (R$ 180–390)",
+  "composicao": {
+   "Materiais de construção": 140,
+   "Mão de obra (pedreiro)": 90,
    "Mão de obra (servente)": 40,
-   "Aluguer de equipamento": 380
+   "Aluguer de equipamento": 5,
+   "Deslocação / entulho": 5
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Muro de arrimo simples",
+  "unidade": "m²",
+  "preco_recomendado_brl": 300,
+  "faixa_min": 250,
+  "faixa_max": 350,
+  "materiais_produtos": "Blocos, concreto, aço, drenagem",
+  "nota": "Exige projeto e ART",
+  "fonte": "Cronoshare – guia de preços 2026: construir-muro (arrimo simples R$ 250–350/m²)",
+  "composicao": {
+   "Materiais de construção": 150,
+   "Mão de obra (pedreiro)": 100,
+   "Mão de obra (servente)": 40,
+   "Aluguer de equipamento": 5,
+   "Deslocação / entulho": 5
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Churrasqueira pré-moldada instalada",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 850,
+  "faixa_min": 630,
+  "faixa_max": 1080,
+  "materiais_produtos": "Churrasqueira pré-moldada, argamassa, chaminé",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: construir-churrasqueira (R$ 630–1.080)",
+  "composicao": {
+   "Materiais de construção": 650,
+   "Mão de obra (pedreiro)": 150,
+   "Mão de obra (servente)": 40,
+   "Deslocação / entulho": 10
+  }
+ },
+ {
+  "categoria": "Construção",
+  "servico": "Concreto usinado (entregue)",
+  "unidade": "m³",
+  "preco_recomendado_brl": 240,
+  "faixa_min": 210,
+  "faixa_max": 270,
+  "materiais_produtos": "Concreto fck 20–25 MPa",
+  "nota": "Bombeamento à parte (R$ 500–700)",
+  "fonte": "Cronoshare – guia de preços 2026: metro-cubico-concreto (R$ 210–270/m³)",
+  "composicao": {
+   "Materiais de construção": 240
   }
  },
  {
@@ -684,6 +1392,7 @@
   "faixa_max": 400,
   "materiais_produtos": "—",
   "nota": "Sênior/especializado: R$ 300–400/h",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Consultoria": 200
   }
@@ -697,6 +1406,7 @@
   "faixa_max": 8000,
   "materiais_produtos": "Entrevistas, análise financeira, relatório com plano de ação",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Diagnóstico": 1500,
    "Consultoria": 1200,
@@ -713,6 +1423,7 @@
   "faixa_max": 9000,
   "materiais_produtos": "Pesquisa de mercado, DRE projetada 3–5 anos, planilha",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Diagnóstico": 800,
    "Consultoria": 2500,
@@ -728,6 +1439,7 @@
   "faixa_max": 12000,
   "materiais_produtos": "Análise de elegibilidade, projeto técnico, submissão",
   "nota": "Comum: + taxa de êxito 2–5%",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Diagnóstico": 600,
    "Consultoria": 3000,
@@ -743,6 +1455,7 @@
   "faixa_max": 10000,
   "materiais_produtos": "VPL/TIR, payback, cenários",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Diagnóstico": 800,
    "Consultoria": 2800,
@@ -758,6 +1471,7 @@
   "faixa_max": 6000,
   "materiais_produtos": "Reuniões, indicadores (KPI), acompanhamento",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Consultoria": 2500,
    "Relatório": 500,
@@ -768,16 +1482,17 @@
   "categoria": "Consultoria",
   "servico": "Adequação à LGPD",
   "unidade": "projeto",
-  "preco_recomendado_brl": 4300,
-  "faixa_min": 2500,
-  "faixa_max": 8000,
+  "preco_recomendado_brl": 3500,
+  "faixa_min": 2000,
+  "faixa_max": 5000,
   "materiais_produtos": "Mapeamento de dados, políticas, termos, treinamento",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: servico-consultoria-protecao-dados (micro/pequena R$ 2.000–5.000)",
   "composicao": {
-   "Diagnóstico": 700,
-   "Consultoria": 2500,
-   "Relatório": 1000,
-   "Deslocação": 100
+   "Diagnóstico": 569,
+   "Consultoria": 2037,
+   "Relatório": 813,
+   "Deslocação": 81
   }
  },
  {
@@ -789,6 +1504,7 @@
   "faixa_max": 6000,
   "materiais_produtos": "Fluxo de caixa, precificação, análise de crédito",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Diagnóstico": 600,
    "Consultoria": 2000,
@@ -796,63 +1512,230 @@
   }
  },
  {
+  "categoria": "Consultoria",
+  "servico": "Contabilidade mensal (autônomo / MEI)",
+  "unidade": "mês",
+  "preco_recomendado_brl": 375,
+  "faixa_min": 300,
+  "faixa_max": 450,
+  "materiais_produtos": "Escrituração, guias, folha simples",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: servico-contabilidade (R$ 300–450/mês)",
+  "composicao": {
+   "Consultoria": 300,
+   "Relatório": 75
+  }
+ },
+ {
+  "categoria": "Consultoria",
+  "servico": "Sessão de coaching individual",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 150,
+  "faixa_min": 100,
+  "faixa_max": 200,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: sessao-coaching (R$ 100–200)",
+  "composicao": {
+   "Consultoria": 150
+  }
+ },
+ {
+  "categoria": "Consultoria",
+  "servico": "Sessão de coaching empresarial",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 400,
+  "faixa_min": 200,
+  "faixa_max": 600,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: sessao-coaching (R$ 200–600)",
+  "composicao": {
+   "Consultoria": 380,
+   "Relatório": 20
+  }
+ },
+ {
+  "categoria": "Consultoria",
+  "servico": "Auditoria de proteção de dados (LGPD)",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 3500,
+  "faixa_min": 2000,
+  "faixa_max": 5000,
+  "materiais_produtos": "Mapeamento, análise de riscos, relatório",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: servico-consultoria-protecao-dados (R$ 2.000–5.000)",
+  "composicao": {
+   "Diagnóstico": 1200,
+   "Consultoria": 1300,
+   "Relatório": 1000
+  }
+ },
+ {
+  "categoria": "Consultoria",
+  "servico": "Encarregado de dados (DPO) terceirizado",
+  "unidade": "mês",
+  "preco_recomendado_brl": 4500,
+  "faixa_min": 3000,
+  "faixa_max": 6000,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: servico-consultoria-protecao-dados (R$ 3.000–6.000/mês)",
+  "composicao": {
+   "Consultoria": 4000,
+   "Relatório": 500
+  }
+ },
+ {
+  "categoria": "Consultoria",
+  "servico": "Assessoria financeira (hora)",
+  "unidade": "hora",
+  "preco_recomendado_brl": 250,
+  "faixa_min": 100,
+  "faixa_max": 500,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: assessoria-financeira (R$ 100–500/h)",
+  "composicao": {
+   "Consultoria": 250
+  }
+ },
+ {
+  "categoria": "Consultoria",
+  "servico": "Projeto técnico para alvará (atividade de baixo risco)",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 175,
+  "faixa_min": 150,
+  "faixa_max": 200,
+  "materiais_produtos": "Documentação para a prefeitura",
+  "nota": "Taxas municipais à parte",
+  "fonte": "Cronoshare – guia de preços 2026: alvara-funcionamento (R$ 150–200)",
+  "composicao": {
+   "Consultoria": 120,
+   "Relatório": 55
+  }
+ },
+ {
+  "categoria": "Consultoria",
+  "servico": "Despachante (processo)",
+  "unidade": "processo",
+  "preco_recomendado_brl": 400,
+  "faixa_min": 150,
+  "faixa_max": 800,
+  "materiais_produtos": "—",
+  "nota": "Taxas de órgãos/cartórios à parte",
+  "fonte": "Cronoshare – guia de preços 2026: despachante (R$ 150–800)",
+  "composicao": {
+   "Consultoria": 330,
+   "Deslocação": 70
+  }
+ },
+ {
+  "categoria": "Consultoria",
+  "servico": "Tradução simples",
+  "unidade": "palavra",
+  "preco_recomendado_brl": 0.45,
+  "faixa_min": 0.35,
+  "faixa_max": 0.6,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: traducao (R$ 0,35–0,60/palavra)",
+  "composicao": {
+   "Consultoria": 0.4,
+   "Relatório": 0.05
+  }
+ },
+ {
+  "categoria": "Consultoria",
+  "servico": "Tradução juramentada",
+  "unidade": "página",
+  "preco_recomendado_brl": 60,
+  "faixa_min": 50,
+  "faixa_max": 70,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: traducao-juramentada (R$ 50–70/página)",
+  "composicao": {
+   "Consultoria": 55,
+   "Relatório": 5
+  }
+ },
+ {
+  "categoria": "Consultoria",
+  "servico": "Revisão de texto",
+  "unidade": "palavra",
+  "preco_recomendado_brl": 0.12,
+  "faixa_min": 0.05,
+  "faixa_max": 0.18,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: revisao-texto (R$ 0,05–0,18/palavra)",
+  "composicao": {
+   "Consultoria": 0.12
+  }
+ },
+ {
   "categoria": "Design",
   "servico": "Hora de design gráfico",
   "unidade": "hora",
-  "preco_recomendado_brl": 100,
-  "faixa_min": 60,
-  "faixa_max": 180,
+  "preco_recomendado_brl": 90,
+  "faixa_min": 50,
+  "faixa_max": 150,
   "materiais_produtos": "—",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: design-grafico, servico-design-grafico (R$ 50–150/h)",
   "composicao": {
-   "Criação": 100
+   "Criação": 90
   }
  },
  {
   "categoria": "Design",
   "servico": "Logotipo (3 propostas + 2 revisões)",
   "unidade": "projeto",
-  "preco_recomendado_brl": 1600,
-  "faixa_min": 800,
-  "faixa_max": 5000,
+  "preco_recomendado_brl": 1000,
+  "faixa_min": 600,
+  "faixa_max": 2000,
   "materiais_produtos": "Arquivos AI/SVG/PDF/PNG, versões colorida e monocromática",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: criar-logotipo (média nacional R$ 600–1.500)",
   "composicao": {
-   "Briefing e pesquisa": 250,
-   "Criação": 1000,
-   "Revisões": 300,
-   "Licenças de imagens / fontes": 50
+   "Briefing e pesquisa": 156,
+   "Criação": 626,
+   "Revisões": 187,
+   "Licenças de imagens / fontes": 31
   }
  },
  {
   "categoria": "Design",
   "servico": "Identidade visual completa + manual de marca",
   "unidade": "projeto",
-  "preco_recomendado_brl": 5700,
-  "faixa_min": 3500,
-  "faixa_max": 15000,
+  "preco_recomendado_brl": 4500,
+  "faixa_min": 3000,
+  "faixa_max": 10000,
   "materiais_produtos": "Logo, paleta, tipografia, papelaria, aplicações digitais",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: design-grafico (identidade visual R$ 3.000–10.000)",
   "composicao": {
-   "Briefing e pesquisa": 800,
-   "Criação": 3500,
-   "Revisões": 1200,
-   "Licenças de imagens / fontes": 200
+   "Briefing e pesquisa": 631,
+   "Criação": 2765,
+   "Revisões": 947,
+   "Licenças de imagens / fontes": 157
   }
  },
  {
   "categoria": "Design",
   "servico": "Cartão de visita (arte)",
   "unidade": "projeto",
-  "preco_recomendado_brl": 230,
-  "faixa_min": 120,
+  "preco_recomendado_brl": 200,
+  "faixa_min": 100,
   "faixa_max": 400,
   "materiais_produtos": "Frente e verso, arquivo para gráfica",
   "nota": "Impressão à parte",
+  "fonte": "Cronoshare – guia de preços 2026: design-grafico (R$ 100–500)",
   "composicao": {
-   "Briefing e pesquisa": 40,
-   "Criação": 150,
-   "Revisões": 40
+   "Briefing e pesquisa": 34,
+   "Criação": 132,
+   "Revisões": 34
   }
  },
  {
@@ -864,6 +1747,7 @@
   "faixa_max": 700,
   "materiais_produtos": "Arquivo para impressão (CMYK, sangria) e versão digital",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Briefing e pesquisa": 50,
    "Criação": 250,
@@ -880,6 +1764,7 @@
   "faixa_max": 1200,
   "materiais_produtos": "Templates editáveis (Canva/Figma), imagens de banco",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Briefing e pesquisa": 60,
    "Criação": 450,
@@ -896,6 +1781,7 @@
   "faixa_max": 6000,
   "materiais_produtos": "Wireframes, protótipo Figma desktop + mobile",
   "nota": "Desenvolvimento: ver Tecnologia",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Briefing e pesquisa": 400,
    "Criação": 2000,
@@ -912,6 +1798,7 @@
   "faixa_max": 5000,
   "materiais_produtos": "Faca/planificação, mockups 3D, arte-final",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Briefing e pesquisa": 300,
    "Criação": 1300,
@@ -928,11 +1815,111 @@
   "faixa_max": 150,
   "materiais_produtos": "Diagramação, tratamento de imagens",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Briefing e pesquisa": 10,
    "Criação": 70,
    "Revisões": 15,
    "Licenças de imagens / fontes": 5
+  }
+ },
+ {
+  "categoria": "Design",
+  "servico": "Manual de identidade visual",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 3000,
+  "faixa_min": 1000,
+  "faixa_max": 5000,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: projeto-identidade-visual (R$ 1.000–5.000)",
+  "composicao": {
+   "Briefing e pesquisa": 500,
+   "Criação": 2000,
+   "Revisões": 450,
+   "Licenças de imagens / fontes": 50
+  }
+ },
+ {
+  "categoria": "Design",
+  "servico": "Paleta de cores e tipografia",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 600,
+  "faixa_min": 200,
+  "faixa_max": 2000,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: projeto-identidade-visual (R$ 200–2.000)",
+  "composicao": {
+   "Briefing e pesquisa": 150,
+   "Criação": 350,
+   "Revisões": 50,
+   "Licenças de imagens / fontes": 50
+  }
+ },
+ {
+  "categoria": "Design",
+  "servico": "Aplicações da marca (papelaria e redes)",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 1000,
+  "faixa_min": 300,
+  "faixa_max": 3000,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: projeto-identidade-visual (R$ 300–3.000)",
+  "composicao": {
+   "Briefing e pesquisa": 100,
+   "Criação": 750,
+   "Revisões": 150
+  }
+ },
+ {
+  "categoria": "Design",
+  "servico": "Designer freelancer mensal",
+  "unidade": "mês",
+  "preco_recomendado_brl": 2500,
+  "faixa_min": 1500,
+  "faixa_max": 5000,
+  "materiais_produtos": "—",
+  "nota": "Pacote de horas combinado",
+  "fonte": "Cronoshare – guia de preços 2026: servico-design-grafico (R$ 1.500–5.000/mês)",
+  "composicao": {
+   "Briefing e pesquisa": 300,
+   "Criação": 1900,
+   "Revisões": 250,
+   "Licenças de imagens / fontes": 50
+  }
+ },
+ {
+  "categoria": "Design",
+  "servico": "Caricatura digital colorida (individual)",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 50,
+  "faixa_min": 40,
+  "faixa_max": 60,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: caricatura (R$ 40–60)",
+  "composicao": {
+   "Briefing e pesquisa": 5,
+   "Criação": 40,
+   "Revisões": 5
+  }
+ },
+ {
+  "categoria": "Design",
+  "servico": "Letreiro em lona (arte + produção)",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 400,
+  "faixa_min": 300,
+  "faixa_max": 500,
+  "materiais_produtos": "Lona impressa, ilhoses",
+  "nota": "Instalação à parte",
+  "fonte": "Cronoshare – guia de preços 2026: letreiro (R$ 300–500)",
+  "composicao": {
+   "Briefing e pesquisa": 40,
+   "Criação": 160,
+   "Licenças de imagens / fontes": 200
   }
  },
  {
@@ -944,6 +1931,7 @@
   "faixa_max": 70,
   "materiais_produtos": "Listas de exercícios, apostilas",
   "nota": "Média nacional ≈ R$ 45–60/h",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Aulas / formação": 42,
    "Preparação": 5,
@@ -959,6 +1947,7 @@
   "faixa_max": 120,
   "materiais_produtos": "Provas anteriores, resumos, simulados",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Aulas / formação": 62,
    "Preparação": 10,
@@ -974,6 +1963,7 @@
   "faixa_max": 180,
   "materiais_produtos": "Resolução de questões, material de apoio",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Aulas / formação": 85,
    "Preparação": 12,
@@ -984,45 +1974,48 @@
   "categoria": "Educação",
   "servico": "Aula de idiomas individual",
   "unidade": "hora",
-  "preco_recomendado_brl": 65,
-  "faixa_min": 45,
+  "preco_recomendado_brl": 55,
+  "faixa_min": 25,
   "faixa_max": 100,
   "materiais_produtos": "Material próprio, áudios, plataforma online",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: preco-aula-particular-ingles (R$ 25–65; presencial até R$ 150)",
   "composicao": {
-   "Aulas / formação": 58,
-   "Preparação": 5,
-   "Materiais didáticos": 2
+   "Aulas / formação": 50,
+   "Preparação": 4,
+   "Materiais didáticos": 1
   }
  },
  {
   "categoria": "Educação",
   "servico": "Aula em grupo (por aluno, até 5)",
   "unidade": "aluno/h",
-  "preco_recomendado_brl": 38,
+  "preco_recomendado_brl": 35,
   "faixa_min": 25,
   "faixa_max": 55,
   "materiais_produtos": "Apostila, plataforma online",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: aulas-libras (grupo R$ 30–50 por aluno)",
   "composicao": {
-   "Aulas / formação": 32,
-   "Preparação": 3,
-   "Materiais didáticos": 3
+   "Aulas / formação": 31,
+   "Preparação": 2,
+   "Materiais didáticos": 2
   }
  },
  {
   "categoria": "Educação",
   "servico": "Aula de música / instrumento",
   "unidade": "hora",
-  "preco_recomendado_brl": 80,
-  "faixa_min": 55,
-  "faixa_max": 130,
+  "preco_recomendado_brl": 65,
+  "faixa_min": 40,
+  "faixa_max": 120,
   "materiais_produtos": "Partituras, métodos",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: aula-violao, aulas-piano, aulas-de-teclado (R$ 40–120)",
   "composicao": {
-   "Aulas / formação": 70,
-   "Preparação": 5,
-   "Materiais didáticos": 5
+   "Aulas / formação": 57,
+   "Preparação": 4,
+   "Materiais didáticos": 4
   }
  },
  {
@@ -1034,6 +2027,7 @@
   "faixa_max": 520,
   "materiais_produtos": "Plano de estudo, relatório aos pais",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Aulas / formação": 330,
    "Preparação": 40,
@@ -1049,6 +2043,7 @@
   "faixa_max": 2500,
   "materiais_produtos": "Slides, apostila, certificado",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Aulas / formação": 900,
    "Preparação": 300,
@@ -1064,6 +2059,7 @@
   "faixa_max": 6000,
   "materiais_produtos": "Apostila, avaliação, certificado",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Aulas / formação": 2500,
    "Preparação": 600,
@@ -1071,174 +2067,644 @@
   }
  },
  {
+  "categoria": "Educação",
+  "servico": "Aula particular online",
+  "unidade": "hora",
+  "preco_recomendado_brl": 40,
+  "faixa_min": 20,
+  "faixa_max": 60,
+  "materiais_produtos": "Plataforma de videochamada",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: preco-aula-particular-ingles (online R$ 20–50)",
+  "composicao": {
+   "Aulas / formação": 36,
+   "Preparação": 4
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Aula de violão (presencial)",
+  "unidade": "hora",
+  "preco_recomendado_brl": 55,
+  "faixa_min": 40,
+  "faixa_max": 70,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: aula-violao (R$ 40–70)",
+  "composicao": {
+   "Aulas / formação": 50,
+   "Preparação": 5
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Aula de piano",
+  "unidade": "hora",
+  "preco_recomendado_brl": 75,
+  "faixa_min": 50,
+  "faixa_max": 100,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: aulas-piano (R$ 50–100)",
+  "composicao": {
+   "Aulas / formação": 68,
+   "Preparação": 7
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Aula de dança particular",
+  "unidade": "hora",
+  "preco_recomendado_brl": 60,
+  "faixa_min": 45,
+  "faixa_max": 100,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: aulas-de-danca (R$ 45–100)",
+  "composicao": {
+   "Aulas / formação": 55,
+   "Preparação": 5
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Aula de natação",
+  "unidade": "aula",
+  "preco_recomendado_brl": 115,
+  "faixa_min": 80,
+  "faixa_max": 150,
+  "materiais_produtos": "—",
+  "nota": "Piscina à parte",
+  "fonte": "Cronoshare – guia de preços 2026: aulas-natacao (R$ 80–150)",
+  "composicao": {
+   "Aulas / formação": 105,
+   "Preparação": 10
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Aula de Libras",
+  "unidade": "hora",
+  "preco_recomendado_brl": 80,
+  "faixa_min": 50,
+  "faixa_max": 150,
+  "materiais_produtos": "Apostila",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: aulas-libras (R$ 50–150)",
+  "composicao": {
+   "Aulas / formação": 72,
+   "Preparação": 5,
+   "Materiais didáticos": 3
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Aula de xadrez",
+  "unidade": "hora",
+  "preco_recomendado_brl": 50,
+  "faixa_min": 30,
+  "faixa_max": 70,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: aulas-xadrez (R$ 30–70)",
+  "composicao": {
+   "Aulas / formação": 46,
+   "Preparação": 4
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Aula de fotografia",
+  "unidade": "hora",
+  "preco_recomendado_brl": 60,
+  "faixa_min": 50,
+  "faixa_max": 70,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: aulas-fotografia (R$ 50–70)",
+  "composicao": {
+   "Aulas / formação": 55,
+   "Preparação": 5
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Preparação para exame de espanhol (DELE/SIELE)",
+  "unidade": "hora",
+  "preco_recomendado_brl": 150,
+  "faixa_min": 100,
+  "faixa_max": 200,
+  "materiais_produtos": "Simulados",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: aula-particular-espanhol (R$ 100–200)",
+  "composicao": {
+   "Aulas / formação": 130,
+   "Preparação": 15,
+   "Materiais didáticos": 5
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Português para estrangeiros",
+  "unidade": "hora",
+  "preco_recomendado_brl": 75,
+  "faixa_min": 55,
+  "faixa_max": 100,
+  "materiais_produtos": "Material didático",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: aulas-particulares-portugues (R$ 55–100)",
+  "composicao": {
+   "Aulas / formação": 68,
+   "Preparação": 5,
+   "Materiais didáticos": 2
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Sessão de psicopedagogia",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 100,
+  "faixa_min": 80,
+  "faixa_max": 160,
+  "materiais_produtos": "Testes e jogos pedagógicos",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: psicopedagogo (R$ 80–160)",
+  "composicao": {
+   "Aulas / formação": 90,
+   "Preparação": 10
+  }
+ },
+ {
+  "categoria": "Educação",
+  "servico": "Pacote de 10 aulas de matemática",
+  "unidade": "pacote",
+  "preco_recomendado_brl": 700,
+  "faixa_min": 400,
+  "faixa_max": 1000,
+  "materiais_produtos": "Listas de exercícios",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: aulas-particulares-matematicas (R$ 400–1.000)",
+  "composicao": {
+   "Aulas / formação": 630,
+   "Preparação": 60,
+   "Materiais didáticos": 10
+  }
+ },
+ {
   "categoria": "Elétrica",
   "servico": "Visita técnica / diagnóstico",
   "unidade": "visita",
-  "preco_recomendado_brl": 130,
-  "faixa_min": 80,
-  "faixa_max": 200,
+  "preco_recomendado_brl": 100,
+  "faixa_min": 60,
+  "faixa_max": 150,
   "materiais_produtos": "Multímetro, alicate amperímetro",
   "nota": "Abatida se fechar o serviço",
+  "fonte": "Cronoshare – guia de preços 2026: eletricista-hora (deslocamento R$ 40–120)",
   "composicao": {
-   "Instalação": 100,
-   "Deslocação": 30
+   "Instalação": 77,
+   "Deslocação": 23
   }
  },
  {
   "categoria": "Elétrica",
   "servico": "Diária de eletricista",
   "unidade": "diária",
-  "preco_recomendado_brl": 400,
-  "faixa_min": 265,
+  "preco_recomendado_brl": 300,
+  "faixa_min": 200,
   "faixa_max": 450,
   "materiais_produtos": "Ferramentas do profissional",
   "nota": "",
+  "fonte": "Monitor do Mercado 2026 (R$ 200–350); edição 2026-11",
   "composicao": {
-   "Instalação": 380,
-   "Deslocação": 20
+   "Instalação": 285,
+   "Deslocação": 15
   }
  },
  {
   "categoria": "Elétrica",
   "servico": "Troca de tomada ou interruptor",
   "unidade": "ponto",
-  "preco_recomendado_brl": 85,
-  "faixa_min": 60,
-  "faixa_max": 120,
+  "preco_recomendado_brl": 70,
+  "faixa_min": 50,
+  "faixa_max": 100,
   "materiais_produtos": "Tomada/interruptor padrão NBR 14136 com placa",
   "nota": "Pontos seguintes: R$ 45–60",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – tomada simples R$ 45–70 + módulo",
   "composicao": {
-   "Tomadas / interruptores": 15,
-   "Instalação": 50,
-   "Deslocação": 20
+   "Tomadas / interruptores": 12,
+   "Instalação": 42,
+   "Deslocação": 16
   }
  },
  {
   "categoria": "Elétrica",
   "servico": "Novo ponto de tomada (embutido)",
   "unidade": "ponto",
-  "preco_recomendado_brl": 170,
-  "faixa_min": 120,
+  "preco_recomendado_brl": 150,
+  "faixa_min": 100,
   "faixa_max": 250,
   "materiais_produtos": "Tomada, cabo 2,5 mm², eletroduto corrugado, caixa 4x2, massa",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: reforma-eletrica (novos pontos R$ 160–280); Lar Pontual / Portal da Reforma – tabela de preços 2026: eletricista",
   "composicao": {
-   "Tomadas / interruptores": 20,
-   "Cabo elétrico": 25,
-   "Caixas e tubagem": 15,
-   "Instalação": 90,
-   "Deslocação": 20
+   "Tomadas / interruptores": 17,
+   "Cabo elétrico": 22,
+   "Caixas e tubagem": 13,
+   "Instalação": 81,
+   "Deslocação": 17
   }
  },
  {
   "categoria": "Elétrica",
   "servico": "Novo ponto de luz",
   "unidade": "ponto",
-  "preco_recomendado_brl": 155,
-  "faixa_min": 110,
-  "faixa_max": 230,
+  "preco_recomendado_brl": 130,
+  "faixa_min": 80,
+  "faixa_max": 250,
   "materiais_produtos": "Interruptor, cabo 1,5 mm², eletroduto, caixa octogonal",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: instalar-ponto-luz (R$ 50–250)",
   "composicao": {
-   "Tomadas / interruptores": 18,
-   "Cabo elétrico": 22,
-   "Caixas e tubagem": 15,
-   "Instalação": 80,
-   "Deslocação": 20
+   "Tomadas / interruptores": 15,
+   "Cabo elétrico": 18,
+   "Caixas e tubagem": 12,
+   "Instalação": 69,
+   "Deslocação": 16
   }
  },
  {
   "categoria": "Elétrica",
   "servico": "Instalação de chuveiro elétrico",
   "unidade": "serviço",
-  "preco_recomendado_brl": 180,
-  "faixa_min": 120,
-  "faixa_max": 260,
+  "preco_recomendado_brl": 130,
+  "faixa_min": 100,
+  "faixa_max": 220,
   "materiais_produtos": "Conectores, fita isolante",
   "nota": "Circuito novo/disjuntor: orçar à parte",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 105–125; Lar Pontual / Portal da Reforma – tabela de preços 2026: encanador (R$ 100–220)",
   "composicao": {
-   "Instalação": 150,
-   "Deslocação": 30
+   "Instalação": 109,
+   "Deslocação": 21
   }
  },
  {
   "categoria": "Elétrica",
   "servico": "Instalação de luminária ou ventilador de teto",
   "unidade": "unidade",
-  "preco_recomendado_brl": 160,
-  "faixa_min": 100,
+  "preco_recomendado_brl": 150,
+  "faixa_min": 80,
   "faixa_max": 250,
   "materiais_produtos": "Conectores Wago, bucha e gancho",
   "nota": "",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – ventilador R$ 160–200; Cronoshare – guia de preços 2026: instalar-ventilador-teto",
   "composicao": {
-   "Cabo elétrico": 5,
-   "Instalação": 130,
-   "Deslocação": 25
+   "Cabo elétrico": 4,
+   "Instalação": 123,
+   "Deslocação": 23
   }
  },
  {
   "categoria": "Elétrica",
   "servico": "Troca de quadro de distribuição (QDC)",
   "unidade": "serviço",
-  "preco_recomendado_brl": 1480,
-  "faixa_min": 1100,
+  "preco_recomendado_brl": 1300,
+  "faixa_min": 900,
   "faixa_max": 1900,
   "materiais_produtos": "Quadro 12–24 disjuntores, DR 30 mA, DPS, barramentos",
   "nota": "Coluna 'Tomadas' = disjuntores e proteções",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – QDC 12 circuitos R$ 850–1.000; Cronoshare – guia de preços 2026: eletricista-hora",
   "composicao": {
-   "Tomadas / interruptores": 550,
-   "Cabo elétrico": 50,
-   "Caixas e tubagem": 80,
-   "Instalação": 750,
-   "Deslocação": 50
+   "Tomadas / interruptores": 483,
+   "Cabo elétrico": 43,
+   "Caixas e tubagem": 70,
+   "Instalação": 661,
+   "Deslocação": 43
   }
  },
  {
   "categoria": "Elétrica",
   "servico": "Circuito exclusivo para ar-condicionado",
   "unidade": "serviço",
-  "preco_recomendado_brl": 780,
-  "faixa_min": 400,
-  "faixa_max": 1200,
+  "preco_recomendado_brl": 450,
+  "faixa_min": 250,
+  "faixa_max": 800,
   "materiais_produtos": "Cabo 4 mm², disjuntor, eletroduto/canaleta, tomada 20 A",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: instalar-ar-condicionado (circuito dedicado R$ 250–600)",
   "composicao": {
-   "Tomadas / interruptores": 80,
-   "Cabo elétrico": 250,
-   "Caixas e tubagem": 80,
-   "Instalação": 330,
-   "Deslocação": 40
+   "Tomadas / interruptores": 46,
+   "Cabo elétrico": 144,
+   "Caixas e tubagem": 46,
+   "Instalação": 191,
+   "Deslocação": 23
   }
  },
  {
   "categoria": "Elétrica",
   "servico": "Troca de fiação completa",
   "unidade": "m²",
-  "preco_recomendado_brl": 115,
-  "faixa_min": 89,
-  "faixa_max": 140,
+  "preco_recomendado_brl": 90,
+  "faixa_min": 40,
+  "faixa_max": 150,
   "materiais_produtos": "Cabos, eletrodutos, caixas, tomadas padrão médio",
   "nota": "Apto 60 m² ≈ R$ 6.900",
+  "fonte": "Cronoshare – guia de preços 2026: reforma-eletrica (R$ 40–150/m²)",
   "composicao": {
-   "Tomadas / interruptores": 35,
-   "Cabo elétrico": 30,
-   "Caixas e tubagem": 10,
-   "Instalação": 40
+   "Tomadas / interruptores": 27,
+   "Cabo elétrico": 23,
+   "Caixas e tubagem": 7,
+   "Instalação": 33
   }
  },
  {
   "categoria": "Elétrica",
   "servico": "Instalação de carregador veicular (sem equipamento)",
   "unidade": "serviço",
-  "preco_recomendado_brl": 1700,
+  "preco_recomendado_brl": 1500,
   "faixa_min": 1200,
-  "faixa_max": 2500,
+  "faixa_max": 1800,
   "materiais_produtos": "Cabo 6–10 mm², DR tipo A/B, disjuntor, eletroduto",
   "nota": "",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 1.200–1.800",
   "composicao": {
-   "Cabo elétrico": 400,
-   "Caixas e tubagem": 150,
-   "Instalação": 1100,
+   "Cabo elétrico": 352,
+   "Caixas e tubagem": 132,
+   "Instalação": 972,
+   "Deslocação": 44
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Troca de resistência de chuveiro",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 105,
+  "faixa_min": 90,
+  "faixa_max": 115,
+  "materiais_produtos": "—",
+  "nota": "Só mão de obra; material à parte",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 90–115",
+  "composicao": {
+   "Instalação": 100,
+   "Deslocação": 5
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Instalação de lustre grande",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 180,
+  "faixa_min": 160,
+  "faixa_max": 200,
+  "materiais_produtos": "—",
+  "nota": "Só mão de obra; material à parte",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 160–200",
+  "composicao": {
+   "Instalação": 170,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Instalação de arandela, pendente ou spot",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 93,
+  "faixa_min": 75,
+  "faixa_max": 110,
+  "materiais_produtos": "—",
+  "nota": "Só mão de obra; material à parte",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 75–110",
+  "composicao": {
+   "Instalação": 88,
+   "Deslocação": 5
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Instalação de interfone (1 chamada)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 200,
+  "faixa_min": 170,
+  "faixa_max": 230,
+  "materiais_produtos": "—",
+  "nota": "Só mão de obra; material à parte",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 170–230",
+  "composicao": {
+   "Instalação": 190,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Instalação de vídeo porteiro",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 218,
+  "faixa_min": 205,
+  "faixa_max": 230,
+  "materiais_produtos": "—",
+  "nota": "Só mão de obra; material à parte",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 205–230",
+  "composicao": {
+   "Instalação": 208,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Instalação de câmera Wi-Fi (1 unidade)",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 190,
+  "faixa_min": 170,
+  "faixa_max": 210,
+  "materiais_produtos": "—",
+  "nota": "Sem ponto elétrico novo; equipamento à parte",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 170–210",
+  "composicao": {
+   "Instalação": 180,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Instalação de motor de portão deslizante",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 325,
+  "faixa_min": 300,
+  "faixa_max": 350,
+  "materiais_produtos": "—",
+  "nota": "Só mão de obra; material à parte",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 300–350",
+  "composicao": {
+   "Instalação": 310,
+   "Deslocação": 15
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Instalação de fechadura eletrônica (portão)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 185,
+  "faixa_min": 170,
+  "faixa_max": 200,
+  "materiais_produtos": "—",
+  "nota": "Só mão de obra; material à parte",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 170–200",
+  "composicao": {
+   "Instalação": 175,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Instalação de exaustor (cozinha ou banheiro)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 280,
+  "faixa_min": 260,
+  "faixa_max": 300,
+  "materiais_produtos": "—",
+  "nota": "Só mão de obra; material à parte",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 260–300",
+  "composicao": {
+   "Instalação": 265,
+   "Deslocação": 15
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Troca de disjuntor monofásico",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 70,
+  "faixa_min": 60,
+  "faixa_max": 80,
+  "materiais_produtos": "—",
+  "nota": "Só mão de obra; material à parte",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 60–80",
+  "composicao": {
+   "Instalação": 65,
+   "Deslocação": 5
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Instalação de DR (interruptor diferencial)",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 160,
+  "faixa_min": 150,
+  "faixa_max": 170,
+  "materiais_produtos": "—",
+  "nota": "Só mão de obra; material à parte",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 150–170",
+  "composicao": {
+   "Instalação": 150,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Instalação de DPS (protetor contra surtos)",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 130,
+  "faixa_min": 120,
+  "faixa_max": 140,
+  "materiais_produtos": "—",
+  "nota": "Só mão de obra; material à parte",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 120–140",
+  "composicao": {
+   "Instalação": 122,
+   "Deslocação": 8
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Haste de aterramento",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 350,
+  "faixa_min": 250,
+  "faixa_max": 500,
+  "materiais_produtos": "Haste cobreada, conector, cabo",
+  "nota": "",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 250–500",
+  "composicao": {
+   "Cabo elétrico": 40,
+   "Instalação": 295,
+   "Deslocação": 15
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Instalação de sensor de presença ou fotocélula",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 115,
+  "faixa_min": 90,
+  "faixa_max": 140,
+  "materiais_produtos": "—",
+  "nota": "Só mão de obra; material à parte",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 90–140",
+  "composicao": {
+   "Instalação": 107,
+   "Deslocação": 8
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Instalação de tomada ou interruptor inteligente",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 175,
+  "faixa_min": 150,
+  "faixa_max": 200,
+  "materiais_produtos": "—",
+  "nota": "Inclui configuração no app",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 150–200",
+  "composicao": {
+   "Instalação": 165,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Cerca elétrica",
+  "unidade": "metro",
+  "preco_recomendado_brl": 90,
+  "faixa_min": 70,
+  "faixa_max": 110,
+  "materiais_produtos": "Hastes, fios, isoladores, central",
+  "nota": "",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 70–110/m",
+  "composicao": {
+   "Cabo elétrico": 25,
+   "Caixas e tubagem": 10,
+   "Instalação": 52,
+   "Deslocação": 3
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Instalação de ar-condicionado split (sem equipamento)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 700,
+  "faixa_min": 450,
+  "faixa_max": 1000,
+  "materiais_produtos": "Tubulação de cobre até 3 m, suporte, dreno",
+  "nota": "Equipamento à parte",
+  "fonte": "Cronoshare – guia de preços 2026: instalar-ar-condicionado (R$ 450–1.000)",
+  "composicao": {
+   "Cabo elétrico": 60,
+   "Caixas e tubagem": 140,
+   "Instalação": 470,
+   "Deslocação": 30
+  }
+ },
+ {
+  "categoria": "Elétrica",
+  "servico": "Padrão de entrada monofásico",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 1500,
+  "faixa_min": 1200,
+  "faixa_max": 1800,
+  "materiais_produtos": "—",
+  "nota": "Só mão de obra; material à parte (padrão da concessionária)",
+  "fonte": "Engehall – tabela de preços de eletricista 2026 (só mão de obra) – R$ 1.200–1.800",
+  "composicao": {
+   "Instalação": 1450,
    "Deslocação": 50
   }
  },
@@ -1246,30 +2712,32 @@
   "categoria": "Estética",
   "servico": "Manicure (mão)",
   "unidade": "serviço",
-  "preco_recomendado_brl": 40,
-  "faixa_min": 30,
-  "faixa_max": 55,
+  "preco_recomendado_brl": 35,
+  "faixa_min": 25,
+  "faixa_max": 60,
   "materiais_produtos": "Lixa, alicate esterilizado, esmalte, base, creme",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: manicure-domicilio (R$ 40–60; SP R$ 30–100)",
   "composicao": {
-   "Serviço": 28,
-   "Produtos": 6,
-   "Espaço e equipamento": 6
+   "Serviço": 25,
+   "Produtos": 5,
+   "Espaço e equipamento": 5
   }
  },
  {
   "categoria": "Estética",
   "servico": "Pé e mão",
   "unidade": "serviço",
-  "preco_recomendado_brl": 70,
-  "faixa_min": 55,
+  "preco_recomendado_brl": 60,
+  "faixa_min": 45,
   "faixa_max": 100,
   "materiais_produtos": "Kit esterilizado, esmaltes, lixa de pé, hidratante",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: salao-beleza (≈ R$ 50); manicure-domicilio (R$ 50–150)",
   "composicao": {
-   "Serviço": 50,
-   "Produtos": 10,
-   "Espaço e equipamento": 10
+   "Serviço": 44,
+   "Produtos": 8,
+   "Espaço e equipamento": 8
   }
  },
  {
@@ -1281,6 +2749,7 @@
   "faixa_max": 120,
   "materiais_produtos": "Base/top coat gel, esmalte em gel, cabine LED",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Serviço": 55,
    "Produtos": 15,
@@ -1291,30 +2760,32 @@
   "categoria": "Estética",
   "servico": "Alongamento em gel / fibra",
   "unidade": "serviço",
-  "preco_recomendado_brl": 190,
-  "faixa_min": 140,
+  "preco_recomendado_brl": 170,
+  "faixa_min": 120,
   "faixa_max": 300,
   "materiais_produtos": "Gel construtor ou fibra, moldes, lixa elétrica",
   "nota": "Manutenção: R$ 100–150",
+  "fonte": "Cronoshare – guia de preços 2026: manicure-domicilio (acrigel R$ 60–120); freelasemcrise (R$ 40–350)",
   "composicao": {
-   "Serviço": 130,
-   "Produtos": 40,
-   "Espaço e equipamento": 20
+   "Serviço": 118,
+   "Produtos": 35,
+   "Espaço e equipamento": 17
   }
  },
  {
   "categoria": "Estética",
   "servico": "Depilação com cera – perna inteira",
   "unidade": "serviço",
-  "preco_recomendado_brl": 85,
-  "faixa_min": 60,
-  "faixa_max": 150,
+  "preco_recomendado_brl": 65,
+  "faixa_min": 50,
+  "faixa_max": 90,
   "materiais_produtos": "Cera quente/roll-on, espátulas, óleo pós",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: depilacao-domicilio (pernas R$ 50–80)",
   "composicao": {
-   "Serviço": 62,
-   "Produtos": 12,
-   "Espaço e equipamento": 11
+   "Serviço": 48,
+   "Produtos": 9,
+   "Espaço e equipamento": 8
   }
  },
  {
@@ -1326,6 +2797,7 @@
   "faixa_max": 110,
   "materiais_produtos": "Cera quente, espátulas descartáveis",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Serviço": 55,
    "Produtos": 10,
@@ -1341,6 +2813,7 @@
   "faixa_max": 50,
   "materiais_produtos": "Pinça, linha ou cera",
   "nota": "Com henna: R$ 50–70",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Serviço": 28,
    "Produtos": 4,
@@ -1356,6 +2829,7 @@
   "faixa_max": 200,
   "materiais_produtos": "Demaquilante, esfoliante, vapor, extração, máscara",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Serviço": 90,
    "Produtos": 30,
@@ -1371,6 +2845,7 @@
   "faixa_max": 180,
   "materiais_produtos": "Óleo/creme, maca, toalhas",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Serviço": 100,
    "Produtos": 10,
@@ -1386,6 +2861,7 @@
   "faixa_max": 170,
   "materiais_produtos": "Creme/óleo neutro, maca",
   "nota": "Pacote de 10: ~15% de desconto",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Serviço": 95,
    "Produtos": 10,
@@ -1401,6 +2877,7 @@
   "faixa_max": 280,
   "materiais_produtos": "Fios de seda, cola, primer, pinças",
   "nota": "Manutenção: R$ 90–130",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Serviço": 120,
    "Produtos": 40,
@@ -1411,14 +2888,255 @@
   "categoria": "Estética",
   "servico": "Maquiagem social",
   "unidade": "serviço",
-  "preco_recomendado_brl": 150,
-  "faixa_min": 100,
+  "preco_recomendado_brl": 130,
+  "faixa_min": 70,
   "faixa_max": 250,
   "materiais_produtos": "Kit profissional, cílios postiços",
   "nota": "Noiva c/ prova: R$ 400–1.200",
+  "fonte": "Cronoshare – guia de preços 2026: maquiagem-domicilio-profissional (R$ 70–350)",
   "composicao": {
-   "Serviço": 120,
-   "Produtos": 30
+   "Serviço": 104,
+   "Produtos": 26
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Corte de cabelo feminino (com escova)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 55,
+  "faixa_min": 50,
+  "faixa_max": 60,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: cabeleireiro-domicilio (R$ 50–60)",
+  "composicao": {
+   "Serviço": 45,
+   "Produtos": 5,
+   "Espaço e equipamento": 5
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Corte masculino (máquina)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 30,
+  "faixa_min": 20,
+  "faixa_max": 40,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: servicos-barbearia (R$ 20–40)",
+  "composicao": {
+   "Serviço": 25,
+   "Produtos": 2,
+   "Espaço e equipamento": 3
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Barba e cabelo",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 85,
+  "faixa_min": 70,
+  "faixa_max": 100,
+  "materiais_produtos": "Toalha quente, espuma, pós-barba",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: servicos-barbearia (R$ 70–100)",
+  "composicao": {
+   "Serviço": 70,
+   "Produtos": 8,
+   "Espaço e equipamento": 7
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Coloração (raiz ou cabelo médio)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 120,
+  "faixa_min": 80,
+  "faixa_max": 160,
+  "materiais_produtos": "Tinta, oxidante, máscara",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: cabeleireiro-domicilio (R$ 80–160)",
+  "composicao": {
+   "Serviço": 70,
+   "Produtos": 40,
+   "Espaço e equipamento": 10
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Hidratação capilar com máscara",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 55,
+  "faixa_min": 50,
+  "faixa_max": 60,
+  "materiais_produtos": "Máscara de hidratação",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: cabeleireiro-domicilio (R$ 50–60)",
+  "composicao": {
+   "Serviço": 35,
+   "Produtos": 15,
+   "Espaço e equipamento": 5
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Corte infantil",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 80,
+  "faixa_min": 65,
+  "faixa_max": 100,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: servico-cabeleireiro-infantil (R$ 65–100)",
+  "composicao": {
+   "Serviço": 70,
+   "Produtos": 3,
+   "Espaço e equipamento": 7
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Manicure com acrigel",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 90,
+  "faixa_min": 60,
+  "faixa_max": 120,
+  "materiais_produtos": "Acrigel, lixas, primer",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: manicure-domicilio (R$ 60–120)",
+  "composicao": {
+   "Serviço": 55,
+   "Produtos": 30,
+   "Espaço e equipamento": 5
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Drenagem linfática facial",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 110,
+  "faixa_min": 70,
+  "faixa_max": 150,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: drenagem-linfatica (R$ 70–150)",
+  "composicao": {
+   "Serviço": 95,
+   "Produtos": 5,
+   "Espaço e equipamento": 10
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Depilação a laser – axilas",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 115,
+  "faixa_min": 80,
+  "faixa_max": 150,
+  "materiais_produtos": "—",
+  "nota": "Pacotes costumam ter desconto",
+  "fonte": "Cronoshare – guia de preços 2026: depilacao-laser (R$ 80–150)",
+  "composicao": {
+   "Serviço": 60,
+   "Produtos": 5,
+   "Espaço e equipamento": 50
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Depilação a laser – perna completa",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 500,
+  "faixa_min": 400,
+  "faixa_max": 600,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: depilacao-laser (R$ 400–600)",
+  "composicao": {
+   "Serviço": 250,
+   "Produtos": 20,
+   "Espaço e equipamento": 230
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Micropigmentação de sobrancelhas",
+  "unidade": "procedimento",
+  "preco_recomendado_brl": 575,
+  "faixa_min": 350,
+  "faixa_max": 800,
+  "materiais_produtos": "Pigmentos, agulhas descartáveis",
+  "nota": "Retoque costuma estar incluído",
+  "fonte": "Cronoshare – guia de preços 2026: micropigmentacao (R$ 350–800)",
+  "composicao": {
+   "Serviço": 420,
+   "Produtos": 100,
+   "Espaço e equipamento": 55
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Micropigmentação labial",
+  "unidade": "procedimento",
+  "preco_recomendado_brl": 900,
+  "faixa_min": 600,
+  "faixa_max": 1200,
+  "materiais_produtos": "Pigmentos, agulhas descartáveis",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: micropigmentacao (R$ 600–1.200)",
+  "composicao": {
+   "Serviço": 650,
+   "Produtos": 170,
+   "Espaço e equipamento": 80
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Peeling químico",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 650,
+  "faixa_min": 300,
+  "faixa_max": 1000,
+  "materiais_produtos": "Ácidos, neutralizante, protetor solar",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: procedimento-estetico (R$ 300–1.000)",
+  "composicao": {
+   "Serviço": 400,
+   "Produtos": 180,
+   "Espaço e equipamento": 70
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Microagulhamento",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 850,
+  "faixa_min": 500,
+  "faixa_max": 1200,
+  "materiais_produtos": "Dermaroller/caneta, ativos",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: procedimento-estetico (R$ 500–1.200)",
+  "composicao": {
+   "Serviço": 550,
+   "Produtos": 200,
+   "Espaço e equipamento": 100
+  }
+ },
+ {
+  "categoria": "Estética",
+  "servico": "Maquiagem e penteado de noiva",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 1750,
+  "faixa_min": 1500,
+  "faixa_max": 2000,
+  "materiais_produtos": "Cílios, produtos de longa duração",
+  "nota": "Sem prévia",
+  "fonte": "Cronoshare – guia de preços 2026: maquiagem-penteado-noiva (R$ 1.500–2.000)",
+  "composicao": {
+   "Serviço": 1400,
+   "Produtos": 250,
+   "Espaço e equipamento": 100
   }
  },
  {
@@ -1430,6 +3148,7 @@
   "faixa_max": 9000,
   "materiais_produtos": "Buffet ≈ R$ 70/pessoa, salão, brinquedos, decoração base",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Organização": 500,
    "Aluguer de equipamento": 600,
@@ -1447,6 +3166,7 @@
   "faixa_max": 6500,
   "materiais_produtos": "Buffet ≈ R$ 60/pessoa, mesas/cadeiras, som",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Organização": 400,
    "Aluguer de equipamento": 500,
@@ -1463,6 +3183,7 @@
   "faixa_max": 8000,
   "materiais_produtos": "Sala, projetor/som, coffee break ≈ R$ 30/pessoa",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Organização": 800,
    "Aluguer de equipamento": 600,
@@ -1480,6 +3201,7 @@
   "faixa_max": 70000,
   "materiais_produtos": "Espaço, buffet ≈ R$ 150/pessoa, som/luz, decoração floral",
   "nota": "Foto e DJ à parte",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Organização": 5000,
    "Aluguer de equipamento": 6000,
@@ -1492,29 +3214,31 @@
   "categoria": "Eventos",
   "servico": "Assessoria / cerimonial de casamento",
   "unidade": "evento",
-  "preco_recomendado_brl": 4800,
-  "faixa_min": 3000,
-  "faixa_max": 9000,
+  "preco_recomendado_brl": 3500,
+  "faixa_min": 2000,
+  "faixa_max": 5000,
   "materiais_produtos": "Gestão de fornecedores, cronograma, coordenação no dia",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: cerimonialista-casamento (dia do evento R$ 2.000–5.000)",
   "composicao": {
-   "Organização": 4500,
-   "Deslocação": 300
+   "Organização": 3282,
+   "Deslocação": 218
   }
  },
  {
   "categoria": "Eventos",
   "servico": "DJ com som e luz (5 h)",
   "unidade": "evento",
-  "preco_recomendado_brl": 1800,
-  "faixa_min": 1000,
-  "faixa_max": 3500,
+  "preco_recomendado_brl": 1500,
+  "faixa_min": 700,
+  "faixa_max": 2500,
   "materiais_produtos": "Controladora, caixas, iluminação, microfone",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: contratar-dj-festas-casamentos (R$ 700–2.500)",
   "composicao": {
-   "Organização": 800,
-   "Aluguer de equipamento": 900,
-   "Deslocação": 100
+   "Organização": 666,
+   "Aluguer de equipamento": 751,
+   "Deslocação": 83
   }
  },
  {
@@ -1526,6 +3250,7 @@
   "faixa_max": 2500,
   "materiais_produtos": "Câmera, flash, 200–400 fotos editadas",
   "nota": "Coluna 'Organização' = serviço",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Organização": 900,
    "Aluguer de equipamento": 200,
@@ -1541,6 +3266,7 @@
   "faixa_max": 2500,
   "materiais_produtos": "Tenda pirâmide/chapéu de bruxa, montagem e desmontagem",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Aluguer de equipamento": 1400,
    "Deslocação": 200
@@ -1555,6 +3281,7 @@
   "faixa_max": 1800,
   "materiais_produtos": "Arco de balões, painel, mesa, toalhas, suportes",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Organização": 300,
    "Aluguer de equipamento": 550,
@@ -1570,6 +3297,7 @@
   "faixa_max": 1000,
   "materiais_produtos": "Brincadeiras, pintura facial, materiais",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Organização": 550,
    "Aluguer de equipamento": 100,
@@ -1577,65 +3305,256 @@
   }
  },
  {
+  "categoria": "Eventos",
+  "servico": "Fotógrafo de casamento (cobertura)",
+  "unidade": "evento",
+  "preco_recomendado_brl": 5500,
+  "faixa_min": 3000,
+  "faixa_max": 8500,
+  "materiais_produtos": "Edição, galeria online",
+  "nota": "Álbum impresso à parte",
+  "fonte": "Cronoshare – guia de preços 2026: fotografo-casamento (R$ 3.000–8.500)",
+  "composicao": {
+   "Organização": 5300,
+   "Deslocação": 200
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Vídeo de casamento",
+  "unidade": "evento",
+  "preco_recomendado_brl": 2750,
+  "faixa_min": 1500,
+  "faixa_max": 4000,
+  "materiais_produtos": "Edição, filme curto",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: video-casamento (R$ 1.500–4.000)",
+  "composicao": {
+   "Organização": 2600,
+   "Deslocação": 150
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Wedding planner (organização completa)",
+  "unidade": "evento",
+  "preco_recomendado_brl": 5000,
+  "faixa_min": 2000,
+  "faixa_max": 10000,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: wedding-planner (organização R$ 2.000–10.000)",
+  "composicao": {
+   "Organização": 4800,
+   "Deslocação": 200
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Coordenação do dia do casamento",
+  "unidade": "evento",
+  "preco_recomendado_brl": 2500,
+  "faixa_min": 1000,
+  "faixa_max": 4000,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: wedding-planner (coordenação R$ 1.000–4.000)",
+  "composicao": {
+   "Organização": 2400,
+   "Deslocação": 100
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Agência de eventos (pequeno evento)",
+  "unidade": "evento",
+  "preco_recomendado_brl": 3000,
+  "faixa_min": 2000,
+  "faixa_max": 4000,
+  "materiais_produtos": "—",
+  "nota": "Fornecedores à parte",
+  "fonte": "Cronoshare – guia de preços 2026: agencia-eventos (R$ 2.000–4.000)",
+  "composicao": {
+   "Organização": 2800,
+   "Deslocação": 200
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Cantor (aniversário, 2 h)",
+  "unidade": "evento",
+  "preco_recomendado_brl": 1150,
+  "faixa_min": 800,
+  "faixa_max": 1500,
+  "materiais_produtos": "Som básico",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: cantor (R$ 800–1.500)",
+  "composicao": {
+   "Organização": 800,
+   "Aluguer de equipamento": 300,
+   "Deslocação": 50
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Cantor (casamento, 3 h)",
+  "unidade": "evento",
+  "preco_recomendado_brl": 3500,
+  "faixa_min": 2000,
+  "faixa_max": 5000,
+  "materiais_produtos": "Som e microfones",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: cantor (R$ 2.000–5.000)",
+  "composicao": {
+   "Organização": 2700,
+   "Aluguer de equipamento": 700,
+   "Deslocação": 100
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Bartender (aniversário até 50 pessoas)",
+  "unidade": "evento",
+  "preco_recomendado_brl": 1250,
+  "faixa_min": 1000,
+  "faixa_max": 1500,
+  "materiais_produtos": "Utensílios de bar",
+  "nota": "Bebidas à parte",
+  "fonte": "Cronoshare – guia de preços 2026: bartender (R$ 1.000–1.500)",
+  "composicao": {
+   "Organização": 1150,
+   "Aluguer de equipamento": 50,
+   "Deslocação": 50
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Cabine de fotos",
+  "unidade": "evento",
+  "preco_recomendado_brl": 2250,
+  "faixa_min": 1500,
+  "faixa_max": 3000,
+  "materiais_produtos": "Cabine, impressão, acessórios",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: cabine-fotos-casamento (R$ 1.500–3.000)",
+  "composicao": {
+   "Organização": 700,
+   "Aluguer de equipamento": 1450,
+   "Deslocação": 100
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Filmagem com drone (casamento)",
+  "unidade": "evento",
+  "preco_recomendado_brl": 1600,
+  "faixa_min": 1200,
+  "faixa_max": 2000,
+  "materiais_produtos": "Drone, edição",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: drone-casamento (R$ 1.200–2.000)",
+  "composicao": {
+   "Organização": 1000,
+   "Aluguer de equipamento": 500,
+   "Deslocação": 100
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Mágico (show)",
+  "unidade": "evento",
+  "preco_recomendado_brl": 350,
+  "faixa_min": 200,
+  "faixa_max": 500,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: contratar-magico (R$ 200–500)",
+  "composicao": {
+   "Organização": 300,
+   "Aluguer de equipamento": 20,
+   "Deslocação": 30
+  }
+ },
+ {
+  "categoria": "Eventos",
+  "servico": "Animador infantil (1 animador)",
+  "unidade": "evento",
+  "preco_recomendado_brl": 400,
+  "faixa_min": 300,
+  "faixa_max": 500,
+  "materiais_produtos": "Jogos e materiais de recreação",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: animador-infantil (R$ 300–500)",
+  "composicao": {
+   "Organização": 360,
+   "Aluguer de equipamento": 20,
+   "Deslocação": 20
+  }
+ },
+ {
   "categoria": "Limpeza",
   "servico": "Diária de faxina (8 h)",
   "unidade": "diária",
-  "preco_recomendado_brl": 200,
-  "faixa_min": 130,
-  "faixa_max": 280,
+  "preco_recomendado_brl": 170,
+  "faixa_min": 120,
+  "faixa_max": 250,
   "materiais_produtos": "Produtos multiuso, panos, vassoura, rodo",
   "nota": "Deslocação = passagem/condução",
+  "fonte": "Catraca Livre 2026 (capitais R$ 130–220); Diário do Comércio (BH R$ 190); Cronoshare – guia de preços 2026: quanto-custa-diarista",
   "composicao": {
-   "Limpeza": 155,
-   "Produtos de limpeza": 15,
-   "Deslocação": 30
+   "Limpeza": 133,
+   "Produtos de limpeza": 12,
+   "Deslocação": 25
   }
  },
  {
   "categoria": "Limpeza",
   "servico": "Meia diária (4 h)",
   "unidade": "serviço",
-  "preco_recomendado_brl": 130,
-  "faixa_min": 90,
-  "faixa_max": 170,
+  "preco_recomendado_brl": 110,
+  "faixa_min": 80,
+  "faixa_max": 160,
   "materiais_produtos": "Produtos do cliente ou kit próprio",
   "nota": "",
+  "fonte": "Proporcional à diária de faxina (mesmas fontes)",
   "composicao": {
-   "Limpeza": 95,
-   "Produtos de limpeza": 10,
-   "Deslocação": 25
+   "Limpeza": 81,
+   "Produtos de limpeza": 8,
+   "Deslocação": 21
   }
  },
  {
   "categoria": "Limpeza",
   "servico": "Faxina pesada (apto 2 quartos)",
   "unidade": "serviço",
-  "preco_recomendado_brl": 400,
-  "faixa_min": 300,
-  "faixa_max": 600,
+  "preco_recomendado_brl": 280,
+  "faixa_min": 150,
+  "faixa_max": 400,
   "materiais_produtos": "Desengordurante, removedor de limo, interior de armários",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: limpeza-residencial (R$ 100–300; SP R$ 150–350)",
   "composicao": {
-   "Limpeza": 300,
-   "Produtos de limpeza": 50,
-   "Equipamento": 30,
-   "Deslocação": 20
+   "Limpeza": 210,
+   "Produtos de limpeza": 35,
+   "Equipamento": 21,
+   "Deslocação": 14
   }
  },
  {
   "categoria": "Limpeza",
   "servico": "Limpeza pós-obra",
   "unidade": "m²",
-  "preco_recomendado_brl": 11.0,
+  "preco_recomendado_brl": 12.0,
   "faixa_min": 7,
-  "faixa_max": 18,
+  "faixa_max": 23,
   "materiais_produtos": "Removedor de cimento, espátulas, aspirador de pó/água",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: limpeza-pos-obra (R$ 7–23/m²)",
   "composicao": {
-   "Limpeza": 8,
-   "Produtos de limpeza": 1.5,
-   "Equipamento": 1,
-   "Deslocação": 0.5
+   "Limpeza": 8.74,
+   "Produtos de limpeza": 1.63,
+   "Equipamento": 1.09,
+   "Deslocação": 0.54
   }
  },
  {
@@ -1647,6 +3566,7 @@
   "faixa_max": 170,
   "materiais_produtos": "Troca de enxoval (lavanderia à parte), reposição de amenities",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Limpeza": 90,
    "Produtos de limpeza": 15,
@@ -1658,16 +3578,17 @@
   "categoria": "Limpeza",
   "servico": "Limpeza comercial / escritório",
   "unidade": "hora",
-  "preco_recomendado_brl": 40,
-  "faixa_min": 30,
-  "faixa_max": 55,
+  "preco_recomendado_brl": 35,
+  "faixa_min": 25,
+  "faixa_max": 50,
   "materiais_produtos": "Produtos profissionais, carrinho funcional",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: contratar-empresa-limpeza, limpar-galpao-industrial (R$ 30–40/h)",
   "composicao": {
-   "Limpeza": 32,
-   "Produtos de limpeza": 4,
-   "Equipamento": 2,
-   "Deslocação": 2
+   "Limpeza": 30,
+   "Produtos de limpeza": 3,
+   "Equipamento": 1,
+   "Deslocação": 1
   }
  },
  {
@@ -1679,6 +3600,7 @@
   "faixa_max": 14,
   "materiais_produtos": "Limpa-vidros, rodo, extensor",
   "nota": "Altura/fachada: orçar à parte",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Limpeza": 6,
    "Produtos de limpeza": 0.6,
@@ -1690,32 +3612,34 @@
   "categoria": "Limpeza",
   "servico": "Higienização de sofá 3 lugares",
   "unidade": "unidade",
-  "preco_recomendado_brl": 260,
+  "preco_recomendado_brl": 210,
   "faixa_min": 180,
-  "faixa_max": 380,
+  "faixa_max": 280,
   "materiais_produtos": "Extratora, shampoo têxtil, impermeabilizante opcional",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: limpeza-sofa (R$ 200–220)",
   "composicao": {
-   "Limpeza": 150,
-   "Produtos de limpeza": 40,
-   "Equipamento": 50,
-   "Deslocação": 20
+   "Limpeza": 122,
+   "Produtos de limpeza": 32,
+   "Equipamento": 40,
+   "Deslocação": 16
   }
  },
  {
   "categoria": "Limpeza",
   "servico": "Higienização de colchão casal",
   "unidade": "unidade",
-  "preco_recomendado_brl": 200,
-  "faixa_min": 140,
-  "faixa_max": 280,
+  "preco_recomendado_brl": 150,
+  "faixa_min": 120,
+  "faixa_max": 200,
   "materiais_produtos": "Extratora, vapor, antiácaro",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: limpeza-colchao (138 cm R$ 120–180)",
   "composicao": {
-   "Limpeza": 110,
-   "Produtos de limpeza": 30,
-   "Equipamento": 40,
-   "Deslocação": 20
+   "Limpeza": 83,
+   "Produtos de limpeza": 22,
+   "Equipamento": 30,
+   "Deslocação": 15
   }
  },
  {
@@ -1727,6 +3651,7 @@
   "faixa_max": 40,
   "materiais_produtos": "Extratora, removedor de manchas",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Limpeza": 16,
    "Produtos de limpeza": 3,
@@ -1743,6 +3668,7 @@
   "faixa_max": 2200,
   "materiais_produtos": "Escadas, hall, elevador, garagem",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Limpeza": 1100,
    "Produtos de limpeza": 120,
@@ -1751,48 +3677,283 @@
   }
  },
  {
+  "categoria": "Limpeza",
+  "servico": "Higienização de poltrona",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 85,
+  "faixa_min": 75,
+  "faixa_max": 100,
+  "materiais_produtos": "Extratora, produtos para estofados",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: limpeza-sofa (R$ 75–100)",
+  "composicao": {
+   "Limpeza": 65,
+   "Produtos de limpeza": 10,
+   "Equipamento": 5,
+   "Deslocação": 5
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Higienização de sofá 2 lugares",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 170,
+  "faixa_min": 160,
+  "faixa_max": 180,
+  "materiais_produtos": "Extratora, produtos para estofados",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: limpeza-sofa (R$ 160–180)",
+  "composicao": {
+   "Limpeza": 130,
+   "Produtos de limpeza": 20,
+   "Equipamento": 10,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Higienização de colchão solteiro",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 125,
+  "faixa_min": 100,
+  "faixa_max": 150,
+  "materiais_produtos": "Extratora, sanitizante",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: limpeza-colchao (88 cm R$ 100–150)",
+  "composicao": {
+   "Limpeza": 95,
+   "Produtos de limpeza": 15,
+   "Equipamento": 5,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Lavagem de fachada (água a pressão)",
+  "unidade": "m²",
+  "preco_recomendado_brl": 30,
+  "faixa_min": 22,
+  "faixa_max": 37,
+  "materiais_produtos": "Lavadora de alta pressão, detergente",
+  "nota": "Altura exige balancim/rapel à parte",
+  "fonte": "Cronoshare – guia de preços 2026: limpeza-fachadas (R$ 22–37/m²)",
+  "composicao": {
+   "Limpeza": 20,
+   "Produtos de limpeza": 3,
+   "Equipamento": 6,
+   "Deslocação": 1
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Limpeza de piso de garagem",
+  "unidade": "m²",
+  "preco_recomendado_brl": 5.0,
+  "faixa_min": 3.5,
+  "faixa_max": 7,
+  "materiais_produtos": "Lavadora, desengraxante",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: limpar-garagem (R$ 3,50–7/m²)",
+  "composicao": {
+   "Limpeza": 3.5,
+   "Produtos de limpeza": 0.7,
+   "Equipamento": 0.5,
+   "Deslocação": 0.3
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Desinfecção com ozônio (residência)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 375,
+  "faixa_min": 250,
+  "faixa_max": 500,
+  "materiais_produtos": "Gerador de ozônio",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: limpeza-ozonio (R$ 250–500)",
+  "composicao": {
+   "Limpeza": 250,
+   "Equipamento": 100,
+   "Deslocação": 25
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Dedetização de baratas",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 450,
+  "faixa_min": 280,
+  "faixa_max": 800,
+  "materiais_produtos": "Gel/inseticida registrado na Anvisa",
+  "nota": "Garantia habitual de 90 dias",
+  "fonte": "Cronoshare – guia de preços 2026: dedetizar-baratas (R$ 280–800)",
+  "composicao": {
+   "Limpeza": 250,
+   "Produtos de limpeza": 150,
+   "Equipamento": 20,
+   "Deslocação": 30
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Desratização (casa até 100 m²)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 300,
+  "faixa_min": 200,
+  "faixa_max": 400,
+  "materiais_produtos": "Iscas raticidas, porta-iscas",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: dedetizacao-ratos (R$ 200–400)",
+  "composicao": {
+   "Limpeza": 180,
+   "Produtos de limpeza": 90,
+   "Deslocação": 30
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Dedetização de formigas",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 400,
+  "faixa_min": 230,
+  "faixa_max": 650,
+  "materiais_produtos": "Iscas e inseticidas",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: dedetizacao-formigas (R$ 230–650)",
+  "composicao": {
+   "Limpeza": 230,
+   "Produtos de limpeza": 130,
+   "Equipamento": 10,
+   "Deslocação": 30
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Tratamento contra cupim (casa 70–100 m²)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 450,
+  "faixa_min": 350,
+  "faixa_max": 550,
+  "materiais_produtos": "Cupinicida, injeção",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: tratamento-cupim (R$ 350–550)",
+  "composicao": {
+   "Limpeza": 250,
+   "Produtos de limpeza": 160,
+   "Equipamento": 10,
+   "Deslocação": 30
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Limpeza de lustre",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 225,
+  "faixa_min": 150,
+  "faixa_max": 300,
+  "materiais_produtos": "Produtos para cristal/metal",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: limpeza-lustre (R$ 150–300)",
+  "composicao": {
+   "Limpeza": 190,
+   "Produtos de limpeza": 15,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Limpeza de piso de galpão",
+  "unidade": "m²",
+  "preco_recomendado_brl": 17.0,
+  "faixa_min": 15,
+  "faixa_max": 20,
+  "materiais_produtos": "Lavadora de piso, desengraxante",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: limpar-galpao-industrial (R$ 15–20/m²)",
+  "composicao": {
+   "Limpeza": 12,
+   "Produtos de limpeza": 2,
+   "Equipamento": 2.5,
+   "Deslocação": 0.5
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Esvaziamento de imóvel (retirada de móveis e entulho)",
+  "unidade": "m³",
+  "preco_recomendado_brl": 75,
+  "faixa_min": 50,
+  "faixa_max": 100,
+  "materiais_produtos": "Sacos, transporte, descarte",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: esvaziar-apartamento (R$ 50–100/m³)",
+  "composicao": {
+   "Limpeza": 60,
+   "Deslocação": 15
+  }
+ },
+ {
+  "categoria": "Limpeza",
+  "servico": "Tratamento de mofo (raspagem + antimofo)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 1000,
+  "faixa_min": 600,
+  "faixa_max": 1400,
+  "materiais_produtos": "Antimofo, selador",
+  "nota": "Pintura à parte",
+  "fonte": "Cronoshare – guia de preços 2026: tirar-mofo-parede (R$ 600–1.400)",
+  "composicao": {
+   "Limpeza": 700,
+   "Produtos de limpeza": 250,
+   "Deslocação": 50
+  }
+ },
+ {
   "categoria": "Marketing",
   "servico": "Social media básico (12 posts/mês)",
   "unidade": "mês",
-  "preco_recomendado_brl": 1400,
-  "faixa_min": 1000,
-  "faixa_max": 2500,
+  "preco_recomendado_brl": 900,
+  "faixa_min": 500,
+  "faixa_max": 1500,
   "materiais_produtos": "Planejamento, artes, legendas, agendamento, 1–2 redes",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: servico-gerenciamento-midia-social (R$ 500–1.000); freelasemcrise (R$ 800–4.000)",
   "composicao": {
-   "Estratégia": 300,
-   "Produção de conteúdos": 1000,
-   "Relatórios": 100
+   "Estratégia": 192,
+   "Produção de conteúdos": 644,
+   "Relatórios": 64
   }
  },
  {
   "categoria": "Marketing",
   "servico": "Social media completo (20 posts + 8 reels)",
   "unidade": "mês",
-  "preco_recomendado_brl": 3800,
-  "faixa_min": 2500,
-  "faixa_max": 6000,
+  "preco_recomendado_brl": 3000,
+  "faixa_min": 1500,
+  "faixa_max": 4500,
   "materiais_produtos": "2–3 redes, gestão de comunidade, relatório",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: servico-gerenciamento-midia-social (R$ 1.500–4.500)",
   "composicao": {
-   "Estratégia": 700,
-   "Produção de conteúdos": 2800,
-   "Relatórios": 300
+   "Estratégia": 552,
+   "Produção de conteúdos": 2212,
+   "Relatórios": 236
   }
  },
  {
   "categoria": "Marketing",
   "servico": "Gestão de tráfego pago (Meta / Google)",
   "unidade": "mês",
-  "preco_recomendado_brl": 1200,
-  "faixa_min": 700,
+  "preco_recomendado_brl": 1000,
+  "faixa_min": 400,
   "faixa_max": 2500,
   "materiais_produtos": "Configuração de campanhas, públicos, criativos, otimização",
   "nota": "Verba de anúncios paga pelo cliente",
+  "fonte": "Cronoshare – guia de preços 2026: agencia-marketing-digital (publicidade online R$ 400–2.500)",
   "composicao": {
-   "Estratégia": 500,
-   "Produção de conteúdos": 300,
-   "Relatórios": 400
+   "Estratégia": 417,
+   "Produção de conteúdos": 250,
+   "Relatórios": 333
   }
  },
  {
@@ -1804,6 +3965,7 @@
   "faixa_max": 4500,
   "materiais_produtos": "Estratégia, criativos, R$ 1.000 de mídia, relatório",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Estratégia": 600,
    "Produção de conteúdos": 1000,
@@ -1820,6 +3982,7 @@
   "faixa_max": 8000,
   "materiais_produtos": "Análise de mercado, personas, calendário, orçamento",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Estratégia": 3000,
    "Relatórios": 800
@@ -1829,15 +3992,16 @@
   "categoria": "Marketing",
   "servico": "SEO mensal",
   "unidade": "mês",
-  "preco_recomendado_brl": 1500,
-  "faixa_min": 1000,
-  "faixa_max": 3500,
+  "preco_recomendado_brl": 1200,
+  "faixa_min": 600,
+  "faixa_max": 2000,
   "materiais_produtos": "Otimização on-page, 2–4 artigos/mês, link building",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: consultor-seo (planos básicos R$ 600–2.000)",
   "composicao": {
-   "Estratégia": 400,
-   "Produção de conteúdos": 900,
-   "Relatórios": 200
+   "Estratégia": 320,
+   "Produção de conteúdos": 720,
+   "Relatórios": 160
   }
  },
  {
@@ -1849,6 +4013,7 @@
   "faixa_max": 1500,
   "materiais_produtos": "Screaming Frog, Search Console, PageSpeed",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Estratégia": 500,
    "Relatórios": 300
@@ -1858,15 +4023,16 @@
   "categoria": "Marketing",
   "servico": "E-mail marketing (4 envios/mês)",
   "unidade": "mês",
-  "preco_recomendado_brl": 750,
-  "faixa_min": 400,
-  "faixa_max": 1200,
+  "preco_recomendado_brl": 600,
+  "faixa_min": 200,
+  "faixa_max": 1300,
   "materiais_produtos": "RD Station/Mailchimp, design, segmentação",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: agencia-marketing-digital (R$ 200–1.300/mês)",
   "composicao": {
-   "Estratégia": 150,
-   "Produção de conteúdos": 500,
-   "Relatórios": 100
+   "Estratégia": 120,
+   "Produção de conteúdos": 400,
+   "Relatórios": 80
   }
  },
  {
@@ -1878,6 +4044,7 @@
   "faixa_max": 1800,
   "materiais_produtos": "Roteiro, gravação, edição, legendas, trilha licenciada",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Estratégia": 150,
    "Produção de conteúdos": 650
@@ -1887,172 +4054,309 @@
   "categoria": "Marketing",
   "servico": "Fotos de produto (20 fotos)",
   "unidade": "sessão",
-  "preco_recomendado_brl": 800,
-  "faixa_min": 450,
-  "faixa_max": 1500,
+  "preco_recomendado_brl": 600,
+  "faixa_min": 400,
+  "faixa_max": 1000,
   "materiais_produtos": "Estúdio/iluminação, edição, fundo branco + lifestyle",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: fotografia-produto (R$ 20–50 por foto)",
+  "composicao": {
+   "Estratégia": 75,
+   "Produção de conteúdos": 525
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "Criação de perfil nas redes sociais",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 200,
+  "faixa_min": 100,
+  "faixa_max": 300,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: servico-gerenciamento-midia-social (R$ 100–300)",
+  "composicao": {
+   "Estratégia": 60,
+   "Produção de conteúdos": 130,
+   "Relatórios": 10
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "Gestão de blog",
+  "unidade": "mês",
+  "preco_recomendado_brl": 400,
+  "faixa_min": 300,
+  "faixa_max": 500,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: servico-gerenciamento-midia-social (R$ 300–500/mês)",
+  "composicao": {
+   "Estratégia": 60,
+   "Produção de conteúdos": 320,
+   "Relatórios": 20
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "Artigo de blog (700–1.500 palavras)",
+  "unidade": "artigo",
+  "preco_recomendado_brl": 45,
+  "faixa_min": 35,
+  "faixa_max": 50,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: redacao-conteudo (R$ 35–50)",
+  "composicao": {
+   "Estratégia": 5,
+   "Produção de conteúdos": 40
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "Copy de landing page (captação)",
+  "unidade": "página",
+  "preco_recomendado_brl": 1000,
+  "faixa_min": 250,
+  "faixa_max": 2500,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: copywriter (R$ 250–2.500)",
+  "composicao": {
+   "Estratégia": 200,
+   "Produção de conteúdos": 800
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "Publicação com microinfluenciador (10–100 mil)",
+  "unidade": "publicação",
+  "preco_recomendado_brl": 1500,
+  "faixa_min": 500,
+  "faixa_max": 3000,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: contratar-influencer (R$ 500–3.000)",
   "composicao": {
    "Estratégia": 100,
-   "Produção de conteúdos": 700
+   "Produção de conteúdos": 1400
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "Press release (redação)",
+  "unidade": "matéria",
+  "preco_recomendado_brl": 1000,
+  "faixa_min": 500,
+  "faixa_max": 1500,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: assessoria-imprensa (R$ 500–1.500)",
+  "composicao": {
+   "Estratégia": 200,
+   "Produção de conteúdos": 800
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "Locução para vídeo corporativo (até 2 min)",
+  "unidade": "vídeo",
+  "preco_recomendado_brl": 450,
+  "faixa_min": 300,
+  "faixa_max": 600,
+  "materiais_produtos": "Gravação em estúdio caseiro",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: locucao (R$ 300–600)",
+  "composicao": {
+   "Estratégia": 50,
+   "Produção de conteúdos": 400
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "Tour virtual 360º (básico)",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 1000,
+  "faixa_min": 500,
+  "faixa_max": 1500,
+  "materiais_produtos": "Câmera 360º, hospedagem do tour",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: tour-virtual-360 (R$ 500–1.500)",
+  "composicao": {
+   "Estratégia": 100,
+   "Produção de conteúdos": 850,
+   "Relatórios": 50
+  }
+ },
+ {
+  "categoria": "Marketing",
+  "servico": "Fotografia imobiliária (pacote)",
+  "unidade": "imóvel",
+  "preco_recomendado_brl": 450,
+  "faixa_min": 300,
+  "faixa_max": 650,
+  "materiais_produtos": "Edição das fotos",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: fotografia-imobiliaria (R$ 300–650)",
+  "composicao": {
+   "Estratégia": 50,
+   "Produção de conteúdos": 400
   }
  },
  {
   "categoria": "Pintura",
   "servico": "Pintura interna de paredes (2 demãos)",
   "unidade": "m²",
-  "preco_recomendado_brl": 30,
-  "faixa_min": 22,
-  "faixa_max": 45,
+  "preco_recomendado_brl": 25,
+  "faixa_min": 18,
+  "faixa_max": 40,
   "materiais_produtos": "Tinta acrílica fosca/acetinada, selador, fita, lona",
   "nota": "m² de área pintada (parede/teto)",
+  "fonte": "Cronoshare – guia de preços 2026: pintar-quarto (mão de obra R$ 9–12/m²); Olhar Digital/Monitor do Mercado 2026 (R$ 15–30/m²)",
   "composicao": {
-   "Tinta": 7,
-   "Primário / selante": 2,
-   "Fita, lixas, plásticos de proteção": 1,
-   "Preparação de superfícies": 3,
-   "Pintura": 16,
-   "Deslocação": 1
+   "Tinta": 5,
+   "Primário / selante": 1,
+   "Preparação de superfícies": 2,
+   "Pintura": 17
   }
  },
  {
   "categoria": "Pintura",
   "servico": "Pintura de teto",
   "unidade": "m²",
-  "preco_recomendado_brl": 32.0,
-  "faixa_min": 24,
-  "faixa_max": 48,
+  "preco_recomendado_brl": 27,
+  "faixa_min": 20,
+  "faixa_max": 42,
   "materiais_produtos": "Tinta acrílica/PVA branca, selador",
   "nota": "",
+  "fonte": "Mesmas fontes da pintura interna; teto com acréscimo habitual",
   "composicao": {
-   "Tinta": 7,
-   "Primário / selante": 2,
-   "Fita, lixas, plásticos de proteção": 1,
-   "Preparação de superfícies": 3.5,
-   "Pintura": 17.5,
-   "Deslocação": 1
+   "Tinta": 5,
+   "Primário / selante": 1,
+   "Preparação de superfícies": 2,
+   "Pintura": 19
   }
  },
  {
   "categoria": "Pintura",
   "servico": "Massa corrida + lixamento",
   "unidade": "m²",
-  "preco_recomendado_brl": 25,
-  "faixa_min": 15,
+  "preco_recomendado_brl": 20,
+  "faixa_min": 12,
   "faixa_max": 35,
   "materiais_produtos": "Massa corrida/acrílica, lixa 150/180",
   "nota": "Paredes novas ou com defeitos",
+  "fonte": "Cronoshare – guia de preços 2026: aplicacao-massa-corrida (média nacional R$ 12–25/m²)",
   "composicao": {
-   "Primário / selante": 2,
-   "Fita, lixas, plásticos de proteção": 1,
-   "Preparação de superfícies": 22
+   "Primário / selante": 1,
+   "Preparação de superfícies": 19
   }
  },
  {
   "categoria": "Pintura",
   "servico": "Pintura de quarto ~12 m² (paredes + teto)",
   "unidade": "cômodo",
-  "preco_recomendado_brl": 1350,
-  "faixa_min": 1000,
-  "faixa_max": 1900,
+  "preco_recomendado_brl": 950,
+  "faixa_min": 570,
+  "faixa_max": 1300,
   "materiais_produtos": "≈ 45 m² de superfície, 2 demãos",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: pintar-quarto (R$ 570–1.280)",
   "composicao": {
-   "Tinta": 300,
-   "Primário / selante": 90,
-   "Fita, lixas, plásticos de proteção": 45,
-   "Preparação de superfícies": 135,
-   "Pintura": 740,
-   "Deslocação": 40
+   "Tinta": 211,
+   "Primário / selante": 63,
+   "Fita, lixas, plásticos de proteção": 31,
+   "Preparação de superfícies": 95,
+   "Pintura": 522,
+   "Deslocação": 28
   }
  },
  {
   "categoria": "Pintura",
   "servico": "Pintura de apartamento 2 quartos",
   "unidade": "imóvel",
-  "preco_recomendado_brl": 6100,
-  "faixa_min": 4500,
-  "faixa_max": 9000,
+  "preco_recomendado_brl": 4200,
+  "faixa_min": 3000,
+  "faixa_max": 6000,
   "materiais_produtos": "≈ 200 m² de superfície, tinta padrão médio",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: pintar-apartamento (50 m² R$ 3.000–4.500)",
   "composicao": {
-   "Tinta": 1400,
-   "Primário / selante": 400,
-   "Fita, lixas, plásticos de proteção": 200,
-   "Preparação de superfícies": 700,
-   "Pintura": 3300,
-   "Deslocação": 100
+   "Tinta": 963,
+   "Primário / selante": 275,
+   "Fita, lixas, plásticos de proteção": 137,
+   "Preparação de superfícies": 481,
+   "Pintura": 2276,
+   "Deslocação": 68
   }
  },
  {
   "categoria": "Pintura",
   "servico": "Pintura de fachada (sem andaime)",
   "unidade": "m²",
-  "preco_recomendado_brl": 48,
+  "preco_recomendado_brl": 42,
   "faixa_min": 35,
-  "faixa_max": 70,
+  "faixa_max": 60,
   "materiais_produtos": "Tinta acrílica externa/elastomérica, fundo preparador",
   "nota": "Andaime/balancim à parte",
+  "fonte": "Cronoshare – guia de preços 2026: pintar-fachada (R$ 35–45/m²)",
   "composicao": {
-   "Tinta": 12,
-   "Primário / selante": 4,
-   "Fita, lixas, plásticos de proteção": 1,
-   "Preparação de superfícies": 8,
-   "Pintura": 22,
-   "Deslocação": 1
+   "Tinta": 10,
+   "Primário / selante": 3,
+   "Preparação de superfícies": 7,
+   "Pintura": 22
   }
  },
  {
   "categoria": "Pintura",
   "servico": "Pintura de muro externo",
   "unidade": "m²",
-  "preco_recomendado_brl": 31,
-  "faixa_min": 22,
-  "faixa_max": 45,
+  "preco_recomendado_brl": 28,
+  "faixa_min": 20,
+  "faixa_max": 40,
   "materiais_produtos": "Tinta acrílica externa, selador, escova de aço",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: pintar-garagem (parede externa R$ 25–50/m²)",
   "composicao": {
-   "Tinta": 8,
-   "Primário / selante": 3,
-   "Fita, lixas, plásticos de proteção": 1,
-   "Preparação de superfícies": 4,
-   "Pintura": 14,
-   "Deslocação": 1
+   "Tinta": 7,
+   "Primário / selante": 2,
+   "Preparação de superfícies": 3,
+   "Pintura": 16
   }
  },
  {
   "categoria": "Pintura",
   "servico": "Textura / grafiato",
   "unidade": "m²",
-  "preco_recomendado_brl": 46,
-  "faixa_min": 35,
-  "faixa_max": 65,
+  "preco_recomendado_brl": 38,
+  "faixa_min": 25,
+  "faixa_max": 50,
   "materiais_produtos": "Textura acrílica, desempenadeira, rolo de textura",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: fazer-grafiato (com material R$ 25–45/m²)",
   "composicao": {
-   "Tinta": 12,
-   "Primário / selante": 3,
-   "Fita, lixas, plásticos de proteção": 1,
-   "Preparação de superfícies": 4,
-   "Pintura": 25,
-   "Deslocação": 1
+   "Tinta": 9,
+   "Primário / selante": 2,
+   "Preparação de superfícies": 3,
+   "Pintura": 24
   }
  },
  {
   "categoria": "Pintura",
   "servico": "Pintura de porta (esmalte, 2 faces)",
   "unidade": "unidade",
-  "preco_recomendado_brl": 200,
-  "faixa_min": 150,
-  "faixa_max": 320,
+  "preco_recomendado_brl": 150,
+  "faixa_min": 80,
+  "faixa_max": 215,
   "materiais_produtos": "Esmalte sintético/base água, fundo nivelador, lixas",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: laquear-portas (pintura com esmalte R$ 80–215)",
   "composicao": {
-   "Tinta": 25,
-   "Primário / selante": 10,
-   "Fita, lixas, plásticos de proteção": 5,
-   "Preparação de superfícies": 50,
-   "Pintura": 110
+   "Tinta": 18,
+   "Primário / selante": 7,
+   "Fita, lixas, plásticos de proteção": 3,
+   "Preparação de superfícies": 37,
+   "Pintura": 85
   }
  },
  {
@@ -2064,6 +4368,7 @@
   "faixa_max": 80,
   "materiais_produtos": "Fundo anticorrosivo (zarcão), esmalte, escova de aço",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Tinta": 10,
    "Primário / selante": 6,
@@ -2082,6 +4387,7 @@
   "faixa_max": 75,
   "materiais_produtos": "Stain/verniz marítimo, lixadeira",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Tinta": 14,
    "Primário / selante": 2,
@@ -2100,6 +4406,7 @@
   "faixa_max": 110,
   "materiais_produtos": "Manta líquida acrílica, primer, tela de poliéster",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Tinta": 30,
    "Primário / selante": 8,
@@ -2110,152 +4417,329 @@
   }
  },
  {
+  "categoria": "Pintura",
+  "servico": "Pintura de piso com tinta epóxi",
+  "unidade": "m²",
+  "preco_recomendado_brl": 14.0,
+  "faixa_min": 8,
+  "faixa_max": 20,
+  "materiais_produtos": "Tinta epóxi, primer",
+  "nota": "Revestimento multicamada: R$ 150–300/m²",
+  "fonte": "Cronoshare – guia de preços 2026: pintar-garagem (R$ 8–20/m²)",
+  "composicao": {
+   "Tinta": 6,
+   "Primário / selante": 1,
+   "Fita, lixas, plásticos de proteção": 0.5,
+   "Preparação de superfícies": 2.5,
+   "Pintura": 3.5,
+   "Deslocação": 0.5
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Marcação de vagas de estacionamento",
+  "unidade": "metro",
+  "preco_recomendado_brl": 10.0,
+  "faixa_min": 8,
+  "faixa_max": 12,
+  "materiais_produtos": "Tinta para demarcação, fita",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: pintar-garagem (R$ 8–12/m)",
+  "composicao": {
+   "Tinta": 3,
+   "Fita, lixas, plásticos de proteção": 1,
+   "Pintura": 5.5,
+   "Deslocação": 0.5
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Pintura predial (fachada de prédio)",
+  "unidade": "m²",
+  "preco_recomendado_brl": 45,
+  "faixa_min": 30,
+  "faixa_max": 60,
+  "materiais_produtos": "Tinta acrílica externa, selador",
+  "nota": "Balancim/andaime à parte",
+  "fonte": "Cronoshare – guia de preços 2026: metro-quadrado-pintura-predial (R$ 30–60/m²)",
+  "composicao": {
+   "Tinta": 12,
+   "Primário / selante": 3,
+   "Fita, lixas, plásticos de proteção": 1,
+   "Preparação de superfícies": 8,
+   "Pintura": 19,
+   "Deslocação": 2
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Pintura de loja ou escritório",
+  "unidade": "m²",
+  "preco_recomendado_brl": 40,
+  "faixa_min": 30,
+  "faixa_max": 50,
+  "materiais_produtos": "Tinta acrílica, massa, selador",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: pintar-ponto-comercial (R$ 30–50/m²)",
+  "composicao": {
+   "Tinta": 11,
+   "Primário / selante": 2,
+   "Fita, lixas, plásticos de proteção": 1,
+   "Preparação de superfícies": 7,
+   "Pintura": 17,
+   "Deslocação": 2
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Laqueação de porta interna",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 280,
+  "faixa_min": 160,
+  "faixa_max": 400,
+  "materiais_produtos": "Laca PU/fundo, lixas",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: laquear-portas (R$ 160–400)",
+  "composicao": {
+   "Tinta": 70,
+   "Primário / selante": 20,
+   "Fita, lixas, plásticos de proteção": 10,
+   "Preparação de superfícies": 60,
+   "Pintura": 110,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Lixar e envernizar assoalho",
+  "unidade": "m²",
+  "preco_recomendado_brl": 90,
+  "faixa_min": 80,
+  "faixa_max": 100,
+  "materiais_produtos": "Verniz/sinteco, lixas, máquina",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: lixar-envernizar-assoalho (R$ 80–100/m²)",
+  "composicao": {
+   "Tinta": 25,
+   "Primário / selante": 5,
+   "Fita, lixas, plásticos de proteção": 3,
+   "Preparação de superfícies": 30,
+   "Pintura": 25,
+   "Deslocação": 2
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Pintura decorativa (efeitos)",
+  "unidade": "m²",
+  "preco_recomendado_brl": 75,
+  "faixa_min": 35,
+  "faixa_max": 120,
+  "materiais_produtos": "Tintas de efeito, ferramentas",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: pintura-decorativa, pintar-ponto-comercial (R$ 35–120/m²)",
+  "composicao": {
+   "Tinta": 20,
+   "Primário / selante": 4,
+   "Fita, lixas, plásticos de proteção": 2,
+   "Preparação de superfícies": 9,
+   "Pintura": 38,
+   "Deslocação": 2
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Impermeabilização de fachada",
+  "unidade": "m²",
+  "preco_recomendado_brl": 40,
+  "faixa_min": 27,
+  "faixa_max": 60,
+  "materiais_produtos": "Impermeabilizante acrílico/silicone",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: impermeabilizar-fachada (R$ 27–60/m²)",
+  "composicao": {
+   "Tinta": 18,
+   "Primário / selante": 4,
+   "Fita, lixas, plásticos de proteção": 1,
+   "Preparação de superfícies": 7,
+   "Pintura": 9,
+   "Deslocação": 1
+  }
+ },
+ {
+  "categoria": "Pintura",
+  "servico": "Pintura de portão (unidade)",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 135,
+  "faixa_min": 120,
+  "faixa_max": 150,
+  "materiais_produtos": "Esmalte, fundo anticorrosivo",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: pintar-garagem (R$ 120–150)",
+  "composicao": {
+   "Tinta": 30,
+   "Primário / selante": 10,
+   "Fita, lixas, plásticos de proteção": 5,
+   "Preparação de superfícies": 30,
+   "Pintura": 55,
+   "Deslocação": 5
+  }
+ },
+ {
   "categoria": "Reforma",
   "servico": "Reforma completa de banheiro (≈ 4 m²)",
   "unidade": "obra",
-  "preco_recomendado_brl": 15800,
-  "faixa_min": 10000,
-  "faixa_max": 25000,
+  "preco_recomendado_brl": 9000,
+  "faixa_min": 5000,
+  "faixa_max": 15000,
   "materiais_produtos": "Porcelanato, louças, metais, box, hidráulica, forro, bancada",
   "nota": "Padrão médio",
+  "fonte": "Cronoshare – guia de preços 2026: reformar-banheiro (básico R$ 3.000–5.000); construir-edicula (banheiro R$ 6.000–12.000)",
   "composicao": {
-   "Demolição e preparação": 1500,
-   "Materiais": 7000,
-   "Execução": 6500,
-   "Remoção de entulho": 600,
-   "Deslocação": 200
+   "Demolição e preparação": 854,
+   "Materiais": 3990,
+   "Execução": 3702,
+   "Remoção de entulho": 341,
+   "Deslocação": 113
   }
  },
  {
   "categoria": "Reforma",
   "servico": "Reforma de cozinha (sem eletrodomésticos)",
   "unidade": "obra",
-  "preco_recomendado_brl": 23800,
-  "faixa_min": 15000,
-  "faixa_max": 40000,
+  "preco_recomendado_brl": 18000,
+  "faixa_min": 10000,
+  "faixa_max": 30000,
   "materiais_produtos": "Marcenaria padrão médio, bancada de granito/quartzo, revestimentos",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: cozinha-planejada (R$ 10.000–25.000)",
   "composicao": {
-   "Demolição e preparação": 1800,
-   "Materiais": 15000,
-   "Execução": 6000,
-   "Remoção de entulho": 700,
-   "Deslocação": 300
+   "Demolição e preparação": 1361,
+   "Materiais": 11347,
+   "Execução": 4537,
+   "Remoção de entulho": 529,
+   "Deslocação": 226
   }
  },
  {
   "categoria": "Reforma",
   "servico": "Troca de banheira por box com chuveiro",
   "unidade": "obra",
-  "preco_recomendado_brl": 4150,
-  "faixa_min": 3000,
+  "preco_recomendado_brl": 3500,
+  "faixa_min": 2400,
   "faixa_max": 6000,
   "materiais_produtos": "Box de vidro, piso, ralo linear, registro, revestimento",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: trocar-banheira-chuveiro (R$ 2.400–9.000; exemplo R$ 2.905)",
   "composicao": {
-   "Demolição e preparação": 500,
-   "Materiais": 1800,
-   "Execução": 1500,
-   "Remoção de entulho": 250,
-   "Deslocação": 100
+   "Demolição e preparação": 421,
+   "Materiais": 1520,
+   "Execução": 1265,
+   "Remoção de entulho": 210,
+   "Deslocação": 84
   }
  },
  {
   "categoria": "Reforma",
   "servico": "Reforma completa de apartamento",
   "unidade": "m²",
-  "preco_recomendado_brl": 1500,
-  "faixa_min": 1000,
+  "preco_recomendado_brl": 1200,
+  "faixa_min": 800,
   "faixa_max": 2500,
   "materiais_produtos": "Pisos, pintura, banheiro, cozinha, elétrica",
   "nota": "Apto 60 m² ≈ R$ 90 mil",
+  "fonte": "Cronoshare – guia de preços 2026: reformar-apartamento (básica R$ 800–1.500/m²)",
   "composicao": {
-   "Demolição e preparação": 80,
-   "Materiais": 750,
-   "Execução": 600,
-   "Remoção de entulho": 50,
-   "Deslocação": 20
+   "Demolição e preparação": 64,
+   "Materiais": 600,
+   "Execução": 480,
+   "Remoção de entulho": 40,
+   "Deslocação": 16
   }
  },
  {
   "categoria": "Reforma",
   "servico": "Demolição de parede de alvenaria",
   "unidade": "m²",
-  "preco_recomendado_brl": 70,
-  "faixa_min": 45,
-  "faixa_max": 100,
+  "preco_recomendado_brl": 40,
+  "faixa_min": 20,
+  "faixa_max": 50,
   "materiais_produtos": "Marreta/rompedor, sacos de entulho",
   "nota": "Verificar se não é estrutural",
+  "fonte": "Cronoshare – guia de preços 2026: derrubar-parede (R$ 20–50/m²)",
   "composicao": {
-   "Demolição e preparação": 50,
-   "Remoção de entulho": 18,
-   "Deslocação": 2
+   "Demolição e preparação": 29,
+   "Remoção de entulho": 10,
+   "Deslocação": 1
   }
  },
  {
   "categoria": "Reforma",
   "servico": "Piso vinílico / laminado instalado",
   "unidade": "m²",
-  "preco_recomendado_brl": 130,
-  "faixa_min": 90,
-  "faixa_max": 180,
+  "preco_recomendado_brl": 110,
+  "faixa_min": 65,
+  "faixa_max": 140,
   "materiais_produtos": "Piso vinílico click/laminado, manta, perfis",
   "nota": "Rodapé à parte",
+  "fonte": "Cronoshare – guia de preços 2026: instalar-piso-vinilico (R$ 120–140 com material); colocar-piso-laminado",
   "composicao": {
-   "Demolição e preparação": 5,
-   "Materiais": 85,
-   "Execução": 35,
-   "Remoção de entulho": 3,
-   "Deslocação": 2
+   "Demolição e preparação": 4,
+   "Materiais": 74,
+   "Execução": 29,
+   "Remoção de entulho": 2,
+   "Deslocação": 1
   }
  },
  {
   "categoria": "Reforma",
   "servico": "Rodapé",
   "unidade": "metro",
-  "preco_recomendado_brl": 28,
-  "faixa_min": 18,
-  "faixa_max": 40,
+  "preco_recomendado_brl": 22,
+  "faixa_min": 12,
+  "faixa_max": 30,
   "materiais_produtos": "Rodapé MDF/poliestireno 7–10 cm, cola/pregos",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: colocar-piso-laminado (rodapé R$ 6–10); colocacao-piso-porcelanato (R$ 15–30/m)",
   "composicao": {
-   "Demolição e preparação": 1,
-   "Materiais": 15,
-   "Execução": 12
+   "Materiais": 13,
+   "Execução": 9
   }
  },
  {
   "categoria": "Reforma",
   "servico": "Troca de janela de alumínio (1,20 × 1,20 m)",
   "unidade": "unidade",
-  "preco_recomendado_brl": 1820,
-  "faixa_min": 1200,
-  "faixa_max": 2800,
+  "preco_recomendado_brl": 950,
+  "faixa_min": 550,
+  "faixa_max": 1400,
   "materiais_produtos": "Janela de correr com vidro, espuma, silicone, acabamento",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: mudar-instalar-janelas (janela R$ 400–800 + mão de obra R$ 150–300)",
   "composicao": {
-   "Demolição e preparação": 100,
-   "Materiais": 1300,
-   "Execução": 350,
-   "Remoção de entulho": 40,
-   "Deslocação": 30
+   "Demolição e preparação": 52,
+   "Materiais": 681,
+   "Execução": 182,
+   "Remoção de entulho": 20,
+   "Deslocação": 15
   }
  },
  {
   "categoria": "Reforma",
   "servico": "Porta interna completa instalada",
   "unidade": "unidade",
-  "preco_recomendado_brl": 1080,
-  "faixa_min": 800,
-  "faixa_max": 1500,
+  "preco_recomendado_brl": 750,
+  "faixa_min": 400,
+  "faixa_max": 1300,
   "materiais_produtos": "Kit porta pronta (folha, batente, guarnição, fechadura)",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: mudar-portas-interiores (porta oca R$ 250–600); instalar-porta-madeira (instalação R$ 100–500)",
   "composicao": {
-   "Demolição e preparação": 40,
-   "Materiais": 750,
-   "Execução": 250,
-   "Remoção de entulho": 20,
-   "Deslocação": 20
+   "Demolição e preparação": 27,
+   "Materiais": 524,
+   "Execução": 173,
+   "Remoção de entulho": 13,
+   "Deslocação": 13
   }
  },
  {
@@ -2267,12 +4751,191 @@
   "faixa_max": 350,
   "materiais_produtos": "Manta, porcelanato antiderrapante, argamassa AC-III",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Demolição e preparação": 30,
    "Materiais": 110,
    "Execução": 90,
    "Remoção de entulho": 10,
    "Deslocação": 5
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Instalação de box de vidro (mão de obra)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 400,
+  "faixa_min": 250,
+  "faixa_max": 600,
+  "materiais_produtos": "Parafusos, silicone",
+  "nota": "Box à parte",
+  "fonte": "Cronoshare – guia de preços 2026: instalar-box-vidro (R$ 250–600)",
+  "composicao": {
+   "Materiais": 30,
+   "Execução": 350,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Cozinha planejada (≈ 6 m²)",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 15000,
+  "faixa_min": 10000,
+  "faixa_max": 20000,
+  "materiais_produtos": "MDF/MDP, ferragens, puxadores",
+  "nota": "Bancada e eletrodomésticos à parte",
+  "fonte": "Cronoshare – guia de preços 2026: cozinha-planejada (R$ 10.000–20.000)",
+  "composicao": {
+   "Materiais": 11000,
+   "Execução": 3700,
+   "Remoção de entulho": 100,
+   "Deslocação": 200
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Móveis planejados em MDF",
+  "unidade": "m²",
+  "preco_recomendado_brl": 900,
+  "faixa_min": 800,
+  "faixa_max": 1000,
+  "materiais_produtos": "MDF, ferragens, corrediças",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: moveis-planejados (MDF R$ 800–1.000/m²)",
+  "composicao": {
+   "Materiais": 620,
+   "Execução": 260,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Bancada de granito instalada",
+  "unidade": "m²",
+  "preco_recomendado_brl": 300,
+  "faixa_min": 250,
+  "faixa_max": 900,
+  "materiais_produtos": "Granito, cola, silicone",
+  "nota": "Recortes à parte",
+  "fonte": "Cronoshare – guia de preços 2026: instalar-bancada-cozinha, moveis-planejados (R$ 250–900/m²)",
+  "composicao": {
+   "Materiais": 220,
+   "Execução": 70,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Recorte de bancada (cooktop ou cuba)",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 210,
+  "faixa_min": 120,
+  "faixa_max": 300,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: instalar-bancada-cozinha (R$ 120–350)",
+  "composicao": {
+   "Execução": 200,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Fechamento de sacada (cortina de vidro 8 mm)",
+  "unidade": "m²",
+  "preco_recomendado_brl": 700,
+  "faixa_min": 500,
+  "faixa_max": 900,
+  "materiais_produtos": "Vidro temperado, trilhos, roldanas",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: fechamento-sacada (R$ 500–900/m²)",
+  "composicao": {
+   "Materiais": 480,
+   "Execução": 200,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Persiana rolô instalada",
+  "unidade": "m²",
+  "preco_recomendado_brl": 600,
+  "faixa_min": 300,
+  "faixa_max": 900,
+  "materiais_produtos": "Tecido, tubo, suportes",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: colocar-persiana (R$ 300–900/m²)",
+  "composicao": {
+   "Materiais": 450,
+   "Execução": 140,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Rede de proteção instalada",
+  "unidade": "m²",
+  "preco_recomendado_brl": 50,
+  "faixa_min": 40,
+  "faixa_max": 60,
+  "materiais_produtos": "Rede de polietileno, ganchos, cabo de aço",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: instalar-rede-protecao (R$ 40–60/m²)",
+  "composicao": {
+   "Materiais": 25,
+   "Execução": 22,
+   "Deslocação": 3
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Polimento de piso de mármore",
+  "unidade": "m²",
+  "preco_recomendado_brl": 85,
+  "faixa_min": 70,
+  "faixa_max": 100,
+  "materiais_produtos": "Abrasivos, cristalizador",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: polir-marmore (R$ 70–100/m²)",
+  "composicao": {
+   "Demolição e preparação": 5,
+   "Materiais": 15,
+   "Execução": 62,
+   "Deslocação": 3
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Pergolado de madeira",
+  "unidade": "m²",
+  "preco_recomendado_brl": 425,
+  "faixa_min": 350,
+  "faixa_max": 500,
+  "materiais_produtos": "Madeira tratada, ferragens, verniz",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: pergolado-madeira (R$ 350–500/m²)",
+  "composicao": {
+   "Materiais": 280,
+   "Execução": 130,
+   "Deslocação": 15
+  }
+ },
+ {
+  "categoria": "Reforma",
+  "servico": "Porta de entrada de madeira instalada",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 850,
+  "faixa_min": 700,
+  "faixa_max": 1000,
+  "materiais_produtos": "Porta, batente, fechadura, dobradiças",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: trocar-porta-entrada (porta a partir de R$ 600 + instalação R$ 100–400)",
+  "composicao": {
+   "Demolição e preparação": 30,
+   "Materiais": 600,
+   "Execução": 200,
+   "Deslocação": 20
   }
  },
  {
@@ -2284,6 +4947,7 @@
   "faixa_max": 45,
   "materiais_produtos": "Café, chá, sucos, salgados, bolos, frutas",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Ingredientes": 14,
    "Cozinha e serviço": 10,
@@ -2295,16 +4959,17 @@
   "categoria": "Alimentação / buffet",
   "servico": "Coquetel volante",
   "unidade": "pessoa",
-  "preco_recomendado_brl": 60,
-  "faixa_min": 40,
+  "preco_recomendado_brl": 45,
+  "faixa_min": 20,
   "faixa_max": 90,
   "materiais_produtos": "10–12 tipos de salgados e finger foods, bebidas não alcoólicas",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: catering (coquetel R$ 20–40); catering-corporativo (R$ 40–350)",
   "composicao": {
-   "Ingredientes": 30,
-   "Cozinha e serviço": 22,
-   "Equipamento e loiça": 6,
-   "Transporte": 2
+   "Ingredientes": 24,
+   "Cozinha e serviço": 16,
+   "Equipamento e loiça": 4,
+   "Transporte": 1
   }
  },
  {
@@ -2316,6 +4981,7 @@
   "faixa_max": 35,
   "materiais_produtos": "Prato principal, arroz, feijão, salada",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Ingredientes": 11,
    "Cozinha e serviço": 9,
@@ -2332,6 +4998,7 @@
   "faixa_max": 120,
   "materiais_produtos": "Salgados, mini-lanches, doces, refrigerante, monitores",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Ingredientes": 30,
    "Cozinha e serviço": 25,
@@ -2343,16 +5010,17 @@
   "categoria": "Alimentação / buffet",
   "servico": "Buffet de churrasco",
   "unidade": "pessoa",
-  "preco_recomendado_brl": 80,
-  "faixa_min": 60,
-  "faixa_max": 120,
+  "preco_recomendado_brl": 75,
+  "faixa_min": 42,
+  "faixa_max": 160,
   "materiais_produtos": "3–4 carnes, acompanhamentos, churrasqueiro, garçons",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: buffet-churrasco (R$ 42–160 por pessoa)",
   "composicao": {
-   "Ingredientes": 45,
-   "Cozinha e serviço": 25,
-   "Equipamento e loiça": 6,
-   "Transporte": 4
+   "Ingredientes": 44,
+   "Cozinha e serviço": 23,
+   "Equipamento e loiça": 5,
+   "Transporte": 3
   }
  },
  {
@@ -2364,6 +5032,7 @@
   "faixa_max": 150,
   "materiais_produtos": "Entradas, 2 pratos quentes, sobremesas, garçons",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Ingredientes": 50,
    "Cozinha e serviço": 40,
@@ -2380,6 +5049,7 @@
   "faixa_max": 250,
   "materiais_produtos": "Recepção, jantar, sobremesas, bolo, equipe",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Ingredientes": 65,
    "Cozinha e serviço": 60,
@@ -2396,6 +5066,7 @@
   "faixa_max": 130,
   "materiais_produtos": "Destilados, cerveja, drinks, refrigerante, bartender",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Ingredientes": 45,
    "Cozinha e serviço": 25,
@@ -2412,6 +5083,7 @@
   "faixa_max": 30,
   "materiais_produtos": "Docinhos finos/tradicionais, forminhas, bandejas",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Ingredientes": 9,
    "Cozinha e serviço": 6,
@@ -2423,16 +5095,17 @@
   "categoria": "Alimentação / buffet",
   "servico": "Chef em casa (jantar para 6)",
   "unidade": "serviço",
-  "preco_recomendado_brl": 1250,
-  "faixa_min": 800,
-  "faixa_max": 2000,
+  "preco_recomendado_brl": 600,
+  "faixa_min": 420,
+  "faixa_max": 1000,
   "materiais_produtos": "Menu degustação, ingredientes inclusos",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: chef-domicilio (refeição R$ 70–100 por pessoa)",
   "composicao": {
-   "Ingredientes": 450,
-   "Cozinha e serviço": 700,
-   "Equipamento e loiça": 50,
-   "Transporte": 50
+   "Ingredientes": 216,
+   "Cozinha e serviço": 336,
+   "Equipamento e loiça": 24,
+   "Transporte": 24
   }
  },
  {
@@ -2444,6 +5117,7 @@
   "faixa_max": 160,
   "materiais_produtos": "Massa, recheio, cobertura (chantilly/pasta americana)",
   "nota": "Topo personalizado à parte",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Ingredientes": 45,
    "Cozinha e serviço": 50,
@@ -2452,62 +5126,175 @@
   }
  },
  {
+  "categoria": "Alimentação / buffet",
+  "servico": "Churrasqueiro (mão de obra, até 50 pessoas)",
+  "unidade": "evento",
+  "preco_recomendado_brl": 1150,
+  "faixa_min": 800,
+  "faixa_max": 1500,
+  "materiais_produtos": "Utensílios básicos",
+  "nota": "Carnes e carvão à parte",
+  "fonte": "Cronoshare – guia de preços 2026: churrasqueiro (R$ 800–1.500)",
+  "composicao": {
+   "Cozinha e serviço": 1050,
+   "Equipamento e loiça": 50,
+   "Transporte": 50
+  }
+ },
+ {
+  "categoria": "Alimentação / buffet",
+  "servico": "Garçom (diária de 4 h)",
+  "unidade": "profissional",
+  "preco_recomendado_brl": 145,
+  "faixa_min": 90,
+  "faixa_max": 200,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: catering-corporativo, buffet-churrasco (R$ 90–200)",
+  "composicao": {
+   "Cozinha e serviço": 135,
+   "Transporte": 10
+  }
+ },
+ {
+  "categoria": "Alimentação / buffet",
+  "servico": "Chef em casa – pacote semanal (1 pessoa)",
+  "unidade": "semana",
+  "preco_recomendado_brl": 750,
+  "faixa_min": 600,
+  "faixa_max": 900,
+  "materiais_produtos": "8–12 porções",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: chef-domicilio (R$ 600–900)",
+  "composicao": {
+   "Ingredientes": 300,
+   "Cozinha e serviço": 420,
+   "Transporte": 30
+  }
+ },
+ {
+  "categoria": "Alimentação / buffet",
+  "servico": "Bolo de casamento (≈ 100 convidados)",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 750,
+  "faixa_min": 300,
+  "faixa_max": 1200,
+  "materiais_produtos": "Bolo decorado, suporte",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: bolo-casamento (R$ 300–1.200)",
+  "composicao": {
+   "Ingredientes": 400,
+   "Cozinha e serviço": 320,
+   "Transporte": 30
+  }
+ },
+ {
+  "categoria": "Alimentação / buffet",
+  "servico": "Bolo naked cake",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 105,
+  "faixa_min": 60,
+  "faixa_max": 150,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: bolo-personalizado (R$ 60–150)",
+  "composicao": {
+   "Ingredientes": 55,
+   "Cozinha e serviço": 45,
+   "Transporte": 5
+  }
+ },
+ {
+  "categoria": "Alimentação / buffet",
+  "servico": "Aluguel de louças e talheres",
+  "unidade": "pessoa",
+  "preco_recomendado_brl": 20,
+  "faixa_min": 15,
+  "faixa_max": 25,
+  "materiais_produtos": "Pratos, talheres, copos",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: catering (R$ 15–25 por pessoa)",
+  "composicao": {
+   "Equipamento e loiça": 19,
+   "Transporte": 1
+  }
+ },
+ {
+  "categoria": "Alimentação / buffet",
+  "servico": "Aluguel de mesas e cadeiras",
+  "unidade": "pessoa",
+  "preco_recomendado_brl": 14,
+  "faixa_min": 8,
+  "faixa_max": 20,
+  "materiais_produtos": "Mesa e cadeira por convidado",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: catering (R$ 8–20 por pessoa)",
+  "composicao": {
+   "Equipamento e loiça": 12,
+   "Transporte": 2
+  }
+ },
+ {
   "categoria": "Saúde",
   "servico": "Sessão de fisioterapia",
   "unidade": "sessão",
-  "preco_recomendado_brl": 130,
-  "faixa_min": 80,
-  "faixa_max": 230,
+  "preco_recomendado_brl": 110,
+  "faixa_min": 70,
+  "faixa_max": 180,
   "materiais_produtos": "Maca, eletroterapia, faixas, gel",
   "nota": "SP/RJ: R$ 120–220",
+  "fonte": "Cronoshare – guia de preços 2026: fisioterapeuta (geral R$ 80–130; R$ 70–250)",
   "composicao": {
-   "Consulta / sessão": 95,
-   "Consumíveis": 10,
-   "Espaço e equipamento": 25
+   "Consulta / sessão": 81,
+   "Consumíveis": 8,
+   "Espaço e equipamento": 21
   }
  },
  {
   "categoria": "Saúde",
   "servico": "Pacote 10 sessões de fisioterapia",
   "unidade": "pacote",
-  "preco_recomendado_brl": 1200,
-  "faixa_min": 800,
-  "faixa_max": 1900,
+  "preco_recomendado_brl": 1000,
+  "faixa_min": 700,
+  "faixa_max": 1600,
   "materiais_produtos": "Avaliação inicial + plano de tratamento",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: fisioterapeuta (10 × sessão, com desconto)",
   "composicao": {
-   "Consulta / sessão": 920,
-   "Consumíveis": 80,
-   "Espaço e equipamento": 200
+   "Consulta / sessão": 768,
+   "Consumíveis": 66,
+   "Espaço e equipamento": 166
   }
  },
  {
   "categoria": "Saúde",
   "servico": "Fisioterapia domiciliar",
   "unidade": "sessão",
-  "preco_recomendado_brl": 200,
+  "preco_recomendado_brl": 180,
   "faixa_min": 150,
-  "faixa_max": 300,
+  "faixa_max": 220,
   "materiais_produtos": "Maca portátil, materiais de exercício",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: fisioterapeuta (domiciliar R$ 150–220)",
   "composicao": {
-   "Consulta / sessão": 190,
-   "Consumíveis": 10
+   "Consulta / sessão": 171,
+   "Consumíveis": 9
   }
  },
  {
   "categoria": "Saúde",
   "servico": "Consulta de nutrição (1ª)",
   "unidade": "consulta",
-  "preco_recomendado_brl": 220,
+  "preco_recomendado_brl": 200,
   "faixa_min": 150,
   "faixa_max": 400,
   "materiais_produtos": "Bioimpedância, avaliação antropométrica, plano alimentar",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: nutricionista (R$ 150–400)",
   "composicao": {
-   "Consulta / sessão": 180,
-   "Consumíveis": 10,
-   "Espaço e equipamento": 30
+   "Consulta / sessão": 164,
+   "Consumíveis": 9,
+   "Espaço e equipamento": 27
   }
  },
  {
@@ -2519,6 +5306,7 @@
   "faixa_max": 200,
   "materiais_produtos": "Reavaliação, ajuste do plano",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Consulta / sessão": 110,
    "Consumíveis": 5,
@@ -2529,87 +5317,93 @@
   "categoria": "Saúde",
   "servico": "Sessão de psicologia (50 min)",
   "unidade": "sessão",
-  "preco_recomendado_brl": 180,
+  "preco_recomendado_brl": 170,
   "faixa_min": 100,
   "faixa_max": 250,
   "materiais_produtos": "Consultório ou online",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: psicologo (adulto R$ 150–220; R$ 100–350)",
   "composicao": {
-   "Consulta / sessão": 150,
-   "Espaço e equipamento": 30
+   "Consulta / sessão": 142,
+   "Espaço e equipamento": 28
   }
  },
  {
   "categoria": "Saúde",
   "servico": "Massoterapia / terapêutica",
   "unidade": "sessão",
-  "preco_recomendado_brl": 140,
-  "faixa_min": 100,
-  "faixa_max": 200,
+  "preco_recomendado_brl": 120,
+  "faixa_min": 80,
+  "faixa_max": 165,
   "materiais_produtos": "Óleo/creme, ventosas, maca",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: massoterapeuta (R$ 80–165)",
   "composicao": {
-   "Consulta / sessão": 110,
-   "Consumíveis": 10,
-   "Espaço e equipamento": 20
+   "Consulta / sessão": 95,
+   "Consumíveis": 8,
+   "Espaço e equipamento": 17
   }
  },
  {
   "categoria": "Saúde",
   "servico": "Osteopatia / quiropraxia",
   "unidade": "sessão",
-  "preco_recomendado_brl": 200,
-  "faixa_min": 150,
+  "preco_recomendado_brl": 150,
+  "faixa_min": 80,
   "faixa_max": 300,
   "materiais_produtos": "Maca, lençol descartável",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: consulta-osteopatia (R$ 80–180); quiropata (R$ 150–300)",
   "composicao": {
-   "Consulta / sessão": 170,
-   "Consumíveis": 5,
-   "Espaço e equipamento": 25
+   "Consulta / sessão": 129,
+   "Consumíveis": 3,
+   "Espaço e equipamento": 18
   }
  },
  {
   "categoria": "Saúde",
   "servico": "Pilates individual",
   "unidade": "sessão",
-  "preco_recomendado_brl": 120,
-  "faixa_min": 80,
-  "faixa_max": 180,
+  "preco_recomendado_brl": 100,
+  "faixa_min": 50,
+  "faixa_max": 150,
   "materiais_produtos": "Reformer, cadillac, acessórios",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: aulas-pilates (R$ 50–150)",
   "composicao": {
-   "Consulta / sessão": 90,
-   "Espaço e equipamento": 30
+   "Consulta / sessão": 75,
+   "Espaço e equipamento": 25
   }
  },
  {
   "categoria": "Saúde",
   "servico": "Personal trainer",
   "unidade": "sessão",
-  "preco_recomendado_brl": 120,
-  "faixa_min": 80,
-  "faixa_max": 180,
+  "preco_recomendado_brl": 100,
+  "faixa_min": 70,
+  "faixa_max": 150,
   "materiais_produtos": "Plano de treino, acessórios",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: personal-trainer (R$ 70–150)",
   "composicao": {
-   "Consulta / sessão": 100,
-   "Espaço e equipamento": 20
+   "Consulta / sessão": 84,
+   "Espaço e equipamento": 16
   }
  },
  {
   "categoria": "Saúde",
   "servico": "Podologia",
   "unidade": "sessão",
-  "preco_recomendado_brl": 120,
+  "preco_recomendado_brl": 100,
   "faixa_min": 80,
-  "faixa_max": 180,
+  "faixa_max": 150,
   "materiais_produtos": "Instrumental esterilizado, curativos",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: podologo (R$ 80–120)",
   "composicao": {
-   "Consulta / sessão": 90,
-   "Consumíveis": 15,
-   "Espaço e equipamento": 15
+   "Consulta / sessão": 76,
+   "Consumíveis": 12,
+   "Espaço e equipamento": 12
   }
  },
  {
@@ -2621,23 +5415,210 @@
   "faixa_max": 150,
   "materiais_produtos": "Materiais de curativo, luvas, gazes",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Consulta / sessão": 80,
    "Consumíveis": 20
   }
  },
  {
+  "categoria": "Saúde",
+  "servico": "Terapia de casal (90 min)",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 210,
+  "faixa_min": 170,
+  "faixa_max": 250,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: terapia-casal (R$ 170–250)",
+  "composicao": {
+   "Consulta / sessão": 195,
+   "Espaço e equipamento": 15
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Psicologia infantil",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 180,
+  "faixa_min": 100,
+  "faixa_max": 300,
+  "materiais_produtos": "Materiais lúdicos",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: psicologo-infantil (R$ 100–300)",
+  "composicao": {
+   "Consulta / sessão": 160,
+   "Consumíveis": 5,
+   "Espaço e equipamento": 15
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Avaliação psicodiagnóstica",
+  "unidade": "avaliação",
+  "preco_recomendado_brl": 3000,
+  "faixa_min": 1500,
+  "faixa_max": 5000,
+  "materiais_produtos": "Testes psicológicos, laudo",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: psicologo-infantil (R$ 1.500–5.000)",
+  "composicao": {
+   "Consulta / sessão": 2600,
+   "Consumíveis": 250,
+   "Espaço e equipamento": 150
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Sessão de acupuntura",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 100,
+  "faixa_min": 40,
+  "faixa_max": 250,
+  "materiais_produtos": "Agulhas descartáveis",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: sessao-acupuntura (R$ 40–250)",
+  "composicao": {
+   "Consulta / sessão": 80,
+   "Consumíveis": 10,
+   "Espaço e equipamento": 10
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Sessão de RPG (60 min)",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 120,
+  "faixa_min": 80,
+  "faixa_max": 180,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: sessao-rpg (R$ 80–180)",
+  "composicao": {
+   "Consulta / sessão": 105,
+   "Espaço e equipamento": 15
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Sessão de fonoaudiologia",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 75,
+  "faixa_min": 50,
+  "faixa_max": 100,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: fonoaudiologo (R$ 50–100)",
+  "composicao": {
+   "Consulta / sessão": 65,
+   "Consumíveis": 2,
+   "Espaço e equipamento": 8
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Terapia ocupacional",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 190,
+  "faixa_min": 80,
+  "faixa_max": 300,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: terapia-ocupacional (R$ 80–300)",
+  "composicao": {
+   "Consulta / sessão": 165,
+   "Consumíveis": 10,
+   "Espaço e equipamento": 15
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Reflexologia podal (45 min)",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 80,
+  "faixa_min": 60,
+  "faixa_max": 100,
+  "materiais_produtos": "Óleos/cremes",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: reflexologia-podal (R$ 60–100)",
+  "composicao": {
+   "Consulta / sessão": 70,
+   "Consumíveis": 5,
+   "Espaço e equipamento": 5
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Sessão de reiki",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 150,
+  "faixa_min": 100,
+  "faixa_max": 250,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: sessao-reiki (R$ 100–250)",
+  "composicao": {
+   "Consulta / sessão": 140,
+   "Espaço e equipamento": 10
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Personal trainer online",
+  "unidade": "sessão",
+  "preco_recomendado_brl": 90,
+  "faixa_min": 60,
+  "faixa_max": 120,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: personal-trainer (online R$ 60–120)",
+  "composicao": {
+   "Consulta / sessão": 90
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Aula particular de yoga",
+  "unidade": "aula",
+  "preco_recomendado_brl": 145,
+  "faixa_min": 90,
+  "faixa_max": 200,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: aula-yoga (R$ 90–200)",
+  "composicao": {
+   "Consulta / sessão": 135,
+   "Espaço e equipamento": 10
+  }
+ },
+ {
+  "categoria": "Saúde",
+  "servico": "Cuidados de enfermagem (por hora)",
+  "unidade": "hora",
+  "preco_recomendado_brl": 85,
+  "faixa_min": 50,
+  "faixa_max": 120,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: enfermagem-domiciliar (R$ 50–120/h)",
+  "composicao": {
+   "Consulta / sessão": 78,
+   "Consumíveis": 7
+  }
+ },
+ {
   "categoria": "Serviços domésticos",
   "servico": "Diarista (tarefas gerais, 8 h)",
   "unidade": "diária",
-  "preco_recomendado_brl": 190,
-  "faixa_min": 140,
-  "faixa_max": 260,
+  "preco_recomendado_brl": 160,
+  "faixa_min": 120,
+  "faixa_max": 250,
   "materiais_produtos": "Produtos do cliente",
   "nota": "Lavar, passar, cozinhar, arrumar",
+  "fonte": "Catraca Livre 2026 (capitais R$ 130–220); Cronoshare – guia de preços 2026: quanto-custa-diarista",
   "composicao": {
-   "Serviço": 165,
-   "Deslocação": 25
+   "Serviço": 139,
+   "Deslocação": 21
   }
  },
  {
@@ -2649,6 +5630,7 @@
   "faixa_max": 55,
   "materiais_produtos": "Ferro a vapor, cabides",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Serviço": 35,
    "Deslocação": 5
@@ -2658,58 +5640,62 @@
   "categoria": "Serviços domésticos",
   "servico": "Babá / babysitter",
   "unidade": "hora",
-  "preco_recomendado_brl": 40,
-  "faixa_min": 25,
-  "faixa_max": 60,
+  "preco_recomendado_brl": 25,
+  "faixa_min": 15,
+  "faixa_max": 35,
   "materiais_produtos": "—",
   "nota": "Noite/fim de semana: +20–30%",
+  "fonte": "Cronoshare – guia de preços 2026: contratar-baba (dias úteis R$ 15–25; fim de semana R$ 25–35)",
   "composicao": {
-   "Serviço": 35,
-   "Deslocação": 5
+   "Serviço": 22,
+   "Deslocação": 3
   }
  },
  {
   "categoria": "Serviços domésticos",
   "servico": "Cuidador(a) de idosos (plantão 12 h)",
   "unidade": "plantão",
-  "preco_recomendado_brl": 240,
-  "faixa_min": 180,
-  "faixa_max": 320,
+  "preco_recomendado_brl": 220,
+  "faixa_min": 160,
+  "faixa_max": 300,
   "materiais_produtos": "Luvas, itens de higiene",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: cuidador-dorme (noite R$ 180–260); acompanhante-hospitalar (12 h R$ 160–300)",
   "composicao": {
-   "Serviço": 220,
-   "Deslocação": 20
+   "Serviço": 202,
+   "Deslocação": 18
   }
  },
  {
   "categoria": "Serviços domésticos",
   "servico": "Jardinagem – visita (até 4 h)",
   "unidade": "visita",
-  "preco_recomendado_brl": 220,
-  "faixa_min": 150,
+  "preco_recomendado_brl": 180,
+  "faixa_min": 120,
   "faixa_max": 320,
   "materiais_produtos": "Cortador de grama, roçadeira, tesouras, soprador",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: manter-jardim (R$ 30–80/h)",
   "composicao": {
-   "Serviço": 180,
-   "Materiais": 20,
-   "Deslocação": 20
+   "Serviço": 148,
+   "Materiais": 16,
+   "Deslocação": 16
   }
  },
  {
   "categoria": "Serviços domésticos",
   "servico": "Corte de grama (até 200 m²)",
   "unidade": "serviço",
-  "preco_recomendado_brl": 150,
-  "faixa_min": 100,
-  "faixa_max": 220,
+  "preco_recomendado_brl": 140,
+  "faixa_min": 80,
+  "faixa_max": 230,
   "materiais_produtos": "Cortador, aparador, recolhimento",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: cortar-grama (por visita R$ 80–230)",
   "composicao": {
-   "Serviço": 110,
-   "Materiais": 10,
-   "Deslocação": 30
+   "Serviço": 103,
+   "Materiais": 9,
+   "Deslocação": 28
   }
  },
  {
@@ -2721,6 +5707,7 @@
   "faixa_max": 130,
   "materiais_produtos": "Furadeira, buchas, parafusos, silicone",
   "nota": "Mínimo 1 h",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Serviço": 80,
    "Deslocação": 10
@@ -2735,6 +5722,7 @@
   "faixa_max": 400,
   "materiais_produtos": "Parafusadeira, nível, cavilhas",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Serviço": 220,
    "Materiais": 10,
@@ -2750,6 +5738,7 @@
   "faixa_max": 260,
   "materiais_produtos": "—",
   "nota": "Ingredientes à parte",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Serviço": 170,
    "Deslocação": 20
@@ -2759,91 +5748,312 @@
   "categoria": "Serviços domésticos",
   "servico": "Passeador de cães (45 min)",
   "unidade": "passeio",
-  "preco_recomendado_brl": 40,
+  "preco_recomendado_brl": 35,
   "faixa_min": 25,
-  "faixa_max": 60,
+  "faixa_max": 50,
   "materiais_produtos": "Guia, saquinhos, petiscos",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: passeador-caes (30 min R$ 20–30; 1 h R$ 30–45)",
   "composicao": {
-   "Serviço": 35,
+   "Serviço": 31,
+   "Deslocação": 4
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Babá – pernoite (10–12 h)",
+  "unidade": "noite",
+  "preco_recomendado_brl": 375,
+  "faixa_min": 300,
+  "faixa_max": 450,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: contratar-baba (R$ 300–450)",
+  "composicao": {
+   "Serviço": 365,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Acompanhante hospitalar (diária)",
+  "unidade": "diária",
+  "preco_recomendado_brl": 170,
+  "faixa_min": 120,
+  "faixa_max": 220,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: acompanhante-hospitalar (R$ 120–220)",
+  "composicao": {
+   "Serviço": 160,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Montagem de guarda-roupa 2–3 portas",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 150,
+  "faixa_min": 120,
+  "faixa_max": 180,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: montagens-moveis (R$ 120–180)",
+  "composicao": {
+   "Serviço": 140,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Montagem de cama box com cabeceira",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 130,
+  "faixa_min": 100,
+  "faixa_max": 160,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: montagens-moveis (R$ 100–160)",
+  "composicao": {
+   "Serviço": 120,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Montagem de cozinha modulada completa",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 800,
+  "faixa_min": 400,
+  "faixa_max": 1200,
+  "materiais_produtos": "Buchas e parafusos",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: montagens-moveis (R$ 400–1.200)",
+  "composicao": {
+   "Serviço": 770,
+   "Materiais": 10,
+   "Deslocação": 20
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Instalação de suporte de TV (fixo)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 185,
+  "faixa_min": 120,
+  "faixa_max": 250,
+  "materiais_produtos": "Buchas, parafusos",
+  "nota": "Suporte à parte",
+  "fonte": "Cronoshare – guia de preços 2026: colocar-suporte-tv (R$ 120–250)",
+  "composicao": {
+   "Serviço": 165,
+   "Materiais": 10,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Instalação de prateleiras, quadros ou cortinas",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 85,
+  "faixa_min": 50,
+  "faixa_max": 120,
+  "materiais_produtos": "Buchas, parafusos",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: marido-aluguel (R$ 50–120)",
+  "composicao": {
+   "Serviço": 70,
+   "Materiais": 5,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Chaveiro – abertura de porta residencial",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 60,
+  "faixa_min": 30,
+  "faixa_max": 90,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: chaveiro (R$ 30–90)",
+  "composicao": {
+   "Serviço": 50,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Cópia de chave tetra",
+  "unidade": "unidade",
+  "preco_recomendado_brl": 21,
+  "faixa_min": 17,
+  "faixa_max": 25,
+  "materiais_produtos": "Chave virgem",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: chaveiro (R$ 17–25)",
+  "composicao": {
+   "Serviço": 12,
+   "Materiais": 9
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Personal organizer",
+  "unidade": "hora",
+  "preco_recomendado_brl": 200,
+  "faixa_min": 80,
+  "faixa_max": 400,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: personal-organizer (R$ 80–400/h)",
+  "composicao": {
+   "Serviço": 190,
+   "Materiais": 10
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Pet sitter (visita de 30 min)",
+  "unidade": "visita",
+  "preco_recomendado_brl": 60,
+  "faixa_min": 40,
+  "faixa_max": 80,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: pet-sitter (R$ 40–80)",
+  "composicao": {
+   "Serviço": 55,
    "Deslocação": 5
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Banho e tosa (cão pequeno, pelo longo)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 70,
+  "faixa_min": 40,
+  "faixa_max": 100,
+  "materiais_produtos": "Shampoo, condicionador",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: tosa-canina (R$ 40–100)",
+  "composicao": {
+   "Serviço": 55,
+   "Materiais": 15
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Adestramento (aula particular)",
+  "unidade": "aula",
+  "preco_recomendado_brl": 225,
+  "faixa_min": 150,
+  "faixa_max": 300,
+  "materiais_produtos": "Petiscos, guia",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: adestrador-caes (R$ 150–300)",
+  "composicao": {
+   "Serviço": 210,
+   "Materiais": 5,
+   "Deslocação": 10
+  }
+ },
+ {
+  "categoria": "Serviços domésticos",
+  "servico": "Conserto de eletrodoméstico (visita + reparo simples)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 200,
+  "faixa_min": 100,
+  "faixa_max": 300,
+  "materiais_produtos": "—",
+  "nota": "Peças à parte",
+  "fonte": "Cronoshare – guia de preços 2026: consertar-eletrodomestico (R$ 100–300)",
+  "composicao": {
+   "Serviço": 160,
+   "Materiais": 20,
+   "Deslocação": 20
   }
  },
  {
   "categoria": "Tecnologia",
   "servico": "Hora de desenvolvimento sob medida",
   "unidade": "hora",
-  "preco_recomendado_brl": 120,
-  "faixa_min": 70,
+  "preco_recomendado_brl": 110,
+  "faixa_min": 60,
   "faixa_max": 200,
   "materiais_produtos": "—",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: criar-site (júnior R$ 60–120/h; pleno R$ 120–200/h)",
   "composicao": {
-   "Desenvolvimento": 120
+   "Desenvolvimento": 110
   }
  },
  {
   "categoria": "Tecnologia",
   "servico": "Landing page",
   "unidade": "projeto",
-  "preco_recomendado_brl": 1800,
-  "faixa_min": 1000,
-  "faixa_max": 4000,
+  "preco_recomendado_brl": 1400,
+  "faixa_min": 800,
+  "faixa_max": 2000,
   "materiais_produtos": "WordPress/Webflow, formulário, integração WhatsApp, SEO básico",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: criar-site (landing page R$ 800–2.000)",
   "composicao": {
-   "Análise e desenho": 300,
-   "Desenvolvimento": 1200,
-   "Testes e implementação": 200,
-   "Licenças e serviços de terceiros": 100
+   "Análise e desenho": 233,
+   "Desenvolvimento": 935,
+   "Testes e implementação": 155,
+   "Licenças e serviços de terceiros": 77
   }
  },
  {
   "categoria": "Tecnologia",
   "servico": "Site institucional (até 5 páginas)",
   "unidade": "projeto",
-  "preco_recomendado_brl": 3800,
-  "faixa_min": 1500,
-  "faixa_max": 8000,
+  "preco_recomendado_brl": 2500,
+  "faixa_min": 1000,
+  "faixa_max": 6000,
   "materiais_produtos": "WordPress, tema premium, formulário, SSL",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: criar-site (simples R$ 400–2.000; completo R$ 2.500–10.000)",
   "composicao": {
-   "Análise e desenho": 600,
-   "Desenvolvimento": 2400,
-   "Testes e implementação": 500,
-   "Licenças e serviços de terceiros": 300
+   "Análise e desenho": 394,
+   "Desenvolvimento": 1581,
+   "Testes e implementação": 328,
+   "Licenças e serviços de terceiros": 197
   }
  },
  {
   "categoria": "Tecnologia",
   "servico": "Loja virtual (até 100 produtos)",
   "unidade": "projeto",
-  "preco_recomendado_brl": 8500,
-  "faixa_min": 5000,
-  "faixa_max": 20000,
+  "preco_recomendado_brl": 6000,
+  "faixa_min": 3000,
+  "faixa_max": 15000,
   "materiais_produtos": "Nuvemshop/Shopify/WooCommerce, Pix/cartão, frete",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: criar-loja-virtual (design e usabilidade R$ 2.000–15.000)",
   "composicao": {
-   "Análise e desenho": 1200,
-   "Desenvolvimento": 5500,
-   "Testes e implementação": 1300,
-   "Licenças e serviços de terceiros": 500
+   "Análise e desenho": 847,
+   "Desenvolvimento": 3884,
+   "Testes e implementação": 917,
+   "Licenças e serviços de terceiros": 352
   }
  },
  {
   "categoria": "Tecnologia",
   "servico": "Aplicativo MVP (iOS + Android)",
   "unidade": "projeto",
-  "preco_recomendado_brl": 62000,
-  "faixa_min": 35000,
-  "faixa_max": 120000,
+  "preco_recomendado_brl": 45000,
+  "faixa_min": 20000,
+  "faixa_max": 90000,
   "materiais_produtos": "Flutter/React Native, backend, publicação nas lojas",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: desenvolver-app (comercial a partir de R$ 20.000; e-commerce R$ 30.000–70.000)",
   "composicao": {
-   "Análise e desenho": 8000,
-   "Desenvolvimento": 42000,
-   "Testes e implementação": 10000,
-   "Licenças e serviços de terceiros": 2000
+   "Análise e desenho": 5806,
+   "Desenvolvimento": 30485,
+   "Testes e implementação": 7258,
+   "Licenças e serviços de terceiros": 1451
   }
  },
  {
@@ -2855,6 +6065,7 @@
   "faixa_max": 9000,
   "materiais_produtos": "API WhatsApp, n8n/Make, IA, integração com CRM",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Análise e desenho": 800,
    "Desenvolvimento": 2500,
@@ -2867,10 +6078,11 @@
   "servico": "Manutenção mensal de site",
   "unidade": "mês",
   "preco_recomendado_brl": 400,
-  "faixa_min": 250,
+  "faixa_min": 200,
   "faixa_max": 1000,
   "materiais_produtos": "Atualizações, backups, segurança, monitoramento",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: criar-loja-virtual (manutenção R$ 200–2.000/mês)",
   "composicao": {
    "Desenvolvimento": 250,
    "Testes e implementação": 80,
@@ -2886,6 +6098,7 @@
   "faixa_max": 900,
   "materiais_produtos": "Hospedagem, domínio, e-mail profissional",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Testes e implementação": 150,
    "Licenças e serviços de terceiros": 350
@@ -2895,15 +6108,16 @@
   "categoria": "Tecnologia",
   "servico": "Formatação / manutenção de computador",
   "unidade": "serviço",
-  "preco_recomendado_brl": 190,
-  "faixa_min": 120,
-  "faixa_max": 300,
+  "preco_recomendado_brl": 130,
+  "faixa_min": 80,
+  "faixa_max": 200,
   "materiais_produtos": "Diagnóstico, reinstalação do sistema, backup",
   "nota": "Peças à parte",
+  "fonte": "Cronoshare – guia de preços 2026: formatar-computador (R$ 80–150)",
   "composicao": {
-   "Análise e desenho": 40,
-   "Desenvolvimento": 120,
-   "Testes e implementação": 30
+   "Análise e desenho": 27,
+   "Desenvolvimento": 83,
+   "Testes e implementação": 20
   }
  },
  {
@@ -2915,6 +6129,7 @@
   "faixa_max": 1500,
   "materiais_produtos": "Configuração de roteador/mesh, cabeamento",
   "nota": "Equipamentos à parte",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Análise e desenho": 150,
    "Desenvolvimento": 500,
@@ -2930,6 +6145,7 @@
   "faixa_max": 3500,
   "materiais_produtos": "Help desk remoto, antivírus, backup",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Desenvolvimento": 1200,
    "Testes e implementação": 300,
@@ -2937,30 +6153,176 @@
   }
  },
  {
+  "categoria": "Tecnologia",
+  "servico": "Remoção de vírus",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 90,
+  "faixa_min": 80,
+  "faixa_max": 100,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: formatar-computador (R$ 80–100)",
+  "composicao": {
+   "Análise e desenho": 10,
+   "Desenvolvimento": 70,
+   "Testes e implementação": 10
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Troca de tela de notebook (modelo básico)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 525,
+  "faixa_min": 350,
+  "faixa_max": 700,
+  "materiais_produtos": "Tela compatível",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: conserto-tela-notebook (R$ 350–700)",
+  "composicao": {
+   "Análise e desenho": 25,
+   "Testes e implementação": 100,
+   "Licenças e serviços de terceiros": 400
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Assistência técnica a domicílio",
+  "unidade": "hora",
+  "preco_recomendado_brl": 145,
+  "faixa_min": 40,
+  "faixa_max": 250,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: assistencia-computadores-domicilio (R$ 40–250/h)",
+  "composicao": {
+   "Análise e desenho": 30,
+   "Desenvolvimento": 95,
+   "Testes e implementação": 20
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Assistência técnica remota",
+  "unidade": "atendimento",
+  "preco_recomendado_brl": 50,
+  "faixa_min": 20,
+  "faixa_max": 80,
+  "materiais_produtos": "Software de acesso remoto",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: assistencia-computadores-domicilio (R$ 20–80)",
+  "composicao": {
+   "Análise e desenho": 10,
+   "Desenvolvimento": 35,
+   "Testes e implementação": 5
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Recuperação de dados (HD/SSD)",
+  "unidade": "serviço",
+  "preco_recomendado_brl": 1150,
+  "faixa_min": 300,
+  "faixa_max": 2000,
+  "materiais_produtos": "Laboratório, ferramentas forenses",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: recuperar-dados-disco-rigido (R$ 300–2.000)",
+  "composicao": {
+   "Análise e desenho": 150,
+   "Desenvolvimento": 800,
+   "Testes e implementação": 100,
+   "Licenças e serviços de terceiros": 100
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Auditoria de cibersegurança",
+  "unidade": "projeto",
+  "preco_recomendado_brl": 7500,
+  "faixa_min": 5000,
+  "faixa_max": 10000,
+  "materiais_produtos": "Testes de vulnerabilidade, relatório",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: servico-ciberseguranca-empresas (R$ 5.000–10.000)",
+  "composicao": {
+   "Análise e desenho": 2000,
+   "Desenvolvimento": 3500,
+   "Testes e implementação": 1500,
+   "Licenças e serviços de terceiros": 500
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Tradução de site",
+  "unidade": "palavra",
+  "preco_recomendado_brl": 0.1,
+  "faixa_min": 0.06,
+  "faixa_max": 0.15,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: traduzir-site (R$ 0,06–0,15/palavra)",
+  "composicao": {
+   "Desenvolvimento": 0.09,
+   "Testes e implementação": 0.01
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Digitalização de documentos",
+  "unidade": "página",
+  "preco_recomendado_brl": 0.5,
+  "faixa_min": 0.15,
+  "faixa_max": 1.0,
+  "materiais_produtos": "Scanner, OCR",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: digitalizar-documentos (R$ 0,15–1,00/página)",
+  "composicao": {
+   "Desenvolvimento": 0.4,
+   "Testes e implementação": 0.1
+  }
+ },
+ {
+  "categoria": "Tecnologia",
+  "servico": "Cadastro de produtos em loja virtual",
+  "unidade": "produto",
+  "preco_recomendado_brl": 12,
+  "faixa_min": 5,
+  "faixa_max": 20,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: criar-loja-virtual (R$ 5–20 por produto)",
+  "composicao": {
+   "Análise e desenho": 2,
+   "Desenvolvimento": 9,
+   "Testes e implementação": 1
+  }
+ },
+ {
   "categoria": "Transportes",
   "servico": "Carreto (pick-up / VUC) até 10 km + 1 ajudante",
   "unidade": "serviço",
-  "preco_recomendado_brl": 200,
-  "faixa_min": 120,
+  "preco_recomendado_brl": 180,
+  "faixa_min": 100,
   "faixa_max": 350,
   "materiais_produtos": "Veículo, cintas, cobertores",
   "nota": "Média nacional ≈ R$ 180",
+  "fonte": "Cronoshare – guia de preços 2026: carreto (tarifa fixa a partir de R$ 100)",
   "composicao": {
-   "Quilómetros": 80,
-   "Carga e descarga": 120
+   "Quilómetros": 72,
+   "Carga e descarga": 108
   }
  },
  {
   "categoria": "Transportes",
   "servico": "Frete por km (caminhão 3/4 dedicado)",
   "unidade": "km",
-  "preco_recomendado_brl": 4.0,
+  "preco_recomendado_brl": 4,
   "faixa_min": 3,
-  "faixa_max": 5,
+  "faixa_max": 7,
   "materiais_produtos": "Diesel, desgaste, seguro",
   "nota": "Contar ida e volta",
+  "fonte": "Cronoshare – guia de preços 2026: carreto, frete (R$ 3–7,50/km)",
   "composicao": {
-   "Quilómetros": 4.0
+   "Quilómetros": 4
   }
  },
  {
@@ -2972,6 +6334,7 @@
   "faixa_max": 220,
   "materiais_produtos": "Caminhão baú, cintas, cobertores",
   "nota": "Mínimo 2 h",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Quilómetros": 80,
    "Carga e descarga": 70
@@ -2986,6 +6349,7 @@
   "faixa_max": 280,
   "materiais_produtos": "Carrinho de carga, cobertores",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Quilómetros": 80,
    "Carga e descarga": 90,
@@ -2996,30 +6360,32 @@
   "categoria": "Transportes",
   "servico": "Mudança local kitnet / 1 quarto",
   "unidade": "serviço",
-  "preco_recomendado_brl": 1300,
-  "faixa_min": 800,
-  "faixa_max": 2500,
+  "preco_recomendado_brl": 900,
+  "faixa_min": 650,
+  "faixa_max": 1400,
   "materiais_produtos": "Caminhão 3/4, 2–3 ajudantes, plástico bolha, filme",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: mudanca (R$ 650–1.400)",
   "composicao": {
-   "Quilómetros": 350,
-   "Carga e descarga": 800,
-   "Material de embalagem": 150
+   "Quilómetros": 242,
+   "Carga e descarga": 555,
+   "Material de embalagem": 103
   }
  },
  {
   "categoria": "Transportes",
   "servico": "Mudança local 2 quartos",
   "unidade": "serviço",
-  "preco_recomendado_brl": 2300,
-  "faixa_min": 1500,
-  "faixa_max": 3500,
+  "preco_recomendado_brl": 1800,
+  "faixa_min": 1200,
+  "faixa_max": 3000,
   "materiais_produtos": "Caminhão baú, 3–4 ajudantes, desmontagem simples",
   "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: mudanca (casa a partir de R$ 650; entre cidades a partir de R$ 1.400)",
   "composicao": {
-   "Quilómetros": 550,
-   "Carga e descarga": 1500,
-   "Material de embalagem": 250
+   "Quilómetros": 430,
+   "Carga e descarga": 1175,
+   "Material de embalagem": 195
   }
  },
  {
@@ -3031,6 +6397,7 @@
   "faixa_max": 8500,
   "materiais_produtos": "Caminhão compartilhado, embalagem, seguro",
   "nota": "Exclusivo: até ≈ R$ 8.500",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Quilómetros": 2200,
    "Carga e descarga": 800,
@@ -3047,6 +6414,7 @@
   "faixa_max": 1500,
   "materiais_produtos": "Carrinho de piano, cintas, 3–4 ajudantes",
   "nota": "Escadas: +R$ 200–400",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Quilómetros": 200,
    "Carga e descarga": 700,
@@ -3062,6 +6430,7 @@
   "faixa_max": 35,
   "materiais_produtos": "Moto, baú",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Quilómetros": 14,
    "Carga e descarga": 6
@@ -3076,8 +6445,127 @@
   "faixa_max": 260,
   "materiais_produtos": "Caixas de papelão, fita, plástico bolha, filme stretch",
   "nota": "",
+  "fonte": "Edição 2026-11 (sem alteração)",
   "composicao": {
    "Material de embalagem": 180
+  }
+ },
+ {
+  "categoria": "Transportes",
+  "servico": "Guarda-móveis (box de 4 m²)",
+  "unidade": "mês",
+  "preco_recomendado_brl": 178,
+  "faixa_min": 135,
+  "faixa_max": 240,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: guarda-moveis (2 m² ≈ R$ 135; 4 m² ≈ R$ 178)",
+  "composicao": {
+   "Material de embalagem": 178
+  }
+ },
+ {
+  "categoria": "Transportes",
+  "servico": "Motorista particular (diária)",
+  "unidade": "diária",
+  "preco_recomendado_brl": 275,
+  "faixa_min": 250,
+  "faixa_max": 300,
+  "materiais_produtos": "—",
+  "nota": "Veículo do cliente",
+  "fonte": "Cronoshare – guia de preços 2026: motorista-particular (R$ 250–300)",
+  "composicao": {
+   "Quilómetros": 275
+  }
+ },
+ {
+  "categoria": "Transportes",
+  "servico": "Motorista particular (hora)",
+  "unidade": "hora",
+  "preco_recomendado_brl": 125,
+  "faixa_min": 100,
+  "faixa_max": 150,
+  "materiais_produtos": "—",
+  "nota": "Veículo do cliente",
+  "fonte": "Cronoshare – guia de preços 2026: motorista-particular (R$ 100–150/h)",
+  "composicao": {
+   "Quilómetros": 125
+  }
+ },
+ {
+  "categoria": "Transportes",
+  "servico": "Van com motorista (diária)",
+  "unidade": "diária",
+  "preco_recomendado_brl": 400,
+  "faixa_min": 300,
+  "faixa_max": 500,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: alugar-onibus-micro-onibus (van R$ 300–500)",
+  "composicao": {
+   "Quilómetros": 380,
+   "Portagens / pedágios": 20
+  }
+ },
+ {
+  "categoria": "Transportes",
+  "servico": "Micro-ônibus com motorista (diária)",
+  "unidade": "diária",
+  "preco_recomendado_brl": 800,
+  "faixa_min": 400,
+  "faixa_max": 1200,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: alugar-onibus-micro-onibus (R$ 400–1.200)",
+  "composicao": {
+   "Quilómetros": 760,
+   "Portagens / pedágios": 40
+  }
+ },
+ {
+  "categoria": "Transportes",
+  "servico": "Ajudante de mudança (diária)",
+  "unidade": "diária",
+  "preco_recomendado_brl": 275,
+  "faixa_min": 250,
+  "faixa_max": 300,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: mudanca (ajudantes R$ 250–300)",
+  "composicao": {
+   "Carga e descarga": 275
+  }
+ },
+ {
+  "categoria": "Transportes",
+  "servico": "Transportadora (curta distância)",
+  "unidade": "envio",
+  "preco_recomendado_brl": 350,
+  "faixa_min": 200,
+  "faixa_max": 500,
+  "materiais_produtos": "—",
+  "nota": "",
+  "fonte": "Cronoshare – guia de preços 2026: transportadora (R$ 200–500)",
+  "composicao": {
+   "Quilómetros": 250,
+   "Carga e descarga": 70,
+   "Portagens / pedágios": 30
+  }
+ },
+ {
+  "categoria": "Transportes",
+  "servico": "Transporte de veículo (cegonha)",
+  "unidade": "veículo",
+  "preco_recomendado_brl": 1600,
+  "faixa_min": 200,
+  "faixa_max": 3000,
+  "materiais_produtos": "—",
+  "nota": "Depende muito da distância",
+  "fonte": "Cronoshare – guia de preços 2026: transportar-veiculo (R$ 200–3.000)",
+  "composicao": {
+   "Quilómetros": 1400,
+   "Carga e descarga": 100,
+   "Portagens / pedágios": 100
   }
  }
 ]
