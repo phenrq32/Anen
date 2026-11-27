@@ -40,7 +40,7 @@ Uma conta ANEN, uma identidade visual e uma infraestrutura, com dois tipos de es
 | 4. Seletor de contexto e navegação adaptativa | Concluída; em produção a 23/11/2026 |
 | 5. Ambiente pessoal | Em produção (parcelas, Hoje, assinaturas, dívidas, calendário e menu pessoal); cartões personalizáveis por fazer |
 | 6. Ambiente empresarial | Concluída e em produção a 27/11/2026 (menu §6 e Hoje da empresa §6.1) |
-| 7. Transferências entre ambientes | Concluída (migration 3500); publicação por aprovar |
-| 8. IA com contexto separado | Concluída (sem migrations); publicação por aprovar |
-| 9. Subscrições e permissões avançadas | Concluída (migration 3600, limites sem valores por decisão do dono da app); publicação por aprovar |
-| 10. Testes, revisão e produção | Testes unitários e identidade visual verificados; falta aplicar as migrations 3500 e 3600, publicar e correr os E2E em produção |
+| 7. Transferências entre ambientes | Concluída e em produção a 27/11/2026 (migration 3500) |
+| 8. IA com contexto separado | Concluída e em produção a 27/11/2026 |
+| 9. Subscrições e permissões avançadas | Concluída e em produção a 27/11/2026 (migration 3600; limites sem valores por decisão do dono da app) |
+| 10. Testes, revisão e produção | Concluída a 27/11/2026: 572 testes unitários; E2E em produção 73 de 75 (falha só o checkout da InfinitePay, QA-14); identidade visual sem alterações |

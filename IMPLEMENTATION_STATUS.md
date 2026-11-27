@@ -271,7 +271,7 @@ Modelo em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md) (opção A: camada 
 
 | Funcionalidade | Estado | Evidência |
 |---|---|---|
-| Transferências entre o pessoal e empresas (rever, confirmar, reverter), atómicas e idempotentes | Testado (BD); por publicar | `cross-workspace-transfers.test.ts`; E2E `transfers.spec.ts` (corre depois de aplicar a migration 3500) |
+| Transferências entre o pessoal e empresas (rever, confirmar, reverter), atómicas e idempotentes | Publicado e testado em produção | `cross-workspace-transfers.test.ts`; E2E `transfers.spec.ts` (desktop e telemóvel) |
 | ANEN AI com contexto pessoal e empresarial separados, ferramentas validadas no servidor | Testado | `ai/context.test.ts`, `ai/tools.test.ts` |
 | Limites dos planos versionados e validados na base; administração dos limites | Testado (BD); sem valores (decisão do dono da app) | `plan-limits.test.ts` |
 | Identidade visual intacta em todas as fases | Verificado | `git diff` dos ficheiros de logótipo, ícone, `packages/ui`, `globals.css` e `layout.tsx` desde o início do Dual Workspace: sem alterações |

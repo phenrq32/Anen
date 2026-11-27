@@ -4,6 +4,7 @@
 - Fase 7, transferências entre ambientes (migration 3500, aprovada): Finanças → Transferências cria a saída num espaço e a entrada no outro com a mesma referência, numa só operação, depois de rever e confirmar. Permissão nos dois lados, sem duplicados, reversão por compensação e movimentos bloqueados. A ANEN não classifica a natureza fiscal; cada lado escolhe a sua categoria.
 - Fase 8, IA por espaço: `PERSONAL_AI_CONTEXT` e `BUSINESS_AI_CONTEXT`, cada um com as suas ferramentas, recusadas no servidor fora do contexto; nova ferramenta pessoal de orçamento e objetivos; a IA indica a origem e a data dos dados.
 - Fase 9, planos (migration 3600, aprovada): limites por plano versionados e validados na base (organizações, membros, projetos, orçamentos por mês, índices acompanhados), todos sem limite até o dono da app os definir na administração dos planos. O papel "accountant" aparece como Financeiro.
+- Publicado a 27/11/2026 (migrations 3500 e 3600 e deploy). E2E contra produção: 73 de 75; falha só `billing.spec.ts` (checkout da InfinitePay, QA-14 já conhecido).
 - Fase 10: identidade visual verificada (nenhum ficheiro de logótipo, ícone, cores, fontes ou tokens alterado). Testes: 572 unitários (`cross-workspace-transfers`, `plan-limits`, `ai/context`, `ai/tools`); E2E `transfers.spec.ts`.
 
 ## [0.33.0] · 27/11/2026 · Dual Workspace, Fase 6: ambiente empresarial
