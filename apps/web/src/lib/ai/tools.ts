@@ -21,6 +21,8 @@ import { categoryLabel, financeScope, todayIn } from "@/lib/finance";
 import { projectFinancials } from "@/lib/projects";
 import { quotesScope } from "@/lib/quotes";
 import type { SessionContext } from "@/lib/session";
+import { loadFinanceOverview } from "@/lib/finance-overview";
+import { aiContextFor, toolAllowed, AI_CONTEXT_TOOLS, type AiContext } from "./context";
 import type { FunctionDeclaration } from "./gemini";
 
 /**
@@ -503,6 +505,41 @@ export const TOOLS = {
     },
   }),
 
+  orcamento_e_objetivos: tool({
+    declaration: {
+      name: "orcamento_e_objetivos",
+      description:
+        "Só no espaço pessoal: orçamento do mês por categoria (limite, gasto e disponível) e objetivos de poupança (meta, poupado e data). Use para 'quanto ainda posso gastar', 'como vão os meus objetivos'.",
+      parameters: { type: "object", properties: {} },
+    },
+    schema: z.object({}).passthrough(),
+    run: async (ctx) => {
+      const fin = financeScope(ctx.session);
+      if (!fin.canRead) return NO_FINANCE;
+      const [overview, units] = await Promise.all([loadFinanceOverview(ctx.session.supabase, fin, ctx.m, ctx.locale, "month"), minorUnits(ctx)]);
+      return {
+        data: {
+          mes: overview.month,
+          orcamentos: overview.budgets.map((b) => ({
+            categoria: b.label,
+            limite: money(ctx, units, BigInt(b.amount_minor), b.currency_code),
+            gasto: money(ctx, units, b.spent, b.currency_code),
+            disponivel: money(ctx, units, BigInt(b.amount_minor) - b.spent, b.currency_code),
+          })),
+          objetivos: overview.goals.map((g) => ({
+            nome: g.name,
+            meta: money(ctx, units, BigInt(g.target_minor), g.currency_code),
+            poupado: money(ctx, units, BigInt(g.saved_minor), g.currency_code),
+            falta: money(ctx, units, BigInt(g.target_minor) - BigInt(g.saved_minor) > 0n ? BigInt(g.target_minor) - BigInt(g.saved_minor) : 0n, g.currency_code),
+            data_alvo: g.target_date,
+          })),
+        },
+        sources: [
+          { label: "Orçamento e objetivos", href: "/financas/orcamentos" },
+        ],
+      };
+    },
+  }),
   orcamentos: tool({
     declaration: {
       name: "orcamentos",
@@ -552,10 +589,23 @@ export type ToolName = keyof typeof TOOLS;
 
 export const TOOL_DECLARATIONS: FunctionDeclaration[] = Object.values(TOOLS).map((t) => t.declaration);
 
+/** Contexto da IA do espaço ativo (§8). */
+export function aiContextOf(ctx: ToolContext): AiContext {
+  return aiContextFor(ctx.session.active?.organization.id ?? null);
+}
+
+/** Só as ferramentas do contexto do espaço ativo são oferecidas ao modelo. */
+export function toolDeclarationsFor(context: AiContext): FunctionDeclaration[] {
+  const allowed = new Set<string>(AI_CONTEXT_TOOLS[context]);
+  return Object.values(TOOLS).filter((t) => allowed.has(t.declaration.name)).map((t) => t.declaration);
+}
+
 /** Executa uma ferramenta pedida pelo modelo, com os argumentos validados. Nunca lança: devolve o erro como dado. */
 export async function runTool(ctx: ToolContext, name: string, args: unknown): Promise<ToolResult> {
   const def = (TOOLS as Record<string, ToolDef<z.ZodTypeAny>>)[name];
   if (!def) return { data: { erro: `Ferramenta desconhecida: ${name}` }, sources: [] };
+  // Validação no servidor antes de qualquer consulta: a ferramenta tem de pertencer ao contexto do espaço ativo.
+  if (!toolAllowed(aiContextOf(ctx), name)) return { data: { erro: "Esta informação não está disponível neste espaço." }, sources: [] };
   const parsed = def.schema.safeParse(args ?? {});
   if (!parsed.success) return { data: { erro: "Argumentos inválidos para a ferramenta." }, sources: [] };
   try {

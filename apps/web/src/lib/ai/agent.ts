@@ -2,7 +2,7 @@ import "server-only";
 import { todayIn } from "@/lib/finance";
 import { financeScope } from "@/lib/finance";
 import { generate, visibleText, type GeminiContent } from "./gemini";
-import { runTool, TOOL_DECLARATIONS, type Source, type ToolContext } from "./tools";
+import { aiContextOf, runTool, toolDeclarationsFor, type Source, type ToolContext } from "./tools";
 
 const MAX_ROUNDS = 5;
 
@@ -19,15 +19,21 @@ export function systemPrompt(ctx: ToolContext): string {
   const fin = financeScope(ctx.session);
   const brazil = ctx.locale === "pt-BR";
   const where = ctx.session.active ? `a organização "${ctx.session.active.organization.name}"` : "as finanças pessoais da pessoa";
+  const context = aiContextOf(ctx);
+  const isolation =
+    context === "BUSINESS_AI_CONTEXT"
+      ? "Contexto: BUSINESS_AI_CONTEXT. Só tens dados desta organização. Não tens nem uses dados pessoais de ninguém; se te pedirem, diz que é preciso mudar para o espaço pessoal."
+      : "Contexto: PERSONAL_AI_CONTEXT. Só tens os dados pessoais desta pessoa. Não tens nem uses dados de empresas; se te pedirem, diz que é preciso mudar para o espaço da empresa.";
   return [
     `És a ANEN AI, assistente financeira da plataforma ANEN. Estás a ajudar com ${where}.`,
+    isolation,
     `Hoje é ${todayIn(fin.timezone)} (fuso ${fin.timezone}). Moeda principal: ${fin.defaultCurrency}.`,
     brazil ? "Responda sempre em português do Brasil." : "Responde sempre em português de Portugal.",
     "Regras obrigatórias:",
     "1. Usa SEMPRE as ferramentas para obter dados. Nunca inventes valores, movimentos, preços, impostos nem conclusões.",
     "2. Os valores das ferramentas já vêm calculados e formatados: copia-os tal como estão. Não faças contas de dinheiro por ti; se precisares de outro cálculo, usa outra ferramenta ou diz que não é possível.",
     "3. Se uma ferramenta devolver 'erro' ou não houver dados, diz isso claramente e o que a pessoa pode registar para teres a resposta.",
-    "4. Diz sempre o período e a base usados (ex.: 'de 1 a 30 de novembro, 12 movimentos').",
+    "4. Diz sempre o período, a base e a origem dos dados usados (ex.: 'movimentos da organização, de 1 a 30 de novembro, 12 movimentos'), e a data da informação.",
     "5. Os preços de fornecedores são registos da própria empresa, não preços de mercado.",
     "6. Para recomendações, explica: o que foi identificado, os dados que o sustentam, o impacto estimado, o que a pessoa pode fazer e o grau de confiança (alto, médio, baixo).",
     "7. Não executas ações: não pagas, não encomendas, não mudas preços. Podes sugerir; a pessoa decide.",
@@ -64,7 +70,7 @@ export async function runAgent(
       system,
       contents,
       // Na última volta já não oferece ferramentas: obriga a responder com o que tem.
-      tools: round < MAX_ROUNDS ? TOOL_DECLARATIONS : [],
+      tools: round < MAX_ROUNDS ? toolDeclarationsFor(aiContextOf(ctx)) : [],
       apiKey: config.apiKey,
       models: model ? [model, ...config.models.filter((m) => m !== model)] : config.models,
       ...(fetchImpl ? { fetchImpl } : {}),
