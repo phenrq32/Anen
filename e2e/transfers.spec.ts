@@ -43,7 +43,7 @@ test("transferência da empresa para o pessoal: rever, confirmar, ver nos dois l
 
   await page.goto("/financas/transferencias");
   await expect(main.getByText(/a ANEN não decide se é rendimento, lucro, despesa/)).toBeVisible();
-  await main.getByLabel("Outro espaço").selectOption({ label: "Pessoal" });
+  await main.getByLabel("Outro espaço", { exact: true }).selectOption({ label: "Pessoal" });
   await main.getByLabel(/^Valor/).fill("500");
   await main.getByLabel("Descrição", { exact: true }).fill("Levantamento de novembro");
   await main.getByRole("button", { name: "Rever transferência" }).click();

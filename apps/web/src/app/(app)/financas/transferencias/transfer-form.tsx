@@ -74,11 +74,8 @@ export function TransferForm({
   return (
     <ActionForm action={createTransferAction}>
       {(state) =>
-        state.status === "success" ? (
-          <div className="flex flex-col items-start gap-3">
-            <Alert tone="success">{state.message}</Alert>
-          </div>
-        ) : (
+        // A mensagem de sucesso ou de erro aparece no próprio ActionForm.
+        state.status === "success" ? null : (
           <>
             <input type="hidden" name="clientRef" value={clientRef} />
             <input type="hidden" name="direction" value={direction} />
@@ -91,7 +88,6 @@ export function TransferForm({
             <input type="hidden" name="date" value={date} />
             <input type="hidden" name="type" value={type} />
             <input type="hidden" name="description" value={description} />
-            {state.status === "error" && state.message ? <Alert>{state.message}</Alert> : null}
             {reviewing ? (
               <div className="flex flex-col gap-4 rounded-xl border border-brand/40 bg-brand/5 p-4">
                 <p className="font-semibold">{t.confirmTitle}</p>
