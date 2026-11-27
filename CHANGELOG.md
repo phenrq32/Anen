@@ -5,6 +5,7 @@
 - "Hoje" da empresa (§6.1): saldo de caixa registado, resultado do período (lucro ou prejuízo), rentabilidade e saldo previsto a 30 dias, com o que já aconteceu separado do que está previsto; operação com a receber, a pagar (e atrasos), orçamentos pendentes, projetos ativos, alertas financeiros e oportunidades de mercado.
 - Motor `businessPulse` (testado). Sem migrations.
 - Testes: 552 unitários; E2E `business-today.spec.ts` e `workspace-nav.spec.ts` (ordem do menu empresarial).
+- Publicado a 27/11/2026. Suite E2E contra produção: 70 de 73 à primeira; `intelligence.spec.ts` passou ao repetir (resumo da IA lento); `billing.spec.ts` falha pelo QA-14 já conhecido (InfinitePay).
 
 ## [0.32.0] · 27/11/2026 · Orçamento organizado por serviço e PDF gerado no servidor
 - Secções nas linhas do orçamento (migration 3400, aprovada pelo dono da app): "Pintura de T2 completo" e, por baixo, Tinta, Fita e lixas, Deslocação…, com subtotal por serviço. No editor a secção edita-se no cabeçalho, com "+ Linha nesta secção", "+ Secção" e remover secção. Os orçamentos criados a partir de modelos já vêm agrupados.

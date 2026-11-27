@@ -264,8 +264,8 @@ Modelo em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md) (opção A: camada 
 
 | Funcionalidade | Estado | Evidência |
 |---|---|---|
-| Menu empresarial pela ordem do §6, com as áreas filtradas por permissões; Clientes e Fornecedores separados | Testado | E2E `workspace-nav.spec.ts` |
-| Hoje da empresa (§6.1): saldo registado, lucro, rentabilidade, previsto a 30 dias, a receber/a pagar, orçamentos pendentes, projetos, alertas e mercado | Testado | `business-pulse.test.ts`; E2E `business-today.spec.ts` |
+| Menu empresarial pela ordem do §6, com as áreas filtradas por permissões; Clientes e Fornecedores separados | Publicado e testado em produção | E2E `workspace-nav.spec.ts` |
+| Hoje da empresa (§6.1): saldo registado, lucro, rentabilidade, previsto a 30 dias, a receber/a pagar, orçamentos pendentes, projetos, alertas e mercado | Publicado e testado em produção | `business-pulse.test.ts`; E2E `business-today.spec.ts` |
 
 ## Fases seguintes
 
