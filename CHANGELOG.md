@@ -4,7 +4,8 @@
 - Secções nas linhas do orçamento (migration 3400, aprovada pelo dono da app): "Pintura de T2 completo" e, por baixo, Tinta, Fita e lixas, Deslocação…, com subtotal por serviço. No editor a secção edita-se no cabeçalho, com "+ Linha nesta secção", "+ Secção" e remover secção. Os orçamentos criados a partir de modelos já vêm agrupados.
 - Documento para o cliente agrupado por serviço, legível no telemóvel (quantidade × preço por baixo de cada linha).
 - PDF gerado no servidor (`/api/orcamentos/[id]/pdf`, pdf-lib, fontes Inter e Manrope com licença OFL): funciona na app instalada no iPhone, onde "Imprimir" do navegador não está disponível. Botão "Descarregar PDF" no orçamento e no documento.
-- Testes: 549 unitários (`quote-sections.test.ts`, `quote-document.test.ts`, `quote-pdf.test.ts`); E2E `quote-models.spec.ts` cobre secções, documento e PDF.
+- O documento deixa de ter a coluna "Tipo" por linha; produtos e serviços continuam separados nos totais.
+- Testes: 549 unitários (`quote-sections.test.ts`, `quote-document.test.ts`, `quote-pdf.test.ts`); E2E `quote-models.spec.ts` cobre secções, documento e PDF. Publicado a 27/11/2026 (migration 3400 e deploy); E2E `quote-models`, `quotes`, `quote-discounts` e `crm` a passar em produção.
 
 ## [0.31.0] · 24/11/2026 · Novo orçamento com vários serviços de uma vez
 - Na lista de serviços com preço, escolhem-se vários serviços (até 40), cada um com a sua quantidade; o total aparece antes de criar. O orçamento junta as linhas de todos, identificadas pelo serviço ("Pintura · Tinta"), com margem 0 % e IVA opcional em Portugal.

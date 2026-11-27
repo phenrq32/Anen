@@ -90,7 +90,7 @@ test("desconto, produtos e serviços no documento, e projeto com a descrição d
   await expect(page.getByText("1627,56 €")).toBeVisible();
   await expect(page.getByText("Produtos", { exact: true })).toBeVisible();
   await expect(page.getByText("Serviços", { exact: true })).toBeVisible();
-  await expect(page.getByRole("cell", { name: "Produto", exact: true }).first()).toBeVisible();
+  // Desde 0.32.0 o documento agrupa por serviço e mostra produtos e serviços só nos totais (sem coluna "Tipo").
   await expect(page.getByText("1102,68 €")).toHaveCount(0);
 
   // Projeto a partir do orçamento aceite: herda a descrição e a receita já descontada.
