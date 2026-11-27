@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.34.0] · 27/11/2026 · Dual Workspace, Fases 7 a 9 (e revisão da Fase 10)
+- Fase 7, transferências entre ambientes (migration 3500, aprovada): Finanças → Transferências cria a saída num espaço e a entrada no outro com a mesma referência, numa só operação, depois de rever e confirmar. Permissão nos dois lados, sem duplicados, reversão por compensação e movimentos bloqueados. A ANEN não classifica a natureza fiscal; cada lado escolhe a sua categoria.
+- Fase 8, IA por espaço: `PERSONAL_AI_CONTEXT` e `BUSINESS_AI_CONTEXT`, cada um com as suas ferramentas, recusadas no servidor fora do contexto; nova ferramenta pessoal de orçamento e objetivos; a IA indica a origem e a data dos dados.
+- Fase 9, planos (migration 3600, aprovada): limites por plano versionados e validados na base (organizações, membros, projetos, orçamentos por mês, índices acompanhados), todos sem limite até o dono da app os definir na administração dos planos. O papel "accountant" aparece como Financeiro.
+- Fase 10: identidade visual verificada (nenhum ficheiro de logótipo, ícone, cores, fontes ou tokens alterado). Testes: 572 unitários (`cross-workspace-transfers`, `plan-limits`, `ai/context`, `ai/tools`); E2E `transfers.spec.ts`.
+
 ## [0.33.0] · 27/11/2026 · Dual Workspace, Fase 6: ambiente empresarial
 - Menu da empresa como pedido (§6): Hoje · Finanças · Orçamentos · Projetos · Clientes · Fornecedores · Compras · Inventário · Fichas técnicas · Inteligência de mercado · Relatórios · ANEN AI · Equipa · Definições (mais Faturação, Notificações, Alertas financeiros, Funções, Organização e Planos). As áreas sem permissão de leitura continuam fora do menu. Clientes e Fornecedores abrem os contactos filtrados e o menu marca o item certo.
 - "Hoje" da empresa (§6.1): saldo de caixa registado, resultado do período (lucro ou prejuízo), rentabilidade e saldo previsto a 30 dias, com o que já aconteceu separado do que está previsto; operação com a receber, a pagar (e atrasos), orçamentos pendentes, projetos ativos, alertas financeiros e oportunidades de mercado.

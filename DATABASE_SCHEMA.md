@@ -172,6 +172,23 @@ Detalhe em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md).
 | `cancel_installments(plan, from?)` | Apaga as parcelas sem nada pago a partir de `from` (por omissão, a primeira por pagar) e marca o plano |
 | `update_installments_from(plan, from, amount?, due_day?)` | Altera as parcelas sem nada pago a partir de `from` e recalcula o total |
 
+## Transferências entre espaços (migration 3500, Dual Workspace Fase 7)
+
+| Tabela / função | Notas |
+|---|---|
+| `cross_workspace_transfers` | Origem e destino (tipo e id do espaço), os dois movimentos, valor, moeda, data, natureza (`owner_withdrawal`, `owner_contribution`, `reimbursement`, `loan`, `other`; não é classificação fiscal), estado (`completed`/`reverted`), referência comum `TRF-AAAAMMDD-XXXXXX`, `client_ref` único por pessoa (idempotência) e os movimentos de compensação. Leitura para quem lê as finanças de um dos lados; sem escrita direta |
+| `create_cross_workspace_transfer(p jsonb)` | SECURITY DEFINER: exige escrever finanças nos dois espaços, contas de cada espaço na mesma moeda, categorias opcionais do tipo certo; cria os dois movimentos e a transferência na mesma transação |
+| `revert_cross_workspace_transfer(id, motivo)` | Cria a entrada na origem e a saída no destino (compensação) e marca como revertida; repetir é inofensivo |
+| Gatilho `transactions_transfer_guard` | Os movimentos de uma transferência não mudam de valor, conta, tipo, moeda, data nem liquidação, e não se apagam à parte (a eliminação em cascata da organização ou da conta continua possível) |
+
+## Limites dos planos (migration 3600, Dual Workspace Fase 9)
+
+| Tabela / função | Notas |
+|---|---|
+| `plan_limits` | Plano, limite (`organizations`, `members`, `projects`, `quotes_per_month`, `market_watches`), valor (null = sem limite), data de vigência e fonte. Começa tudo sem limite (decisão do dono da app, 27/11/2026). Leitura para quem tem sessão |
+| Gatilhos `*_plan_limit` | Antes de criar: organizações (plano da conta de quem cria), membros ativos, projetos, orçamentos do mês e índices acompanhados (plano do espaço). Erro `plan_limit_reached` |
+| `admin_set_plan_limit` | Só administradores da plataforma; cria uma nova versão em vigor a partir de hoje |
+
 ## Modelos de orçamento com preços (migrations 3100, 3200 e 3300)
 
 Fonte: pacotes em `data/modelos-orcamento/dados/modelos_orcamento_<edição>.json` (edições 2026-11 e 2026-12). As migrations 3100 (tabelas + 2026-11) e 3300 (só dados da 2026-12) são **geradas** por `scripts/quote-models/build-migration.mjs <edição>`; um teste confirma que são exatamente a saída do gerador. Uma edição nova acrescenta conjuntos e não apaga os anteriores (os orçamentos criados continuam ligados ao modelo de origem); a página usa a edição mais recente.

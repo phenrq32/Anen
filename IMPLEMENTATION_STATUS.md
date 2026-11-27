@@ -267,6 +267,15 @@ Modelo em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md) (opção A: camada 
 | Menu empresarial pela ordem do §6, com as áreas filtradas por permissões; Clientes e Fornecedores separados | Publicado e testado em produção | E2E `workspace-nav.spec.ts` |
 | Hoje da empresa (§6.1): saldo registado, lucro, rentabilidade, previsto a 30 dias, a receber/a pagar, orçamentos pendentes, projetos, alertas e mercado | Publicado e testado em produção | `business-pulse.test.ts`; E2E `business-today.spec.ts` |
 
+## Dual Workspace · Fases 7 a 10
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Transferências entre o pessoal e empresas (rever, confirmar, reverter), atómicas e idempotentes | Testado (BD); por publicar | `cross-workspace-transfers.test.ts`; E2E `transfers.spec.ts` (corre depois de aplicar a migration 3500) |
+| ANEN AI com contexto pessoal e empresarial separados, ferramentas validadas no servidor | Testado | `ai/context.test.ts`, `ai/tools.test.ts` |
+| Limites dos planos versionados e validados na base; administração dos limites | Testado (BD); sem valores (decisão do dono da app) | `plan-limits.test.ts` |
+| Identidade visual intacta em todas as fases | Verificado | `git diff` dos ficheiros de logótipo, ícone, `packages/ui`, `globals.css` e `layout.tsx` desde o início do Dual Workspace: sem alterações |
+
 ## Fases seguintes
 
 | Fase | Estado | O que é preciso para avançar |

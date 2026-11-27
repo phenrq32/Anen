@@ -12,6 +12,9 @@ Como se prova que os dados dos workspaces não se misturam. Comandos gerais em [
 | Vistas de workspaces | Cada pessoa só vê o seu pessoal e as organizações em que é membro ativo; suspensos perdem acesso | `workspaces.test.ts` |
 | Workspace ativo no servidor | Âmbito, permissões e resolução nunca confiam num valor do cliente | `apps/web/src/lib/workspace.test.ts` |
 | Formulário de uma aba antiga (QA-03) | Uma gravação só acontece no workspace que estava no ecrã; sem workspace, recusa (falha fechada) | `workspace.test.ts` (`checkWorkspaceKey`); `workspace-guard-coverage.test.ts` (todas as ações começam por `guardWorkspace` e todos os formulários enviam o campo); E2E `workspace-guard.spec.ts` (duas abas) |
+| Transferências entre espaços (Fase 7) | Permissão de escrita nos dois lados; os dois movimentos ficam ou nenhum; pedido repetido não duplica; movimentos bloqueados; reversão por compensação; outra empresa não vê | `cross-workspace-transfers.test.ts`; E2E `transfers.spec.ts` |
+| IA por espaço (Fase 8) | `PERSONAL_AI_CONTEXT` e `BUSINESS_AI_CONTEXT`: o modelo só recebe as ferramentas do contexto e o servidor recusa as outras antes de consultar dados; conversas de outro espaço recusadas | `apps/web/src/lib/ai/context.test.ts`, `tools.test.ts`; `ia/actions.ts` (organização da conversa) |
+| Limites dos planos (Fase 9) | Validados na base ao criar organizações, membros, projetos, orçamentos e índices; versões futuras sem efeito; só administradores mudam | `plan-limits.test.ts` |
 | Fluxos completos no browser | Criar, editar e apagar em cada módulo, em desktop e telemóvel | `e2e/*.spec.ts` |
 
 ## Testes negativos de segurança (exemplos)
