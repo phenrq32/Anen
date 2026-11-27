@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { QuoteDiscountTooLargeError, computeQuote, decimalToString, defaultNature, type QuoteBreakdown } from "@anen/financial-engine";
 import { formatMoney, type Messages } from "@anen/i18n";
 import type { Locale, QuoteItemKind, QuoteItemNature } from "@anen/types";
@@ -21,6 +21,8 @@ export interface EditorLine {
   key: string;
   kind: QuoteItemKind;
   nature: QuoteItemNature;
+  /** Secção (serviço) a que a linha pertence; "" = sem secção. */
+  section: string;
   description: string;
   quantity: string;
   unit: string;
@@ -110,6 +112,36 @@ export function QuoteEditor({
 
   const update = (key: string, patch: Partial<EditorLine>) => setLines((ls) => ls.map((l) => (l.key === key ? { ...l, ...patch } : l)));
   const b = preview.breakdown;
+  /** Linhas seguidas com a mesma secção formam um grupo; o cabeçalho renomeia o grupo inteiro. */
+  const groupEnd = (start: number) => {
+    let end = start;
+    while (end + 1 < lines.length && lines[end + 1]!.section === lines[start]!.section) end++;
+    return end;
+  };
+  const renameGroup = (start: number, section: string) => {
+    const end = groupEnd(start);
+    setLines((ls) => ls.map((l, i) => (i >= start && i <= end ? { ...l, section } : l)));
+  };
+  const blankLine = (section: string): EditorLine => ({
+    key: newKey(),
+    kind: "material",
+    nature: defaultNature("material"),
+    section,
+    description: m.quotes.line.kinds.material,
+    quantity: "1",
+    unit: "un",
+    unitCost: "",
+  });
+  const addToGroup = (start: number) => {
+    const end = groupEnd(start);
+    setLines((ls) => [...ls.slice(0, end + 1), blankLine(ls[start]!.section), ...ls.slice(end + 1)]);
+  };
+  const groupTotal = (start: number) => {
+    if (!b) return null;
+    let sum = 0n;
+    for (let i = start; i <= groupEnd(start); i++) sum += b.lineTotals[i]?.amountMinor ?? 0n;
+    return sum;
+  };
   const cellInput =
     "h-10 w-full min-w-0 rounded-md border border-line bg-ink px-2.5 text-sm text-paper focus:border-brand focus:outline-none disabled:opacity-70 aria-[invalid=true]:border-danger";
 
@@ -185,10 +217,42 @@ export function QuoteEditor({
                 {lines.map((l, i) => {
                   const bad = preview.invalid.has(l.key);
                   const total = b?.lineTotals[i];
+                  const startsGroup = l.section !== "" && (i === 0 || lines[i - 1]!.section !== l.section);
+                  const groupSum = startsGroup ? groupTotal(i) : null;
                   return (
+                    <Fragment key={l.key}>
+                    {startsGroup ? (
+                      <li className="flex flex-wrap items-center gap-2 border-t border-line pt-3 first:border-t-0 first:pt-0">
+                        <input
+                          aria-label={m.quotes.line.section}
+                          value={l.section}
+                          maxLength={160}
+                          onChange={(e) => renameGroup(i, e.target.value)}
+                          onBlur={(e) => {
+                            if (!e.target.value.trim()) renameGroup(i, m.quotes.line.sectionNew);
+                          }}
+                          className={cx(cellInput, "min-w-[12rem] flex-1 font-semibold")}
+                        />
+                        <span className="tabular text-sm text-muted">
+                          {m.quotes.line.sectionSubtotal}: <span className="font-semibold text-paper">{groupSum !== null ? fmt(groupSum) : "—"}</span>
+                        </span>
+                        {readOnly ? null : (
+                          <>
+                            <button type="button" onClick={() => addToGroup(i)} className="h-9 rounded-full border border-line px-3 text-sm text-muted hover:border-brand hover:text-paper">
+                              + {m.quotes.line.sectionAddLine}
+                            </button>
+                            <button type="button" onClick={() => renameGroup(i, "")} className="h-9 rounded-full px-3 text-sm text-subtle hover:text-danger">
+                              {m.quotes.line.sectionRemove}
+                            </button>
+                          </>
+                        )}
+                      </li>
+                    ) : null}
                     <li
-                      key={l.key}
-                      className="grid grid-cols-2 gap-2 rounded-lg border border-line p-3 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_72px_64px_104px_104px_36px] md:items-center md:rounded-none md:border-x-0 md:border-b-0 md:px-0 md:pb-0 md:first:border-t-0 md:first:pt-0 animate-[rise-in_200ms_ease-out]"
+                      className={cx(
+                        "grid grid-cols-2 gap-2 rounded-lg border border-line p-3 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_72px_64px_104px_104px_36px] md:items-center md:rounded-none md:border-x-0 md:border-b-0 md:px-0 md:pb-0 md:first:border-t-0 md:first:pt-0 animate-[rise-in_200ms_ease-out]",
+                        l.section ? "ml-3 md:ml-4" : "",
+                      )}
                     >
                       <input aria-label={m.quotes.line.description} value={l.description} maxLength={300} onChange={(e) => update(l.key, { description: e.target.value })} className={cx(cellInput, "col-span-2 md:col-span-7")} />
                       <select
@@ -223,6 +287,7 @@ export function QuoteEditor({
                         ✕
                       </button>
                     </li>
+                    </Fragment>
                   );
                 })}
               </ul>
@@ -232,12 +297,19 @@ export function QuoteEditor({
                     <button
                       key={k}
                       type="button"
-                      onClick={() => setLines((ls) => [...ls, { key: newKey(), kind: k, nature: defaultNature(k), description: m.quotes.line.kinds[k], quantity: "1", unit: k === "labor" ? "h" : k === "travel" ? "km" : "un", unitCost: "" }])}
+                      onClick={() => setLines((ls) => [...ls, { key: newKey(), kind: k, nature: defaultNature(k), section: "", description: m.quotes.line.kinds[k], quantity: "1", unit: k === "labor" ? "h" : k === "travel" ? "km" : "un", unitCost: "" }])}
                       className="h-9 rounded-full border border-line px-3 text-sm text-muted transition-colors hover:border-brand hover:text-paper"
                     >
                       + {m.quotes.line.kinds[k]}
                     </button>
                   ))}
+                  <button
+                    type="button"
+                    onClick={() => setLines((ls) => [...ls, blankLine(m.quotes.line.sectionNew)])}
+                    className="h-9 rounded-full border border-brand/60 px-3 text-sm text-paper transition-colors hover:bg-brand/10"
+                  >
+                    + {m.quotes.line.sectionAdd}
+                  </button>
                 </div>
               )}
             </section>

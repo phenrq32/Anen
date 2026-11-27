@@ -24,6 +24,8 @@ export const QUOTE_DISCOUNT_TYPES = ["none", "percent", "amount"] as const;
 export const quoteLineInputSchema = z.object({
   kind: z.enum(QUOTE_ITEM_KINDS),
   nature: z.enum(QUOTE_ITEM_NATURES),
+  /** Secção (serviço) da linha; vazio = sem secção. */
+  section: z.string().trim().max(160, { message: "too_long" }).optional().default(""),
   description: z.string().trim().min(1, { message: "description_required" }).max(300, { message: "too_long" }),
   quantity: z.string().max(20),
   unit: z.string().trim().max(20).optional().default(""),
@@ -51,6 +53,7 @@ export const quoteHeaderSchema = z.object({
 export interface ParsedQuoteLine {
   kind: (typeof QUOTE_ITEM_KINDS)[number];
   nature: (typeof QUOTE_ITEM_NATURES)[number];
+  section: string;
   description: string;
   quantity: string;
   unit: string;
@@ -70,7 +73,7 @@ export function parseQuoteLines(
     const unitCost = parseAmountInput(l.unitCost || "0", minorUnit);
     if (quantity === null) errors[i] = "quantity_invalid";
     else if (unitCost === null) errors[i] = "amount_invalid";
-    return { kind: l.kind, nature: l.nature, description: l.description, quantity: quantity ?? "0", unit: l.unit, unitCostMinor: unitCost ?? 0n };
+    return { kind: l.kind, nature: l.nature, section: l.section, description: l.description, quantity: quantity ?? "0", unit: l.unit, unitCostMinor: unitCost ?? 0n };
   });
   return { lines, errors };
 }

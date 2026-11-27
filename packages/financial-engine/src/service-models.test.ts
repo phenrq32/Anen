@@ -48,7 +48,7 @@ describe("orçamento a partir de um modelo com preço", () => {
     expect(r.total.amountMinor).toBe(199875n);
   });
 
-  it("vários serviços de uma vez: linhas de cada serviço com o nome à frente e a sua quantidade; total = soma", () => {
+  it("vários serviços de uma vez: linhas de cada serviço numa secção com o nome do serviço; total = soma", () => {
     const pintura = {
       name: "Pintura interior",
       unit: "m²",
@@ -60,10 +60,10 @@ describe("orçamento a partir de um modelo com preço", () => {
     };
     const lines = quoteLinesFromServiceModels([{ ...drywall, name: "Drywall", quantity: "12.5" }, pintura]);
     expect(lines).toHaveLength(7);
-    expect(lines[0]!.description).toBe("Drywall · Materiais de construção");
-    expect(lines.slice(5).map((l) => [l.description, l.quantity, l.unitCostMinor])).toEqual([
-      ["Pintura interior · Tinta", "40", 300n],
-      ["Pintura interior · Pintura", "40", 400n],
+    expect([lines[0]!.section, lines[0]!.description]).toEqual(["Drywall", "Materiais de construção"]);
+    expect(lines.slice(5).map((l) => [l.section, l.description, l.quantity, l.unitCostMinor])).toEqual([
+      ["Pintura interior", "Tinta", "40", 300n],
+      ["Pintura interior", "Pintura", "40", 400n],
     ]);
     const r = computeQuote({
       currency: "EUR",
@@ -75,8 +75,8 @@ describe("orçamento a partir de um modelo com preço", () => {
     expect(r.total.amountMinor).toBe(190500n);
   });
 
-  it("um só serviço: as linhas ficam como na composição (sem o nome à frente)", () => {
+  it("um só serviço também fica numa secção com o nome do serviço", () => {
     const lines = quoteLinesFromServiceModels([{ ...drywall, name: "Drywall", quantity: "1" }]);
-    expect(lines[0]!.description).toBe("Materiais de construção");
+    expect([lines[0]!.section, lines[0]!.description]).toEqual(["Drywall", "Materiais de construção"]);
   });
 });

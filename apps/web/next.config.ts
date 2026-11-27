@@ -12,6 +12,8 @@ const securityHeaders = [
 const config: NextConfig = {
   transpilePackages: ["@anen/financial-engine", "@anen/i18n", "@anen/types", "@anen/ui", "@anen/validation"],
   poweredByHeader: false,
+  // O PDF do orçamento lê as fontes da marca do disco (ver src/app/api/orcamentos/[id]/pdf).
+  outputFileTracingIncludes: { "/api/orcamentos/[id]/pdf": ["./src/assets/fonts/**"] },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

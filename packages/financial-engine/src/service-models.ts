@@ -20,6 +20,8 @@ export interface ServiceModelQuoteLine {
   quantity: string;
   unit: string;
   unitCostMinor: bigint;
+  /** Secção (nome do serviço) quando as linhas vêm de vários modelos de uma vez. */
+  section?: string;
 }
 
 /** Margem com que começa um orçamento criado a partir de um modelo com preço. */
@@ -38,22 +40,19 @@ export function quoteLinesFromServiceModel(model: { unit: string; composition: r
 
 /** Limite de serviços num orçamento criado a partir de vários modelos de uma vez. */
 export const SERVICE_MODEL_MAX_SELECTION = 40;
-/** Limite de texto de uma linha de orçamento (igual ao da base de dados). */
-const LINE_DESCRIPTION_MAX = 300;
+
+/** Limite de texto da secção de uma linha (igual ao da base de dados). */
+const SECTION_MAX = 160;
 
 /**
- * Vários serviços de uma vez: as linhas de cada serviço, pela ordem escolhida, cada uma com a sua
- * quantidade. Com mais de um serviço, cada linha começa pelo nome do serviço ("Pintura · Tinta")
- * para o orçamento continuar legível. Total sem imposto = Σ preço recomendado × quantidade.
+ * Um ou vários serviços de uma vez: as linhas de cada serviço, pela ordem escolhida, cada uma com a sua
+ * quantidade e agrupadas numa secção com o nome do serviço ("Pintura de T2 completo" → Tinta, Fita…).
+ * Total sem imposto = Σ preço recomendado × quantidade.
  */
 export function quoteLinesFromServiceModels(
   items: readonly { name: string; unit: string; composition: readonly ServiceModelLine[]; quantity: string }[],
 ): ServiceModelQuoteLine[] {
-  const many = items.length > 1;
   return items.flatMap((item) =>
-    quoteLinesFromServiceModel(item, item.quantity).map((l) => ({
-      ...l,
-      description: many ? `${item.name} · ${l.description}`.slice(0, LINE_DESCRIPTION_MAX) : l.description,
-    })),
+    quoteLinesFromServiceModel(item, item.quantity).map((l) => ({ ...l, section: item.name.trim().slice(0, SECTION_MAX) })),
   );
 }

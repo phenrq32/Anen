@@ -108,6 +108,9 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
               {m.invoicing.fromQuoteButton}
             </Link>
           ) : null}
+          <a href={`/api/orcamentos/${quote.id}/pdf`} target="_blank" rel="noopener" className={buttonClass("primary")}>
+            {m.quotes.print_.pdf}
+          </a>
           <a href={`/imprimir/orcamento/${quote.id}`} target="_blank" rel="noopener" className={buttonClass("secondary")}>
             {m.quotes.print}
           </a>
@@ -179,6 +182,7 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
           key: i.id,
           kind: i.kind,
           nature: i.nature,
+          section: i.section ?? "",
           description: i.description,
           quantity: numericToString(i.quantity).replace(".", ","),
           unit: i.unit ?? "",

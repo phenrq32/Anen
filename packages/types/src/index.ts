@@ -407,6 +407,8 @@ export interface QuoteItem {
   position: number;
   kind: QuoteItemKind;
   nature: QuoteItemNature;
+  /** Secção (serviço) a que a linha pertence; null = sem secção. */
+  section: string | null;
   description: string;
   quantity: number;
   unit: string | null;

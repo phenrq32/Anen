@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
-import { add, allocateLinePrices, moneyFromMinor, zero } from "@anen/financial-engine";
 import { format, formatDate, formatMoney } from "@anen/i18n";
 import { getI18n } from "@/lib/i18n";
+import { loadQuoteDocument } from "@/lib/quote-document-data";
 import { numericToString } from "@/lib/quotes";
 import { getSession } from "@/lib/session";
 import { PrintButton } from "./print-button";
@@ -10,64 +10,53 @@ import { PrintButton } from "./print-button";
 export const metadata: Metadata = { title: "Orçamento", robots: { index: false } };
 
 /**
- * Documento para o cliente: mostra PREÇOS, nunca custos internos nem margem.
- * O preço antes do desconto é repartido pelas linhas na proporção do custo, sem perder cêntimos;
- * o desconto aparece numa linha própria, antes do imposto.
+ * Documento para o cliente: mostra PREÇOS, nunca custos internos nem margem, agrupados por serviço
+ * (secção) com subtotal. O mesmo modelo gera o PDF (/api/orcamentos/[id]/pdf).
  */
 export default async function PrintQuotePage({ params }: { params: Promise<{ id: string }> }) {
   const { m, locale } = await getI18n();
   const session = await getSession();
   const { id } = await params;
   if (!session) redirect(`/entrar?next=${encodeURIComponent(`/imprimir/orcamento/${id}`)}`);
-  if (!/^[0-9a-f-]{36}$/.test(id)) notFound();
-  const { data: quote } = await session.supabase.from("quotes").select("*").eq("id", id).maybeSingle();
-  if (!quote) notFound();
-  const [{ data: items }, { data: currency }, orgRes] = await Promise.all([
-    session.supabase.from("quote_items").select("*").eq("quote_id", id).order("position"),
-    session.supabase.from("currencies").select("minor_unit").eq("code", quote.currency_code).maybeSingle(),
-    quote.organization_id ? session.supabase.from("organizations").select("*").eq("id", quote.organization_id).maybeSingle() : Promise.resolve({ data: null }),
-  ]);
-  const unit = currency?.minor_unit ?? 2;
-  const fmt = (v: bigint) => formatMoney(v, quote.currency_code, unit, locale);
-  const org = orgRes.data;
-  const lines = items ?? [];
+  const doc = await loadQuoteDocument(session, id);
+  if (!doc) notFound();
+  const { quote, issuer, model } = doc;
+  const t = m.quotes.print_;
+  const fmt = (v: bigint) => formatMoney(v, quote.currency_code, doc.minorUnit, locale);
+  const qty = (q: string) => q.replace(".", ",");
   const discount = BigInt(quote.discount_minor);
-  const subtotal = moneyFromMinor(BigInt(quote.price_before_tax_minor) + discount, quote.currency_code);
-  const linePrices = allocateLinePrices(
-    subtotal,
-    lines.map((l) => moneyFromMinor(BigInt(l.total_cost_minor), quote.currency_code)),
-  ).map((p) => p.amountMinor);
-  const byNature = { product: zero(quote.currency_code), service: zero(quote.currency_code) };
-  lines.forEach((l, i) => {
-    byNature[l.nature] = add(byNature[l.nature], moneyFromMinor(linePrices[i] ?? 0n, quote.currency_code));
-  });
-  const mixed = byNature.product.amountMinor > 0n && byNature.service.amountMinor > 0n;
-  const discountLabel =
-    quote.discount_percent > 0 ? `${m.quotes.print_.discount} (${numericToString(quote.discount_percent).replace(".", ",")} %)` : m.quotes.print_.discount;
-  const tz = org?.timezone ?? session.preferences.timezone;
+  const mixed = model.productsMinor > 0n && model.servicesMinor > 0n;
+  const discountLabel = quote.discount_percent > 0 ? `${t.discount} (${numericToString(quote.discount_percent).replace(".", ",")} %)` : t.discount;
   const taxRate = numericToString(quote.tax_rate_percent).replace(".", ",");
+  const grouped = model.groups.some((g) => g.section !== null);
 
   return (
-    <main className="mx-auto max-w-[820px] bg-white px-6 py-8 text-[#111] print:max-w-none print:px-0 print:py-0">
+    <main className="mx-auto max-w-[820px] bg-white px-4 py-6 text-[#111] sm:px-6 sm:py-8 print:max-w-none print:px-0 print:py-0">
       <style>{`html,body{background:#fff!important;color:#111}main>*{animation:none!important}@page{margin:16mm}`}</style>
-      <div className="mb-8 flex justify-between gap-3 print:hidden">
-        <a href={`/orcamentos/${quote.id}`} className="text-sm text-[#5a5a5a] hover:underline">← {m.quotes.print_.back}</a>
-        <PrintButton label={m.quotes.print_.button} />
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-3 print:hidden">
+        <a href={`/orcamentos/${quote.id}`} className="text-sm text-[#5a5a5a] hover:underline">← {t.back}</a>
+        <div className="flex flex-wrap gap-2">
+          <a
+            href={`/api/orcamentos/${quote.id}/pdf`}
+            className="inline-flex h-10 items-center rounded-md bg-[#FF851B] px-4 text-sm font-semibold text-[#090909] hover:bg-[#ff9a40]"
+          >
+            {t.pdf}
+          </a>
+          <PrintButton label={t.button} />
+        </div>
       </div>
 
       <header className="flex flex-wrap items-start justify-between gap-6 border-b-2 border-[#111] pb-6">
         <div>
-          <p className="text-2xl font-extrabold tracking-tight" style={{ fontFamily: "var(--font-heading)" }}>
-            {org ? (org.legal_name ?? org.name) : (session.profile.full_name ?? "")}
-          </p>
-          {org?.tax_id ? <p className="text-sm text-[#5a5a5a]">{org.tax_id}</p> : null}
-          <p className="text-sm text-[#5a5a5a]">{session.user.email}</p>
+          <p className="text-2xl font-extrabold tracking-tight" style={{ fontFamily: "var(--font-heading)" }}>{issuer.name}</p>
+          {issuer.taxId ? <p className="text-sm text-[#5a5a5a]">{issuer.taxId}</p> : null}
+          <p className="text-sm text-[#5a5a5a]">{issuer.email}</p>
         </div>
-        <div className="text-right">
-          <p className="text-sm font-semibold uppercase tracking-widest text-[#E06A10]">{m.quotes.print_.title}</p>
+        <div className="sm:text-right">
+          <p className="text-sm font-semibold uppercase tracking-widest text-[#E06A10]">{t.title}</p>
           <p className="tabular text-xl font-bold">{quote.number}</p>
-          <p className="text-sm text-[#5a5a5a]">{format(m.quotes.print_.issued, { date: formatDate(quote.updated_at, locale, tz) })}</p>
-          {quote.valid_until ? <p className="text-sm text-[#5a5a5a]">{format(m.quotes.print_.valid, { date: formatDate(quote.valid_until, locale, "UTC") })}</p> : null}
+          <p className="text-sm text-[#5a5a5a]">{format(t.issued, { date: formatDate(quote.updated_at, locale, doc.timezone) })}</p>
+          {quote.valid_until ? <p className="text-sm text-[#5a5a5a]">{format(t.valid, { date: formatDate(quote.valid_until, locale, "UTC") })}</p> : null}
         </div>
       </header>
 
@@ -82,58 +71,67 @@ export default async function PrintQuotePage({ params }: { params: Promise<{ id:
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-[#5a5a5a]">{m.quotes.fields.title}</p>
           <p className="mt-1 font-semibold">{quote.title}</p>
-          {quote.description ? <p className="mt-1 whitespace-pre-line text-sm">{quote.description}</p> : null}
+          {quote.description ? <p className="mt-1 whitespace-pre-line text-sm text-[#3a3a3a]">{quote.description}</p> : null}
         </div>
       </section>
 
-      <table className="w-full border-collapse text-sm">
-        <thead>
-          <tr className="border-b border-[#111] text-left text-xs uppercase tracking-wider text-[#5a5a5a]">
-            <th className="py-2 font-semibold">{m.quotes.line.description}</th>
-            <th className="py-2 pr-3 font-semibold">{m.quotes.print_.nature}</th>
-            <th className="py-2 text-right font-semibold">{m.quotes.line.quantity}</th>
-            <th className="py-2 text-right font-semibold">{m.quotes.print_.unitPrice}</th>
-            <th className="py-2 text-right font-semibold">{m.quotes.print_.amount}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {lines.map((l, i) => {
-            const qty = Number(l.quantity);
-            const linePrice = linePrices[i] ?? 0n;
-            const unitPrice = qty > 0 ? BigInt(Math.round(Number(linePrice) / qty)) : 0n;
-            return (
-              <tr key={l.id} className="border-b border-[#e4e2de] align-top">
-                <td className="py-2.5 pr-3">{l.description}</td>
-                <td className="py-2.5 pr-3 text-[#5a5a5a]">{m.quotes.line.natures[l.nature]}</td>
-                <td className="tabular py-2.5 text-right whitespace-nowrap">
-                  {numericToString(l.quantity).replace(".", ",")} {l.unit ?? ""}
-                </td>
-                <td className="tabular py-2.5 text-right whitespace-nowrap">{fmt(unitPrice)}</td>
-                <td className="tabular py-2.5 text-right whitespace-nowrap font-medium">{fmt(linePrice)}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      {/* Cabeçalho das colunas (ecrã largo e impressão); no telemóvel cada linha mostra qtd. × preço por baixo. */}
+      <div className="hidden grid-cols-[1fr_96px_112px_112px] gap-3 border-b border-[#111] pb-2 text-xs font-semibold uppercase tracking-wider text-[#5a5a5a] sm:grid print:grid">
+        <span>{m.quotes.line.description}</span>
+        <span className="text-right">{t.quantity}</span>
+        <span className="text-right">{t.unitPrice}</span>
+        <span className="text-right">{t.amount}</span>
+      </div>
+
+      <div className="flex flex-col">
+        {model.groups.map((g, gi) => (
+          <section key={gi} className="break-inside-avoid-page border-b border-[#e4e2de] py-3 last:border-b-[#111]" aria-label={g.section ?? (grouped ? t.otherLines : undefined)}>
+            {g.section || (grouped && model.groups.length > 1) ? (
+              <div className="mb-1.5 flex items-baseline justify-between gap-3">
+                <h3 className="font-bold" style={{ fontFamily: "var(--font-heading)" }}>{g.section ?? t.otherLines}</h3>
+                <span className="tabular whitespace-nowrap font-bold">{fmt(g.subtotalMinor)}</span>
+              </div>
+            ) : null}
+            <ul className="flex flex-col">
+              {g.lines.map((l) => (
+                <li
+                  key={l.id}
+                  className="grid grid-cols-[1fr_auto] gap-x-3 py-1.5 text-sm sm:grid-cols-[1fr_96px_112px_112px] print:grid-cols-[1fr_96px_112px_112px]"
+                >
+                  <span className={g.section ? "pl-3 text-[#2a2a2a]" : ""}>{l.description}</span>
+                  <span className="tabular hidden whitespace-nowrap text-right sm:block print:block">
+                    {qty(l.quantity)} {l.unit ?? ""}
+                  </span>
+                  <span className="tabular hidden whitespace-nowrap text-right sm:block print:block">{fmt(l.unitPriceMinor)}</span>
+                  <span className="tabular whitespace-nowrap text-right font-medium">{fmt(l.amountMinor)}</span>
+                  <span className={`tabular col-span-2 text-xs text-[#5a5a5a] sm:hidden print:hidden ${g.section ? "pl-3" : ""}`}>
+                    {qty(l.quantity)} {l.unit ?? ""} × {fmt(l.unitPriceMinor)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
 
       <dl className="ml-auto mt-6 flex w-full max-w-xs flex-col gap-1.5 text-sm">
         {mixed ? (
           <>
             <div className="flex justify-between gap-4">
-              <dt className="text-[#5a5a5a]">{m.quotes.print_.products}</dt>
-              <dd className="tabular">{fmt(byNature.product.amountMinor)}</dd>
+              <dt className="text-[#5a5a5a]">{t.products}</dt>
+              <dd className="tabular">{fmt(model.productsMinor)}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-[#5a5a5a]">{m.quotes.print_.services}</dt>
-              <dd className="tabular">{fmt(byNature.service.amountMinor)}</dd>
+              <dt className="text-[#5a5a5a]">{t.services}</dt>
+              <dd className="tabular">{fmt(model.servicesMinor)}</dd>
             </div>
           </>
         ) : null}
         {discount > 0n ? (
           <>
             <div className="flex justify-between gap-4">
-              <dt className="text-[#5a5a5a]">{m.quotes.print_.subtotal}</dt>
-              <dd className="tabular">{fmt(subtotal.amountMinor)}</dd>
+              <dt className="text-[#5a5a5a]">{t.subtotal}</dt>
+              <dd className="tabular">{fmt(model.subtotalMinor)}</dd>
             </div>
             <div className="flex justify-between gap-4">
               <dt className="text-[#5a5a5a]">{discountLabel}</dt>
@@ -161,7 +159,7 @@ export default async function PrintQuotePage({ params }: { params: Promise<{ id:
           <p className="mt-2 whitespace-pre-line text-sm">{quote.conditions}</p>
         </section>
       ) : null}
-      <p className="mt-12 border-t border-[#e4e2de] pt-3 text-xs text-[#5a5a5a]">{m.quotes.print_.disclaimer}</p>
+      <p className="mt-12 border-t border-[#e4e2de] pt-3 text-xs text-[#5a5a5a]">{t.disclaimer}</p>
     </main>
   );
 }

@@ -97,9 +97,19 @@ test("vários serviços de uma vez, cada um com a sua quantidade", async ({ page
   await page.waitForURL(/\/orcamentos\/[0-9a-f-]{36}$/);
   await expect(main.getByRole("heading", { name: /Parede de tijolo 11 cm rebocada \(2 faces\) \(\+1\)/ })).toBeVisible();
   await expect(main.getByText(/812,50\s€/).first()).toBeVisible();
-  // Linhas identificadas pelo serviço; sem referência de um único modelo
-  await expect
-    .poll(() => main.locator("input, textarea").evaluateAll((els) => els.some((e) => (e as HTMLInputElement).value.startsWith("Teto falso em pladur · "))))
-    .toBe(true);
+  // Linhas agrupadas por serviço (uma secção por serviço); sem referência de um único modelo
+  await expect(main.getByRole("textbox", { name: "Secção" })).toHaveCount(2);
+  await expect(main.getByRole("textbox", { name: "Secção" }).nth(1)).toHaveValue("Teto falso em pladur");
   await expect(main.getByRole("complementary", { name: "Referência do modelo" })).toHaveCount(0);
+
+  // Documento do cliente agrupado e PDF gerado no servidor
+  const quoteId = page.url().split("/").pop()!;
+  await page.goto(`/imprimir/orcamento/${quoteId}`);
+  const wallGroup = page.getByRole("region", { name: "Parede de tijolo 11 cm rebocada (2 faces)" });
+  await expect(wallGroup.getByText(/562,50\s€/).first()).toBeVisible();
+  await expect(page.getByRole("region", { name: "Teto falso em pladur" }).getByText(/250,00\s€/).first()).toBeVisible();
+  const pdf = await page.request.get(`/api/orcamentos/${quoteId}/pdf`);
+  expect(pdf.status()).toBe(200);
+  expect(pdf.headers()["content-type"]).toBe("application/pdf");
+  expect((await pdf.body()).subarray(0, 5).toString()).toBe("%PDF-");
 });
