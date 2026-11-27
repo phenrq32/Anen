@@ -39,4 +39,5 @@ Uma conta ANEN, uma identidade visual e uma infraestrutura, com dois tipos de es
 | 3. Separação dos dados e segurança no servidor | Concluída; em produção a 23/11/2026 |
 | 4. Seletor de contexto e navegação adaptativa | Concluída; em produção a 23/11/2026 |
 | 5. Ambiente pessoal | Em produção (parcelas, Hoje, assinaturas, dívidas, calendário e menu pessoal); cartões personalizáveis por fazer |
-| 6–10 | Por iniciar |
+| 6. Ambiente empresarial | Concluída (menu §6 e Hoje da empresa §6.1); publicação por aprovar |
+| 7–10 | Por iniciar |

@@ -4,6 +4,7 @@ import { financialHealth } from "@anen/financial-engine";
 import { format, formatMoney } from "@anen/i18n";
 import { ActivityList } from "@/components/activity-list";
 import { BusinessOverview } from "@/components/business-overview";
+import { BusinessToday } from "@/components/business-today";
 import { MonthlyChart } from "@/components/charts";
 import { EmptyFinance, FinanceKpis, TransactionList } from "@/components/finance-ui";
 import { businessScope } from "@/lib/business";
@@ -25,7 +26,7 @@ import { INVITATION_COLUMNS, profileNames, recentAudit } from "@/lib/org-data";
 import { can, requireOnboardedSession } from "@/lib/session";
 import { PersonalToday } from "@/components/personal-today";
 
-export const metadata: Metadata = { title: "Painel" };
+export const metadata: Metadata = { title: "Hoje" };
 
 export default async function DashboardPage({
   searchParams,
@@ -239,6 +240,18 @@ export default async function DashboardPage({
                 </Link>
               ))}
             </nav>
+            {active ? (
+              <BusinessToday
+                m={m}
+                locale={locale}
+                supabase={supabase}
+                fin={scope}
+                biz={biz}
+                quotes={qScope}
+                finance={finance}
+                alertsCount={intel ? intel.recommendations.filter((r) => r.kind !== "no_movements" && r.severity !== "low").length : null}
+              />
+            ) : (
             <FinanceKpis
               period={period}
               m={m}
@@ -251,6 +264,7 @@ export default async function DashboardPage({
               prevIncome={finance.prevIncome}
               prevExpense={finance.prevExpense}
             />
+            )}
             <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
               <div className="rounded-2xl border glass spot p-5 sm:p-6">
                 <MonthlyChart
@@ -297,7 +311,7 @@ export default async function DashboardPage({
                 goals={finance.goals}
               />
             )}
-            <BusinessOverview m={m} locale={locale} supabase={supabase} fin={scope} biz={biz} minorUnits={finance.basics.minorUnits} />
+            <BusinessOverview m={m} locale={locale} supabase={supabase} fin={scope} biz={biz} minorUnits={finance.basics.minorUnits} showOpen={!active} />
           </>
         )}
       </section>

@@ -16,6 +16,7 @@ export async function BusinessOverview({
   fin,
   biz,
   minorUnits,
+  showOpen = true,
 }: {
   m: Messages;
   locale: Locale;
@@ -23,6 +24,8 @@ export async function BusinessOverview({
   fin: FinanceScope;
   biz: BusinessScope;
   minorUnits: Map<string, number>;
+  /** No "Hoje" da empresa os valores em aberto já aparecem no BusinessToday. */
+  showOpen?: boolean;
 }) {
   const today = todayIn(fin.timezone);
   const [openRes, projectsRes] = await Promise.all([
@@ -56,7 +59,8 @@ export async function BusinessOverview({
   ];
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
+    <div className={cx("grid gap-6", showOpen ? "lg:grid-cols-[1fr_1fr]" : "")}>
+      {showOpen ? (
       <Link href="/financas/em-aberto" className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line transition-colors hover:border-graphite-soft">
         {cards.map((c) => (
           <div key={c.key} className="flex min-w-0 flex-col gap-1.5 bg-surface p-4 sm:p-5">
@@ -75,6 +79,7 @@ export async function BusinessOverview({
           </div>
         ))}
       </Link>
+      ) : null}
       {biz.canRead ? (
         <section className="rounded-xl border border-line bg-surface" aria-labelledby="dash-projects">
           <div className="flex items-center justify-between border-b border-line px-5 py-3.5 sm:px-6">

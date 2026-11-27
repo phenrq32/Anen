@@ -51,6 +51,17 @@ test("menu por workspace e abas sincronizadas", async ({ page, context }, info) 
   await page.waitForURL(/\/painel/);
   for (const label of ["Compras", "Inventário", "Faturação", "Projetos", "Orçamentos"]) await expect(nav.getByRole("link", { name: label, exact: true })).toBeVisible();
   await expect(nav.getByText(/ficam nas organizações/)).toHaveCount(0);
+  // Menu empresarial (Fase 6, §6), por esta ordem
+  const businessMenu = ["Hoje", "Finanças", "Orçamentos", "Projetos", "Clientes", "Fornecedores", "Compras", "Inventário", "Fichas técnicas", "Inteligência de mercado", "Relatórios", "ANEN AI", "Equipa", "Definições"];
+  const shown = (await nav.getByRole("link").allInnerTexts()).map((x) => x.trim());
+  // "Fichas técnicas" pode estar escondida nas preferências da pessoa (Definições → Áreas do menu).
+  expect(shown.filter((x) => businessMenu.includes(x))).toEqual(businessMenu.filter((x) => x !== "Fichas técnicas" || shown.includes(x)));
+  // Clientes e Fornecedores abrem os contactos já filtrados, e o item certo fica ativo
+  await nav.getByRole("link", { name: "Fornecedores", exact: true }).click();
+  await page.waitForURL(/\/contactos\?tipo=supplier/);
+  await expect(nav.getByRole("link", { name: "Fornecedores", exact: true })).toHaveAttribute("aria-current", "page");
+  await expect(nav.getByRole("link", { name: "Clientes", exact: true })).not.toHaveAttribute("aria-current", "page");
+  await page.goto("/painel");
 
   // Abas sincronizadas: a aba B muda para o pessoal e a aba A atualiza-se sozinha
   const other = await context.newPage();
@@ -106,6 +117,6 @@ test("convite pendente aceite no seletor, sem o link", async ({ browser }, info)
   await expect(guest.getByRole("region", { name: "Convites pendentes" })).toHaveCount(0);
   // Leitor: vê a organização, sem as áreas para as quais não tem permissão de leitura
   const guestNav = guest.getByRole("navigation", { name: "Navegação principal" });
-  await expect(guestNav.getByRole("link", { name: "Painel", exact: true })).toBeVisible();
+  await expect(guestNav.getByRole("link", { name: "Hoje", exact: true })).toBeVisible();
   await guestContext.close();
 });

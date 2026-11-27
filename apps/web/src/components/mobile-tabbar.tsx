@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { cx } from "@/components/ui";
 import { OPEN_PALETTE_EVENT } from "@/components/command-palette";
@@ -28,9 +28,10 @@ export function MobileTabBar({
   header?: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const search = useSearchParams();
   const sheet = useRef<HTMLDialogElement>(null);
   const all = groups.flatMap((g) => g.items);
-  const active = activeHref(pathname, all);
+  const active = activeHref(pathname, all, search.toString());
   const inTabs = tabs.some((t) => t.href === active);
 
   useEffect(() => {

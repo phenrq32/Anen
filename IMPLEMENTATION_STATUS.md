@@ -260,6 +260,13 @@ Modelo em [WORKSPACE_DATA_MODEL.md](WORKSPACE_DATA_MODEL.md) (opção A: camada 
 | PDFs do pacote para descarregar (com sessão) | Implementado | `apps/web/public/modelos/` |
 | Edição 2026-12 (pedido do dono da app): preços revistos pela média nacional publicada (BR antes: capitais do Sudeste), 742 serviços (PT 334, BR 408), fonte por serviço no pacote | Publicado e testado em produção | `quote-models.test.ts` (ids da 2026-11 mantidos, fonte em todos os serviços). Migration 3300 aplicada a 24/11/2026; E2E `quote-models.spec.ts` a passar em produção |
 
+## Dual Workspace · Fase 6: ambiente empresarial
+
+| Funcionalidade | Estado | Evidência |
+|---|---|---|
+| Menu empresarial pela ordem do §6, com as áreas filtradas por permissões; Clientes e Fornecedores separados | Testado | E2E `workspace-nav.spec.ts` |
+| Hoje da empresa (§6.1): saldo registado, lucro, rentabilidade, previsto a 30 dias, a receber/a pagar, orçamentos pendentes, projetos, alertas e mercado | Testado | `business-pulse.test.ts`; E2E `business-today.spec.ts` |
+
 ## Fases seguintes
 
 | Fase | Estado | O que é preciso para avançar |

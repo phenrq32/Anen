@@ -82,17 +82,21 @@ export function AppShell({
     },
   ];
 
+  // Espaço empresarial (Fase 6, §6): Hoje · Finanças · Orçamentos · Projetos · Clientes · Fornecedores · Compras ·
+  // Inventário · Fichas técnicas · Inteligência de mercado · Relatórios · ANEN AI · Equipa · Definições.
+  // As áreas sem permissão de leitura saem do menu (contextHiddenModules).
   const businessGroups: NavGroup[] = [
     {
       label: n.groups.daily,
-      items: [item("/painel", n.dashboard, "grid"), item("/financas", n.finance, "wallet"), notifications, item("/contactos", n.contacts, "contacts")],
+      items: [item("/painel", n.today, "grid"), item("/financas", n.finance, "wallet"), item("/faturacao", n.invoicing, "receipt"), notifications],
     },
     {
       label: n.groups.business,
       items: [
         item("/orcamentos", n.quotes, "file"),
-        item("/faturacao", n.invoicing, "receipt"),
         item("/projetos", n.projects, "briefcase"),
+        item("/contactos?tipo=client", n.clients, "contacts"),
+        item("/contactos?tipo=supplier", n.suppliers, "contacts"),
         item("/compras", n.purchases, "cart"),
         item("/inventario", n.inventory, "box"),
         item("/restauracao", n.recipes, "chef"),
@@ -100,13 +104,18 @@ export function AppShell({
     },
     {
       label: n.groups.insights,
-      items: [item("/ia", n.ai, "spark"), item("/inteligencia", n.intelligence, "bulb"), item("/relatorios", n.reports, "report"), item("/mercado", n.market, "chart")],
+      items: [
+        item("/mercado", n.marketIntelligence, "chart"),
+        item("/relatorios", n.reports, "report"),
+        item("/inteligencia", n.financialAlerts, "bulb"),
+        item("/ia", n.ai, "spark"),
+      ],
     },
     {
       label: n.groups.account,
       items: [
         ...(session.active
-          ? [item("/organizacao", n.organization, "building"), item("/organizacao/membros", n.members, "users"), item("/organizacao/funcoes", n.roles, "shield")]
+          ? [item("/organizacao/membros", n.team, "users"), item("/organizacao/funcoes", n.roles, "shield"), item("/organizacao", n.organization, "building")]
           : []),
         item("/planos", n.plans, "spark"),
         item("/definicoes", n.settings, "settings"),

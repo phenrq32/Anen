@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.33.0] · 27/11/2026 · Dual Workspace, Fase 6: ambiente empresarial
+- Menu da empresa como pedido (§6): Hoje · Finanças · Orçamentos · Projetos · Clientes · Fornecedores · Compras · Inventário · Fichas técnicas · Inteligência de mercado · Relatórios · ANEN AI · Equipa · Definições (mais Faturação, Notificações, Alertas financeiros, Funções, Organização e Planos). As áreas sem permissão de leitura continuam fora do menu. Clientes e Fornecedores abrem os contactos filtrados e o menu marca o item certo.
+- "Hoje" da empresa (§6.1): saldo de caixa registado, resultado do período (lucro ou prejuízo), rentabilidade e saldo previsto a 30 dias, com o que já aconteceu separado do que está previsto; operação com a receber, a pagar (e atrasos), orçamentos pendentes, projetos ativos, alertas financeiros e oportunidades de mercado.
+- Motor `businessPulse` (testado). Sem migrations.
+- Testes: 552 unitários; E2E `business-today.spec.ts` e `workspace-nav.spec.ts` (ordem do menu empresarial).
+
 ## [0.32.0] · 27/11/2026 · Orçamento organizado por serviço e PDF gerado no servidor
 - Secções nas linhas do orçamento (migration 3400, aprovada pelo dono da app): "Pintura de T2 completo" e, por baixo, Tinta, Fita e lixas, Deslocação…, com subtotal por serviço. No editor a secção edita-se no cabeçalho, com "+ Linha nesta secção", "+ Secção" e remover secção. Os orçamentos criados a partir de modelos já vêm agrupados.
 - Documento para o cliente agrupado por serviço, legível no telemóvel (quantidade × preço por baixo de cada linha).

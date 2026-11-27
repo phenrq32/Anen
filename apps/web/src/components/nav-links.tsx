@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { cx } from "@/components/ui";
 
 export interface NavItem {
@@ -51,10 +51,18 @@ export function NavIcon({ name, className }: { name: NavItem["icon"] | "plus" | 
   );
 }
 
-/** O item ativo é o que tem o prefixo mais longo coincidente com o caminho atual. */
-export function activeHref(pathname: string, items: NavItem[]): string | undefined {
+/**
+ * O item ativo é o que tem o prefixo mais longo coincidente com o caminho atual. Itens com parâmetros
+ * (ex.: /contactos?tipo=client) só ficam ativos quando os parâmetros também coincidem.
+ */
+export function activeHref(pathname: string, items: NavItem[], search: string = ""): string | undefined {
+  const current = new URLSearchParams(search);
   return items
-    .filter((i) => pathname === i.href || pathname.startsWith(`${i.href}/`))
+    .filter((i) => {
+      const [path = "", query = ""] = i.href.split("?");
+      if (!(pathname === path || pathname.startsWith(`${path}/`))) return false;
+      return [...new URLSearchParams(query)].every(([k, v]) => current.get(k) === v);
+    })
     .sort((a, b) => b.href.length - a.href.length)[0]?.href;
 }
 
@@ -70,7 +78,8 @@ function Badge({ badge }: { badge: NavItem["badge"] }) {
 /** Navegação agrupada (Dia a dia, Negócio, Análise, Conta). `onNavigate` fecha a gaveta no telemóvel. */
 export function NavGroups({ groups, onNavigate }: { groups: NavGroup[]; onNavigate?: () => void }) {
   const pathname = usePathname();
-  const active = activeHref(pathname, groups.flatMap((g) => g.items));
+  const search = useSearchParams();
+  const active = activeHref(pathname, groups.flatMap((g) => g.items), search.toString());
   return (
     <div className="flex flex-col gap-5">
       {groups.map((group) => (
