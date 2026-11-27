@@ -59,7 +59,9 @@ test("transferência da empresa para o pessoal: rever, confirmar, ver nos dois l
 
   // No pessoal: a entrada com a mesma referência
   await page.goto("/painel");
-  await page.getByLabel("Mudar de contexto").first().selectOption({ label: "Pessoal" });
+  // No telemóvel o seletor está no menu "Mais"
+  if (info.project.name === "mobile") await page.getByRole("button", { name: /Mais/ }).last().click();
+  await page.getByLabel("Mudar de contexto").locator("visible=true").first().selectOption({ label: "Pessoal" });
   await expect(main.getByText("Contexto pessoal", { exact: true }).first()).toBeVisible();
   await page.goto("/financas/transferencias");
   const personalRow = main.getByRole("listitem", { name: /^TRF-/ }).first();
