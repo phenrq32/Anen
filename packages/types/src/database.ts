@@ -177,6 +177,7 @@ export type Database = {
       >;
       installment_plans: Table<InstallmentPlan>;
       cross_workspace_transfers: Table<CrossWorkspaceTransfer>;
+      plan_limits: Table<{ plan_key: string; limit_key: string; value: number | null; valid_from: string; source: string; updated_by: string | null; created_at: string }>;
       quote_model_sets: Table<QuoteModelSet>;
       quote_service_models: Table<QuoteServiceModel>;
       transactions: Table<
@@ -462,6 +463,7 @@ export type Database = {
         Returns: string;
       };
       revert_cross_workspace_transfer: { Args: { p_id: string; p_reason: string | null }; Returns: undefined };
+      admin_set_plan_limit: { Args: { p_plan: string; p_key: string; p_value: number | null; p_source: string }; Returns: undefined };
       update_installments_from: { Args: { p_plan_id: string; p_from: number; p_amount_minor?: number | null; p_due_day?: number | null }; Returns: number };
       my_invitations: {
         Args: Record<string, never>;

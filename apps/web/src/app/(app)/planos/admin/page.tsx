@@ -7,6 +7,8 @@ import { sumByCurrency } from "@/lib/finance";
 import { getI18n } from "@/lib/i18n";
 import { requireOnboardedSession } from "@/lib/session";
 import { confirmTransferAction } from "../bank-actions";
+import { currentPlanLimits, PLAN_LIMIT_KEYS } from "@/lib/plan-limits";
+import { PlanLimitForm } from "./limit-form";
 
 export const metadata: Metadata = { title: "Pagamentos dos planos" };
 
@@ -17,7 +19,13 @@ export default async function BillingAdminPage() {
   const { data: admin } = await session.supabase.from("admin_users").select("user_id").eq("user_id", session.user.id).maybeSingle();
   if (!admin) notFound();
   const t = m.billing.admin;
-  const { data: orders } = await session.supabase.from("billing_orders").select("*").order("created_at", { ascending: false }).limit(300);
+  const [{ data: orders }, { data: limitRows }, { data: plans }] = await Promise.all([
+    session.supabase.from("billing_orders").select("*").order("created_at", { ascending: false }).limit(300),
+    session.supabase.from("plan_limits").select("plan_key, limit_key, value, valid_from, source"),
+    session.supabase.from("plans").select("key, name").order("position"),
+  ]);
+  const limits = currentPlanLimits(limitRows ?? [], new Date().toISOString().slice(0, 10));
+  const tl = m.billing.limits;
   const pending = (orders ?? []).filter((o) => o.status === "pending" && o.provider === "bank_transfer");
   const paid = (orders ?? []).filter((o) => o.status === "paid");
   const monthStart = new Date(Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), 1)).toISOString();
@@ -79,6 +87,39 @@ export default async function BillingAdminPage() {
             ))}
           </ul>
         )}
+      </Section>
+      <Section title={tl.title} description={tl.hint}>
+        <div className="flex flex-col gap-6">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[520px] text-sm">
+              <thead>
+                <tr className="border-b border-line text-left text-xs text-subtle">
+                  <th className="py-2 font-medium">{tl.key}</th>
+                  {(plans ?? []).map((p) => (
+                    <th key={p.key} className="py-2 text-right font-medium">{p.name}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {PLAN_LIMIT_KEYS.map((k) => (
+                  <tr key={k} className="border-b border-line last:border-0">
+                    <td className="py-2">{tl.keys[k]}</td>
+                    {(plans ?? []).map((p) => {
+                      const r = limits.get(p.key)?.get(k);
+                      return (
+                        <td key={p.key} className="tabular py-2 text-right" title={r?.source}>
+                          {r?.value ?? tl.none}
+                          {r ? <span className="block text-xs text-subtle">{format(tl.since, { date: formatDate(r.valid_from, locale, "UTC", { day: "2-digit", month: "short", year: "numeric" }) })}</span> : null}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <PlanLimitForm m={m} plans={plans ?? []} />
+        </div>
       </Section>
     </>
   );

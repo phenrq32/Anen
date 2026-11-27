@@ -4,6 +4,7 @@ import { format, formatDate, formatMoney } from "@anen/i18n";
 import { Alert, Badge, ButtonLink, PageHeader, cx } from "@/components/ui";
 import { getI18n } from "@/lib/i18n";
 import { infinitePayHandle } from "@/lib/infinitepay";
+import { currentPlanLimits, PLAN_LIMIT_KEYS } from "@/lib/plan-limits";
 import { can, requireOnboardedSession } from "@/lib/session";
 import { BuyButton } from "./buy-button";
 
@@ -30,6 +31,8 @@ export default async function PlansPage({ searchParams }: { searchParams: Promis
       : session.supabase.from("subscriptions").select("plan_key, current_period_end, source").eq("owner_user_id", session.user.id).eq("status", "active"),
     session.supabase.from("admin_users").select("user_id").eq("user_id", session.user.id).maybeSingle(),
   ]);
+  const { data: limitRows } = await session.supabase.from("plan_limits").select("plan_key, limit_key, value, valid_from, source");
+  const limits = currentPlanLimits(limitRows ?? [], new Date().toISOString().slice(0, 10));
   const price = (plan: string, mo: number) => prices?.find((p) => p.plan_key === plan && p.currency_code === market && p.months === mo)?.price_minor ?? null;
   const active = subs?.find((s) => !s.current_period_end || Date.parse(s.current_period_end) > Date.now());
   const currentKey = active?.plan_key ?? "free";
@@ -103,6 +106,18 @@ export default async function PlansPage({ searchParams }: { searchParams: Promis
                     {f}
                   </li>
                 ))}
+                {PLAN_LIMIT_KEYS.flatMap((k) => {
+                  // Só os limites definidos; sem valor = sem limite (não se anuncia).
+                  const v = limits.get(c.key)?.get(k)?.value;
+                  return v === null || v === undefined
+                    ? []
+                    : [
+                        <li key={k} className="flex gap-2">
+                          <span className="text-brand" aria-hidden>✓</span>
+                          {format(m.billing.limits.upTo, { key: m.billing.limits.keys[k], value: v })}
+                        </li>,
+                      ];
+                })}
                 {c.limit > 0 ? (
                   <li className="flex gap-2">
                     <span className="text-brand" aria-hidden>✓</span>
