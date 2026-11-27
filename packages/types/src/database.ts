@@ -7,6 +7,8 @@ import type {
   QuoteModelSet,
   QuoteServiceModel,
   InstallmentPlan,
+  CrossWorkspaceTransfer,
+  CrossWorkspaceTransferType,
   Workspace,
   WorkspaceMember,
   TransactionAttachment,
@@ -174,6 +176,7 @@ export type Database = {
         Partial<Pick<TransactionCategory, "name" | "color" | "archived_at">>
       >;
       installment_plans: Table<InstallmentPlan>;
+      cross_workspace_transfers: Table<CrossWorkspaceTransfer>;
       quote_model_sets: Table<QuoteModelSet>;
       quote_service_models: Table<QuoteServiceModel>;
       transactions: Table<
@@ -438,6 +441,27 @@ export type Database = {
         Returns: string;
       };
       cancel_installments: { Args: { p_plan_id: string; p_from?: number | null }; Returns: number };
+      create_cross_workspace_transfer: {
+        Args: {
+          p: {
+            client_ref: string;
+            source_type: "PERSONAL" | "BUSINESS";
+            source_id: string;
+            source_account_id: string;
+            source_category_id: string | null;
+            destination_type: "PERSONAL" | "BUSINESS";
+            destination_id: string;
+            destination_account_id: string;
+            destination_category_id: string | null;
+            amount_minor: string;
+            transfer_date: string;
+            transfer_type: CrossWorkspaceTransferType;
+            description: string;
+          };
+        };
+        Returns: string;
+      };
+      revert_cross_workspace_transfer: { Args: { p_id: string; p_reason: string | null }; Returns: undefined };
       update_installments_from: { Args: { p_plan_id: string; p_from: number; p_amount_minor?: number | null; p_due_day?: number | null }; Returns: number };
       my_invitations: {
         Args: Record<string, never>;

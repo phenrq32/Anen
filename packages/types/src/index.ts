@@ -401,6 +401,33 @@ export interface Quote extends FinanceScoped {
   service_model_key: string | null;
 }
 
+export type CrossWorkspaceTransferType = "owner_withdrawal" | "owner_contribution" | "reimbursement" | "loan" | "other";
+/** Dual Workspace · Fase 7: transferência entre o espaço pessoal e uma empresa (ou entre empresas). */
+export interface CrossWorkspaceTransfer {
+  id: string;
+  reference: string;
+  source_workspace_type: WorkspaceType;
+  source_workspace_id: string;
+  destination_workspace_type: WorkspaceType;
+  destination_workspace_id: string;
+  source_transaction_id: string;
+  destination_transaction_id: string;
+  amount_minor: number;
+  currency_code: string;
+  transfer_date: string;
+  transfer_type: CrossWorkspaceTransferType;
+  status: "completed" | "reverted";
+  description: string;
+  client_ref: string;
+  reversal_source_transaction_id: string | null;
+  reversal_destination_transaction_id: string | null;
+  reverted_at: string | null;
+  reverted_by: string | null;
+  revert_reason: string | null;
+  created_by: string;
+  created_at: string;
+}
+
 export interface QuoteItem {
   id: string;
   quote_id: string;

@@ -217,3 +217,21 @@ export const installmentUpdateSchema = z
       .refine((n) => n === null || (Number.isInteger(n) && n >= 1 && n <= 31), { message: "installment_day_invalid" }),
   })
   .refine((v) => v.amount !== null || v.dueDay !== null, { message: "installment_invalid", path: ["amount"] });
+
+/** Dual Workspace · Fase 7: transferência entre espaços (o outro lado escolhe-se na página). */
+export const TRANSFER_TYPES = ["owner_withdrawal", "owner_contribution", "reimbursement", "loan", "other"] as const;
+export const crossWorkspaceTransferSchema = z.object({
+  clientRef: uuid,
+  direction: z.enum(["out", "in"], { message: "generic" }),
+  /** "PERSONAL:<uuid>" ou "BUSINESS:<uuid>" */
+  other: z.string().regex(/^(PERSONAL|BUSINESS):[0-9a-f-]{36}$/, { message: "transfer_invalid" }),
+  thisAccountId: uuid,
+  otherAccountId: uuid,
+  thisCategoryId: optionalUuid,
+  otherCategoryId: optionalUuid,
+  amount: amountText,
+  date: isoDate,
+  type: z.enum(TRANSFER_TYPES, { message: "generic" }),
+  description: z.string().trim().min(1, { message: "description_required" }).max(200, { message: "too_long" }),
+  confirmed: z.literal("1", { message: "transfer_confirm_required" }),
+});

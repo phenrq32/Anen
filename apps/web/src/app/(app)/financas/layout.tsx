@@ -29,6 +29,7 @@ export default async function FinanceLayout({ children }: { children: React.Reac
               { href: "/financas/calendario", label: m.finance.tabs.calendar },
               { href: "/financas/assinaturas", label: m.finance.tabs.subscriptions },
               { href: "/financas/dividas", label: m.finance.tabs.debts },
+              { href: "/financas/transferencias", label: m.finance.tabs.transfers },
               { href: "/financas/contas", label: m.finance.tabs.accounts },
               { href: "/financas/orcamentos", label: m.finance.tabs.budgets },
               { href: "/financas/recorrentes", label: m.finance.tabs.recurring },
